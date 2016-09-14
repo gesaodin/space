@@ -140,8 +140,11 @@ class MPrima extends CI_Model{
         $listaPrima[] = $Prima;
       }
     }
-
+    
+    
     $this->Beneficiario->Prima[] = array('P_PROFESIONALIZACION' => $this->Beneficiario->profesionalizacion == 1 ? $this->Profesionalizacion() : 0.00);
+
+
     return $listaPrima;
   }
 
@@ -180,7 +183,7 @@ class MPrima extends CI_Model{
     return $this->AnoServicio();
   }
   public function AnoServicio( $tiempo_servicio = 0){
-    return (0.5 * $this->unidad_tributaria) * $this->Beneficiario->tiempo_servicio;
+    return round((0.5 * $this->unidad_tributaria) * $this->Beneficiario->tiempo_servicio,2);
   }
 
   /**
@@ -197,7 +200,7 @@ class MPrima extends CI_Model{
     return $this->Transporte();
   }
   public function Transporte(){
-    return 4 * $this->unidad_tributaria;
+    return round(4 * $this->unidad_tributaria,2);
   }
 
   /**
@@ -241,9 +244,9 @@ class MPrima extends CI_Model{
       $codigo = $this->Beneficiario->grado_codigo . $this->Beneficiario->antiguedad_grado;
       $sueldo_base = $this->Beneficiario->sueldo_base;
       $no_ascenso = $this->Beneficiario->no_ascenso;
-      return ($sueldo_base * $no_ascenso) / 100;
+      return round(($sueldo_base * $no_ascenso) / 100, 2);
     }else{
-      return ($sueldo_base * $no_ascenso) / 100;
+      return round(($sueldo_base * $no_ascenso) / 100, 2);
     }
   }
 
@@ -262,19 +265,19 @@ class MPrima extends CI_Model{
     if(isset($this->Beneficiario)){
       $codigo = $this->Beneficiario->grado_codigo . $this->Beneficiario->antiguedad_grado;
       $sueldo_base = $this->Beneficiario->sueldo_base;    
-      return ($sueldo_base * 12) / 100;
+      return round(($sueldo_base * 12) / 100, 2);
     }else{
-      return ($sueldo_base * 12) / 100;
+      return round(($sueldo_base * 12) / 100, 2);
     }
   }
 
 
  public function P_ESPECIAL(){
-    return 0; //$this->Transporte();
+   $this->Especial();
   }
   /**
   * Especial #006
-  * X = (SB * 12%) / 100
+  * X = 
   * SB = Sueldo Base
   *
   * @access public
@@ -282,14 +285,28 @@ class MPrima extends CI_Model{
   * @param int 
   * @return double
   */
-  public function Especial( $sueldo_base = 0.00 ){    
+  public function Especial( $sueldo_base = 0.00 ){
+    $monto_nominal = 0;
+    if(isset($this->Beneficiario)){
+      $Prima = (object)$this->Beneficiario->Componente->Grado->Prima[3];
+      foreach ($Prima as $c => $v) {
+        if(is_array($v)){
+          $monto_nominal = $v[0]->monto_nominal;  
+        } 
+      }
+    }
+
+    return round(3 * $this->unidad_tributaria * $monto_nominal,2);
+
+    /**
     if(isset($this->Beneficiario)){
       $codigo = $this->Beneficiario->Componente->Grado->codigo . $this->Beneficiario->antiguedad_grado;
       $sueldo_base = $this->Beneficiario->Componente->Grado->Directiva->Detalle[$codigo]->sueldo_base;    
-      return ($sueldo_base * 12) / 100;
+      return round(($sueldo_base * 12) / 100, 2);
     }else{
-      return ($sueldo_base * 12) / 100;
+      return round(($sueldo_base * 12) / 100, 2);
     }
+    **/
   }
 
 

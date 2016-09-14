@@ -256,7 +256,9 @@ class MBeneficiario extends CI_Model{
 		  status_id, st_no_ascenso, numero_cuenta, st_profesion, sexo
 		FROM beneficiario WHERE cedula=\'' . $cedula . '\'';
 		$obj = $this->Dbpace->consultar($sConsulta);
+		
 		return $obj;
+
 	}
 
 
@@ -270,10 +272,10 @@ class MBeneficiario extends CI_Model{
 	public function listarPorComponente($idComponente = 0){
 		$this->load->model('beneficiario/MCalculo');
 		$this->load->model('beneficiario/MDirectiva');
-    $Directiva = $this->MDirectiva->iniciar();
-    $this->load->model('beneficiario/MPrima');
-    $Prima = $this->MPrima->obtenerSegunDirectiva($Directiva->id);
-    $Prima->unidad_tributaria = $Directiva->unidad_tributaria;
+	    $Directiva = $this->MDirectiva->iniciar();
+	    $this->load->model('beneficiario/MPrima');
+	    $Prima = $this->MPrima->obtenerSegunDirectiva($Directiva->id);
+	    $Prima->unidad_tributaria = $Directiva->unidad_tributaria;
 		$this->load->model('beneficiario/MCalculo');
 
 		$this->load->model('beneficiario/MHistorialMovimiento');

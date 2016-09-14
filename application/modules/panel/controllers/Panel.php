@@ -5,15 +5,115 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 define ('__CONTROLADOR', 'panel');
 class Panel extends MY_Controller {
 
-
 	function __construct(){
 		parent::__construct();
 		$this->load->helper('url');
 	}
 
 	public function index(){
+		$this->load->view("login");
+	}
 
-		$this->load->view("view_panel");
+	public function fideicomitente(){
+		$this->load->view("fideicomitente");
+	}
+
+	public function beneficiario(){
+		$this->load->view("beneficiario");
+	}
+
+	public function asociarcuenta(){
+		$this->load->view("asociarcuenta");
+	}
+
+	public function reporte(){
+		$this->load->view("reportebeneficiario");
+	}
+
+	public function actualizar(){
+		$this->load->view("actualizarbeneficiario");
+	}
+
+	public function finiquitos(){
+		$this->load->view("finiquitos");
+	}
+	public function historialsueldo(){
+		$this->load->view("relaciondesueldo");
+	}
+
+	public function sueldolote(){
+		$this->load->view('sueldolote');
+	}
+
+	public function verificar(){
+		$this->load->view("view_home");
+	}
+
+
+	public function ordenpago(){
+		$this->load->view("menu/orden_pago/orden");
+	}
+
+	public function consultarmovimiento(){
+		$this->load->view("menu/beneficiario/consultarmovimiento");
+	}
+
+	public function medidajudicial(){
+		$this->load->view("menu/beneficiario/medidajudicial");
+	}
+	public function anticipo(){
+		$this->load->view("menu/beneficiario/anticipo");
+	}
+
+
+	public function directiva(){
+
+		$this->load->view("menu/calculos/directiva");
+	}
+
+
+	public function aportecapital(){
+		$this->load->view("menu/calculos/aportecapital");
+	}
+
+	public function asignacionantiguedad(){
+		$this->load->view("menu/calculos/asignacionantiguedad");
+	}
+
+	public function interesescaidos(){
+		$this->load->view("menu/calculos/interesescaidos");
+	}
+
+	public function interessemestral(){
+		$this->load->view("menu/calculos/interessemestral");
+	}
+
+	public function calcinitereses(){
+		$this->load->view("menu/calculos/calcinitereses");
+	}
+
+	public function reclamos(){
+		$this->load->view("menu/reclamos/reclamos");
+	}
+		
+
+
+	//----------------------------------------
+	public function auditoria(){
+		$this->load->view("menu/administracion/reporteauditoria");
+	}
+
+	//----------------------------------------
+	public function calculadoraspace(){
+		$this->load->view("menu/otros/calculadoraspace");
+	}
+
+
+
+
+
+	public function salir(){
+		$this->load->view("login");
 	}
 
 	public function consultarBeneficiario($cedula = ''){		
@@ -33,7 +133,7 @@ class Panel extends MY_Controller {
 		//echo json_encode($this->MBeneficiario);
 	}
 
-	public function Directiva(){
+	public function MDirectiva(){
 		$this->load->model('beneficiario/MDirectiva');
 		echo '<pre>';
 		print_r($this->MDirectiva->iniciar());
@@ -45,30 +145,14 @@ class Panel extends MY_Controller {
 			print_r($this->MCalculo->AntiguedadCargo('2014-06-16'));
 	}
 
-	function ReversarVoucher($factura, $arrVoucher = ''){
-		$lst = explode('%3E', $arrVoucher);
-		$sActualizar = 'UPDATE t_lista_voucher SET estatus=0, observacion=\'\' WHERE `cid` LIKE \'' . $factura . '\' AND estatus=5;';
-		echo $sActualizar . '<br>';
-		//$this->db->query($sActualizar);
-		$sActualizar = 'UPDATE t_lista_voucher SET estatus=0, observacion=\'\' WHERE `cid` LIKE \'' . $factura . '\' AND estatus=2;';
-		echo $sActualizar . '<br><br>';
-		//$this->db->query($sActualizar);
-		foreach ($lst as $k => $v) {
-			# code...
-			echo '# --- ' . $v . '<br>';
-			$sActualizar = 'UPDATE `electron`.`t_clientes_creditos` 
-									SET `marca_consulta` = \'6\' WHERE 
-									`t_clientes_creditos`.`contrato_id` = \'' . $v . '\';';
-			echo $sActualizar;
-			echo '<br>';
-			//$this->db->query($sActualizar);
-			$sActualizar = 'DELETE FROM `t_lista_cobros` WHERE 
-									`credito_id` LIKE \'' . $v . '\' AND mes = \'Cambio De Modalidad\';';
-			echo $sActualizar;
-			echo '<br><br>';
-			//$this->db->query($sActualizar);
-		}
+
+
+	function listarComponente(){
+		echo '<pre>';
+		$this->load->model('beneficiario/MComponente');
+		print_r( $this->MComponente->listarTodo() ); 
 	}
+	
 
 	/**
 	* 
@@ -83,7 +167,7 @@ class Panel extends MY_Controller {
 	}
 
 	function listarMovimientos(){
-		echo '<pre>';
+		
 		$this->load->model('beneficiario/MHistorialMovimiento');
 		$this->MHistorialMovimiento->listarPorComponente(1);
 		

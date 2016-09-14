@@ -110,18 +110,22 @@ class MDirectiva extends CI_Model{
     $antiguedad_grado = $Beneficiario->antiguedad_grado;
     $no_ascenso =  $Beneficiario->no_ascenso;
 
+    $fecha = date("Y-m-d");
+
+    
+
     $antiguedad = $no_ascenso > 0 ? '(SELECT max(anio) FROM detalle_directiva WHERE grado_id = ' . $codigo_grado . ')' : $antiguedad_grado;
     $sConsulta = 'SELECT A.id, A.nombre, A.numero, A.f_vigencia, 
         A.f_inicio, udad_tributaria, detalle_directiva.grado_id, 
         detalle_directiva.anio, detalle_directiva.sueldo_base 
         FROM (SELECT * FROM directiva_sueldo 
-              WHERE f_vigencia <= \'2016-05-16\' ORDER BY f_inicio desc LIMIT 1) AS A 
+              WHERE f_inicio < \'' . $fecha . '\'  AND f_vigencia > \'' . $fecha . '\'    ORDER BY f_inicio desc LIMIT 1) AS A 
         JOIN 
           detalle_directiva ON A.id=detalle_directiva.directiva_sueldo_id
         WHERE 
           grado_id = ' . $codigo_grado . ' AND anio= ' . $antiguedad . '
         ORDER BY grado_id;';
-    echo $sConsulta;
+    //echo $sConsulta;
     $obj = $this->Dbpace->consultar($sConsulta);
     $Directiva = new $this->MDirectiva();
 		if($obj->code == 0 ){

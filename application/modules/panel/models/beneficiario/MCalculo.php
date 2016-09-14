@@ -46,15 +46,42 @@ class MCalculo extends CI_Model{
     $this->Beneficiario->Componente->Grado->Directiva = $this->MDirectiva->obtener($this->Beneficiario);
     $directiva_id = $this->Beneficiario->Componente->Grado->Directiva->id;
     $this->Beneficiario->Componente->Grado->Prima = $this->MPrima->obtener($codigo_grado, $directiva_id,  $this->Beneficiario);
-    
+    $aplica = 0;
+    switch ($codigo_grado) {
+      case '10':
+        $aplica = 1;
+        break;
+      case '15':
+        $aplica = 1;
+        break;
+      case '20':
+        $aplica = 1;
+        break;
+      case '30':
+        $aplica = 1;
+        break;
+      case '6330':
+        $aplica = 1;
+        break;
+      case '6340':
+        $aplica = 1;
+        break;
+      default:
+        $aplica = 0;
+        break;
+    }
+    if($aplica == 1) $this->Beneficiario->Prima[3] = array('P_ESPECIAL' => $this->MPrima->Especial());
+
+
     $this->Beneficiario->sueldo_global = $this->SueldoGlobal();
     $this->AlicuotaAguinaldo();
     $this->AlicuotaVacaciones();
     $this->SueldoIntegral();
-    $this->AnoAntiguedad();
+    $this->AsignacionAntiguedad();
 
     //return $this;
   }
+
 
   function iniciarCalculosLote( MBeneficiario & $Beneficiario, $HistorialMovimiento, MDirectiva $Directiva, MPrima $Prima){
     $this->Beneficiario = $Beneficiario;
@@ -125,6 +152,7 @@ class MCalculo extends CI_Model{
   * @return int
   */
   private function __restarFecha($fecha){
+    
     list($ano,$mes,$dia) = explode("-",$fecha);
     $ano_dif  = date("Y") - $ano; //Porbar los tiempos
     $mes_dif = date("m") - $mes;
@@ -239,12 +267,26 @@ class MCalculo extends CI_Model{
   * @return double
   */
   public function AlicuotaVacaciones($sueldo_global = 0){   
+
+
     if(isset($this->Beneficiario)){
+      $dia = 0;
+     if ($this->Beneficiario->tiempo_servicio > 0 && $this->Beneficiario->tiempo_servicio <= 14) {
+        $dia = 40;
+      }else if($this->Beneficiario->tiempo_servicio > 14 && $this->Beneficiario->tiempo_servicio <= 24){
+        $dia = 45;
+      }else if($this->Beneficiario->tiempo_servicio > 24){
+        $dia = 50;
+      }
+      
+      
       $sueldo_global = $this->Beneficiario->sueldo_global;
-      $cal = ((4 * $sueldo_global)/30)/12;
+      $cal = (($dia * $sueldo_global)/30)/12;
       $this->Beneficiario->vacaciones = number_format($cal, 2, '.', ''); 
     }else{
-      $cal = ((4 * $sueldo_global)/30)/12;
+      
+
+      $cal = ((50 * $sueldo_global)/30)/12;
       return number_format($cal, 2, '.', '');
 
     }

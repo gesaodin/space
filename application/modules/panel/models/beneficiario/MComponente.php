@@ -47,9 +47,31 @@ class MComponente extends CI_Model{
     parent::__construct();
     $this->load->model('beneficiario/MGrado');
     $this->Grado = new $this->MGrado();
+    if(!isset($this->Dbpace)) $this->load->model('comun/Dbpace');
   }
 
-  
+  /**
+  * @return MComponete  Array
+  */
+  public function listarTodo(){
+    $lst = array();
+    $sConsulta = 'SELECT * FROM componente';
+
+    $obj = $this->Dbpace->consultar($sConsulta);
+    if($obj->code == 0 ){
+      foreach ($obj->rs as $clv => $val) {
+        $componente = array(
+            'id' => $val->codigo,
+            'nomb' => $val->nombre,
+            'desc' => $val->descripcion
+        );
+        $lst[] = $componente; 
+      }
+    }
+    return $lst;
+  }
+
+
   /**
   * @param int | Componente ID
   * @param int | Grado ID
@@ -63,7 +85,6 @@ class MComponente extends CI_Model{
       WHERE componente.id=' . $cid . ' AND grado.id=' . $gid;
     
     $obj = $this->Dbpace->consultar($sConsulta);
-    //print_r($obj);
     if($obj->code == 0 ){
       foreach ($obj->rs as $clv => $val) {
         $this->id = $val->cid;

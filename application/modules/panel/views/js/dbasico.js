@@ -18,7 +18,26 @@ function consultar() {
             $("#sueldo_global").val(data.sueldo_global);
             $("#sueldo_integral").val(data.sueldo_integral);
 
-            //console.log(data.historial_sueldo);
+            $("#arec").val(data.ano_reconocido);
+            $("#mrec").val(data.mes_reconocido);    
+            $("#drec").val(data.dia_reconocido);
+            $("#fano").val(data.aguinaldos);
+            $("#vacaciones").val(data.vacaciones);
+
+            /**
+            $("#PT").val(data.ano_reconocido);
+            $("#PD").val(data.mes_reconocido);    
+            $("#PE").val(data.dia_reconocido);
+            //$("#fano").val(data.aguinaldos);
+            **/
+            console.log(data.Prima);
+            $.each(data.Prima, function ( clv, valores ){
+                    $.each(valores, function ( clave, valor ){
+                          $("#" + clave).val(valor);  
+                        }
+                    )
+                }
+            )
             /**
             .each(data.historial_sueldo, function(key, val) {
 
