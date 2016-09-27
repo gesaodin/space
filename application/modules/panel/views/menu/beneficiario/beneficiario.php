@@ -46,7 +46,7 @@
         <section class="content-header">
           <h1>
             Hoja de Vida
-            <small>Panel principal de SPACE</small>
+            <small>Panel principal de PACE</small>
           </h1>
           <ol class="breadcrumb">
             <li><a href="#"><i class="fa fa-dashboard"></i> Principal</a></li>
@@ -78,16 +78,16 @@
                   <div class="form-group">
                     <label class="col-md-2" >Cuenta</label>
                     <div class="col-md-8">                      
-                      <input type="text" class="form-control" placeholder="Número de Cuenta"></input>
+                      <input type="text" class="form-control" placeholder="Número de Cuenta" id="numero_cuenta"></input>
                     </div> 
                   </div> <!-- /Numero Cuenta -->
 
                   <div class="form-group">
-                    <label class="col-md-2">Nombre</label>
+                    <label class="col-md-2">Nombres</label>
                     <div class="col-md-2">                      
                       <input type="text" placeholder="Nombre"  id='nombres' class="form-control"></input>
                     </div> 
-                    <label class="col-md-2">Apellido</label>
+                    <label class="col-md-2">Apellidos</label>
                     <div class="col-md-2">                      
                       <input type="text" placeholder="Apellido"  id='apellidos' class="form-control"></input>
                     </div> 
@@ -119,7 +119,7 @@
                     </div> 
                     <label class="col-md-2">Tiempo Servicio</label>
                     <div class="col-md-2">                      
-                      <input type="text" placeholder="Tiempo servicio" id='tservicio' class="form-control"></input>
+                      <input type="text" placeholder="Tiempo servicio" id='tservicio' class="form-control" value="0,00"></input>
                     </div> 
                     <label class="col-md-2">No. Hijos</label>
                     <div class="col-md-2">                      
@@ -144,17 +144,24 @@
                   </div> <!-- /Numero Cuenta -->
 
                   <div class="form-group">
-                    <label class="col-md-2">Años Reconocidos</label>
+                    <label class="col-md-2">Años Recon.</label>
                     <div class="col-md-2">                      
                       <input type="text" placeholder="Ultimo Ascenso" id='arec' class="form-control"></input>
                     </div> 
-                    <label class="col-md-2">Mes Reconocidos</label>
+                    <label class="col-md-2">Meses Recon.</label>
                     <div class="col-md-2">                      
                       <input type="text" placeholder="No. Ascenso" id='mrec' class="form-control"></input>
                     </div> 
-                    <label class="col-md-2">Días Reconocidos</label>
+                    <label class="col-md-2">Días Recon.</label>
                     <div class="col-md-2">                      
                       <input type="text" placeholder="Días Reconocidos" id='drec' class="form-control"></input>
+                    </div> 
+                  </div> <!-- /Numero Cuenta -->
+
+                  <div class="form-group">
+                    <label class="col-md-2">Fecha de Retiro</label>
+                    <div class="col-md-2">                      
+                      <input type="text" placeholder="Fecha de Retiro" id='fecha_retiro' class="form-control"></input>
                     </div> 
                   </div> <!-- /Numero Cuenta -->
 
@@ -163,7 +170,8 @@
               </form>
             </div><!-- /.box-body -->
             <div class="box-footer">
-              <input type="button" class="btn btn-success" value="Salvar"></input>
+              <a href="#!" onclick="imprimir()" 
+              class="btn btn-primary" target="_top"><i class="fa fa-print"></i> Imprimir Hoja de Vida (PRINT)</a>
             </div><!-- /.box-footer-->
           </div><!-- /.box -->
 
@@ -185,9 +193,9 @@
                           <div class="col-md-2">                      
                             <input type="text" placeholder="Sueldo Base" id="sueldo_base" class="form-control"></input>
                           </div> 
-                          <label class="col-md-2">Sueldo Global</label>
+                          <label class="col-md-2">Sueldo Mensual</label>
                           <div class="col-md-2">                      
-                            <input type="text" placeholder="Sueldo Global" id="sueldo_global" class="form-control"></input>
+                            <input type="text" placeholder="Sueldo Mensual" id="sueldo_global" class="form-control"></input>
                           </div> 
                           <label class="col-md-2">Sueldo Integral</label>
                           <div class="col-md-2">                      
@@ -200,11 +208,11 @@
                     <div class="row">
                       <div class="col-md-12">
                         <div class="form-group">
-                          <label class="col-md-2">Fin Año</label>
+                          <label class="col-md-2">Alic. Bono Fin</label>
                           <div class="col-md-2">                      
                             <input type="text" placeholder="Ali. Bono Fin de Año" id="fano" class="form-control"></input>
                           </div> 
-                          <label class="col-md-2">Bono Vacacional</label>
+                          <label class="col-md-2">Alic. Bono Vac.</label>
                           <div class="col-md-2">                      
                             <input type="text" placeholder="Bono Vacacional" id="vacaciones" class="form-control"></input>
                           </div>                           
@@ -231,7 +239,7 @@
 
                           <label class="col-md-2">Especial</label>  
                           <div class="col-md-2">
-                            <input type="text" placeholder="Especial" id ="PE" class="form-control" id="P_ESPECIAL"></input>                          
+                            <input type="text" placeholder="Especial" class="form-control" id="P_ESPECIAL"></input>                          
                           </div>
 
                         </div>
@@ -286,15 +294,15 @@
                         <div class="form-group">
                           <label class="col-md-2">A. de Antiguedad</label>
                           <div class="col-md-2">                      
-                            <input type="text" placeholder="Asignación de Antiguedad" id='aantiguedad' class="form-control"></input>
+                            <input type="text" placeholder="Asignación de Antiguedad" id='asignacion_antiguedad' class="form-control"></input>
                           </div> 
                           <label class="col-md-2">Capital En Banco.</label>
                           <div class="col-md-2">                      
-                            <input type="text" placeholder="Capital en Banco" id='Deposito en Banco' class="form-control"></input>
+                            <input type="text" placeholder="Capital en Banco" id='capital_banco' class="form-control"></input>
                           </div> 
                           <label class="col-md-2">Garantías</label>
                           <div class="col-md-2">                      
-                            <input type="text" placeholder="Garantías" id='grantias' class="form-control"></input>
+                            <input type="text" placeholder="Garantías" id='garantias' class="form-control"></input>
                           </div> 
                         </div> <!-- /Numero Cuenta -->
 
@@ -305,52 +313,59 @@
 
                               <label class="col-md-2">Días Adicionales.</label>
                               <div class="col-md-2">                      
-                                <input type="text" placeholder="Días Adicionales" id='diasadicionales' class="form-control"></input>
+                                <input type="text" placeholder="Días Adicionales" id='dias_adicionales' class="form-control"></input>
                               </div> 
                               <label class="col-md-2">Total Aportado</label>
                               <div class="col-md-2">                      
-                                <input type="text" placeholder="Total Aportado" id='totalaportado' class="form-control"></input>
+                                <input type="text" placeholder="Total Aportado" id='total_aportados' class="form-control"></input>
                               </div> 
                               <label class="col-md-2">Saldo Disponible</label>
                               <div class="col-md-2">                      
-                                <input type="text" placeholder="Saldo Disponible" id='saldodisponible' class="form-control"></input>
+                                <input type="text" placeholder="Saldo Disponible" id='saldo_disponible' class="form-control"></input>
                               </div> 
                             </div> <!-- /Numero Cuenta -->
                             <br>
                             <div class="form-group">
+                              <label class="col-md-2">Diferencia A.A.</label>
+                              <div class="col-md-2">                      
+                                <input type="text" placeholder="Diferencia Asignación A." id='diferencia_AA' class="form-control"></input>
+                              </div> 
                               <label class="col-md-2">Fecha Ultimo Dep.</label>
                               <div class="col-md-2">                      
-                                <input type="text" placeholder="Ultimo Deposito" id='udeposito' class="form-control"></input>
+                                <input type="text" placeholder="Ultimo Deposito" id='fecha_ultimo_deposito' class="form-control"></input>
                               </div> 
-                              <label class="col-md-2">% Cancelado.</label>
+                              <label class="col-md-2">% Aportado.</label>
                               <div class="col-md-2">                      
-                                <input type="text" placeholder="% Cancelado" id='cancelado' class="form-control"></input>
-                              </div> 
-                              <label class="col-md-2">Embargo</label>
-                              <div class="col-md-2">                      
-                                <input type="text" placeholder="Embargo" id='Embargo' class="form-control"></input>
-                              </div> 
-
+                                <input type="text" placeholder="% Aportado" id='porcentaje_cancelado' class="form-control"></input>
+                              </div>                  
                             </div> <!-- /Numero Cuenta -->
 
                             <br>
                             <div class="form-group">
+                              <label class="col-md-2">Embargo</label>
+                              <div class="col-md-2">                      
+                                <input type="text" placeholder="Embargo" id='embargos' class="form-control"></input>
+                              </div> 
                               <label class="col-md-2">Anticipos.</label>
                               <div class="col-md-2">                      
                                 <input type="text" placeholder="anticipos" id='anticipos' class="form-control"></input>
                               </div> 
-                              <label class="col-md-2">Fecha Ultimo Anticipo</label>
+                              <label class="col-md-2">Fecha U. Anticipo</label>
                               <div class="col-md-2">                      
-                                <input type="text" placeholder="Ultimo Anticipo" id='ultimoanticipos' class="form-control"></input>
+                                <input type="text" placeholder="Ultimo Anticipo" id='fecha_ultimo_anticipo' class="form-control"></input>
                               </div> 
-                              <label class="col-md-2">Comisión de S.</label>
-                              <div class="col-md-2">                      
-                                <input type="text" placeholder="Comisión de Servicio" id='comisionservicio' class="form-control">
-                                  
-                                </input>
-                              </div> 
+                            </div> <!-- /Numero Cuenta -->                            
 
+                            <br>
+                            <div class="form-group">
+                              <label class="col-md-2">Comisión S.</label>
+                              <div class="col-md-2">                      
+                                <input type="text" placeholder="Comisión de Servicio" id='coserv' class="form-control"></input>
+                              </div>               
                             </div> <!-- /Numero Cuenta -->
+                            
+
+
 
 
                             <br>
@@ -424,5 +439,6 @@
     </div><!-- ./wrapper -->
 
     <?php $this->load->view('inc/pie.php');?>
+    <script src="<?php echo base_url()?>application/modules/panel/views/js/dbasico.js"></script>
   </body>
 </html>

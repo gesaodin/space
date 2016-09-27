@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-
+date_default_timezone_set ( 'America/Caracas' );
 define ('__CONTROLADOR', 'panel');
 class Panel extends MY_Controller {
 
@@ -19,7 +19,7 @@ class Panel extends MY_Controller {
 	}
 
 	public function beneficiario(){
-		$this->load->view("beneficiario");
+		$this->load->view("menu/beneficiario/beneficiario");
 	}
 
 	public function asociarcuenta(){
@@ -35,7 +35,7 @@ class Panel extends MY_Controller {
 	}
 
 	public function finiquitos(){
-		$this->load->view("finiquitos");
+		$this->load->view("menu/beneficiario/finiquito");
 	}
 	public function historialsueldo(){
 		$this->load->view("relaciondesueldo");
@@ -110,22 +110,28 @@ class Panel extends MY_Controller {
 
 
 
+	public function hojavida($cedula = ''){
+		$this->load->model('beneficiario/MBeneficiario');
+		$this->MBeneficiario->obtenerID($cedula);
+		$data['Beneficiario'] = $this->MBeneficiario;
+		$this->load->view('reporte/beneficiario/hoja_vida', $data);
 
+	}
 
 	public function salir(){
 		$this->load->view("login");
 	}
 
-	public function consultarBeneficiario($cedula = ''){		
+	public function consultarBeneficiario($cedula = '', $fecha = ''){		
 		$this->load->model('beneficiario/MBeneficiario');
-		$this->MBeneficiario->obtenerID($cedula);
-		
-	
+		$this->MBeneficiario->obtenerID($cedula, $fecha);
 		echo json_encode($this->MBeneficiario);
 	}
-	public function consultarBeneficiarios($cedula = ''){		
+	
+
+	public function consultarBeneficiarios($cedula = '', $fecha = ''){		
 		$this->load->model('beneficiario/MBeneficiario');
-		$this->MBeneficiario->obtenerID($cedula);
+		$this->MBeneficiario->obtenerID($cedula, $fecha);
 		
 
 		echo "<pre>";
@@ -150,14 +156,13 @@ class Panel extends MY_Controller {
 	function listarComponente(){
 		echo '<pre>';
 		$this->load->model('beneficiario/MComponente');
-		print_r( $this->MComponente->listarTodo() ); 
+		print_r( $this->MComponente->listar(1) ); 
 	}
 	
-
 	/**
 	* 
 	*/
-	function imprimirComponente(){
+	function procesarComponenteLote(){
 		echo '<pre>';
 		$this->load->model('beneficiario/MBeneficiario');
 		$this->MBeneficiario->listarPorComponente(2);
@@ -166,6 +171,7 @@ class Panel extends MY_Controller {
 		echo 'listo...';
 	}
 
+
 	function listarMovimientos(){
 		
 		$this->load->model('beneficiario/MHistorialMovimiento');
@@ -173,19 +179,50 @@ class Panel extends MY_Controller {
 		
 	}
 
-	function restarFecha(){
-		list($ano,$mes,$dia) = explode('-', '3-11-30');
-
-    $ano_dif  = 2016 - $ano; //Porbar los tiempos
-		echo $ano_dif;
-    $mes_dif = 8 - $mes;
-		echo $mes_dif;
-    $dia_dif   = 2 - $dia;
-    if ($dia_dif < 0 || $mes_dif < 0)
-      $ano_dif--;
-	
-	  //return $ano_dif;
-		
-		echo $ano_dif;
+	/**
+	* 	-----------------------------
+	*	FINIQUITOS admin | dg2010
+	*	-----------------------------
+	*/
+	function registrarFiniquito(){
+		$this->load->model('beneficiario/MMotivoFiniquito');
+		$this->load->model('beneficiario/MPartidaPresupuestaria');
+		$data['Motivo'] = $this->MMotivoFiniquito->listarTodo(); 
+		$data['Partida'] = $this->MPartidaPresupuestaria->listarTodo();
+		$this->load->view('menu/beneficiario/registrar_finiquito', $data);
 	}
+
+	/**
+	*	Listar Motivos de Finiquitos
+	*/
+	function listarMotivoFiniquitos(){
+		echo '<pre>';
+		$this->load->model('beneficiario/MMotivoFiniquito');
+		print_r( $this->MMotivoFiniquito->listarTodo() ); 
+	}
+
+	/**
+	*	Listar Partidas Presupuestarias
+	*/
+	function listarPartidaPresupuestaria(){
+		echo '<pre>';
+		$this->load->model('beneficiario/MPartidaPresupuestaria');
+		print_r( $this->MPartidaPresupuestaria->listarTodo() ); 
+	}
+
+	function obtenerPartidaPresupuestaria($id = ''){
+		$this->load->model('beneficiario/MPartidaPresupuestaria');
+		echo json_encode( $this->MPartidaPresupuestaria->obtenerID($id) );
+	}
+
+	function obtenerFamiliares($id = ''){
+		$this->load->model('beneficiario/MBeneficiario');
+		echo json_encode( $this->MBeneficiario->CargarFamiliares($id) );
+	}
+
+
+	function init(){
+		phpinfo();
+	}
+
 }

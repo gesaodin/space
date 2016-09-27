@@ -131,18 +131,18 @@ class MPrima extends CI_Model{
         $Prima->id = $val->prima_id;
         $Prima->nombre = $val->nombre;
         $NM = $val->nombre;
-        $this->Beneficiario->Prima[] = array($NM => $this->$NM());
+        $this->Beneficiario->Prima[$val->prima_id] = array($NM => $this->$NM());
         $Prima->descripcion = $val->descripcion;
         $Detalle->id = $val->id;
         $Detalle->monto_nominal = $val->monto_nominal;
         $Detalle->monto_unidad_tributaria = $val->monto_ut;        
         $Prima->Detalle[] = $Detalle;
-        $listaPrima[] = $Prima;
+        $listaPrima[$val->prima_id] = $Prima;
       }
     }
     
     
-    $this->Beneficiario->Prima[] = array('P_PROFESIONALIZACION' => $this->Beneficiario->profesionalizacion == 1 ? $this->Profesionalizacion() : 0.00);
+    $this->Beneficiario->Prima[8] = array('P_PROFESIONALIZACION' => $this->Beneficiario->profesionalizacion == 1 ? $this->Profesionalizacion() : 0.00);
 
 
     return $listaPrima;
@@ -164,7 +164,7 @@ class MPrima extends CI_Model{
         $this->Beneficiario->Prima[] = array( $k => $this->$k());
       }
     }
-    $this->Beneficiario->Prima[] = array('P_PROFESIONALIZACION' => $this->Beneficiario->profesionalizacion == 1 ? $this->Profesionalizacion() : 0.00);
+    $this->Beneficiario->Prima[8] = array('P_PROFESIONALIZACION' => $this->Beneficiario->profesionalizacion == 1 ? $this->Profesionalizacion() : 0.00);
     
   }
 
@@ -183,7 +183,13 @@ class MPrima extends CI_Model{
     return $this->AnoServicio();
   }
   public function AnoServicio( $tiempo_servicio = 0){
-    return round((0.5 * $this->unidad_tributaria) * $this->Beneficiario->tiempo_servicio,2);
+    $valor = (0.5 * $this->unidad_tributaria) * $this->Beneficiario->tiempo_servicio;
+    //$valor = (0.5 * $this->unidad_tributaria) * $this->Beneficiario->tiempo_servicio_aux;
+    $this->Beneficiario->prima_tiemposervicio = $valor;
+    return $valor;
+
+
+
   }
 
   /**
@@ -200,7 +206,10 @@ class MPrima extends CI_Model{
     return $this->Transporte();
   }
   public function Transporte(){
-    return round(4 * $this->unidad_tributaria,2);
+    $valor = round(4 * $this->unidad_tributaria,2);
+    //$valor = 4 * $this->unidad_tributaria;
+    $this->Beneficiario->prima_transporte = $valor;
+    return $valor;
   }
 
   /**
@@ -219,9 +228,13 @@ class MPrima extends CI_Model{
   }
   public function Descendencia($numero_hijos = 0){
     if(isset($this->Beneficiario)){
-      return 2 * $this->unidad_tributaria * $this->Beneficiario->numero_hijos;
+      
+      $valor = round(2 * $this->unidad_tributaria * $this->Beneficiario->numero_hijos, 2);
+      //$valor = 2 * $this->unidad_tributaria * $this->Beneficiario->numero_hijos;
+      $this->Beneficiario->prima_descendencia = $valor;
+      return $valor;
     }else{
-      return 2 * $this->unidad_tributaria * $numero_hijos;
+      return round(2 * $this->unidad_tributaria * $numero_hijos, 2);
     }
   }
 
@@ -244,7 +257,12 @@ class MPrima extends CI_Model{
       $codigo = $this->Beneficiario->grado_codigo . $this->Beneficiario->antiguedad_grado;
       $sueldo_base = $this->Beneficiario->sueldo_base;
       $no_ascenso = $this->Beneficiario->no_ascenso;
-      return round(($sueldo_base * $no_ascenso) / 100, 2);
+      
+      $valor =  round(($sueldo_base * $no_ascenso) / 100, 2);
+      //$valor =  ($sueldo_base * $no_ascenso) / 100;
+      
+      $this->Beneficiario->prima_noascenso = $valor;
+      return $valor;
     }else{
       return round(($sueldo_base * $no_ascenso) / 100, 2);
     }
@@ -265,7 +283,13 @@ class MPrima extends CI_Model{
     if(isset($this->Beneficiario)){
       $codigo = $this->Beneficiario->grado_codigo . $this->Beneficiario->antiguedad_grado;
       $sueldo_base = $this->Beneficiario->sueldo_base;    
-      return round(($sueldo_base * 12) / 100, 2);
+      $sueldo = ($sueldo_base * 12) / 100;
+      //$valor = $sueldo;
+      //$valor = round($sueldo, 3, PHP_ROUND_HALF_UP);
+      $valor = round($sueldo, 2);
+      //$valor = round($valor,  2, PHP_ROUND_HALF_UP);
+      $this->Beneficiario->prima_profesionalizacion = $valor;
+      return $valor;
     }else{
       return round(($sueldo_base * 12) / 100, 2);
     }
@@ -295,8 +319,12 @@ class MPrima extends CI_Model{
         } 
       }
     }
+    //$valor = $this->unidad_tributaria * $monto_nominal;
+    $valor =  round($this->unidad_tributaria * $monto_nominal,2);
+    $this->Beneficiario->prima_especial = $valor;
+    //return round($this->unidad_tributaria * $monto_nominal,2);
+    return $valor;
 
-    return round(3 * $this->unidad_tributaria * $monto_nominal,2);
 
     /**
     if(isset($this->Beneficiario)){

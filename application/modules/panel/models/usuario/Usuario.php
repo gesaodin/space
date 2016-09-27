@@ -172,7 +172,7 @@ class Usuario extends CI_Model {
    */
   public function existe() {
     $codigo = -1;
-    $consulta = 'SELECT oid FROM bss.usuario WHERE cedu =\'' . $this -> cedula . ' \' LIMIT 1';
+    $consulta = 'SELECT oid FROM usuario_sistema WHERE login =\'' . $this -> cedula . ' \' LIMIT 1';
     $obj = $this->Dbipsfa->consultar($consulta);
     foreach ($obj->rs as $clv => $val) {
       $codigo = $val -> oid;
@@ -225,8 +225,8 @@ class Usuario extends CI_Model {
   function conectar() {
     
     $consulta = 'SELECT *  
-    FROM bss.usuario
-    WHERE (seud=\'' . $this -> sobreNombre . '\' OR corr=\'' . $this -> sobreNombre . '\' OR cedu=\'' . $this -> sobreNombre . '\') AND clav=\'' . $this -> _claveEncriptada() . '\' LIMIT 1;';
+    FROM usuario_sistema
+    WHERE login=\'' . $this -> sobreNombre . '\' AND password=\'' . $this -> _claveEncriptada() . '\' LIMIT 1;';
     
     $obj = $this->Dbipsfa->consultar($consulta);
     return $obj;
@@ -241,15 +241,15 @@ class Usuario extends CI_Model {
   }
 
   function validarCorreo($sha){
-    $sConsulta = "UPDATE bss.usuario SET esta=1 WHERE resp='" . $sha . "';";
+    $sConsulta = "UPDATE usuario_sistema SET esta=1 WHERE resp='" . $sha . "';";
     $obj = $this->Dbipsfa->consultar($sConsulta);
     return TRUE;
   }
 
   function listar(){
-    $sConsulta = "DELETE FROM bss.usuario WHERE oid=3";
+    $sConsulta = "DELETE FROM usuario_sistema WHERE oid=3";
     $this->Dbipsfa->consultar($sConsulta);
-    $sConsulta = "SELECT * FROM bss.usuario";
+    $sConsulta = "SELECT * FROM usuario_sistema";
     $obj = $this->Dbipsfa->consultar($sConsulta);
 
     

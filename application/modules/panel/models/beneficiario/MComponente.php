@@ -38,6 +38,11 @@ class MComponente extends CI_Model{
   var $Grado;
 
   /**
+  * @var MGrado
+  */
+  var $ListadoGrado = array();
+
+  /**
   * Iniciando la clase, Cargando Elementos Pace
   *
   * @access public
@@ -60,12 +65,11 @@ class MComponente extends CI_Model{
     $obj = $this->Dbpace->consultar($sConsulta);
     if($obj->code == 0 ){
       foreach ($obj->rs as $clv => $val) {
-        $componente = array(
+        $lst[] = array(
             'id' => $val->codigo,
             'nomb' => $val->nombre,
             'desc' => $val->descripcion
-        );
-        $lst[] = $componente; 
+        );        
       }
     }
     return $lst;
@@ -103,6 +107,9 @@ class MComponente extends CI_Model{
   * @return array 
   */
   public function Listar($id){
+
+    
+
     $sConsulta = 'SELECT grado.id AS gid, grado.codigo AS gcod, grado.nombre AS gnomb, grado.descripcion AS gdesc,
       componente_id AS cid, componente.nombre as cnomb, componente.descripcion as cdesc 
       FROM componente 
@@ -114,18 +121,19 @@ class MComponente extends CI_Model{
 
     if($obj->code == 0 ){
       foreach ($obj->rs as $clv => $val) {
-        $Componente = new $this->MComponente();
-        $Componente->id = $val->cid;
-        $Componente->nombre = $val->cnomb;
-        $Componente->descripcion = $val->cdesc;
-        $Componente->Grado->id = $val->gid;
-        $Componente->Grado->codigo = $val->gcod;
-        $Componente->Grado->nombre = $val->gnomb;
-        $Componente->Grado->descripcion = $val->gdesc;
-        $lstComponente[] = $Componente;
+        $this->id = $val->cid;
+        $this->nombre = $val->cnomb;
+        $this->descripcion = $val->cdesc;
+        $Grado = new $this->MGrado();
+        $Grado->id = $val->gid;
+        $Grado->codigo = $val->gcod;
+        $Grado->nombre = $val->gnomb;
+        $Grado->descripcion = $val->gdesc;
+        $this->ListadoGrado[] = $Grado;
       }
     }
-    return $lstComponente;
+
+    return $this;
      
   }
 

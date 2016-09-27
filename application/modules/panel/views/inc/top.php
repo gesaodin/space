@@ -2,9 +2,9 @@
         <!-- Logo -->
         <a href="../../index2.html" class="logo">
           <!-- mini logo for sidebar mini 50x50 pixels -->
-          <span class="logo-mini"><b>S</b>e</span>
+          <span class="logo-mini"><b>P</b>c</span>
           <!-- logo for regular state and mobile devices -->
-          <span class="logo-lg"><b>SPA</b>CE</span>
+          <span class="logo-lg"><b>PA</b>CE</span>
         </a>
         <!-- Header Navbar: style can be found in header.less -->
         <nav class="navbar navbar-static-top" role="navigation">
@@ -101,7 +101,7 @@
               <li class="dropdown user user-menu">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                   <img src="<?php echo base_url()?>system/img/pace.png" class="user-image" alt="User Image">
-                  <span class="hidden-xs">SPACE</span>
+                  <span class="hidden-xs">PACE</span>
                 </a>
                 <ul class="dropdown-menu">
                   <!-- User image -->

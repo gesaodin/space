@@ -60,7 +60,7 @@
                 <!-- Default box -->
                 <div class="box">
                   <div class="box-header with-border">
-                    <h3 class="box-title">Finiquito</h3>
+                    <h3 class="box-title">Consultar Finiquitos</h3>
                        <div class="box-tools pull-right">
                       <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
                         <i class="fa fa-minus"></i></button>
@@ -69,17 +69,18 @@
                   </div>
                   
                       <div class="box-body">
-                       <p><b>Registrar Finiquitos</b></p>
+                       
                               <div class="col-md-2">
-                                  C.I:
+                                  Cedula de Identidad:
                               </div>
                               <div class="col-md-4">
                                   <input type="text" class="form-control" placeholder="Cedula de Identidad">
                                   
                               </div>
                               <div class="col-md-6">
-                          <button type="button" class="btn btn-success pull-midium"><i class="fa fa-check"></i> Consultar
-                    </button>
+                          <button type="button" class="btn btn-info pull-midium"><i class="fa fa-search"></i> Consultar</button>
+                          <a href="<?php echo base_url()?>index.php/panel/Panel/registrarFiniquito" class="btn btn-success pull-midium">
+                          <i class="fa fa-plus"></i> Registrar Finiquito</a>
                           </a>
                               </div>
                               <br>

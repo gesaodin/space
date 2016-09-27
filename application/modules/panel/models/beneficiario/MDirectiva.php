@@ -92,6 +92,7 @@ class MDirectiva extends CI_Model{
         $Detalle->grado_id = $val->grado_id;
         $Detalle->ano_servicio = $val->anio;
         $Detalle->sueldo_base = $val->sueldo_base;
+
         //$Detalle->Prima = $Grado[$val->grado_id]; 
         $codigo = $val->grado_id . $val->anio;
         $this->Detalle[$codigo] = $Detalle;
@@ -109,23 +110,54 @@ class MDirectiva extends CI_Model{
     $codigo_grado = $Beneficiario->Componente->Grado->codigo; 
     $antiguedad_grado = $Beneficiario->antiguedad_grado;
     $no_ascenso =  $Beneficiario->no_ascenso;
-
-    $fecha = date("Y-m-d");
-
     
+    //echo "Hola mundo";
+    //echo $Beneficiario->fecha_retiro . ' Retiro';
 
-    $antiguedad = $no_ascenso > 0 ? '(SELECT max(anio) FROM detalle_directiva WHERE grado_id = ' . $codigo_grado . ')' : $antiguedad_grado;
+    $fecha = $Beneficiario->fecha_retiro == '' ? date("Y-m-d") : $Beneficiario->fecha_retiro;  
+    
+    //echo "<br><br>" . $no_ascenso . ' ' . $antiguedad_grado . ' G: ' . $codigo_grado . "<br><br>";
+
+
+    //Seleccion 
+
+    $sGradoMaximo = '(SELECT max(detalle_directiva.anio) FROM 
+    ( SELECT * FROM directiva_sueldo WHERE f_inicio < \'' . $fecha . '\'  AND f_vigencia > \'' . $fecha . '\' ORDER BY f_inicio desc LIMIT 1) AS A
+    JOIN 
+            detalle_directiva ON detalle_directiva.directiva_sueldo_id=A.id
+   WHERE detalle_directiva.grado_id = \'' . $codigo_grado . '\')';
+
+
+    if($no_ascenso > 0){
+     $antiguedad =  $sGradoMaximo;
+    }else{
+
+      $maximo = $this->maximoAscenso($fecha, $codigo_grado);
+
+      if ($antiguedad_grado > $maximo){
+        $antiguedad = $maximo;
+      }else{
+        $antiguedad = $antiguedad_grado;
+      }
+    }
+   
+   //$antiguedad = $no_ascenso > 0 ? $sGradoMaximo : $antiguedad_grado;
+
+
+
     $sConsulta = 'SELECT A.id, A.nombre, A.numero, A.f_vigencia, 
         A.f_inicio, udad_tributaria, detalle_directiva.grado_id, 
         detalle_directiva.anio, detalle_directiva.sueldo_base 
         FROM (SELECT * FROM directiva_sueldo 
-              WHERE f_inicio < \'' . $fecha . '\'  AND f_vigencia > \'' . $fecha . '\'    ORDER BY f_inicio desc LIMIT 1) AS A 
+              WHERE f_inicio <= \'' . $fecha . '\'  AND f_vigencia >= \'' . $fecha . '\'    ORDER BY f_inicio desc LIMIT 1) AS A 
         JOIN 
           detalle_directiva ON A.id=detalle_directiva.directiva_sueldo_id
         WHERE 
           grado_id = ' . $codigo_grado . ' AND anio= ' . $antiguedad . '
         ORDER BY grado_id;';
+
     //echo $sConsulta;
+    
     $obj = $this->Dbpace->consultar($sConsulta);
     $Directiva = new $this->MDirectiva();
 		if($obj->code == 0 ){
@@ -139,6 +171,7 @@ class MDirectiva extends CI_Model{
         $Detalle->ano_servicio = $val->anio;
         $Detalle->sueldo_base = $val->sueldo_base;
         $Beneficiario->sueldo_base = $val->sueldo_base;
+        $Beneficiario->sueldo_base_aux = number_format($val->sueldo_base, 2, ',','.');
         $Beneficiario->grado_codigo = $val->grado_id;
         $codigo = $val->grado_id . $antiguedad_grado;
         $Directiva->Detalle[$codigo] = $Detalle; 
@@ -148,4 +181,31 @@ class MDirectiva extends CI_Model{
     return $Directiva;
   } 
   
+
+  /**
+  * Establece el máximo año por grado en el asceso
+  *
+  * @var date
+  * @var int
+  * @return int
+  */
+  private function maximoAscenso($fecha, $grado){
+    $antiguedad = 0;
+    $sConsulta = 'SELECT max(detalle_directiva.anio) AS maximo, detalle_directiva.grado_id FROM 
+    ( SELECT * FROM directiva_sueldo WHERE f_inicio <= \'' . $fecha . '\'  AND f_vigencia >= \'' . $fecha . '\' ORDER BY f_inicio desc LIMIT 1) AS A
+    JOIN 
+            detalle_directiva ON detalle_directiva.directiva_sueldo_id=A.id
+    WHERE detalle_directiva.grado_id = \'' . $grado . '\'
+            GROUP BY detalle_directiva.grado_id';
+
+    //echo $sConsulta;
+
+    $obj = $this->Dbpace->consultar($sConsulta);
+    if($obj->code == 0 ){
+      $antiguedad = $obj->rs[0]->maximo;
+    }
+    return $antiguedad;
+
+  }
+
 }

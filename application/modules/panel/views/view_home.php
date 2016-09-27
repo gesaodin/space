@@ -47,7 +47,7 @@
         <section class="content-header">
           <h1>
             Principal
-            <small>Panel principal de SPACE</small>
+            <small>Panel principal de PACE</small>
           </h1>
           <ol class="breadcrumb">
             <li><a href="#"><i class="fa fa-dashboard"></i> Principal</a></li>

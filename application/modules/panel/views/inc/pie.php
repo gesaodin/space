@@ -1,11 +1,4 @@
-    <script type="text/javascript">
-      /**
-      * Validar Ubicacion
-      * @return ubicacion
-      */
-      var sUrl = "<?php echo base_url(); ?>";
-      var sUrlP = sUrl + 'index.php' + <?php echo "/" . __CONTROLADOR . "/";?>;
-    </script>
+
     <!-- jQuery 2.1.4 -->
     <script src="<?php echo base_url()?>assets/plugins/jQuery/jQuery-2.1.4.min.js"></script>
     <!-- Bootstrap 3.3.5 -->
@@ -17,9 +10,17 @@
     <!-- AdminLTE App -->
     <script src="<?php echo base_url()?>assets/dist/js/app.min.js"></script>
     <!-- AdminLTE for demo purposes -->
-    <script src="<?php echo base_url()?>assets/dist/js/demo.js"></script>
+    <script src="<?php echo base_url()?>assets/dist/js/demo.js"></script> 
 
-    <script src="<?php echo base_url()?>application/modules/panel/views/js/dbasico.js"></script>
+    <script src="<?php echo base_url()?>assets/plugins/datatables/jquery.dataTables.min.js"></script> 
+
+    <script src="<?php echo base_url()?>assets/plugins/datatables/dataTables.bootstrap.min.js"></script> 
+
+
+    
+ 
+
+    
      <!--Date-->
     <!-- Select2 -->
     <script src="<?php echo base_url()?>assets/plugins/select2/select2.full.min.js"></script>
@@ -43,14 +44,14 @@
         //Datemask dd/mm/yyyy
         $("#datemask").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/yyyy"});
         //Datemask2 mm/dd/yyyy
-        $("#datemask2").inputmask("mm/dd/yyyy", {"placeholder": "mm/dd/yyyy"});
+        $("#datemask2").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/yyyy"});
         //Money Euro
         $("[data-mask]").inputmask();
 
         //Date range picker
         $('#reservation').daterangepicker();
         //Date range picker with time picker
-        $('#reservationtime').daterangepicker({timePicker: true, timePickerIncrement: 30, format: 'MM/DD/YYYY h:mm A'});
+        $('#reservationtime').daterangepicker({timePicker: true, timePickerIncrement: 30, format: 'DD/MM/YYYY h:mm A'});
         //Date range as a button
         $('#daterange-btn').daterangepicker(
         {
@@ -66,12 +67,13 @@
           endDate: moment()
         },
         function (start, end) {
-          $('#daterange-btn span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+          $('#daterange-btn span').html(start.format('D MMMM, YYYY') + ' - ' + end.format('D MMMM, YYYY'));
         }
         );
 
         //Date picker
         $('#datepicker').datepicker({
+          format: 'dd/mm/yyyy',
           autoclose: true
         });
         $('#datepicker1').datepicker({
