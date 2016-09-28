@@ -58,7 +58,7 @@
               <section class="content">
 
                 <!-- Default box -->
-                <div class="box">
+                <div class="box box  box-solid box-primary">
                   <div class="box-header with-border">
                     <h3 class="box-title">Consultar Finiquitos</h3>
                        <div class="box-tools pull-right">
@@ -67,18 +67,15 @@
                       <button type="button" class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove">
                         <i class="fa fa-times"></i></button>
                   </div>
-                  
-                      <div class="box-body">
-                       
-                              <div class="col-md-2">
-                                  Cedula de Identidad:
-                              </div>
+                  </div>
+                      <div class="box-body">                                                
+                              <label class="col-md-2">Cedula de Identidad</label>
                               <div class="col-md-4">
                                   <input type="text" class="form-control" placeholder="Cedula de Identidad">
                                   
                               </div>
                               <div class="col-md-6">
-                          <button type="button" class="btn btn-info pull-midium"><i class="fa fa-search"></i> Consultar</button>
+                          <button type="button" class="btn btn-info pull-midium" onclick="consultarFiniquitos()"><i class="fa fa-search"></i> Consultar</button>
                           <a href="<?php echo base_url()?>index.php/panel/Panel/registrarFiniquito" class="btn btn-success pull-midium">
                           <i class="fa fa-plus"></i> Registrar Finiquito</a>
                           </a>
@@ -89,8 +86,8 @@
                   <!-- /.box-body -->
                   <div class="box-footer">
                    <!-- /.box-header -->
-                                  <div class="box-body">
-                                      <table id="example2" class="table table-bordered table-hover">
+                                 
+                                      <table id="reporteFiniquitos" class="table table-bordered table-hover">
                                           <thead>
                                           <tr>
                                               <th>Fecha de Creación</th>
@@ -106,9 +103,10 @@
                                           </tr>
                                           </thead>
                                           <tbody>
+                                          </tbody>
 
                                       </table>
-                                  </div>
+                                  
                   </div>
                   <!-- /.box-footer-->
                 </div>
@@ -131,5 +129,6 @@
     </div><!-- ./wrapper -->
 
     <?php $this->load->view('inc/pie.php');?>
+    <script src="<?php echo base_url()?>application/modules/panel/views/js/registrar_finiquito.js"></script>
   </body>
 </html>

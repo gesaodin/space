@@ -301,13 +301,26 @@
           </div><!-- /.box-header -->
           <div class="box-body">
 
+            <div class="row" id="divMontoAsignacion" style="display: none">
+              <div class="form-group">
+                <label class="col-md-2">Monto Asignación</label>
+                <div class="col-md-4"> 
+                   <input type="text" placeholder="Monto Asignacion" id='monto_asignacion' class="form-control"></input>                   
+                   <input type="hidden" placeholder="Monto Asignacion" id='monto_asignacion_aux' class="form-control"></input>
+                </div>             
+                
+                </div> <!-- /Numero Cuenta -->
+            </div>
+            <br>
+
+
             <div class="row">
               <div class="form-group">
-                <label class="col-md-2">Deuda</label>
+                <label class="col-md-2">Monto por Deuda</label>
                 <div class="col-md-4"> 
                    
                    <div class="input-group">
-                    <input class="form-control" type="text" placeholder="Moto Por Deuda" id='deuda'>
+                    <input class="form-control" type="text" placeholder="Monto Por Deuda" id='deuda'>
                       <span class="input-group-btn">
                         <button type="button" class="btn btn-success btn-flat" onclick="CalcularDeuda()"><i class="fa fa-calculator"></i></button>
                       </span> 
@@ -315,9 +328,15 @@
                    <!-- <input type="text" placeholder="Moto Por Deuda" id='deuda' class="form-control"></input> -->
                 </div>
 
-                <label class="col-md-2">A. X Intereses Cap.</label>
-                <div class="col-md-4">                      
-                      <input type="text" placeholder="Intereses Capitalizados" id='directiva' class="form-control"></input>
+                <label class="col-md-2">Ajuste por Intereses Cap.</label>
+                <div class="col-md-4"> 
+                    <div class="input-group">
+                    <input class="form-control" type="text" placeholder="Intereses Capitalizados" id='intereses'>
+                      <span class="input-group-btn">
+                        <button type="button" class="btn btn-success btn-flat" onclick="CalcularDeuda()"><i class="fa fa-calculator"></i></button>
+                      </span> 
+                    </div>
+                    <!-- <input type="text" placeholder="Intereses Capitalizados" id='directiva' class="form-control"></input> -->
                 </div> 
                 </div> <!-- /Numero Cuenta -->
             </div>
@@ -336,7 +355,7 @@
                 <div class="col-md-4">                      
                                      
                     <select aria-hidden="true" id="partida" tabindex="1" class="form-control select2 select2-hidden-accessible" style="width: 100%;" onchange="seleccionarPartida()">
-                        <option selected="selected">Seleccioné Una Partida</option>
+                        <option selected="selected">Seleccioné una partida</option>
                         <?php 
                         foreach ($Partida as $k => $v) {
                           echo '<option value="' . $v['id'] . '">' . $v['desc'] . '</option>';
@@ -422,31 +441,36 @@
                   <div class="form-group">
                     <label class="col-md-2">Cedula</label>
                     <div class="col-md-10"> 
-                      <input class="form-control" type="text" placeholder="Cedula de Identidad" id='fcedula'>
+                      <div class="input-group">
+                        <input class="form-control" type="text" placeholder="Cedula de Identidad" id='fcedula'>
+                          <span class="input-group-btn">
+                            <button type="button" class="btn btn-success btn-flat" onclick="cargarPersona()">
+                              <i class="fa fa-search"></i>
+                            </button>
+                          </span> 
+                      </div>
+                      <!-- <input class="form-control" type="text" placeholder="Cedula de Identidad" id='fcedula' onblur="cargarPersona()"> -->
                     </div>    
                   </div> <!-- Fin Form -->
                   <br>
 
                   <div class="form-group">
-                    <label class="col-md-2">Apellidos</label>
-                    <div class="col-md-4"> 
-                      <input class="form-control" type="text" placeholder="Apellidos" id='fapellidos'>
-                    </div>
                     <label class="col-md-2">Nombres</label>
-                    <div class="col-md-4"> 
-                      <input class="form-control" type="text" placeholder="Nombres" id='fnombres'>
+                    <div class="col-md-10"> 
+                      <input class="form-control" type="text" placeholder="Nombres" id='fnombres' readonly="readonly">
                     </div>
+                    
                   </div> <!-- Fin Form -->
                   <br>
 
                   <div class="form-group">
                     <label class="col-md-2">Parentesco</label>
                     <div class="col-md-4"> 
-                      <input class="form-control" type="text" placeholder="Parentesco" id='fparentesco'>
+                      <input class="form-control" type="text" placeholder="Parentesco" id='fparentesco' readonly="readonly">
                     </div>
                     <label class="col-md-2">Edad</label>
                     <div class="col-md-4"> 
-                      <input class="form-control" type="text" placeholder="Edad" id='fedad'>
+                      <input class="form-control" type="text" placeholder="Edad" id='fedad' readonly="readonly">
                     </div>
                   </div> <!-- Fin Form -->
                   <br>    
@@ -454,7 +478,7 @@
                   <div class="form-group">
                     <label class="col-md-2">Estado</label>
                     <div class="col-md-4"> 
-                      <input class="form-control" type="text" placeholder="Estado" id='festado'>
+                      <input class="form-control" type="text" placeholder="Estado" id='festado' readonly="readonly">
                     </div>
                     
                   </div> <!-- Fin Form -->
@@ -464,7 +488,8 @@
                 <div class="box-footer">
                 <div class="col-xs-6">
             
-                  <button type="button" class="btn btn-success pull-right"><i class="glyphicon glyphicon-ok"></i> Aceptar
+                  <button type="button" class="btn btn-success pull-right" onclick="registrarFamiliar()">
+                    <i class="glyphicon glyphicon-ok"></i> Aceptar
                   </button>
                   </div>
                   <div class="col-xs-6">

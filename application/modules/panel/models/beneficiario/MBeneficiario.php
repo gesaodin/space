@@ -233,6 +233,11 @@ class MBeneficiario extends CI_Model{
 	var $MedidaJudicial = array();
 
 	/**
+	* @var MHistorialMovimiento
+	*/
+	var $HistorialDetalleMovimiento = array();
+
+	/**
 	* @var MCalculo
 	*/
 	var $Calculo = array();
@@ -430,6 +435,7 @@ class MBeneficiario extends CI_Model{
 
 	}
 
+
 	function Parentesco($sexo, $tipo){
 		switch ($tipo) {
 			case 'PD':
@@ -460,5 +466,26 @@ class MBeneficiario extends CI_Model{
 		return $valor;
 	}
 
+
+	function CargarPersona($id){
+		$this->load->model('comun/DbSaman');
+		$familiar = array();
+		
+		$sConsulta = 'SELECT 
+			nropersona, personas.nombrecompleto, personas.sexocod, personas.codnip  
+			FROM personas WHERE personas.codnip = \'' . $id . '\' AND tipnip=\'V\' LIMIT 1';
+		
+		$obj = $this->DbSaman->consultar($sConsulta);
+		foreach ($obj->rs as $clv => $val) {				
+			$familiar = array(
+				'cedula' => $val->codnip,
+				'nombre'=> $val->nombrecompleto,
+				'parentesco' => 'OTRO'
+			);
+				
+				
+		}
+		return $familiar;
+	}
 
 }

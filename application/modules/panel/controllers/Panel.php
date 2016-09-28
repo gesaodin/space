@@ -131,7 +131,12 @@ class Panel extends MY_Controller {
 
 	public function consultarBeneficiarios($cedula = '', $fecha = ''){		
 		$this->load->model('beneficiario/MBeneficiario');
+		$this->load->model('beneficiario/MHistorialMovimiento');
+
 		$this->MBeneficiario->obtenerID($cedula, $fecha);
+		
+
+		$this->MBeneficiario->HistorialDetalleMovimiento = $this->MHistorialMovimiento->listarDetalle($cedula)['Comparacion'];
 		
 
 		echo "<pre>";
@@ -219,7 +224,22 @@ class Panel extends MY_Controller {
 		$this->load->model('beneficiario/MBeneficiario');
 		echo json_encode( $this->MBeneficiario->CargarFamiliares($id) );
 	}
+	/**
+	*  Cargar Persona ( X: Saman.- )
+	*
+	*  @param string
+	*  @return json
+	*/
+	function cargarPersona($id = ''){
+		$this->load->model('beneficiario/MBeneficiario');
+		echo json_encode( $this->MBeneficiario->CargarPersona($id) );
+	}
 
+	function listarDetalleMovimiento($id = ''){
+		echo "<pre>";
+		$this->load->model('beneficiario/MHistorialMovimiento');
+		print_r( $this->MHistorialMovimiento->listarDetalle($id) );
+	}
 
 	function init(){
 		phpinfo();

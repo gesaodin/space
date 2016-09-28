@@ -5,10 +5,21 @@
 */
 class MHistorialMovimiento extends CI_Model{
 	var $id = '';
+	
 	var $tipo = 0;
+	
+	var $transaccion_id = 0;
+
 	var $fecha = '';
+	
+	var $observacion = '';
+
 	var $monto = 0.00;	
 	
+	var $fecha_creacion = 0;
+
+
+
 	function __construct(){
 		parent::__construct();
 		if(!isset($this->Dbpace)) $this->load->model('comun/Dbpace');
@@ -53,12 +64,127 @@ class MHistorialMovimiento extends CI_Model{
 			$lst[$ced] = $lstH;
 			$i++;				
 		}
-		/**
-		echo '<pre>';		
-		print_r($lst);
-		echo 'Registros Consultados: ' . $i . '<br><br>';
-		**/
+
 		return $lst;
+	}
+
+
+	function listarDetalle($cedula = '', $tipo = 0){
+		$arr = array();
+		$Detalle = array();
+		$sDonde = '';
+		if($tipo > 0) $sDonde = ' AND tipo_movimiento_id=\'' . $tipo . '\' ';
+		$sConsulta = 'SELECT id, tipo_movimiento_id, transaccion_id, monto, observaciones, f_contable, f_creacion 
+			FROM movimiento WHERE cedula =\'' . $cedula . '\'' .  $sDonde . '
+			ORDER BY tipo_movimiento_id';
+		$obj = $this->Dbpace->consultar($sConsulta);
+		
+		$rs = $obj->rs;		
+		$id_aux = $rs[0]->tipo_movimiento_id;
+		foreach ($rs as $c => $v) {
+			$hm = new $this->MHistorialMovimiento();
+			$hm->id = $v->id;
+			$hm->tipo = $v->tipo_movimiento_id;
+			$hm->fecha = substr($v->f_contable, 0, 10);
+			$hm->fecha_creacion = substr($v->f_creacion, 0, 10);
+			$hm->observacion = $v->observaciones;
+			$hm->monto = $v->monto;	
+
+			if($hm->tipo != $id_aux){				
+				$Detalle[$id_aux] = $arr;
+				$arr = array();
+				$id_aux = $hm->tipo;
+			}
+			$arr[] = $hm;
+		}
+		
+		$Detalle[$id_aux] = $arr;
+		$Comparacion = $this->compararDetalles($Detalle);
+		$data = array('Detalle' => $Detalle, 'Comparacion' => $Comparacion);
+		return $data;
+	}
+
+
+	function compararDetalles($arr = array()){
+		$Padre = array();
+		$Auxiliar = array();
+		$valores = array(9,10,12,13,14,15,16,17);
+		$cant = count($valores);
+		for ($i=0; $i < $cant; $i++) { 
+			$pos = $valores[$i];
+			
+			if(isset($arr[$pos])){
+				foreach ($arr[$pos] as $clave => $valor) {
+					$cont = $this->__conversion($pos);	
+					$A['id'] =  $valor->id;
+					$A['monto'] =  $valor->monto;
+					$A['fecha_contable'] =  $valor->fecha;
+					$A['fecha_creacion'] =  $valor->fecha_creacion;
+					$A['observacion'] =  $valor->observacion;
+
+					$A['tipo_texto'] = 'ACTIVO';
+
+					if(isset($arr[$cont])){					
+						foreach ($arr[$cont] as $c => $v) {
+							
+							if($valor->monto == $v->monto){ 
+								$A['tipo_texto'] = 'REVERSO';
+							}//Fin Si
+
+						} //Fin Foreach
+
+					}//Fin Si (isset)
+					$Auxiliar[] = $A;
+
+				}//Fin foreach
+				$Padre[$pos] = $Auxiliar;
+				$Auxiliar = null;
+			}//Fin de (isset)
+
+		}//Fin de Repita Para
+		return $Padre;
+	}
+
+	
+	/**
+	*	Permite realizar comparacion entre conceptos con sus reversos 
+	*	tabla(movimiento | tipo_movimiento)
+	*
+	*	@param int
+	*	@return int
+	*/
+	private function __conversion($id = 0){
+		$valor = 0;
+		switch ($id) {
+			case 9:
+				$valor = 18;
+				break;
+			case 10:
+				$valor = 19;
+				break;
+			case 12:
+				$valor = 20;
+				break;
+			case 13:
+				$valor = 21;
+				break;
+			case 14:
+				$valor = 22;
+				break;
+			case 15:
+				$valor = 23;
+				break;
+			case 16:
+				$valor = 24;
+				break;
+			case 17:
+				$valor = 26;
+				break;
+			default:
+				# code...
+				break;
+		}
+		return $valor;
 	}
 
 

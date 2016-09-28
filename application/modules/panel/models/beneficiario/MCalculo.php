@@ -105,8 +105,8 @@ class MCalculo extends CI_Model{
       'comision_servicios' => '0,00',
       'fallecimiento_actoservicio' => number_format($this->Fallecimiento_Acto_Servicio(), 2, ',','.'),
       'fallecimiento_fueraservicio' => number_format($this->Fallecimiento_Fuera_Servicio(), 2, ',','.'),
-
-
+      'fallecimiento_actoservicio_aux' => $this->Fallecimiento_Acto_Servicio(),
+      'fallecimiento_fueraservicio_aux' => $this->Fallecimiento_Fuera_Servicio()
     );
 
     

@@ -2,6 +2,16 @@
 * Fallecimiento en acto de servicio o Fuera
 */
 var iFamiliares = 0;
+var fallecimiento_actoservicio = 0; //Acto de Servicio
+var fallecimiento_fueraservicio = 0; //Fuera de Servicio
+
+ $('#reporteFiniquitos').DataTable({
+        "paging":   false,
+        "ordering": false,
+        "info":     false,
+        "searching": false
+        }
+);
 
 Number.prototype.formatMoney = function(c, d, t){
 var n = this, 
@@ -32,6 +42,7 @@ function consultar() {
             $("#noascenso").val(data.no_ascenso);
             $("#profesionalizacion").val(data.profesionalizacion);
 
+
             $("#arec").val(data.ano_reconocido);
             $("#mrec").val(data.mes_reconocido);    
             $("#drec").val(data.dia_reconocido);
@@ -44,6 +55,8 @@ function consultar() {
             $("#numero_cuenta").val(data.numero_cuenta);
             $("#estatus").val(data.estatus_descripcion);
 
+            fallecimiento_actoservicio = data.Calculo.fallecimiento_actoservicio_aux;
+            fallecimiento_fueraservicio = data.Calculo.fallecimiento_fueraservicio_aux;
 
         }
 
@@ -64,6 +77,10 @@ function seleccionarMotivo(){
     var motivo = $("#motivo_finiquito option:selected").val();
 
     if(motivo > 8 && motivo < 11){
+        $("#monto_asignacion").val(fallecimiento_actoservicio);
+        if(motivo == 9 ) $("#monto_asignacion").val(fallecimiento_fueraservicio);
+
+        $("#divMontoAsignacion").show();
         var val = $("#id").val();
         ruta = sUrlP + "obtenerFamiliares/" + val;    
         $.getJSON(ruta, function(data) {    
@@ -79,32 +96,33 @@ function seleccionarMotivo(){
             $.each(data, function ( clv, valores ){
                 iFamiliares++;
                 sCuerpo += '<TR>';
-                sCuerpo += '<TH>' + valores.cedula + '</TH>';
-                sCuerpo += '<TD>' + valores.nombre + '</TD>';
-                sCuerpo += '<TD>' + valores.parentesco + '</TD>';
-                sCuerpo += '<TD><div class="input-group"><input class="form-control" style="width:45px" type="text" id="txtAA' + iFamiliares + '">';
+                sCuerpo += '<TH><label id="lblCedula' + iFamiliares + '">' + valores.cedula + '</label></TH>';
+                sCuerpo += '<TD><label id="lblNombre' + iFamiliares + '">' + valores.nombre + '</label></TD>';
+                sCuerpo += '<TD><label id="lblParentesco' + iFamiliares + '">' + valores.parentesco + '</label></TD>';
+                //Input
+                sCuerpo += '<TD><div class="input-group"><input class="form-control" style="width:50px" type="text" id="txtAA' + iFamiliares + '">';
                 sCuerpo += '<span class="input-group-btn"><button type="button" class="btn btn-success btn-flat" onclick="CalcularAA(' + iFamiliares + ')">';
                 sCuerpo += '<i class="fa fa-calculator"></i></button></span> </div></TD>';
-
-                sCuerpo += '<TD><label id="lblCapital' + iFamiliares + '">0,00</label></TD>';
-                sCuerpo += '<TD><label id="lblMonto' + iFamiliares + '">0,00</label></TD>';
-                sCuerpo += '<TD><label id="lblMAct' + iFamiliares + '">0,00</label></TD>';
-                 sCuerpo += '<TD><div class="input-group"><input class="form-control" style="width:45px" type="text" id="txtDist' + iFamiliares + '">';
+                //
+                sCuerpo += '<TD style="text-align: right"><label id="lblCapital_aux' + iFamiliares + '">0.00</label><label style="display:none" id="lblCapital' + iFamiliares + '">0.00</label></TD>';
+                sCuerpo += '<TD style="text-align: right"><label id="lblMonto_aux' + iFamiliares + '">0.00</label><label style="display:none" id="lblMonto' + iFamiliares + '">0.00</label></TD>';
+                sCuerpo += '<TD style="text-align: right"><label id="lblMAct_aux' + iFamiliares + '">0.00</label><label style="display:none" id="lblMAct' + iFamiliares + '">0.00</label></TD>';
+                //Input
+                sCuerpo += '<TD><div class="input-group"><input class="form-control" style="width:50px" type="text" id="txtDist' + iFamiliares + '">';
                 sCuerpo += '<span class="input-group-btn"><button type="button" class="btn btn-success btn-flat" onclick="CalcularDist(' + iFamiliares + ')">';
                 sCuerpo += '<i class="fa fa-calculator"></i></button></span> </div></TD>';
-
-
-                sCuerpo += '<TD><label id="lblMAct' + iFamiliares + '">0,00</label></TD>';
+                //
+                sCuerpo += '<TD><label id="lblCm' + iFamiliares + '">0.00</label></TD>';
                 //sCuerpo += '<TD>:-X</TD>';
                 sCuerpo += '</TR>';
             });
             sTable += sCuerpo + '</TBODY>' + '</TABLE></center>';
             $("#tblFamiliares").html(sTable);
             $('#dbFamiliares').DataTable({
-                "paging":   false,
-                "ordering": false,
+                "paging":   true,
+                "ordering": true,
                 "info":     false,
-                "searching": false
+                "searching": true
                 }
             );
             
@@ -122,21 +140,80 @@ function seleccionarMotivo(){
 }
 
 function CalcularAA(id){
-    var calcCapital = $("#total_banco_calc").val();
-    var calcDiferencia = $("#asignacion_diferencia_aux").val();
-    
-    var porcentaje = $("#txtAA" + id).val();
 
-    var resultadoCapital = (calcCapital * porcentaje) / 100;
-    var resultadoDiferencia = (calcDiferencia * porcentaje) / 100;
+    var suma = 0;
+    var calcCapital = parseFloat($("#total_banco_calc").val());
+    var calcDiferencia = parseFloat($("#asignacion_diferencia_aux").val());
+    var calcMontoAsignacion = parseFloat($("#monto_asignacion").val());    
     
-    alert(resultadoCapital);
-    alert(resultadoDiferencia);
+    for (var i = 1; i <= iFamiliares; i++) {
+        if($("#txtAA" + i).val() != ""){
+            var por = parseFloat($("#txtAA" + i).val());      
+            suma += por;    
+        }
+    }
+    if(suma <= 100){
+        var porcentaje = $("#txtAA" + id).val();
+        var resultadoCapital = (calcCapital * porcentaje) / 100;
+        var resultadoDiferencia = (calcDiferencia * porcentaje) / 100;
+        var resultadoMontoAsignacion = (calcMontoAsignacion * porcentaje) / 100;
+
+        //------------
+        numero = resultadoCapital;
+        $("#lblCapital_aux" + id).text(numero.formatMoney(2, ',', '.'));
+        $("#lblCapital" + id).text(parseFloat(resultadoCapital).toFixed(2));
+
+        //------------
+        numero = resultadoDiferencia;
+        $("#lblMonto_aux" + id).text(numero.formatMoney(2, ',', '.'));
+        $("#lblMonto" + id).text(parseFloat(resultadoDiferencia).toFixed(2));
+
+        //------------
+        numero = resultadoMontoAsignacion;
+        $("#lblMAct_aux" + id).text(numero.formatMoney(2, ',', '.'));
+        $("#lblMAct" + id).text(parseFloat(resultadoMontoAsignacion).toFixed(2));
+
+        
+
+    }else{
+        alert('Distribución del porcentaje no puede ser mayor al 100%');
+    }
+        
+}
 
 
-    $("#lblCapital" + id).text(parseFloat(resultadoCapital).toFixed(2));
-    $("#lblMonto" + id).text(parseFloat(resultadoDiferencia).toFixed(2));
-    
+
+
+function registrarFamiliar(){
+    var t = $('#dbFamiliares').DataTable();
+    var cedula = $('#fcedula').val();
+    var nombre = $('#fnombres').val();
+    var parentesco = $('#fparentesco').val();
+
+    iFamiliares++;
+
+    sCajaAA = '<div class="input-group"><input class="form-control" style="width:50px" type="text" id="txtAA' + iFamiliares + '">';
+    sCajaAA += '<span class="input-group-btn"><button type="button" class="btn btn-success btn-flat" onclick="CalcularAA(' + iFamiliares + ')">';
+    sCajaAA += '<i class="fa fa-calculator"></i></button></span> </div>';
+
+    sDist = '<div class="input-group"><input class="form-control" style="width:50px" type="text" id="txtDist' + iFamiliares + '">';
+    sDist += '<span class="input-group-btn"><button type="button" class="btn btn-success btn-flat" onclick="CalcularDist(' + iFamiliares + ')">';
+    sDist += '<i class="fa fa-calculator"></i></button></span> </div>';
+
+
+    t.row.add( [
+            '<label id="lblCedula' + iFamiliares + '">' + cedula + '</label>',
+            '<label id="lblNombre' + iFamiliares + '">' + nombre + '</label>',
+            '<label id="lblParentesco' + iFamiliares + '">' + parentesco + '</label>',
+            sCajaAA,
+            '<p style="text-align:right"><label id="lblCapital_aux' + iFamiliares + '">0.00</label><label style="display:none" id="lblCapital' + iFamiliares + '">0.00</label></p>',
+            '<p style="text-align:right"><label id="lblMonto_aux' + iFamiliares + '">0.00</label><label style="display:none" id="lblMonto' + iFamiliares + '">0.00</label></p>',
+            '<p style="text-align:right"><label id="lblMAct_aux' + iFamiliares + '">0.00</label><label style="display:none" id="lblMAct' + iFamiliares + '">0.00</label></p>',
+            sDist,
+            '<label id="lblCm' + iFamiliares + '">0.00</label>'
+
+        ] ).draw( false );
+         
 }
 
 function consultarBeneficiarioFecha(){
@@ -162,6 +239,10 @@ function consultarBeneficiarioFecha(){
         $("#total_banco").val(data.Calculo.saldo_disponible);
         $("#total_banco_calc").val(data.Calculo.saldo_disponible_aux);
         $("#total_banco_aux").val(data.Calculo.saldo_disponible_aux);
+
+        fallecimiento_actoservicio = data.Calculo.fallecimiento_actoservicio_aux;
+        fallecimiento_fueraservicio = data.Calculo.fallecimiento_fueraservicio_aux;
+        CalcularDeuda();
     }
     ).done(function(msg) {}).fail(function(jqXHR, textStatus) {
         console.log(jqXHR);
@@ -172,13 +253,24 @@ function consultarBeneficiarioFecha(){
 
 
 function CalcularDeuda(){
-    var totalBanco = $("#total_banco_aux").val();
-    var deuda = $("#deuda").val();
-
-    var resta = totalBanco - deuda;
-    var resultado = parseFloat(resta).toFixed(2);
-    $("#total_banco_calc").val(resultado);
-    $("#total_banco").val(resultado);
+    var totalBanco = Number($("#total_banco_aux").val());
+    var intereses = Number($("#intereses").val());
+    var deuda = Number($("#deuda").val());
+    
+    if(intereses != ''){
+        var resta = totalBanco - deuda + intereses;
+        var resultado = parseFloat(resta).toFixed(2);
+        $("#total_banco_calc").val(resultado);
+        numero = resta;
+        $("#total_banco").val(numero.formatMoney(2, ',', '.'));
+        
+    }else{
+        var resta = totalBanco - deuda;
+        var resultado = parseFloat(resta).toFixed(2);
+        $("#total_banco_calc").val(resultado);
+        numero = resta;
+        $("#total_banco").val(numero.formatMoney(2, ',', '.'));
+    }   
 }
 
 
@@ -200,4 +292,33 @@ function imprimir(){
     var val = $("#id").val();
     URL = sUrlP + "hojavida/" + val;
     window.open(URL,"Hoja de Vida","toolbar=0,location=1,menubar=0,scrollbars=1,resizable=1,width=900,height=800")
+}
+
+
+function cargarPersona(){
+    var val = $("#fcedula").val();
+    ruta = sUrlP + "cargarPersona/" + val;    
+    $.getJSON(ruta, function(data) {
+        $("#fnombres").val(data.nombre);
+        $("#fparentesco").val(data.parentesco);
+    }
+
+    ).done(function(msg) {}).fail(function(jqXHR, textStatus) {
+        console.log(jqXHR);
+    });
+}
+
+
+function consultarFiniquitos(){
+    $('#reporteFiniquitos').DataTable({
+        "paging":   false,
+        "ordering": false,
+        "info":     false,
+        "searching": false
+        }
+    );
+
+
+
+
 }
