@@ -440,23 +440,34 @@ class MBeneficiario extends CI_Model{
 		switch ($tipo) {
 			case 'PD':
 				$valor = 'MADRE';
+				$tipo = '200';
 				if($sexo == 'M')$valor = 'PADRE';
+				$tipo = '100';
 				break;
 			case 'HJ':
 				$valor = 'HIJA';
+				$tipo = '400';
 				if($sexo == 'M')$valor = 'HIJO';
 				break;
 			case 'HO':
 				$valor = 'HERMANA';
+				$tipo = '500';
 				if($sexo == 'M')$valor = 'HERMANO';
 				break;
 			case 'EA':
 				$valor = 'ESPOSA';
+				$tipo = '300';
 				if($sexo == 'M')$valor = 'ESPOSO';
 				break;
 			case 'CON':
+				$tipo = '300';
 				$valor = 'CONCUBINA';
 				if($sexo == 'M')$valor = 'CONCUBINO';
+				break;
+			case 'SOBR':
+				$tipo = '600';
+				$valor = 'SOBRINA';
+				if($sexo == 'M')$valor = 'SOBRINO';
 				break;
 			default:
 				# code...
@@ -488,4 +499,49 @@ class MBeneficiario extends CI_Model{
 		return $familiar;
 	}
 
+
+	function ActualizarPorMovimiento(){
+		$sActualizar = 'UPDATE beneficiario SET  
+			f_retiro=\'' . $this->Beneficiario->fecha_retiro . '\', 
+			f_retiro_efectiva=\'' . $this->Beneficiario->fecha_retiro . '\', 
+			status_id=\'' . $this->Beneficiario->estatus_activo . '\' 
+		WHERE cedula=\'' . $this->Beneficiario->cedula . '\'';
+		echo $sActualizar;
+		//$obj = $this->Dbpace->consultar($sConsulta);
+
+	}
+
+
+	function InsertarHistorial(){
+		$sInsertar = 'INSERT INTO hist_beneficiario (
+			status_id, 
+			componente_id, 
+			grado_id, 
+			cedula, 
+			nombres, 
+			apellidos, 
+			tiempo_servicio, 
+			fecha_ingreso, 
+			edo_civil, 
+			n_hijos, 
+			f_ult_ascenso, 
+			anio_reconocido, 
+			mes_reconocido, 
+			dia_reconocido, 
+			f_ingreso_sistema, 
+			f_retiro, 
+			f_retiro_efectiva, 
+			st_no_ascenso, 
+			numero_cuenta, 
+			st_profesion, sexo, 
+			f_creacion, 
+			usr_creacion, 
+			f_ult_modificacion, 
+			usr_modificacion, 
+			observ_ult_modificacion, 
+			motivo_paralizacion, 
+			f_reincorporacion
+		)';
+
+	}
 }

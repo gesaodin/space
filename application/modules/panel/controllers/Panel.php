@@ -11,7 +11,7 @@ class Panel extends MY_Controller {
 	}
 
 	public function index(){
-		$this->load->view("login");
+		$this->load->view("view_home");
 	}
 
 	public function fideicomitente(){
@@ -46,7 +46,10 @@ class Panel extends MY_Controller {
 	}
 
 	public function verificar(){
-		$this->load->view("view_home");
+		
+		$this->load->model('usuario/Iniciar');
+		
+
 	}
 
 
@@ -109,14 +112,30 @@ class Panel extends MY_Controller {
 	}
 
 
-
+	/**
+	*	*******************************************************
+	*	REPORTES GENERALES DEL SISTEMA
+	*	*******************************************************
+	*/
 	public function hojavida($cedula = ''){
 		$this->load->model('beneficiario/MBeneficiario');
 		$this->MBeneficiario->obtenerID($cedula);
 		$data['Beneficiario'] = $this->MBeneficiario;
 		$this->load->view('reporte/beneficiario/hoja_vida', $data);
-
 	}
+
+	public function cartaBanco($cedula = ''){
+		$this->load->model('beneficiario/MBeneficiario');
+		$this->MBeneficiario->obtenerID($cedula);
+		$data['Beneficiario'] = $this->MBeneficiario;
+		$this->load->view('reporte/beneficiario/carta_banco', $data);
+	}
+
+	/**
+	*	*******************************************************
+	*	FIN DE LOS REPORTES GENERALES DEL SISTEMA
+	*	*******************************************************
+	*/
 
 	public function salir(){
 		$this->load->view("login");
@@ -136,12 +155,22 @@ class Panel extends MY_Controller {
 		$this->MBeneficiario->obtenerID($cedula, $fecha);
 		
 
-		$this->MBeneficiario->HistorialDetalleMovimiento = $this->MHistorialMovimiento->listarDetalle($cedula)['Comparacion'];
+		$this->MBeneficiario->HistorialDetalleMovimiento = $this->MHistorialMovimiento->listarDetalle($cedula);
 		
 
 		echo "<pre>";
 		print_r($this->MBeneficiario);
 		//echo json_encode($this->MBeneficiario);
+	}
+
+	public function consultarFiniquitos($cedula = '', $fecha = ''){
+		$this->load->model('beneficiario/MBeneficiario');
+		$this->load->model('beneficiario/MHistorialMovimiento');
+		$this->MBeneficiario->obtenerID($cedula, $fecha);
+		$this->MBeneficiario->HistorialDetalleMovimiento = $this->MHistorialMovimiento->listarDetalle($cedula)['Comparacion'];
+		echo json_encode($this->MBeneficiario);
+		//echo "<pre>";
+		//print_r($this->MBeneficiario);
 	}
 
 	public function MDirectiva(){
@@ -239,6 +268,34 @@ class Panel extends MY_Controller {
 		echo "<pre>";
 		$this->load->model('beneficiario/MHistorialMovimiento');
 		print_r( $this->MHistorialMovimiento->listarDetalle($id) );
+	}
+
+	function guardarFiniquito(){
+		$this->load->model('beneficiario/MBeneficiario', 'Beneficiario');
+		$this->load->model('beneficiario/MHistorialMovimiento');
+
+		$json = json_decode($_POST['data']); // 'Hola Mundo'; //Object($_POST);
+		$json->u_s = 'adminWEB';
+		
+		$fecha_aux = isset($json->f_r) ? $json->f_r : '';
+		if($fecha_aux != ''){
+			$f = explode('/', $fecha_aux);
+			$this->Beneficiario->fecha_retiro = $f[2] . '-' . $f[1] . '-' . $f[0];
+			$json->f_r = $this->Beneficiario->fecha_retiro;
+			$this->Beneficiario->cedula = $json->i_d;
+			$this->Beneficiario->estatus_activo = 203;
+			$this->MHistorialMovimiento->InsertarDetalle($json);
+			$this->Beneficiario->ActualizarPorMovimiento();
+			
+
+
+
+			//print_r($json['m_d']);
+			print_r($json);
+
+			print_r($this->Beneficiario);
+		}
+		
 	}
 
 	function init(){

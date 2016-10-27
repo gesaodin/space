@@ -78,52 +78,52 @@
                   <div class="form-group">
                     <label class="col-md-2" >Cuenta</label>
                     <div class="col-md-8">                      
-                      <input type="text" class="form-control" placeholder="Número de Cuenta" id="numero_cuenta"></input>
+                      <input type="text" readonly="readonly" class="form-control" placeholder="Número de Cuenta" id="numero_cuenta"></input>
                     </div> 
                   </div> <!-- /Numero Cuenta -->
 
                   <div class="form-group">
                     <label class="col-md-2">Nombres</label>
                     <div class="col-md-2">                      
-                      <input type="text" placeholder="Nombre"  id='nombres' class="form-control"></input>
+                      <input type="text" readonly="readonly" placeholder="Nombre"  id='nombres' class="form-control"></input>
                     </div> 
                     <label class="col-md-2">Apellidos</label>
                     <div class="col-md-2">                      
-                      <input type="text" placeholder="Apellido"  id='apellidos' class="form-control"></input>
+                      <input type="text" readonly="readonly" placeholder="Apellido"  id='apellidos' class="form-control"></input>
                     </div> 
                     <label class="col-md-2">Sexo</label>
                     <div class="col-md-2">                      
-                      <input type="text" placeholder="Sexo"  id='sexo' class="form-control"></input>
+                      <input type="text" readonly="readonly" placeholder="Sexo"  id='sexo' class="form-control"></input>
                     </div> 
                   </div> <!-- /Numero Cuenta -->
 
                   <div class="form-group">
                     <label class="col-md-2">Componente</label>
                     <div class="col-md-2">                      
-                      <input type="text" placeholder="Componente"  id='componente' class="form-control"></input>
+                      <input type="text" readonly="readonly" placeholder="Componente"  id='componente' class="form-control"></input>
                     </div> 
                     <label class="col-md-2">Grado</label>
                     <div class="col-md-2">                      
-                      <input type="text" placeholder="Grado"  id='grado' class="form-control"></input>
+                      <input type="text" readonly="readonly" placeholder="Grado"  id='grado' class="form-control"></input>
                     </div> 
                     <label class="col-md-2">Estatus</label>
                     <div class="col-md-2">                      
-                      <input type="text" placeholder="Estatus"  id='estatus' class="form-control"></input>
+                      <input type="text" readonly="readonly" placeholder="Estatus"  id='estatus' class="form-control"></input>
                     </div> 
                   </div> <!-- /Numero Cuenta -->
 
                   <div class="form-group">
                     <label class="col-md-2">Fecha Ingreso</label>
                     <div class="col-md-2">                      
-                      <input type="text" placeholder="Fecha de Ingreso" id='fingreso' class="form-control"></input>
+                      <input type="text" readonly="readonly" placeholder="Fecha de Ingreso" id='fingreso' class="form-control"></input>
                     </div> 
                     <label class="col-md-2">Tiempo Servicio</label>
                     <div class="col-md-2">                      
-                      <input type="text" placeholder="Tiempo servicio" id='tservicio' class="form-control" value="0,00"></input>
+                      <input type="text" readonly="readonly" placeholder="Tiempo servicio" id='tservicio' class="form-control" value="0,00"></input>
                     </div> 
                     <label class="col-md-2">No. Hijos</label>
                     <div class="col-md-2">                      
-                      <input type="text" placeholder="No. Hijos" id='nhijos' class="form-control"></input>
+                      <input type="text" readonly="readonly" placeholder="No. Hijos" id='nhijos' class="form-control"></input>
                     </div> 
                   </div> <!-- /Numero Cuenta -->
 
@@ -131,37 +131,37 @@
                   <div class="form-group">
                     <label class="col-md-2">Ultimo Ascenso</label>
                     <div class="col-md-2">                      
-                      <input type="text" placeholder="Ultimo Ascenso" id='fuascenso' class="form-control"></input>
+                      <input type="text" readonly="readonly" placeholder="Ultimo Ascenso" id='fuascenso' class="form-control"></input>
                     </div> 
                     <label class="col-md-2">No. Ascenso</label>
                     <div class="col-md-2">                      
-                      <input type="text" placeholder="No. Ascenso" id='noascenso' class="form-control"></input>
+                      <input type="text" readonly="readonly" placeholder="No. Ascenso" id='noascenso' class="form-control"></input>
                     </div> 
                     <label class="col-md-2">St. Prof.</label>
                     <div class="col-md-2">                      
-                      <input type="text" placeholder="St. Prof" id='profesionalizacion' class="form-control"></input>
+                      <input type="text" readonly="readonly" placeholder="St. Prof" id='profesionalizacion' class="form-control"></input>
                     </div> 
                   </div> <!-- /Numero Cuenta -->
 
                   <div class="form-group">
                     <label class="col-md-2">Años Recon.</label>
                     <div class="col-md-2">                      
-                      <input type="text" placeholder="Ultimo Ascenso" id='arec' class="form-control"></input>
+                      <input type="text" readonly="readonly" placeholder="Ultimo Ascenso" id='arec' class="form-control"></input>
                     </div> 
                     <label class="col-md-2">Meses Recon.</label>
                     <div class="col-md-2">                      
-                      <input type="text" placeholder="No. Ascenso" id='mrec' class="form-control"></input>
+                      <input type="text" readonly="readonly" placeholder="No. Ascenso" id='mrec' class="form-control"></input>
                     </div> 
                     <label class="col-md-2">Días Recon.</label>
                     <div class="col-md-2">                      
-                      <input type="text" placeholder="Días Reconocidos" id='drec' class="form-control"></input>
+                      <input type="text" readonly="readonly" placeholder="Días Reconocidos" id='drec' class="form-control"></input>
                     </div> 
                   </div> 
 
                   <div class="form-group">
                     <label class="col-md-2">Fecha de Retiro</label>
                     <div class="col-md-2">                      
-                      <input type="text" placeholder="Fecha de Retiro" id='fecha_retiro' class="form-control"></input>
+                      <input type="text" readonly="readonly" placeholder="Fecha de Retiro" id='fecha_retiro' class="form-control"></input>
                     </div> 
                   </div> <!-- /Numero Cuenta -->
 
@@ -218,7 +218,7 @@
 
                 <label class="col-md-2">Directiva</label>
                 <div class="col-md-4">                      
-                      <input type="text" placeholder="Descripcion de Directiva" id='directiva' class="form-control"></input>
+                      <input type="text" readonly="readonly" placeholder="Descripcion de Directiva" id='directiva' class="form-control"></input>
                 </div> 
                 </div> <!-- /Numero Cuenta -->
               
@@ -241,11 +241,11 @@
               <div class="form-group">
                 <label class="col-md-2">A.A Generada</label>
                 <div class="col-md-4">                       
-                      <input type="text" placeholder="Asingación Generada" id='asignacion_antiguedad' class="form-control"></input>
+                      <input type="text" placeholder="Asingación Generada" readonly="readonly" id='asignacion_antiguedad' class="form-control"></input>
                 </div>
                 <label class="col-md-2">A.A Depositado</label>
                 <div class="col-md-4">                      
-                      <input type="text" placeholder="Asignación Depositada" id='asignacion_depositada' class="form-control"></input>
+                      <input type="text" placeholder="Asignación Depositada" readonly="readonly" id='asignacion_depositada' class="form-control"></input>
                 </div> 
                 </div> <!-- form-group -->
             </div> <!-- row -->
@@ -254,11 +254,11 @@
               <div class="form-group">
                 <label class="col-md-2">Anticipos</label>
                 <div class="col-md-4">                       
-                      <input type="text" placeholder="Asingación Generada" id='anticipos' class="form-control"></input>
+                      <input type="text" placeholder="Asingación Generada" id='anticipos' class="form-control" readonly="readonly"></input>
                 </div>
                 <label class="col-md-2">Embargo</label>
                 <div class="col-md-4">                      
-                      <input type="text" placeholder="Asignación Depositada" id='embargos' class="form-control"></input>
+                      <input type="text" placeholder="Asignación Depositada" id='embargos' class="form-control" readonly="readonly"></input>
                 </div> 
               </div> <!-- form-group -->
             </div> <!-- row -->
@@ -267,11 +267,12 @@
               <div class="form-group">
                 <label class="col-md-2">Comisión Servicios</label>
                 <div class="col-md-4">                       
-                      <input type="text" placeholder="Comisión de Servicios" id='comision_servicios' class="form-control"></input>
+                      <input type="text" placeholder="Comisión de Servicios" id='comision_servicios' class="form-control" readonly="readonly"></input>
                 </div>
                 <label class="col-md-2">Monto a Recuperar</label>
                 <div class="col-md-4">                      
-                      <input type="text" placeholder="Monto a Recuperar" id='monto_recuperar' class="form-control"></input>
+                      <input type="text" placeholder="Monto a Recuperar" id='monto_recuperar' class="form-control" readonly="readonly"></input>
+                      <input type="hidden" placeholder="Monto a Recuperar" id='monto_recuperar_aux' class="form-control"></input>
                 </div> 
                 </div> <!-- form-group -->
             </div> <!-- row -->
@@ -280,8 +281,13 @@
               <div class="form-group">
                 <label class="col-md-2">A.A Diferencia</label>
                 <div class="col-md-4">                       
-                      <input type="text" placeholder="Asingación Generada" id='asignacion_diferencia' class="form-control"></input>
+                      <input type="text" placeholder="Asingación Generada" id='asignacion_diferencia' class="form-control" readonly="readonly"></input>
                       <input type="hidden" placeholder="Asingación Generada" id='asignacion_diferencia_aux' class="form-control"></input>
+                </div>
+                <label class="col-md-2">Asig. Causa Muerte</label>
+                <div class="col-md-4">                       
+                      <input type="text" placeholder="Asingación Causa Muerte" id='asignacion_causa' class="form-control" value='36,00'></input>
+                      <input type="hidden" id='asignacion_causa_aux' class="form-control" value='36'></input>
                 </div>
               </div> <!-- form-group -->
             </div> <!-- row -->
@@ -303,7 +309,7 @@
 
             <div class="row" id="divMontoAsignacion" style="display: none">
               <div class="form-group">
-                <label class="col-md-2">Monto Asignación</label>
+                <label class="col-md-2">Asig. Muerte AS/FS </label>
                 <div class="col-md-4"> 
                    <input type="text" placeholder="Monto Asignacion" id='monto_asignacion' class="form-control"></input>                   
                    <input type="hidden" placeholder="Monto Asignacion" id='monto_asignacion_aux' class="form-control"></input>
@@ -346,7 +352,7 @@
               <div class="form-group">
                 <label class="col-md-2">Total en Banco</label>
                 <div class="col-md-4"> 
-                   <input type="text" placeholder="Total en Banco" id='total_banco' class="form-control"></input>
+                   <input type="text" readonly="readonly" placeholder="Total en Banco" id='total_banco' class="form-control"></input>
                    <input type="hidden"  id='total_banco_calc' class="form-control"></input>
                    <input type="hidden"  id='total_banco_aux' class="form-control"></input>
                 </div>
@@ -372,13 +378,13 @@
               <div class="form-group">
                 <label class="col-md-2">Proyecto</label>
                 <div class="col-md-4"> 
-                   <input type="text" placeholder="Proyecto" id='proyecto' class="form-control"></input>
+                   <input type="text" readonly="readonly" placeholder="Proyecto" id='proyecto' class="form-control"></input>
                 </div>
 
                 <label class="col-md-2">Unidad Ejecutora</label>
                 <div class="col-md-4">                      
                                      
-                   <input type="text" placeholder="Unidad Ejecutora" id='codigo_unidad_ejecutora' class="form-control"></input>
+                   <input type="text" readonly="readonly" placeholder="Unidad Ejecutora" id='codigo_unidad_ejecutora' class="form-control"></input>
                 
                 </div> 
                 </div> <!-- /Numero Cuenta -->
@@ -403,7 +409,7 @@
               <div class="form-group">
                 <label class="col-md-2">Notas</label>
                 <div class="col-md-10"> 
-                   <textarea class="form-control" rows="5" placeholder="Observaciones ..."></textarea>
+                   <textarea class="form-control" rows="5" placeholder="Observaciones ..." id='o_b'></textarea>
                 </div>
 
                 
@@ -413,9 +419,9 @@
           </div><!-- /.box-body -->
           <div class="box-footer"><center>
 
-              <a href="#!" onclick="imprimir()" 
+              <a href="#!" onclick="GuargarFiniquito()" 
               class="btn btn-success" target="_top"><i class="glyphicon glyphicon-download-alt"></i> Guardar Finiquito</a>
-              <a href="#!" onclick="imprimir()" 
+              <a href="#!" onclick="CancelarFiniquito()" 
               class="btn btn-danger" target="_top"><i class="glyphicon glyphicon-remove"></i> Cancelar Finiquito</a>
               </center>
 

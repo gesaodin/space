@@ -71,7 +71,7 @@
                       <div class="box-body">                                                
                               <label class="col-md-2">Cedula de Identidad</label>
                               <div class="col-md-4">
-                                  <input type="text" class="form-control" placeholder="Cedula de Identidad">
+                                  <input type="text" class="form-control" placeholder="Cedula de Identidad" id="cedulaB">
                                   
                               </div>
                               <div class="col-md-6">
@@ -86,20 +86,26 @@
                   <!-- /.box-body -->
                   <div class="box-footer">
                    <!-- /.box-header -->
-                                 
+                        <br>
+                        <label>CEDULA DE IDENTIDAD: </label><label id="lblCedula"></label><br>
+                        <label>BENEFICIARIO: </label><label id="lblBeneficiario"></label>
+                        <br><br>
+
                                       <table id="reporteFiniquitos" class="table table-bordered table-hover">
                                           <thead>
                                           <tr>
-                                              <th>Fecha de Creación</th>
-                                              <th>Cédula</th>
-                                              <th>Benficiario</th>
-                                              <th>Componente</th>
+                                              <th style="width: 90px;">Acciones</th>
+                                              <th>F. Creación</th>
+                                              <!--<th>Cédula</th>
+                                              <th>Benficiario</th>-->
+                                              <th >Componente</th>
                                               <th>Grado</th>
-                                              <th>T. Servicio</th>
-                                              <th>Total Finiquito (BsF.) </th>
-                                              <th>Motivo</th>
-                                              <th>Estatus de Beneficiario</th>
-                                              <th>_________</th>
+                                              <th style="width: 80px;">T. Servicio</th>
+                                              <th>Total (BsF.) </th>
+                                              <th>F. Finiquito</th>
+                                              <th>Motivo o Concepto</th>
+                                              <th>Estatus </th>
+                                              
                                           </tr>
                                           </thead>
                                           <tbody>
@@ -117,6 +123,33 @@
         <!-- Main content -->
 
       </div><!-- /.content-wrapper -->
+
+
+      <div class="modal fade" tabindex="-1" role="dialog" id="ModalImprimir">
+        <div class="modal-dialog modal-md" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title">Imprimir Reportes</h4>
+            </div>
+            <div class="modal-body">
+              <center>
+                <a class="btn btn-app btn-primary"><i class="fa fa-file"></i> Carta</a>
+                <a class="btn btn-app btn-primary"><i class="fa fa-print"></i> Print</a>
+                <a class="btn btn-app btn-primary"><i class="fa fa-inbox"></i> Orden</a>
+                <br><br>
+                <a class="btn btn-app btn-primary"><i class="fa fa-file"></i> Capital Banco</a>
+                <a class="btn btn-app btn-primary"><i class="fa fa-print"></i> Diferencia A.</a>
+                <a class="btn btn-app btn-primary"><i class="fa fa-inbox"></i> Muerte A/FS</a>
+              </center>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary" data-dismiss="modal">Cancelar</button>
+              
+            </div>
+          </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+      </div><!-- /.modal -->
 
       <footer class="main-footer">
         <div class="pull-right hidden-xs">

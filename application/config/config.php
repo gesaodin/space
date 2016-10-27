@@ -20,10 +20,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | development and MUST NOT be used in production!
 |
 | If you need to allow multiple domains, remember that this file is still
-| a PHP script and you can easily do that on your own.
+| a PHP script and you can easily do that on your own.192.168.6.83
 |
 */
-$config['base_url'] = 'http://192.168.6.83/space/';
+$config['base_url'] = 'http://localhost/space/';
 
 /*
 |--------------------------------------------------------------------------

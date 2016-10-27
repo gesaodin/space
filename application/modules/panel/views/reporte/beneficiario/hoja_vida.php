@@ -87,10 +87,10 @@ th {
     <center>
      REPÚBLICA BOLIVARIANA DE VENEZUELA<BR>
      MINISTERIO DEL PODER POPULAR PARA LA DEFENSA<BR>
-     VICEMINISTERIO DE SERVICIOS<BR>
-     DIRECCIÓN GENERAL DE EMPRESAS Y SERVICIOS<BR>
+     VICEMINISTERIO DE SERVICIOS, PERSONAL Y LOGISTICA<BR>
+     DIRECCIÓN GENERAL DE EMPRESAS<BR>
      INSTITUTO DE PREVISIÓN SOCIAL<BR>
-     DE LA FUERZA ARMADA<BR>
+     DE LAS FUERZAS ARMADAS<BR>
     </center>
    </td>
    <td style="width: 30%;  border: 0px solid #dddddd; text-align: right;">
@@ -306,11 +306,7 @@ th {
       </td>
       <td>Fecha Ultimo Dep.</td>
       <td><?php 
-          $fecha_aux = isset($Beneficiario->HistorialMovimiento[32]) ? $Beneficiario->HistorialMovimiento[32]->fecha : '';
-          if($fecha_aux != ''){
-            $f = explode('-', $fecha_aux);
-            echo $f[2] . '-' . $f[1] . '-' . $f[0];
-          }
+          echo $Beneficiario->Calculo['fecha_ultimo_deposito'];
         ?></td>
       <td>% Aportado</td>
       <td >

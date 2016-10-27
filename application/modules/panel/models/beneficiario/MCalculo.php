@@ -100,6 +100,7 @@ class MCalculo extends CI_Model{
       'embargos' => number_format($this->Embargos(), 2, ',','.'),
       'porcentaje_cancelado' => number_format($this->Porcentaje_Cancelado(), 2, ',','.'),
       'monto_recuperar' => number_format($this->Monto_Recuperar(), 2, ',','.'),
+      'monto_recuperar_aux' => $this->Monto_Recuperar(),
       'asignacion_diferencia' => number_format($this->Asignacion_Diferencia(), 2, ',','.'),
       'asignacion_diferencia_aux' => $this->Asignacion_Diferencia(),
       'comision_servicios' => '0,00',
@@ -187,7 +188,8 @@ class MCalculo extends CI_Model{
       $anoR--;
       $mesR = $mesR - 12;
     } 
-    $fecha = $anoR .'-' . $mesR . '-' . $diaR;
+    $fecha = $anoR .'-' . $mesR  . '-' . $diaR;
+
     $this->Beneficiario->fecha_ingreso_reconocida = $fecha;
     $anos = $this->__restarFecha($fecha, $this->Beneficiario->fecha_retiro);
     //n | e __restarFecha
@@ -232,6 +234,8 @@ class MCalculo extends CI_Model{
     }else{
       $mes_dif =  $mes_r - $mes;
     }
+
+
 
     $ano_dif = $ano_r - $ano;
     $arr['e'] = $ano_dif;
@@ -469,9 +473,16 @@ class MCalculo extends CI_Model{
   public function Fecha_Ultimo_Deposito(){
     $fecha = '';
     $fecha_aux = isset($this->Beneficiario->HistorialMovimiento[32]) ? $this->Beneficiario->HistorialMovimiento[32]->fecha : '';
+
     if($fecha_aux != ''){
       $f = explode('-', $fecha_aux);
       $fecha = $f[2] . '-' . $f[1] . '-' . $f[0];
+    }else{
+      $fecha_aux = isset($this->Beneficiario->HistorialMovimiento[3]) ? $this->Beneficiario->HistorialMovimiento[3]->fecha : '';
+      if($fecha_aux != ''){  
+        $f = explode('-', $fecha_aux);      
+        $fecha = $f[2] . '-' . $f[1] . '-' . $f[0];  
+      }
     }
     return $fecha;
   }
@@ -555,7 +566,8 @@ class MCalculo extends CI_Model{
   * @return double
   */
   public function Saldo_Disponible(){
-   return ($this->DepositoBanco() - $this->Anticipos()) + $this->Garantias();  
+    $total = (($this->DepositoBanco() - $this->Anticipos()) + $this->Garantias()) - ($this->Embargos() + $this->Monto_Recuperar());
+   return $total;  
   }
 
   public function Diferencia_Asignacion(){

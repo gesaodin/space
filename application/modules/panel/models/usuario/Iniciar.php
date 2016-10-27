@@ -22,7 +22,10 @@ class Iniciar extends CI_Model {
   var $token = null;
 
   function __construct() {
+    parent::__construct();
+
     $this -> load -> model('usuario/Usuario', 'Usuario');
+    echo 'Cargando...';
   }
 
   function validarCuenta($arg = null) {
@@ -40,17 +43,8 @@ class Iniciar extends CI_Model {
 
   private function _entrar($usuario) {
     
-   //http://localhost/ipsfa-bss/index.php/Bienestar 
-   $parte =  explode('@', $usuario->correo);
-   $correo = substr($parte[0], 0, 4) . '****';
-   $pag = explode('.', $parte[1]);
-   $direcc = '';
-   if(is_array( $pag))$direcc =  substr($pag[0], 0, 2) . '**.' . $pag[1];
-   //$usuario->correo = 'gesaodin@gmail.com';
-   //$usuario->nombre = 'GD-PASTACUI';
    $this->session->set_userdata(array(
         'cedula' => $usuario->cedula,
-        'nombreRango' => $usuario->nombre,
         'correo' => $usuario->correo,
         'correoaux' => $correo . '@' . $direcc,
         'estatus' => $usuario->estatus,
@@ -58,6 +52,8 @@ class Iniciar extends CI_Model {
         'ultimaConexion' => '', //$usuario->ultimaConexion()
       )
     );
+
+   /**
     $this->load->model('comun/Dbipsfa');
     $arr = array(
       'cedu' => $usuario->cedula,
@@ -67,7 +63,7 @@ class Iniciar extends CI_Model {
       'tipo' => 0
       );
 
-    $this->Dbipsfa->insertarArreglo('bss.traza', $arr);
+    $this->Dbipsfa->insertarArreglo('bss.traza', $arr);**/
   }
 
   function token($token){
@@ -84,8 +80,8 @@ class Iniciar extends CI_Model {
     redirect('Login/salir');
   }
 
-  function __destruct() {
-    unset($this -> Usuario);
+  function msj(){
+    echo 'mensaje';
   }
 
 }

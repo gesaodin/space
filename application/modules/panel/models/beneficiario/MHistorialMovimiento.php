@@ -77,8 +77,7 @@ class MHistorialMovimiento extends CI_Model{
 		$sConsulta = 'SELECT id, tipo_movimiento_id, transaccion_id, monto, observaciones, f_contable, f_creacion 
 			FROM movimiento WHERE cedula =\'' . $cedula . '\'' .  $sDonde . '
 			ORDER BY tipo_movimiento_id';
-		$obj = $this->Dbpace->consultar($sConsulta);
-		
+		$obj = $this->Dbpace->consultar($sConsulta);		
 		$rs = $obj->rs;		
 		$id_aux = $rs[0]->tipo_movimiento_id;
 		foreach ($rs as $c => $v) {
@@ -96,8 +95,7 @@ class MHistorialMovimiento extends CI_Model{
 				$id_aux = $hm->tipo;
 			}
 			$arr[] = $hm;
-		}
-		
+		}		
 		$Detalle[$id_aux] = $arr;
 		$Comparacion = $this->compararDetalles($Detalle);
 		$data = array('Detalle' => $Detalle, 'Comparacion' => $Comparacion);
@@ -122,13 +120,13 @@ class MHistorialMovimiento extends CI_Model{
 					$A['fecha_creacion'] =  $valor->fecha_creacion;
 					$A['observacion'] =  $valor->observacion;
 
-					$A['tipo_texto'] = 'ACTIVO';
+					$A['tipo_texto'] = 'Finiquito';
 
 					if(isset($arr[$cont])){					
 						foreach ($arr[$cont] as $c => $v) {
 							
 							if($valor->monto == $v->monto){ 
-								$A['tipo_texto'] = 'REVERSO';
+								$A['tipo_texto'] = 'Reverso';
 							}//Fin Si
 
 						} //Fin Foreach
@@ -187,5 +185,64 @@ class MHistorialMovimiento extends CI_Model{
 		return $valor;
 	}
 
+	function InsertarDetalle($obj){
+		//ID - AUTOINCREMENT
+		//status_id - 280
+
+		$sInsert = 'INSERT INTO public.movimiento 
+			(
+				tipo_movimiento_id,
+				monto,
+				cedula, 
+				observaciones, 
+				f_contable, 
+				status_id,				 
+				motivo_id, 
+				f_creacion, 
+				usr_creacion, 
+				f_ult_modificacion, 
+				usr_modificacion, 
+				observ_ult_modificacion, 
+				partida_id			
+			) VALUES ';
+
+		//9
+		if($obj->t_bx != 0)$sInsert .= $this->valorRepetido(9, $obj, $obj->t_bx);
+
+		//10
+		if($obj->a_i != 0)$sInsert .= ',' . $this->valorRepetido(10, $obj, $obj->a_i);
+
+		//14
+		if($obj->a_ax != 0)$sInsert .= ',' . $this->valorRepetido(14, $obj, $obj->a_ax);
+
+		//15
+		if($obj->m_d != 0) $sInsert .= ',' . $this->valorRepetido(15, $obj, $obj->m_d);
+
+		//16
+		if($obj->m_r != 0)$sInsert .= ',' . $this->valorRepetido(16, $obj, $obj->m_r);
+
+		echo $sInsert;
+
+	}
+
+ private function valorRepetido($cod, $obj, $mnt){
+ 	$sCodigo = '(' . $cod . ',' . $mnt . ',\'' . $obj->i_d . '\',\'' . 
+						$obj->m_ft . '\',\''  .  $obj->f_r . '\',280,' . $obj->m_f . ',\''  .  date("Y-m-d H:i:s") . '\',\''  .  
+						$obj->u_s . '\',\''  .  date("Y-m-d H:i:s") . '\',\''  .  $obj->u_s . '\',\'' . $obj->o_b . '\',' . 
+						$obj->p_p . ')'; 
+ 	return $sCodigo;
+
+ }
+
+
+ function mapearObjetoLote() {
+    $data = array(
+    	'cedula' => $this -> identificador, 
+    	'transaccion_id' => $this -> nombre, 
+    	'status_id' => $this -> ubicacion, 
+    	'tipo_movimiento_id' => $this -> observacion
+    );
+    return $data;
+  }
 
 }
