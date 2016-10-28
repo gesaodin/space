@@ -12,7 +12,8 @@
  */
 date_default_timezone_set ( 'America/Caracas' );
 define ('__CONTROLADOR', 'Login');
-class Login extends CI_Controller {
+
+class Login extends MY_Controller {
 	
 	function __construct(){
 		parent::__construct();
@@ -57,18 +58,16 @@ class Login extends CI_Controller {
 		if(isset($_POST['usuario']) && $_POST['usuario'] != ""){
 			
 			$this->load->model('usuario/Iniciar');
+
 			$valores["usuario"] = $_POST['usuario'];
 			$valores["clave"] = $_POST['clave'];
-			
-			//print_r();
-			/**
+
 			$resultado = $this->Iniciar->validarCuenta($valores);			
 			if ( $resultado == 1){
 				$this->inicio();
 			}else{
 				echo "Error en el usuario con la base de datos";
-			}**/
-			echo "Voy";
+			}
 		}else{
 			$this->salir();
 		}
@@ -143,7 +142,7 @@ class Login extends CI_Controller {
 
   	public function salir(){
   		session_destroy();
-  		$this->load->view ( 'login/login');
+  		$this->load->view ( 'login');
   	}
 
 

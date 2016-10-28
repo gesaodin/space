@@ -100,7 +100,7 @@ th {
 
  <table style="width: 700px;  text-align: justify;  font-size: 15px">
   <tr>
-    <td>Nro.</td><td>320.600-CODIGOVIEJO</td>
+    <td>Nro.</td><td>320.600-<?php echo md5($Beneficiario->cedula . $Beneficiario->fecha_ultima_modificacion);?></td>
   </tr> 
   <tr>
     <td>DE:</td><td><b>CNEL. GERENTE DE BIENESTAR Y SEGURIDAD SOCIAL</b></td>

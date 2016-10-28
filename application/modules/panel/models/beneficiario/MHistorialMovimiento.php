@@ -188,8 +188,10 @@ class MHistorialMovimiento extends CI_Model{
 	function InsertarDetalle($obj){
 		//ID - AUTOINCREMENT
 		//status_id - 280
+		//$sInsert
+		$sInsert = '';
 
-		$sInsert = 'INSERT INTO public.movimiento 
+		$sInsert_aux = 'INSERT INTO public.movimiento 
 			(
 				tipo_movimiento_id,
 				monto,
@@ -206,22 +208,30 @@ class MHistorialMovimiento extends CI_Model{
 				partida_id			
 			) VALUES ';
 
+
 		//9
-		if($obj->t_bx != 0)$sInsert .= $this->valorRepetido(9, $obj, $obj->t_bx);
+		//if($obj->t_bx != 0)$sInsert .= $this->valorRepetido(9, $obj, $obj->t_bx);
+		if($obj->t_bx != 0)$sInsert = $sInsert_aux . $this->valorRepetido(9, $obj, $obj->t_bx) . ';';
+
 
 		//10
-		if($obj->a_i != 0)$sInsert .= ',' . $this->valorRepetido(10, $obj, $obj->a_i);
+		//if($obj->a_i != 0) $sInsert .= ',' . $this->valorRepetido(10, $obj, $obj->a_i);
+		if($obj->a_i != 0)$sInsert .= $sInsert_aux . $this->valorRepetido(10, $obj, $obj->a_i) . ';';
 
 		//14
-		if($obj->a_ax != 0)$sInsert .= ',' . $this->valorRepetido(14, $obj, $obj->a_ax);
+		//if($obj->a_ax != 0)$sInsert .= ',' . $this->valorRepetido(14, $obj, $obj->a_ax);
+		if($obj->a_ax != 0)$sInsert .= $sInsert_aux . $this->valorRepetido(14, $obj, $obj->a_ax) . ';';
 
 		//15
-		if($obj->m_d != 0) $sInsert .= ',' . $this->valorRepetido(15, $obj, $obj->m_d);
+		//if($obj->m_d != 0) $sInsert .= ',' . $this->valorRepetido(15, $obj, $obj->m_d);
+		if($obj->m_d != 0)$sInsert .= $sInsert_aux . $this->valorRepetido(15, $obj, $obj->m_d) . ';';
 
 		//16
-		if($obj->m_r != 0)$sInsert .= ',' . $this->valorRepetido(16, $obj, $obj->m_r);
+		//if($obj->m_r != 0)$sInsert .= ',' . $this->valorRepetido(16, $obj, $obj->m_r);
+		if($obj->m_r != 0)$sInsert .= $sInsert_aux . $this->valorRepetido(16, $obj, $obj->m_r) . ';';
 
-		echo $sInsert;
+		//echo $sInsert;
+		//$obj = $this->Dbpace->consultar($sInsert);
 
 	}
 

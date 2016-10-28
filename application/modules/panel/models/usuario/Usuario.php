@@ -107,6 +107,12 @@ class Usuario extends CI_Model {
    * 
    * @var array
    */
+  var $listaRoles = array();
+
+  /**
+   * 
+   * @var array
+   */
   var $listaPrivilegios = array();
 
   /**
@@ -187,17 +193,22 @@ class Usuario extends CI_Model {
    * @return bool
    */
   public function validar() {
+    $arr = array();
     $valor = FALSE;
     if ($this -> _evaluarSobreNombre() == TRUE && $this -> clave != '') {
       $rs = $this -> conectar();
       if ($rs->cant != 0) {
         foreach ($rs->rs as $fila => $valor) {
           $this->nombre = $valor->nombre;
+          $this->apellido = $valor->apellido;
           $this->id = $valor->id;
           $this->correo = $valor->correo;
-          $this->estatus = $valor->estatus_id;
+          $this->estatus = $valor->status_id;
           $this->login = $valor->login;
+          $arr[] = $valor->rol_id;
+
         }
+        $this->listaRoles = $arr;
         $valor = TRUE;
       }
     }
@@ -209,13 +220,20 @@ class Usuario extends CI_Model {
    * @return boolean
    */  
   protected function _evaluarSobreNombre() {
-    return preg_match("/^([-a-z0-9_-])+$/i", $this -> sobreNombre);
+    //return preg_match("/^([-a-z0-9_-])+$/i", $this -> sobreNombre);
+    return $this -> sobreNombre;
   }
 
   function conectar() {    
-    $consulta = 'SELECT *  
-      FROM usuario_sistema
-      WHERE login=\'' . $this -> sobreNombre . '\' AND password !=\'' . $this -> _claveEncriptada() . '\' LIMIT 1;';
+    $consulta = 'SELECT 
+        usuario_sistema.id, usuario_sistema.login, usuario_sistema.nombre, usuario_sistema.apellido, usuario_sistema.correo,
+        usuario_sistema.status_id,  usuario_rol.rol_id, rol.status_id AS rolestatus, rol_descripcion  
+      FROM usuario_sistema 
+        JOIN usuario_rol ON usuario_sistema.id=usuario_rol.usuario_id 
+        JOIN rol ON usuario_rol.rol_id=rol.id 
+
+      WHERE login=\'' . $this -> sobreNombre . '\' AND password !=\'' . $this -> _claveEncriptada() . '\';';
+    
     
     $obj = $this->Dbpace->consultar($consulta);
     return $obj;

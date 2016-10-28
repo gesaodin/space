@@ -8,10 +8,18 @@ class Panel extends MY_Controller {
 	function __construct(){
 		parent::__construct();
 		$this->load->helper('url');
+		$this->load->library('session');
 	}
 
 	public function index(){
-		$this->load->view("view_home");
+		if(isset($_SESSION['usuario'])){
+			$this->load->view("view_home");
+			//print_r($_SESSION);
+		}else{
+
+			$this->load->view("login");
+		}
+		
 	}
 
 	public function fideicomitente(){
@@ -48,7 +56,7 @@ class Panel extends MY_Controller {
 	public function verificar(){
 		
 		$this->load->model('usuario/Iniciar');
-		
+
 
 	}
 
@@ -275,25 +283,23 @@ class Panel extends MY_Controller {
 		$this->load->model('beneficiario/MHistorialMovimiento');
 
 		$json = json_decode($_POST['data']); // 'Hola Mundo'; //Object($_POST);
-		$json->u_s = 'adminWEB';
+		$json->u_s = $_SESSION['usuario'];
 		
 		$fecha_aux = isset($json->f_r) ? $json->f_r : '';
 		if($fecha_aux != ''){
-			$f = explode('/', $fecha_aux);
+			//$Beneficiario = $this->MBeneficiario->obtenerID($json->i_d);
+			$f = explode('/', $fecha_aux);			
 			$this->Beneficiario->fecha_retiro = $f[2] . '-' . $f[1] . '-' . $f[0];
 			$json->f_r = $this->Beneficiario->fecha_retiro;
 			$this->Beneficiario->cedula = $json->i_d;
 			$this->Beneficiario->estatus_activo = 203;
 			$this->MHistorialMovimiento->InsertarDetalle($json);
 			$this->Beneficiario->ActualizarPorMovimiento();
+
+
 			
-
-
-
-			//print_r($json['m_d']);
-			print_r($json);
-
-			print_r($this->Beneficiario);
+			
+			echo "Beneficiario Liquidado exitosamente...";
 		}
 		
 	}

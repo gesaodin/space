@@ -6,37 +6,6 @@
 
       <?php $this->load->view('inc/top.php');?>
 
-      <!-- =============================================== -->
-
-      <!-- Left side column. contains the sidebar -->
-      <aside class="main-sidebar">
-        <!-- sidebar: style can be found in sidebar.less -->
-        <section class="sidebar">
-          <!-- Sidebar user panel -->
-          <div class="user-panel">
-            <div class="pull-left image">
-              <img src="<?php echo base_url()?>system/img/pace.png" class="img-circle" alt="User Image">
-            </div>
-            <div class="pull-left info">
-              <p>Prestaciones</p>
-              <a href="#"><i class="fa fa-circle text-success"></i> En Linea</a>
-            </div>
-          </div>
-          <!-- search form -->
-          <form action="#" method="get" class="sidebar-form">
-            <div class="input-group">
-              <input type="text" name="q" class="form-control" placeholder="Consultar...">
-              <span class="input-group-btn">
-                <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i></button>
-              </span>
-            </div>
-          </form>
-          <!-- /.search form -->
-          <!-- sidebar menu: : style can be found in sidebar.less -->
-          <?php $this->load->view('inc/menu.php')?>
-        </section>
-        <!-- /.sidebar -->
-      </aside>
 
       <!-- =============================================== -->
 
@@ -286,8 +255,8 @@
                 </div>
                 <label class="col-md-2">Asig. Causa Muerte</label>
                 <div class="col-md-4">                       
-                      <input type="text" placeholder="Asingación Causa Muerte" id='asignacion_causa' class="form-control" value='36,00'></input>
-                      <input type="hidden" id='asignacion_causa_aux' class="form-control" value='36'></input>
+                      <input type="text" placeholder="Asingación Causa Muerte" id='asignacion_causa' class="form-control" value='0,00'></input>
+                      <input type="hidden" id='asignacion_causa_aux' class="form-control" value='0'></input>
                 </div>
               </div> <!-- form-group -->
             </div> <!-- row -->
@@ -420,7 +389,7 @@
           <div class="box-footer"><center>
 
               <a href="#!" onclick="GuargarFiniquito()" 
-              class="btn btn-success" target="_top"><i class="glyphicon glyphicon-download-alt"></i> Guardar Finiquito</a>
+              class="btn btn-success" target="_top" data-toggle="modal" data-target="#logMensaje"><i class="glyphicon glyphicon-download-alt"></i> Guardar Finiquito</a>
               <a href="#!" onclick="CancelarFiniquito()" 
               class="btn btn-danger" target="_top"><i class="glyphicon glyphicon-remove"></i> Cancelar Finiquito</a>
               </center>
@@ -503,6 +472,38 @@
                     <i class="glyphicon glyphicon-remove"></i> Cancelar
                   </button>
                 </div>
+                  
+                </div>
+              </div>
+              
+            </div>
+          </div>
+          </div>
+
+          <!-- Fin del Model -->
+
+          <!-- Modal -->
+          <div class="modal fade" id="logMensaje" role="dialog">
+            <div class="modal-dialog">
+            
+              <!-- Modal content-->
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+                  <h4 class="modal-title">Mensaje del Sistema</h4>
+                </div>
+                <div class="modal-body">
+                  <div id='txtMensaje'></div>
+                  
+                  <br>   
+
+                </div>
+                <div class="box-footer">
+                <div class="col-xs-12">            
+                  <button type="button" class="btn btn-success pull-right" onclick="continuarFiniquito()">
+                    <i class="glyphicon glyphicon-ok"></i> Continuar Finiquito
+                  </button>
+                </div>              
                   
                 </div>
               </div>

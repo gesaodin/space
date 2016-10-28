@@ -25,7 +25,6 @@ class Iniciar extends CI_Model {
     parent::__construct();
 
     $this -> load -> model('usuario/Usuario', 'Usuario');
-    echo 'Cargando...';
   }
 
   function validarCuenta($arg = null) {
@@ -44,15 +43,16 @@ class Iniciar extends CI_Model {
   private function _entrar($usuario) {
     
    $this->session->set_userdata(array(
-        'cedula' => $usuario->cedula,
+        'usuario' => $usuario->login,
+        'nombre' => $usuario->nombre .  ' ' . $usuario->apellido,
+        'id' => $usuario->id,
         'correo' => $usuario->correo,
-        'correoaux' => $correo . '@' . $direcc,
         'estatus' => $usuario->estatus,
         'perfil' => $usuario->perfil,
+        'roles' => $usuario->listaRoles,
         'ultimaConexion' => '', //$usuario->ultimaConexion()
       )
     );
-
    /**
     $this->load->model('comun/Dbipsfa');
     $arr = array(
@@ -66,18 +66,8 @@ class Iniciar extends CI_Model {
     $this->Dbipsfa->insertarArreglo('bss.traza', $arr);**/
   }
 
-  function token($token){
-    $this->Usuario->cedula = $token->id;
-    $this->Usuario->nombre =  $token->nom; //$token->dmi_grado_ . '-' . $token->afi_nombre_primero . ' ' . $token->afi_nombre_segundo;
-    $this->Usuario->correo = $token->cor; //$token->usu_correo;
-    $this->Usuario->perfil = $token->sit;
-    $this->Usuario->estatus = 1; //$token->est; //$token->afi_estatus;
-    $this->_entrar($this->Usuario);
-
-  }
-
   private function _salir() {
-    redirect('Login/salir');
+    redirect('panel/Login/salir');
   }
 
   function msj(){

@@ -56,6 +56,11 @@ class MBeneficiario extends CI_Model{
 	* @var date
 	*/
 	var $fecha_ingreso;
+
+	/**
+	* @var date
+	*/
+	var $fecha_ingreso_sistema = '';
 	
 	/**
 	* @var date
@@ -71,6 +76,12 @@ class MBeneficiario extends CI_Model{
 	* @var string
 	*/
 	var $tiempo_servicio_aux = 0;
+
+	/**
+	* @var string
+	*/
+	var $tiempo_servicio_db = 0;
+
 
 	/**
 	* @var date
@@ -126,11 +137,46 @@ class MBeneficiario extends CI_Model{
 	* @var date
 	*/
 	var $fecha_retiro_efectiva = '';
+
+
+	/**
+	* @var date
+	*/
+	var $fecha_creacion = '';
+	/**
+	* @var string
+	*/
+	var $usuario_creador = ''; 
 	
+	/**
+	* @var string
+	*/
+	var $usuario_modificacion = '';
+
+	/**
+	* @var date
+	*/
+	var $fecha_ultima_modificacion = '';
+	
+	/**
+	* @var date
+	*/
+	var $fecha_reincorporacion = '';
+
 	/**
 	* @var double
 	*/
 	var $profesionalizacion;
+
+	/**
+	* @var string
+	*/
+	var $motivo_paralizacion = '';
+
+	/**
+	* @var string
+	*/
+	var $observacion = '';
 
 	/**
 	* @var double
@@ -250,7 +296,7 @@ class MBeneficiario extends CI_Model{
 	*/
 	public function __construct(){
 		parent::__construct();
-		$this->load->model('comun/Dbpace');
+		if(!isset($this->Dbpace)) $this->load->model('comun/Dbpace');
 		$this->load->model('beneficiario/MComponente');
 		$this->load->model('beneficiario/MHistorialSueldo');
 		$this->load->model('beneficiario/MHistorialAnticipo');
@@ -282,19 +328,35 @@ class MBeneficiario extends CI_Model{
 				$this->estatus_activo = $val->status_id;
 				$this->estatus_descripcion = $val->estatus_descripcion;
 				$this->numero_hijos = $val->n_hijos;
-				//$this->tiempo_servicio = $val->tiempo_servicio; //El tiempo es una herencia referencial al Beneficiario en MCalculo
+				
+				$this->tiempo_servicio_db = $val->tiempo_servicio; //El tiempo es una herencia referencial al Beneficiario en MCalculo
 				$this->fecha_ingreso = $val->fecha_ingreso;
+				$this->fecha_ingreso_sistema = $val->f_ingreso_sistema;
+				
 				$this->ano_reconocido = $val->anio_reconocido;
 				$this->mes_reconocido = $val->mes_reconocido;
 				$this->dia_reconocido = $val->dia_reconocido;				
 				$this->sexo = $val->sexo;
+				$this->usuario_creador = $val->usr_creacion;
+
+				$this->usuario_modificacion = $val->usr_modificacion;
+
+				$this->fecha_ultima_modificacion = $val->f_ult_modificacion;
+				$this->fecha_creacion = $val->f_creacion;
+
 				$this->fecha_ultimo_ascenso = $val->f_ult_ascenso;
+
 				$this->no_ascenso = $val->st_no_ascenso;
 				$this->profesionalizacion = $val->st_profesion;
 				$this->fecha_retiro = $val->f_retiro;
 				$this->fecha_retiro_efectiva = $val->f_retiro_efectiva;
 				$this->numero_cuenta = $val->numero_cuenta;
+				$this->motivo_paralizacion = $val->motivo_paralizacion;
+				$this->fecha_reincorporacion = $val->f_reincorporacion;
+				$this->observacion = $val->observ_ult_modificacion;
+
 				$this->Componente->ObtenerConGrado($val->componente_id, $val->grado_id, $val->st_no_ascenso);
+
 			}
 			$this->HistorialSueldo = $this->MHistorialSueldo->listar($id);
 			$this->HistorialMovimiento = $this->MHistorialMovimiento->listar($id);
@@ -330,10 +392,11 @@ class MBeneficiario extends CI_Model{
 				beneficiario.grado_id, beneficiario.componente_id, beneficiario.tiempo_servicio, 
 				beneficiario.fecha_ingreso, beneficiario.edo_civil, beneficiario.n_hijos, 
 				beneficiario.f_ult_ascenso, beneficiario.anio_reconocido, beneficiario.mes_reconocido, 
-				beneficiario.dia_reconocido, beneficiario.f_ingreso_sistema, beneficiario.f_retiro, 
-				beneficiario.f_retiro_efectiva, beneficiario.status_id, beneficiario.st_no_ascenso, 
-				beneficiario.numero_cuenta, beneficiario.st_profesion, beneficiario.sexo,
-				beneficiario_calc.numero_cuenta, status.descripcion AS estatus_descripcion 
+				beneficiario.f_ult_modificacion, beneficiario.usr_creacion, beneficiario.usr_modificacion,
+				beneficiario.dia_reconocido, beneficiario.f_ingreso_sistema, beneficiario.f_retiro, beneficiario.f_creacion,
+				beneficiario.f_retiro_efectiva, beneficiario.status_id, beneficiario.st_no_ascenso, beneficiario.f_reincorporacion,
+				beneficiario.numero_cuenta, beneficiario.st_profesion, beneficiario.sexo,beneficiario.observ_ult_modificacion,
+				beneficiario_calc.numero_cuenta, status.descripcion AS estatus_descripcion, beneficiario.motivo_paralizacion
 			FROM beneficiario 
 				JOIN beneficiario_calc ON beneficiario.cedula=beneficiario_calc.cedula
 				JOIN status ON beneficiario.status_id=status.id WHERE beneficiario_calc.cedula=\'' . $cedula . '\'';
@@ -504,10 +567,12 @@ class MBeneficiario extends CI_Model{
 		$sActualizar = 'UPDATE beneficiario SET  
 			f_retiro=\'' . $this->Beneficiario->fecha_retiro . '\', 
 			f_retiro_efectiva=\'' . $this->Beneficiario->fecha_retiro . '\', 
-			status_id=\'' . $this->Beneficiario->estatus_activo . '\' 
+			status_id=\'' . $this->Beneficiario->estatus_activo . '\',
+			usr_modificacion=\'' . $_SESSION['usuario'] . '\',
+			f_ult_modificacion=\'' . date("Y-m-d H:i:s") . '\' 
 		WHERE cedula=\'' . $this->Beneficiario->cedula . '\'';
-		echo $sActualizar;
-		//$obj = $this->Dbpace->consultar($sConsulta);
+		//echo $sActualizar;
+		//$obj = $this->Dbpace->consultar($sActualizar);
 
 	}
 
@@ -533,7 +598,8 @@ class MBeneficiario extends CI_Model{
 			f_retiro_efectiva, 
 			st_no_ascenso, 
 			numero_cuenta, 
-			st_profesion, sexo, 
+			st_profesion, 
+			sexo, 
 			f_creacion, 
 			usr_creacion, 
 			f_ult_modificacion, 
@@ -541,7 +607,41 @@ class MBeneficiario extends CI_Model{
 			observ_ult_modificacion, 
 			motivo_paralizacion, 
 			f_reincorporacion
+		) VALUES ';
+
+		$sInsertar = '(
+			\'' . $this->estus_activo . '\',
+			\'' . $this->Componente->id . '\',
+			\'' . $this->grado_codigo . '\',
+			\'' . $this->cedula . '\',
+			\'' . $this->nombres . '\',
+			\'' . $this->apellidos . '\',
+			\'' . $this->tiempo_servicio_db . '\',
+			\'' . $this->fecha_ingreso . '\',
+			\'' . $this->estado_civil . '\',
+			\'' . $this->n_hijos . '\',
+			\'' . $this->fecha_ultimo_ascenso . '\',
+			\'' . $this->ano_reconocido . '\',
+			\'' . $this->mes_reconocido . '\',
+			\'' . $this->dia_reconocido . '\',
+			\'' . $this->fecha_ingreso_sistema . '\',
+			\'' . $this->fecha_retiro . '\',
+			\'' . $this->fecha_retiro_efectiva . '\',
+			\'' . $this->no_ascenso . '\',
+			\'' . $this->numero_cuenta . '\',
+			\'' . $this->profesionalizacion . '\',
+			\'' . $this->sexo . '\',
+			\'' . $this->fecha_creacion . '\',
+			\'' . $this->usuario_creador . '\',
+			\'' . $this->fecha_ultima_modificacion . '\',
+			\'' . $this->usuario_modificacion . '\',
+			\'' . $this->observacion . '\',
+			\'' . $this->motivo_paralizacion . '\',
+			\'' . $this->fecha_reincorporacion . '\'
 		)';
+
+		$obj = $this->Dbpace->consultar($sInsertar);
+
 
 	}
 }

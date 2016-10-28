@@ -76,7 +76,16 @@ function seleccionarMotivo(){
 
     if(motivo > 8 && motivo < 11){
         $("#monto_asignacion").val(fallecimiento_actoservicio);
-        if(motivo == 9 ) $("#monto_asignacion").val(fallecimiento_fueraservicio);
+        
+        if(motivo == 9 ) {
+            $("#monto_asignacion").val(fallecimiento_fueraservicio);
+
+
+        }else{
+            
+            $("#asignacion_causa").val('36,00');
+            $("#asignacion_causa_aux").val('36.00');
+        }
 
         $("#divMontoAsignacion").show();
         var val = $("#id").val();
@@ -531,11 +540,14 @@ function GuargarFiniquito(){
       })},
       url: ruta,
       success: function (data) {  
-        console.log(data);      
-        alert(data);
+        //console.log(data);      
+        //alert(data);
+        $("#txtMensaje").html(data); 
+
       },
-      error: function(){
-        alert(2);
+      error: function(data){
+        console.log(data);
+        alert('Err. al procesar el finiquito');
       }
     });
 
