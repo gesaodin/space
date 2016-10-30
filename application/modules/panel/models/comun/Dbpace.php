@@ -63,7 +63,7 @@ class Dbpace extends CI_Model {
 
 			if(is_object($rs)){
 				$this->err['rs'] =  $rs->result();
-				$this->err['cant'] =  0; //$rs->num_rows(true); //Pendiente por evaluar para postgres
+				$this->err['cant'] =  $rs->num_rows(); //$rs->num_rows(true); //Pendiente por evaluar para postgres
 			}
 		}
 		
