@@ -40,14 +40,26 @@
                 <div class="box-body">
                   <div class="form-group">
                     <label class="col-md-2">C.I.</label>
-                    <div class="col-md-8">                      
-                      <input type="text" class="form-control" placeholder="Cédula de Identidad" id='id' onblur="consultar()"></input>
+                    <div class="col-md-6">                      
+                      <div class="input-group">
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-success" onclick="consultar()"><i class="fa fa-search"></i></button>
+                        </span> 
+                        <input type="text" class="form-control" placeholder="Cédula de Identidad" id='id' onblur="consultar()"></input>                          
+                      </div> 
+
+                      
                     </div>
                   </div> <!-- /Cedula -->
                   <div class="form-group">
                     <label class="col-md-2" >Cuenta</label>
-                    <div class="col-md-8">                      
-                      <input type="text" readonly="readonly" class="form-control" placeholder="Número de Cuenta" id="numero_cuenta"></input>
+                    <div class="col-md-6">                      
+                      <div class="input-group">
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-success"><i class="fa fa-bank"></i></button>
+                        </span> 
+                        <input type="text" class="form-control" placeholder="Número de Cuenta" id="numero_cuenta" readonly="readonly"></input>                          
+                      </div>
                     </div> 
                   </div> <!-- /Numero Cuenta -->
 
@@ -330,7 +342,7 @@
                 <div class="col-md-4">                      
                                      
                     <select aria-hidden="true" id="partida" tabindex="1" class="form-control select2 select2-hidden-accessible" style="width: 100%;" onchange="seleccionarPartida()">
-                        <option selected="selected">Seleccioné una partida</option>
+                        <option  value=0 selected="selected">Seleccioné una partida</option>
                         <?php 
                         foreach ($Partida as $k => $v) {
                           echo '<option value="' . $v['id'] . '">' . $v['desc'] . '</option>';
@@ -387,13 +399,13 @@
 
           </div><!-- /.box-body -->
           <div class="box-footer"><center>
-
-              <a href="#!" onclick="GuargarFiniquito()" 
-              class="btn btn-success" target="_top" data-toggle="modal" data-target="#logMensaje"><i class="glyphicon glyphicon-download-alt"></i> Guardar Finiquito</a>
-              <a href="#!" onclick="CancelarFiniquito()" 
-              class="btn btn-danger" target="_top"><i class="glyphicon glyphicon-remove"></i> Cancelar Finiquito</a>
-              </center>
-
+              <div id="controles" style="display: none">
+                <a href="#!" onclick="GuargarFiniquito()" 
+                class="btn btn-success" target="_top"><i class="glyphicon glyphicon-download-alt"></i>&nbsp;&nbsp;Guardar Finiquito</a>
+                <a href="#!" onclick="CancelarFiniquito()" 
+                class="btn btn-danger" target="_top"><i class="glyphicon glyphicon-remove"></i>&nbsp;&nbsp;Cancelar Finiquito</a>
+                </center>
+              </div>
             </div><!-- /.box-footer-->
         </div><!-- /.box -->
 
@@ -464,12 +476,12 @@
                 <div class="col-xs-6">
             
                   <button type="button" class="btn btn-success pull-right" onclick="registrarFamiliar()">
-                    <i class="glyphicon glyphicon-ok"></i> Aceptar
+                    <i class="glyphicon glyphicon-ok"></i>&nbsp;&nbsp;Aceptar
                   </button>
                   </div>
                   <div class="col-xs-6">
                   <button type="button" class="btn btn-danger" data-dismiss="modal">
-                    <i class="glyphicon glyphicon-remove"></i> Cancelar
+                    <i class="glyphicon glyphicon-remove"></i>&nbsp;&nbsp;Cancelar
                   </button>
                 </div>
                   
@@ -482,37 +494,7 @@
 
           <!-- Fin del Model -->
 
-          <!-- Modal -->
-          <div class="modal fade" id="logMensaje" role="dialog">
-            <div class="modal-dialog">
-            
-              <!-- Modal content-->
-              <div class="modal-content">
-                <div class="modal-header">
-                  <button type="button" class="close" data-dismiss="modal">&times;</button>
-                  <h4 class="modal-title">Mensaje del Sistema</h4>
-                </div>
-                <div class="modal-body">
-                  <div id='txtMensaje'></div>
-                  
-                  <br>   
-
-                </div>
-                <div class="box-footer">
-                <div class="col-xs-12">            
-                  <button type="button" class="btn btn-success pull-right" onclick="continuarFiniquito()">
-                    <i class="glyphicon glyphicon-ok"></i> Continuar Finiquito
-                  </button>
-                </div>              
-                  
-                </div>
-              </div>
-              
-            </div>
-          </div>
-          </div>
-
-          <!-- Fin del Model -->
+          
 
 
         </section><!-- /.content -->

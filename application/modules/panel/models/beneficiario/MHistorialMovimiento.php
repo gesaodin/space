@@ -231,7 +231,7 @@ class MHistorialMovimiento extends CI_Model{
 		if($obj->m_r != 0)$sInsert .= $sInsert_aux . $this->valorRepetido(16, $obj, $obj->m_r) . ';';
 
 		//echo $sInsert;
-		//$obj = $this->Dbpace->consultar($sInsert);
+		$obj = $this->Dbpace->consultar($sInsert);
 
 	}
 

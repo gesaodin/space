@@ -44,7 +44,7 @@
                           C.I:
                       </div>
                       <div class="col-md-4">
-                          <input type="text" class="form-control" placeholder="Cedula de Identidad">
+                          <input type="text" class="form-control" placeholder="Cedula de Identidad" id="id" >
                           
                       </div>
                       <div class="form-group">
@@ -67,12 +67,12 @@
                  <div class="row no-print">
                   <div class="col-xs-6">
 
-                    <button type="button" class="btn btn-success pull-right"><i class="fa fa-info"></i> Consultar
+                    <button type="button" class="btn btn-success pull-right" onclick="Consultar()"><i class="fa fa-search"></i>&nbsp;&nbsp;Consultar
                     </button>
                   </div>
                   <div class="col-xs-6">
-                    <button type="button" class="btn btn-sucess" style="margin-right: 5px;">
-                      <i class="fa fa-file-archive-o"></i> Exportar a Archivo
+                    <button type="button" class="btn btn-warning" style="margin-right: 5px;">
+                      <i class="fa fa-file-archive-o"></i>&nbsp;&nbsp;Exportar a Archivo
                     </button>
                   </div>
                 </div>
@@ -83,7 +83,7 @@
            <!-- /.box-header -->
                           <div class="box-body">
                           <p><b>Situación Actual</b></p>
-                              <table id="example2" class="table table-bordered table-hover">
+                              <table id="reporteAuditoria" class="table table-bordered table-hover">
                                   <thead>
                                   <tr>
                                       <th>Nombre</th>
@@ -91,7 +91,7 @@
                                       <th>Grado</th>
                                       <th>F. de Ingreso</th>
                                       <th>St. No Asc</th>
-                                      <th>Num de Hijos</th>
+                                      <th>Hijos</th>
                                       <Th>F. Ult. Asc.</Th>
                                       <th>Anios Rec.</th>
                                       <th>Meses Rec.</th>
@@ -111,8 +111,8 @@
           <div class="box-footer">
            <!-- /.box-header -->
                           <div class="box-body">
-                          <p><b>Resultados</b></p>
-                              <table id="example2" class="table table-bordered table-hover">
+                          <p><b>Historial detallado</b></p>
+                              <table id="reporteAuditoriaDetalle" class="table table-bordered table-hover">
                                   <thead>
                                   <tr>
                                       <th>Nombre</th>
@@ -120,7 +120,7 @@
                                       <th>Grado</th>
                                       <th>F. de Ingreso</th>
                                       <th>St. No Asc</th>
-                                      <th>Num de Hijos</th>
+                                      <th>Hijos</th>
                                       <Th>F. Ult. Asc.</Th>
                                       <th>Anios Rec.</th>
                                       <th>Meses Rec.</th>
@@ -157,5 +157,6 @@
     </div><!-- ./wrapper -->
 
     <?php $this->load->view('inc/pie.php');?>
+    <script src="<?php echo base_url()?>application/modules/panel/views/js/auditoria.js"></script>
   </body>
 </html>

@@ -5,6 +5,12 @@ var iFamiliares = 0;
 var fallecimiento_actoservicio = 0; //Acto de Servicio
 var fallecimiento_fueraservicio = 0; //Fuera de Servicio
 
+$( "#id" ).keypress(function( event ) {
+  if ( event.which == 13 ) {
+    $("#motivo_finiquito").focus();
+  }
+});
+
 $('#reporteFiniquitos').DataTable({
         "paging":   false,
         "ordering": false,
@@ -31,39 +37,78 @@ function consultar() {
 
     iFamiliares = 0;
     $.getJSON(ruta, function(data) {
-        $("#nombres").val(data.nombres);
-        $("#apellidos").val(data.apellidos);
-        $("#sexo").val(data.sexo);
-        $("#componente").val(data.Componente.nombre);
-        $("#grado").val(data.Componente.Grado.nombre);
-        $("#fingreso").val(data.fecha_ingreso);
-        $("#tservicio").val(data.tiempo_servicio);
-        $("#nhijos").val(data.numero_hijos);
-        $("#fuascenso").val(data.fecha_ultimo_ascenso);
-        $("#noascenso").val(data.no_ascenso);
-        $("#profesionalizacion").val(data.profesionalizacion);
+        console.log('>: ' + data.fecha_retiro);
+        if(data.fecha_retiro != null){
+            $("#id").val('');
+            var boton = '<button type="button" class="btn btn-success pull-right" onclick="continuar()">';
+            boton += '<i class="glyphicon glyphicon-ok"></i>&nbsp;&nbsp;Continuar</button>';
+            $("#divContinuar").html(boton);
+            $("#txtMensaje").html('El Beneficiario que intenta consultar ya se encuentra retirado, por favor consultarlo por finiquito'); 
+            $("#logMensaje").modal('show');
+            $("#controles").hide();
+            limpiar();
+        }else{
+            $("#nombres").val(data.nombres);
+            $("#apellidos").val(data.apellidos);
+            $("#sexo").val(data.sexo);
+            $("#componente").val(data.Componente.nombre);
+            $("#grado").val(data.Componente.Grado.nombre);
+            $("#fingreso").val(data.fecha_ingreso);
+            $("#tservicio").val(data.tiempo_servicio);
+            $("#nhijos").val(data.numero_hijos);
+            $("#fuascenso").val(data.fecha_ultimo_ascenso);
+            $("#noascenso").val(data.no_ascenso);
+            $("#profesionalizacion").val(data.profesionalizacion);
+            $("#arec").val(data.ano_reconocido);
+            $("#mrec").val(data.mes_reconocido);    
+            $("#drec").val(data.dia_reconocido);
+            $("#fecha_retiro").val(data.fecha_retiro);
+            $("#fano").val(data.aguinaldos_aux);
+            $("#vacaciones").val(data.vacaciones_aux);
+            $("#numero_cuenta").val(data.numero_cuenta);
+            $("#estatus").val(data.estatus_descripcion);
 
+            fallecimiento_actoservicio = data.Calculo.fallecimiento_actoservicio_aux;
+            fallecimiento_fueraservicio = data.Calculo.fallecimiento_fueraservicio_aux;
+            $("#controles").show();
+        }
 
-        $("#arec").val(data.ano_reconocido);
-        $("#mrec").val(data.mes_reconocido);    
-        $("#drec").val(data.dia_reconocido);
-
-        $("#fecha_retiro").val(data.fecha_retiro);
-
-        $("#fano").val(data.aguinaldos_aux);
-        $("#vacaciones").val(data.vacaciones_aux);
-
-        $("#numero_cuenta").val(data.numero_cuenta);
-        $("#estatus").val(data.estatus_descripcion);
-
-        fallecimiento_actoservicio = data.Calculo.fallecimiento_actoservicio_aux;
-        fallecimiento_fueraservicio = data.Calculo.fallecimiento_fueraservicio_aux;
     }).done(function(msg) {}).fail(function(jqXHR, textStatus) {
-        console.log(jqXHR);
+        $("#id").val('');
+        var boton = '<button id="btnContinuar" type="button" class="btn btn-success pull-right" onclick="continuar()">';
+        boton += '<i class="glyphicon glyphicon-ok"></i>&nbsp;&nbsp;Continuar</button>';
+        $("#divContinuar").html(boton);
+        $("#txtMensaje").html('El Beneficiario que intenta consultar no se encuentra en nuestra base de datos'); 
+        $("#logMensaje").modal('show');
+        $("#controles").hide();
+        $("#btnContinuar").focus();
+        limpiar();
     });
 
 }
 
+
+function limpiar(){
+    $("#nombres").val('');
+    $("#apellidos").val('');
+    $("#sexo").val('');
+    $("#componente").val('');
+    $("#grado").val('');
+    $("#fingreso").val('');
+    $("#tservicio").val('');
+    $("#nhijos").val('');
+    $("#fuascenso").val('');
+    $("#noascenso").val('');
+    $("#profesionalizacion").val('');
+    $("#arec").val('');
+    $("#mrec").val('');    
+    $("#drec").val('');
+    $("#fecha_retiro").val('');
+    $("#fano").val('');
+    $("#vacaciones").val('');
+    $("#numero_cuenta").val('');
+    $("#estatus").val('');
+}
 
 /**
 *   Permite Realizar Carga Familiar
@@ -500,6 +545,8 @@ function CartaBanco(id){
 
 function GuargarFiniquito(){ 
 
+
+
     ruta = sUrlP + "guardarFiniquito";
     i_d = $("#id").val(); //
     m_d = $("#deuda").val(); //Monto Por Deuda
@@ -518,39 +565,70 @@ function GuargarFiniquito(){
     m_r = $("#monto_recuperar").val(); //Monto a Recuperar
     m_rx = $("#monto_recuperar_aux").val(); //Monto a Recuperar
     
-    $.ajax({
-      type: "POST",
-      //contentType: "application/json",
-      //dataType: "json",
-      data: {'data' : JSON.stringify({
-        i_d: i_d, //Cedula de Identidad
-        t_b: t_b, //9 Formato Moneda
-        t_bx: t_bx, //9 Fomato Cientifico
-        a_i: a_i, //10
-        a_a: a_a, //14 Formato Moneda       
-        a_ax: a_ax, //14 Fomato Cientifico
-        m_d: m_d, //15
-        m_r: m_r, //16
-        m_rx: m_rx, //16 Fomato Cientifico
-        o_b: o_b,
-        f_r: f_r,
-        p_p: p_p,
-        m_f: m_f,
-        m_ft: m_ft        
-      })},
-      url: ruta,
-      success: function (data) {  
-        //console.log(data);      
-        //alert(data);
-        $("#txtMensaje").html(data); 
+    if(p_p != 0){
 
-      },
-      error: function(data){
-        console.log(data);
-        alert('Err. al procesar el finiquito');
-      }
-    });
+        $.ajax({
+          type: "POST",
+          //contentType: "application/json",
+          //dataType: "json",
+          data: {'data' : JSON.stringify({
+            i_d: i_d, //Cedula de Identidad
+            t_b: t_b, //9 Formato Moneda
+            t_bx: t_bx, //9 Fomato Cientifico
+            a_i: a_i, //10
+            a_a: a_a, //14 Formato Moneda       
+            a_ax: a_ax, //14 Fomato Cientifico
+            m_d: m_d, //15
+            m_r: m_r, //16
+            m_rx: m_rx, //16 Fomato Cientifico
+            o_b: o_b,
+            f_r: f_r,
+            p_p: p_p,
+            m_f: m_f,
+            m_ft: m_ft        
+          })},
+          url: ruta,
+          success: function (data) {  
+            //console.log(data);      
+            //alert(data);
+            //$("#txtMensaje").html(data);
+            $("#txtMensaje").html(data); 
+            var boton = '<button type="button" class="btn btn-success pull-right" onclick="continuarFiniquito()">';
+            boton += '<i class="glyphicon glyphicon-ok"></i>&nbsp;&nbsp;Continuar Finiquito</button>';
+            $("#divContinuar").html(boton);
+            $("#logMensaje").modal('show');
 
+          },
+          error: function(data){
+            $("#txtMensaje").html(data); 
+            var boton = '<button type="button" class="btn btn-success pull-right" onclick="continuarFiniquito()">';
+            boton += '<i class="glyphicon glyphicon-ok"></i>&nbsp;&nbsp;Continuar Finiquito</button>';
+            $("#divContinuar").html(boton);
 
+            $("#txtMensaje").html('Err. al procesar el finiquito'); 
+            $("#logMensaje").modal('show');
 
+          }
+        });
+    }else{
+       
+        var boton = '<button type="button" class="btn btn-success pull-right" onclick="continuar()">';
+            boton += '<i class="glyphicon glyphicon-ok"></i>&nbsp;&nbsp;Continuar Finiquito</button>';
+        $("#divContinuar").html(boton);
+        $("#txtMensaje").html('Debe seleccionar una partida presupuestaria'); 
+        $("#logMensaje").modal('show');
+
+    }
+
+    return true;
+}
+
+function continuarFiniquito(){
+    URL = sUrlP + "finiquitos";
+    $(location).attr('href', URL);
+}
+
+function continuar(){
+    $("#logMensaje").modal('hide');
+    //$("#id").focus();
 }

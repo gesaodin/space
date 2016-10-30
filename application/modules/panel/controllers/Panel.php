@@ -9,25 +9,19 @@ class Panel extends MY_Controller {
 		parent::__construct();
 		$this->load->helper('url');
 		$this->load->library('session');
+		if(!isset($_SESSION['usuario']))$this->salir();
 	}
 
 	public function index(){
-		if(isset($_SESSION['usuario'])){
-			$this->load->view("view_home");
-			//print_r($_SESSION);
-		}else{
-
-			$this->load->view("login");
-		}
-		
+		$this->load->view("view_home");
 	}
 
-	public function fideicomitente(){
-		$this->load->view("fideicomitente");
+	public function fideicomitente(){		
+		$this->load->view("fideicomitente");		
 	}
 
 	public function beneficiario(){
-		$this->load->view("menu/beneficiario/beneficiario");
+		$this->load->view("menu/beneficiario/beneficiario");	
 	}
 
 	public function asociarcuenta(){
@@ -53,11 +47,8 @@ class Panel extends MY_Controller {
 		$this->load->view('sueldolote');
 	}
 
-	public function verificar(){
-		
+	public function verificar(){		
 		$this->load->model('usuario/Iniciar');
-
-
 	}
 
 
@@ -146,7 +137,7 @@ class Panel extends MY_Controller {
 	*/
 
 	public function salir(){
-		$this->load->view("login");
+		redirect('panel/Login/salir');
 	}
 
 	public function consultarBeneficiario($cedula = '', $fecha = ''){		
@@ -154,7 +145,11 @@ class Panel extends MY_Controller {
 		$this->MBeneficiario->obtenerID($cedula, $fecha);
 		echo json_encode($this->MBeneficiario);
 	}
-	
+	public function consultarHistorialBeneficiario($id = ''){		
+		$this->load->model('beneficiario/MBeneficiario');
+		$lst = $this->MBeneficiario->consultarHistorial($id);
+		echo json_encode($lst);
+	}
 
 	public function consultarBeneficiarios($cedula = '', $fecha = ''){		
 		$this->load->model('beneficiario/MBeneficiario');
@@ -261,6 +256,8 @@ class Panel extends MY_Controller {
 		$this->load->model('beneficiario/MBeneficiario');
 		echo json_encode( $this->MBeneficiario->CargarFamiliares($id) );
 	}
+
+
 	/**
 	*  Cargar Persona ( X: Saman.- )
 	*
@@ -280,6 +277,7 @@ class Panel extends MY_Controller {
 
 	function guardarFiniquito(){
 		$this->load->model('beneficiario/MBeneficiario', 'Beneficiario');
+		$this->load->model('beneficiario/MBeneficiario');
 		$this->load->model('beneficiario/MHistorialMovimiento');
 
 		$json = json_decode($_POST['data']); // 'Hola Mundo'; //Object($_POST);
@@ -287,18 +285,21 @@ class Panel extends MY_Controller {
 		
 		$fecha_aux = isset($json->f_r) ? $json->f_r : '';
 		if($fecha_aux != ''){
-			//$Beneficiario = $this->MBeneficiario->obtenerID($json->i_d);
+			
+			$this->MBeneficiario->obtenerID($json->i_d, '');
 			$f = explode('/', $fecha_aux);			
 			$this->Beneficiario->fecha_retiro = $f[2] . '-' . $f[1] . '-' . $f[0];
 			$json->f_r = $this->Beneficiario->fecha_retiro;
 			$this->Beneficiario->cedula = $json->i_d;
 			$this->Beneficiario->estatus_activo = 203;
+			$this->Beneficiario->observacion = $json->o_b;
+
 			$this->MHistorialMovimiento->InsertarDetalle($json);
 			$this->Beneficiario->ActualizarPorMovimiento();
 
 
-			
-			
+			$this->MBeneficiario->InsertarHistorial();
+			//print_r($Bnf);
 			echo "Beneficiario Liquidado exitosamente...";
 		}
 		

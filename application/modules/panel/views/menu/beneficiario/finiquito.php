@@ -43,7 +43,7 @@
                                   
                               </div>
                               <div class="col-md-6">
-                          <button type="button" class="btn btn-info pull-midium" onclick="consultarFiniquitos()"><i class="fa fa-search"></i> Consultar</button>
+                          <button type="button" class="btn btn-info pull-midium" onclick="consultarFiniquitos()"><i class="fa fa-search"></i>&nbsp;&nbsp;Consultar</button>
                           <a href="<?php echo base_url()?>index.php/panel/Panel/registrarFiniquito" class="btn btn-success pull-midium">
                           <i class="fa fa-plus"></i> Registrar Finiquito</a>
                           </a>

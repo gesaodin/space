@@ -376,7 +376,7 @@ class MBeneficiario extends CI_Model{
 	* @param string
 	* @return Dbpace
 	*/
-	private function _consultar($cedula = ''){
+	private function _consultar($cedula = '', $tabla = ''){
 		
 		/** SIN BENEFICIARIO CALC
 		$sConsulta = 'SELECT 
@@ -386,20 +386,48 @@ class MBeneficiario extends CI_Model{
 		  status_id, st_no_ascenso, numero_cuenta, st_profesion, sexo, status.descripcion AS estatus_descripcion
 		FROM beneficiario JOIN status ON beneficiario.status_id=status.id WHERE cedula=\'' . $cedula . '\'';
 		**/
+		$tbl = $tabla == ''? 'beneficiario' : $tabla;
 
 		$sConsulta = '
-			SELECT beneficiario.cedula, beneficiario.nombres, beneficiario.apellidos, 
-				beneficiario.grado_id, beneficiario.componente_id, beneficiario.tiempo_servicio, 
-				beneficiario.fecha_ingreso, beneficiario.edo_civil, beneficiario.n_hijos, 
-				beneficiario.f_ult_ascenso, beneficiario.anio_reconocido, beneficiario.mes_reconocido, 
-				beneficiario.f_ult_modificacion, beneficiario.usr_creacion, beneficiario.usr_modificacion,
-				beneficiario.dia_reconocido, beneficiario.f_ingreso_sistema, beneficiario.f_retiro, beneficiario.f_creacion,
-				beneficiario.f_retiro_efectiva, beneficiario.status_id, beneficiario.st_no_ascenso, beneficiario.f_reincorporacion,
-				beneficiario.numero_cuenta, beneficiario.st_profesion, beneficiario.sexo,beneficiario.observ_ult_modificacion,
-				beneficiario_calc.numero_cuenta, status.descripcion AS estatus_descripcion, beneficiario.motivo_paralizacion
-			FROM beneficiario 
-				JOIN beneficiario_calc ON beneficiario.cedula=beneficiario_calc.cedula
-				JOIN status ON beneficiario.status_id=status.id WHERE beneficiario_calc.cedula=\'' . $cedula . '\'';
+			SELECT 
+				' . $tbl . '.cedula, 
+				' . $tbl . '.nombres, 
+				' . $tbl . '.apellidos, 
+				' . $tbl . '.grado_id, 
+				' . $tbl . '.componente_id, 
+				' . $tbl . '.tiempo_servicio, 
+				' . $tbl . '.fecha_ingreso, 
+				' . $tbl . '.edo_civil, 
+				' . $tbl . '.n_hijos, 
+				' . $tbl . '.f_ult_ascenso, 
+				' . $tbl . '.anio_reconocido, 
+				' . $tbl . '.mes_reconocido, 
+				' . $tbl . '.f_ult_modificacion, 
+				' . $tbl . '.usr_creacion, 
+				' . $tbl . '.usr_modificacion,
+				' . $tbl . '.dia_reconocido, 
+				' . $tbl . '.f_ingreso_sistema, 
+				' . $tbl . '.f_retiro, 
+				' . $tbl . '.f_creacion,
+				' . $tbl . '.f_retiro_efectiva, 
+				' . $tbl . '.status_id, 
+				' . $tbl . '.st_no_ascenso, 
+				' . $tbl . '.f_reincorporacion,
+				' . $tbl . '.numero_cuenta, 
+				' . $tbl . '.st_profesion, 
+				' . $tbl . '.sexo,
+				' . $tbl . '.observ_ult_modificacion,				
+				' . $tbl . '.motivo_paralizacion,
+				beneficiario_calc.numero_cuenta,
+				status.descripcion AS estatus_descripcion
+			FROM 
+				' . $tbl . ' 
+				JOIN beneficiario_calc ON 
+					' . $tbl . '.cedula=beneficiario_calc.cedula
+				JOIN status ON 
+					' . $tbl . '.status_id=status.id 
+			WHERE 
+				beneficiario_calc.cedula=\'' . $cedula . '\'';
 	
 
 		//echo $sConsulta;
@@ -540,7 +568,10 @@ class MBeneficiario extends CI_Model{
 		return $valor;
 	}
 
-
+	/**
+	*	Cargar una Datos de una persona desde SAMAN 
+	*
+	*/
 	function CargarPersona($id){
 		$this->load->model('comun/DbSaman');
 		$familiar = array();
@@ -569,10 +600,11 @@ class MBeneficiario extends CI_Model{
 			f_retiro_efectiva=\'' . $this->Beneficiario->fecha_retiro . '\', 
 			status_id=\'' . $this->Beneficiario->estatus_activo . '\',
 			usr_modificacion=\'' . $_SESSION['usuario'] . '\',
+			observ_ult_modificacion=\'' . $this->Beneficiario->observacion . '\',
 			f_ult_modificacion=\'' . date("Y-m-d H:i:s") . '\' 
 		WHERE cedula=\'' . $this->Beneficiario->cedula . '\'';
 		//echo $sActualizar;
-		//$obj = $this->Dbpace->consultar($sActualizar);
+		$obj = $this->Dbpace->consultar($sActualizar);
 
 	}
 
@@ -609,17 +641,17 @@ class MBeneficiario extends CI_Model{
 			f_reincorporacion
 		) VALUES ';
 
-		$sInsertar = '(
-			\'' . $this->estus_activo . '\',
+		$sInsertar .= '(
+			\'' . $this->estatus_activo . '\',
 			\'' . $this->Componente->id . '\',
-			\'' . $this->grado_codigo . '\',
+			\'' . $this->Componente->Grado->id . '\',
 			\'' . $this->cedula . '\',
 			\'' . $this->nombres . '\',
 			\'' . $this->apellidos . '\',
 			\'' . $this->tiempo_servicio_db . '\',
 			\'' . $this->fecha_ingreso . '\',
 			\'' . $this->estado_civil . '\',
-			\'' . $this->n_hijos . '\',
+			\'' . $this->numero_hijos . '\',
 			\'' . $this->fecha_ultimo_ascenso . '\',
 			\'' . $this->ano_reconocido . '\',
 			\'' . $this->mes_reconocido . '\',
@@ -639,9 +671,57 @@ class MBeneficiario extends CI_Model{
 			\'' . $this->motivo_paralizacion . '\',
 			\'' . $this->fecha_reincorporacion . '\'
 		)';
+		//echo $sInsertar;
 
 		$obj = $this->Dbpace->consultar($sInsertar);
 
 
+	}
+
+
+	function consultarHistorial($id = ''){
+		$lst = array();
+		$obj = $this->_consultar($id, 'hist_beneficiario');
+		$i = 0;
+
+		foreach ($obj->rs as $clv => $val) {				
+			$Beneficiario = new $this->MBeneficiario();
+			$Beneficiario->cedula = $val->cedula;
+			$Beneficiario->nombres = $val->nombres;
+			$Beneficiario->apellidos = $val->apellidos;
+			$Beneficiario->estado_civil = $val->edo_civil;
+			$Beneficiario->estatus_activo = $val->status_id;
+			$Beneficiario->estatus_descripcion = $val->estatus_descripcion;
+			$Beneficiario->numero_hijos = $val->n_hijos;
+			
+			$Beneficiario->tiempo_servicio_db = $val->tiempo_servicio; 
+			$Beneficiario->fecha_ingreso = $val->fecha_ingreso;
+			$Beneficiario->fecha_ingreso_sistema = $val->f_ingreso_sistema;
+			
+			$Beneficiario->ano_reconocido = $val->anio_reconocido;
+			$Beneficiario->mes_reconocido = $val->mes_reconocido;
+			$Beneficiario->dia_reconocido = $val->dia_reconocido;				
+			$Beneficiario->sexo = $val->sexo;
+			$Beneficiario->usuario_creador = $val->usr_creacion;
+
+			$Beneficiario->usuario_modificacion = $val->usr_modificacion;
+
+			$Beneficiario->fecha_ultima_modificacion = $val->f_ult_modificacion;
+			$Beneficiario->fecha_creacion = $val->f_creacion;
+
+			$Beneficiario->fecha_ultimo_ascenso = $val->f_ult_ascenso;
+
+			$Beneficiario->no_ascenso = $val->st_no_ascenso;
+			$Beneficiario->profesionalizacion = $val->st_profesion;
+			$Beneficiario->fecha_retiro = $val->f_retiro;
+			$Beneficiario->fecha_retiro_efectiva = $val->f_retiro_efectiva;
+			$Beneficiario->numero_cuenta = $val->numero_cuenta;
+			$Beneficiario->motivo_paralizacion = $val->motivo_paralizacion;
+			$Beneficiario->fecha_reincorporacion = $val->f_reincorporacion;
+			$Beneficiario->observacion = $val->observ_ult_modificacion;
+			$lst[] = $Beneficiario;
+			$i++;
+		}
+		return $lst;
 	}
 }

@@ -100,7 +100,7 @@ th {
 
  <table style="width: 700px;  text-align: justify;  font-size: 15px">
   <tr>
-    <td>Nro.</td><td>320.600-<?php echo md5($Beneficiario->cedula . $Beneficiario->fecha_ultima_modificacion);?></td>
+    <td>Nro.</td><td>320.600-<?php echo substr(md5($Beneficiario->cedula . $Beneficiario->fecha_ultima_modificacion), 0,6);?>/01</td>
   </tr> 
   <tr>
     <td>DE:</td><td><b>CNEL. GERENTE DE BIENESTAR Y SEGURIDAD SOCIAL</b></td>
@@ -118,7 +118,7 @@ th {
  <table style="width: 700px">
   <tr>
    <td style="border: 0px solid #dddddd; text-align: justify; font-size: 16px; line-height: 1.5">
-     &emsp;&emsp;Mediante la presente comunicación me dirijo a Ud., en la oportunidad de autorizar al <b><?php echo $Beneficiario->Componente->Grado->nombre; echo $Beneficiario->nombres . ' ' . $Beneficiario->apellidos; ?></b>, titular de la cédula de identidad <b><?php echo $Beneficiario->cedula;?></b> para realizar trámites ante el Banco Venezuela, a fin de obtener el finiquito del monto total de Bs.<b><?php echo $Beneficiario->Calculo['saldo_disponible'];?></b>
+     &emsp;&emsp;Mediante la presente comunicación me dirijo a Ud., en la oportunidad de autorizar al <b><?php echo $Beneficiario->Componente->Grado->nombre; echo $Beneficiario->nombres . ' ' . $Beneficiario->apellidos; ?></b>, titular de la cédula de identidad <b><?php echo $Beneficiario->cedula;?></b> para realizar trámites ante el Banco Venezuela, a fin de obtener el finiquito del monto total de Bs.<b><?php echo $Beneficiario->Calculo['saldo_disponible'];?>.</b><br>
      <br>
      &emsp;&emsp;Motiva la presente comunicación, el hecho que el mencionado afiliado pasó a la reserva activa en  fecha <b>
      <?php  
@@ -132,17 +132,22 @@ th {
       ?></b>, y de acuerdo a lo establecido en la LOSSFAN, en sus artículos 56 y 57 y en el Reglamento de Pago de Asignación al Personal 
       Militar, así como también las cláusulas décimo cuarta y décimo sexta del contrato firmado entre el IPSFA y esa 
       Institución Fiduciaría, en fecha 17FEB2009 ante la Notaría Pública Tercera de Caracas, debe salir del sistema de 
-      Fideicomiso de la Asignación de antiguedad.
-     <br>
+      Fideicomiso de la Asignación de Antiguedad.
+     <br><br>
      &emsp;&emsp;Sin otro particular al cual hacer referencia, se despide de ustedes, quedando a sus gratas órdenes.
      <br>
      <center>
         Atentamente 
-        <br><br><br>
-        CNEL. NOEL EDUARDO MONTES FUENMAYOR<BR>
-        GERENTE DE BIENESTAR Y SEGURIDAD SOCIAL<BR>
+        <br><br><br><b>
+        CNEL. EDUARDO JOSE MARTINEZ SALAS<BR>
+        GERENTE DE BIENESTAR Y SEGURIDAD SOCIAL<BR></b>
      </center>
-     <br><br><br>
+     <br>
+
+     Notas:<br>
+     <?php echo $Beneficiario->observacion;?>
+     <br><br>
+     OCR/<?php echo $Beneficiario->usuario_modificacion;?>
    </td>
    
  </tr>

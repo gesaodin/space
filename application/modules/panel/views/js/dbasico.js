@@ -1,8 +1,13 @@
+$( "#id" ).keypress(function( event ) {
+  if ( event.which == 13 ) {
+    $("#btnImprimir").focus();
+  }
+});
+
 function consultar() {
     var val = $("#id").val();
     ruta = sUrlP + "consultarBeneficiario/" + val;
     $.getJSON(ruta, function(data) {
-            //console.log(data.Componente.Grado);
             $("#nombres").val(data.nombres);
             $("#apellidos").val(data.apellidos);
             $("#sexo").val(data.sexo);
@@ -17,19 +22,14 @@ function consultar() {
             $("#sueldo_base").val(data.sueldo_base_aux);
             $("#sueldo_global").val(data.sueldo_global_aux);
             $("#sueldo_integral").val(data.sueldo_integral_aux);
-
             $("#arec").val(data.ano_reconocido);
             $("#mrec").val(data.mes_reconocido);    
             $("#drec").val(data.dia_reconocido);
-
             $("#fecha_retiro").val(data.fecha_retiro);
-
             $("#fano").val(data.aguinaldos_aux);
             $("#vacaciones").val(data.vacaciones_aux);
-
             $("#numero_cuenta").val(data.numero_cuenta);
             $("#estatus").val(data.estatus_descripcion);
-
 
             $("#P_TRANSPORTE").val(data.prima_transporte_aux);
             $("#P_DESCENDECIA").val(data.prima_descendencia_aux);
@@ -38,19 +38,6 @@ function consultar() {
             $("#P_NOASCENSO").val(data.prima_noascenso_aux);
             $("#P_PROFESIONALIZACION").val(data.prima_profesionalizacion_aux);
 
-            //console.log(data.Prima);
-           
-           /**
-            $.each(data.Prima, function ( clv, valores ){
-                    $.each(valores, function ( clave, valor ){
-                          $("#" + clave).val(valor);  
-                        }
-                    )
-                }
-            )
-            **/
-            //console.log(data.Calculo);
-            //alert(data.Calculo.asignacion_antiguedad);
             $("#asignacion_antiguedad").val(data.Calculo.asignacion_antiguedad);
             $("#capital_banco").val(data.Calculo.capital_banco);
             $("#garantias").val(data.Calculo.garantias);
@@ -63,14 +50,11 @@ function consultar() {
             $("#anticipos").val(data.Calculo.anticipos);
             $("#embargos").val(data.Calculo.embargos);
             $("#porcentaje_cancelado").val(data.Calculo.porcentaje_cancelado);
-            
-
-
-
         }
 
     ).done(function(msg) {}).fail(function(jqXHR, textStatus) {
-        console.log(jqXHR);
+       $("#txtMensaje").html('No se encontro cédula de beneficiario'); 
+       $("#logMensaje").modal('show');
     });
 
 }
@@ -79,4 +63,9 @@ function imprimir(){
     var val = $("#id").val();
     URL = sUrlP + "hojavida/" + val;
     window.open(URL,"Hoja de Vida","toolbar=0,location=1,menubar=0,scrollbars=1,resizable=1,width=900,height=800")
+}
+
+function continuar(){
+    $("#logMensaje").modal('hide');
+    //$("#id").focus();
 }

@@ -15,9 +15,9 @@ if (!defined('BASEPATH'))
  */
 class Dbpace extends CI_Model {
 	
-	var $__DB;
+	var $__DB = NULL;
 	
-	var $err;
+	var $err = NULL;
 	/**
 	*	Constructor de la Calse
 	*
@@ -52,7 +52,7 @@ class Dbpace extends CI_Model {
 				);
 		if ( ! (@$rs = $this->__DB->query($consulta))){
 			$this->err = $this->__DB->error();
-			$this->err['query'] = $consulta;		
+			//$this->err['query'] = $consulta;		
 			$this->err['code'] = 1;
 			$this->err['cant'] = 0;
 			//En el caso de un error se genera $err['message']
@@ -63,9 +63,10 @@ class Dbpace extends CI_Model {
 
 			if(is_object($rs)){
 				$this->err['rs'] =  $rs->result();
-				$this->err['cant'] =  $rs->num_rows();
+				$this->err['cant'] =  0; //$rs->num_rows(true); //Pendiente por evaluar para postgres
 			}
 		}
+		
 		return (object)$this->err;
 	}
 	
