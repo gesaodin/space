@@ -22,3 +22,9 @@ _testmain.go
 *.exe
 *.test
 *.prof
+
+*/application/config/config.php
+*application/config/config.php
+
+*/application/config/database.php
+*application/config/database.php
