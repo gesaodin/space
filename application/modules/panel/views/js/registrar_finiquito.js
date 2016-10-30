@@ -2,6 +2,7 @@
 * Fallecimiento en acto de servicio o Fuera
 */
 var iFamiliares = 0;
+var lstFamiliares = {};
 var fallecimiento_actoservicio = 0; //Acto de Servicio
 var fallecimiento_fueraservicio = 0; //Fuera de Servicio
 
@@ -16,8 +17,8 @@ $('#reporteFiniquitos').DataTable({
         "ordering": false,
         "info":     false,
         "searching": false
-        }
-    );
+    }
+);
 
 Number.prototype.formatMoney = function(c, d, t){
 var n = this, 
@@ -37,7 +38,7 @@ function consultar() {
 
     iFamiliares = 0;
     $.getJSON(ruta, function(data) {
-        console.log('>: ' + data.fecha_retiro);
+        
         if(data.fecha_retiro != null){
             $("#id").val('');
             var boton = '<button type="button" class="btn btn-success pull-right" onclick="continuar()">';
@@ -120,11 +121,13 @@ function seleccionarMotivo(){
     var motivo = $("#motivo_finiquito option:selected").val();
 
     if(motivo > 8 && motivo < 11){
+
         $("#monto_asignacion").val(fallecimiento_actoservicio);
+        $("#monto_asignacion_aux").val(fallecimiento_actoservicio);
         
         if(motivo == 9 ) {
             $("#monto_asignacion").val(fallecimiento_fueraservicio);
-
+            $("#monto_asignacion_aux").val(fallecimiento_fueraservicio);
 
         }else{
             
@@ -136,7 +139,7 @@ function seleccionarMotivo(){
         var val = $("#id").val();
         ruta = sUrlP + "obtenerFamiliares/" + val;    
         $.getJSON(ruta, function(data) {    
-            sBoton = '<center><button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal"><i class="fa fa-user-plus"></i> Agregar Familiar</button>';
+            sBoton = '<center><button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal"><i class="fa fa-user-plus"></i>&nbsp;&nbsp;Agregar Familiar</button>';
             sTable = sBoton + '<br>';
             sTable += '<TABLE id="dbFamiliares" class="display compact table table-striped table-bordered" width="100%" cellspacing="0">';
             sTable += '<THEAD><TR>';
@@ -279,28 +282,62 @@ function CalcularM(id){
         
 }
 
-/**
-function CalcularDist(id){
+function Leer(){
+    var boton = '<button type="button" class="btn btn-success pull-right" onclick="continuar()">';
+        boton += '<i class="glyphicon glyphicon-ok"></i>&nbsp;&nbsp;Continuar Finiquito</button>';
+        $("#divContinuar").html(boton);
+    // CAPITAL EN BANCO
     var suma = 0;
-    var calcMontoAsignacion = parseFloat($("#asignacion_causa_aux").val());  
     for (var i = 1; i <= iFamiliares; i++) {
-        if($("#txtDist" + i).val() != ""){
-            var por = parseFloat($("#txtDist" + i).val());      
+        if($("#txtAA" + i).val() != ""){
+            var por = parseFloat($("#txtAA" + i).val());      
             suma += por;    
         }
     }
-    if(suma <= 100){
-        var porcentaje = $("#txtDist" + id).val();
-        var resultadoMontoAsignacion = (Number(calcMontoAsignacion) * Number(porcentaje)) / 100;
-        //------------
-        numero = resultadoMontoAsignacion;
-        $("#lblCm_aux" + id).text(numero.formatMoney(2, ',', '.'));
-        $("#lblCm" + id).text(parseFloat(resultadoMontoAsignacion).toFixed(2));    
-    }else{
-        alert('Distribución del porcentaje no puede ser mayor al 100%');
+    if(suma != 100){         
+        $("#txtMensaje").html('Verifique los porcentajes de Capital en Banco sumen un 100% para poder continuar');         
+        return false;
+    }   
+    
+    // MONTO DE ASIGNACION CAUSA O MUERTE
+    suma = 0;
+    for (var i = 1; i <= iFamiliares; i++) {
+        if($("#txtM" + i).val() != ""){
+            var por = parseFloat($("#txtM" + i).val());      
+            suma += por;    
+        }
     }
+    if(suma != 100){         
+        $("#txtMensaje").html('Verifique que los porcentajes de la Asig. Muerte AS/FS sumen un 100% para poder continuar ');         
+        return false;
+    }    
+    
+
+
+
+
+    for (var i = 1; i <= iFamiliares; i++) {
+        var capital_banco = parseFloat($("#lblCapital" + i).text());
+        if (capital_banco > 0){
+            pcb = $("#txtAA" + i).val() == ''? 0: $("#txtAA" + i).val();
+            pac = $("#txtM" + i).val() == ''?0:$("#txtM" + i).val();
+            lstFamiliares[i] = {
+                ced: $("#lblCedula" + i).text(),
+                nom: $("#lblNombre" + i).text(),
+                pcb: parseFloat(pcb),
+                cab: parseFloat($("#lblCapital" + i).text()),
+                maa: parseFloat($("#lblMonto" + i).text()),
+                cmu: parseFloat($("#lblCm" + i).text()),
+                pac: parseFloat(pac), 
+                mcm: parseFloat($("#lblMAct" + i).text())
+            }    
+        }
+
+    }
+
+    //console.log(lstFamiliares);
+    return true;
 }
-**/
 
 
 
@@ -317,12 +354,12 @@ function registrarFamiliar(){
 
     iFamiliares++;
 
-    sCajaAA = '<div class="input-group"><input class="form-control" style="width:50px" type="text" id="txtAA' + iFamiliares + '">';
+    sCajaAA = '<div class="input-group"><input class="form-control" style="width:50px" type="text" id="txtAA' + iFamiliares + '"  onblur="CalcularAA(' + iFamiliares + ')">';
     sCajaAA += '<span class="input-group-btn"><button type="button" class="btn btn-success btn-flat" onclick="CalcularAA(' + iFamiliares + ')">';
     sCajaAA += '<i class="fa fa-calculator"></i></button></span> </div>';
 
 
-    sDistM = '<div class="input-group"><input class="form-control" style="width:50px" type="text" id="txtM' + iFamiliares + '">';
+    sDistM = '<div class="input-group"><input class="form-control" style="width:50px" type="text" id="txtM' + iFamiliares + '" onblur="CalcularM(' + iFamiliares + ')">';
     sDistM += '<span class="input-group-btn"><button type="button" class="btn btn-success btn-flat" onclick="CalcularM(' + iFamiliares + ')">';
     sDistM += '<i class="fa fa-calculator"></i></button></span> </div>';
 
@@ -340,9 +377,9 @@ function registrarFamiliar(){
             sCajaAA,
             '<p style="text-align:right"><label id="lblCapital_aux' + iFamiliares + '">0.00</label><label style="display:none" id="lblCapital' + iFamiliares + '">0.00</label></p>',
             '<p style="text-align:right"><label id="lblMonto_aux' + iFamiliares + '">0.00</label><label style="display:none" id="lblMonto' + iFamiliares + '">0.00</label></p>',
-            //sDistM,
+            sDistM,
             '<p style="text-align:right"><label id="lblMAct_aux' + iFamiliares + '">0.00</label><label style="display:none" id="lblMAct' + iFamiliares + '">0.00</label></p>',
-            sDist,
+            //sDist,
             '<label id="lblCm' + iFamiliares + '">0.00</label>'
 
         ] ).draw( false );
@@ -559,12 +596,19 @@ function GuargarFiniquito(){
     m_f = $("#motivo_finiquito option:selected").val(); //Motivo de Finiquito
     m_ft = $("#motivo_finiquito option:selected").text(); //motivo_finiquito
 
+    m_asaf = $("#monto_asignacion_aux").val(); //motivo_finiquito   
+
     o_b = $("#o_b").val(); //Observaciones
     f_r = $("#datepicker").val(); //Fecha Retiro
     
     m_r = $("#monto_recuperar").val(); //Monto a Recuperar
     m_rx = $("#monto_recuperar_aux").val(); //Monto a Recuperar
-    
+
+    if (Leer() == false){
+        $("#logMensaje").modal('show');
+        return false;
+    }
+
     if(p_p != 0){
 
         $.ajax({
@@ -585,7 +629,9 @@ function GuargarFiniquito(){
             f_r: f_r,
             p_p: p_p,
             m_f: m_f,
-            m_ft: m_ft        
+            m_ft: m_ft,
+            m_asaf: m_asaf,
+            fami: lstFamiliares      
           })},
           url: ruta,
           success: function (data) {  

@@ -71,8 +71,8 @@
                     </button>
                   </div>
                   <div class="col-xs-6">
-                    <button type="button" class="btn btn-warning" style="margin-right: 5px;">
-                      <i class="fa fa-file-archive-o"></i>&nbsp;&nbsp;Exportar a Archivo
+                    <button type="button" class="btn btn-primary" style="margin-right: 5px;">
+                      <i class="fa fa-print"></i>&nbsp;&nbsp;Imprimir
                     </button>
                   </div>
                 </div>

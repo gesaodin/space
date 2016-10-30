@@ -39,63 +39,77 @@
               </div>
             </div>
             <div class="box-body">
-              <form class="form-horizontal" >
+              
+                   <form class="form-horizontal" >
                 <div class="box-body">
                   <div class="form-group">
-                    <label class="col-md-2">C.I.</label>
-                    <div class="col-md-2">                      
-                      <input type="text" class="form-control" placeholder="Cédula de Identidad" id='id' onblur="consultar()"></input>
+                    <label class="col-md-2">Cédula</label>
+                    <div class="col-md-6"> 
+
+                      <div class="input-group">
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-success" onclick="consultar()"><i class="fa fa-search"></i></button>
+                        </span> 
+                        <input type="text" class="form-control" placeholder="Cédula de Identidad" id='id' onblur="consultar()"></input>                          
+                      </div>                  
+                      
                     </div>
                   </div> <!-- /Cedula -->
                   <div class="form-group">
-                    <label class="col-md-2">Cuenta</label>
-                    <div class="col-md-2">                      
-                      <input type="text" class="form-control" placeholder="Número de Cuenta"></input>
+                    <label class="col-md-2" >Cuenta</label>
+                    <div class="col-md-6">                      
+                      
+                      <div class="input-group">
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-success"><i class="fa fa-bank"></i></button>
+                        </span> 
+                        <input type="text" class="form-control" placeholder="Número de Cuenta" id="numero_cuenta" readonly="readonly"></input>                          
+                      </div>  
                     </div> 
                   </div> <!-- /Numero Cuenta -->
 
                   <div class="form-group">
-                    <label class="col-md-2">Nombre</label>
+                    <label class="col-md-2">Nombres</label>
                     <div class="col-md-2">                      
-                      <input type="text" class="form-control" placeholder="Nombre"  id='nombres'></input>
+                      <input type="text" placeholder="Nombre"  id='nombres' class="form-control" readonly="readonly"></input>
                     </div> 
-                    <label class="col-md-2">Apellido</label>
+                    <label class="col-md-2">Apellidos</label>
                     <div class="col-md-2">                      
-                      <input type="text" class="form-control" placeholder="Apellido"  id='apellidos'></input>
+                      <input type="text" placeholder="Apellido"  id='apellidos' class="form-control" readonly="readonly"></input>
                     </div> 
                     <label class="col-md-2">Sexo</label>
                     <div class="col-md-2">                      
-                      <input type="text" class="form-control" placeholder="Sexo"  id='sexo'></input>
+                      <input type="text" placeholder="Sexo"  id='sexo' class="form-control" readonly="readonly"></input>
                     </div> 
                   </div> <!-- /Numero Cuenta -->
 
                   <div class="form-group">
                     <label class="col-md-2">Componente</label>
                     <div class="col-md-2">                      
-                      <input type="text" class="form-control" placeholder="Componente"  id='componente'></input>
+                      <input type="text" placeholder="Componente"  id='componente' class="form-control" readonly="readonly"></input>
                     </div> 
                     <label class="col-md-2">Grado</label>
                     <div class="col-md-2">                      
-                      <input type="text" class="form-control" placeholder="Grado"  id='grado'></input>
+                      <input type="text" placeholder="Grado"  id='grado' class="form-control" readonly="readonly"></input>
                     </div> 
                     <label class="col-md-2">Estatus</label>
                     <div class="col-md-2">                      
-                      <input type="text" class="form-control" placeholder="Estatus"  id='estatus'></input>
+                      <input type="text" placeholder="Estatus"  id='estatus' class="form-control" readonly="readonly"></input>
                     </div> 
                   </div> <!-- /Numero Cuenta -->
 
                   <div class="form-group">
                     <label class="col-md-2">Fecha Ingreso</label>
                     <div class="col-md-2">                      
-                      <input type="text" class="form-control" placeholder="Fecha de Ingreso" id='fingreso'></input>
+                      <input type="text" placeholder="Fecha de Ingreso" id='fingreso' class="form-control" readonly="readonly"></input>
                     </div> 
                     <label class="col-md-2">Tiempo Servicio</label>
                     <div class="col-md-2">                      
-                      <input type="text" class="form-control" placeholder="Tiempo servicio" id='tservicio'></input>
+                      <input type="text" placeholder="Tiempo servicio" id='tservicio' class="form-control" value="0,00" readonly="readonly"></input>
                     </div> 
                     <label class="col-md-2">No. Hijos</label>
                     <div class="col-md-2">                      
-                      <input type="text" class="form-control" placeholder="No. Hijos" id='nhijos'></input>
+                      <input type="text" placeholder="No. Hijos" id='nhijos' class="form-control" readonly="readonly"></input>
                     </div> 
                   </div> <!-- /Numero Cuenta -->
 
@@ -103,92 +117,102 @@
                   <div class="form-group">
                     <label class="col-md-2">Ultimo Ascenso</label>
                     <div class="col-md-2">                      
-                      <input type="text" class="form-control" placeholder="Ultimo Ascenso" id='fuascenso'></input>
+                      <input type="text" placeholder="Ultimo Ascenso" id='fuascenso' class="form-control" readonly="readonly"></input>
                     </div> 
                     <label class="col-md-2">No. Ascenso</label>
                     <div class="col-md-2">                      
-                      <input type="text" class="form-control" placeholder="No. Ascenso" id='noascenso'></input>
+                      <input type="text" placeholder="No. Ascenso" id='noascenso' class="form-control" readonly="readonly"></input>
                     </div> 
                     <label class="col-md-2">St. Prof.</label>
                     <div class="col-md-2">                      
-                      <input type="text" class="form-control" placeholder="St. Prof" id='profesionalizacion'></input>
+                      <input type="text" placeholder="St. Prof" id='profesionalizacion' class="form-control" readonly="readonly"></input>
                     </div> 
                   </div> <!-- /Numero Cuenta -->
 
                   <div class="form-group">
-                    <label class="col-md-2">Años Reconocidos</label>
+                    <label class="col-md-2">Años Recon.</label>
                     <div class="col-md-2">                      
-                      <input type="text" class="form-control" placeholder="Ultimo Ascenso" id='arec'></input>
+                      <input type="text" placeholder="Ultimo Ascenso" id='arec' class="form-control" readonly="readonly"></input>
                     </div> 
-                    <label class="col-md-2">Mes Reconocidos</label>
+                    <label class="col-md-2">Meses Recon.</label>
                     <div class="col-md-2">                      
-                      <input type="text" class="form-control" placeholder="No. Ascenso" id='mrec'></input>
+                      <input type="text" placeholder="No. Ascenso" id='mrec' class="form-control" readonly="readonly"></input>
                     </div> 
-                    <label class="col-md-2">Días Reconocidos</label>
+                    <label class="col-md-2">Días Recon.</label>
                     <div class="col-md-2">                      
-                      <input type="text" class="form-control" placeholder="Días Reconocidos" id='drec'></input>
+                      <input type="text" placeholder="Días Reconocidos" id='drec' class="form-control" readonly="readonly"></input>
                     </div> 
                   </div> <!-- /Numero Cuenta -->
-                   
+
+                  <div class="form-group">
+                    <label class="col-md-2">Fecha de Retiro</label>
+                    <div class="col-md-2">                      
+                      <input type="text" placeholder="Fecha de Retiro" id='fecha_retiro' class="form-control" readonly="readonly"></input>
+                    </div> 
+                  </div> <!-- /Numero Cuenta -->
+
+
+                </div>
+              </form>
                   <hr><b>Lista de anticipos</b></hr>
                   <div class="form-group">
                      <div class="col-md-8">                      
                      <button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal"><i class="glyphicon glyphicon-plus"></i>Nuevo anticipo</button>
                      <!-- Modal -->
-  <div class="modal fade" id="myModal" role="dialog">
-    <div class="modal-dialog">
-    
-      <!-- Modal content-->
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">Nuevo Anticipo</h4>
-        </div>
-        <div class="modal-body">
-          <div class="row">
-            <div class="col-md-4"> <input type="radio" class="pull-right" name="optionsRadios" id="optionsRadios" value="option" checked >
-            </div>
-            <div class="col-md-4"><input type="text" class="form-control" placeholder="Porcentaje" /></div>
-            <div class="col-md-4"><h4>%</h4></div>
-          </div>
-          <div class="row">
-            <div class="col-md-4"> <input type="radio" class="pull-right" name="optionsRadios" id="optionsRadios1" value="option1" checked >
-            </div>
-            <div class="col-md-4"><input type="text" class="form-control" placeholder="Monto" /></div>
-            <div class="col-md-4"><h4>BsF.</h4></div>
-          </div>
-          <div class="row">
-             <div class="col-md-4">
-                      <h4>Motivo del anticipo:</h4>
+                    <div class="modal fade" id="myModal" role="dialog">
+                      <div class="modal-dialog">
+                      
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Nuevo Anticipo</h4>
+                          </div>
+                          <div class="modal-body">
+                            <div class="row">
+                              <div class="col-md-4"> <input type="radio" class="pull-right" name="optionsRadios" id="optionsRadios" value="option" checked >
+                              </div>
+                              <div class="col-md-4"><input type="text" class="form-control" placeholder="Porcentaje" /></div>
+                              <div class="col-md-4"><h4>%</h4></div>
+                            </div>
+                            <div class="row">
+                              <div class="col-md-4"> <input type="radio" class="pull-right" name="optionsRadios" id="optionsRadios1" value="option1" checked >
+                              </div>
+                              <div class="col-md-4"><input type="text" class="form-control" placeholder="Monto" /></div>
+                              <div class="col-md-4"><h4>BsF.</h4></div>
+                            </div>
+                            <div class="row">
+                               <div class="col-md-4">
+                                        <h4>Motivo del anticipo:</h4>
+                                      </div>
+                                      <div class="col-md-4">
+                                        <select class="form-control select2" style="width: 100%;">
+                                        <option selected="selected">Viajes al exterior:Enfermedad/Tratamiento</option>
+                                        <option>Gastos por Estudios</option>
+                                        <option>Adquisición/Mejora Vivienda</option>
+                                        <option>Liberación de Hipoteca</option>
+                                      </select>
+                            </div>
+                            </div>
+                            
+                          </div>
+                          <div class="box-footer">
+                          <div class="col-xs-6">
+                      
+                            <button type="button" class="btn btn-success pull-right"><i class="glyphicon glyphicon-ok"></i> Aceptar
+                            </button>
+                            </div>
+                            <div class="col-xs-6">
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">
+                              <i class="glyphicon glyphicon-remove"></i>Cancelar
+                            </button>
+                          </div>
+                            
+                          </div>
+                        </div>
+                        
+                      </div>
                     </div>
-                    <div class="col-md-4">
-                      <select class="form-control select2" style="width: 100%;">
-                      <option selected="selected">Viajes al exterior:Enfermedad/Tratamiento</option>
-                      <option>Gastos por Estudios</option>
-                      <option>Adquisición/Mejora Vivienda</option>
-                      <option>Liberación de Hipoteca</option>
-                    </select>
-          </div>
-          </div>
-          
-        </div>
-        <div class="box-footer">
-        <div class="col-xs-6">
-    
-          <button type="button" class="btn btn-success pull-right"><i class="glyphicon glyphicon-ok"></i> Aceptar
-          </button>
-          </div>
-          <div class="col-xs-6">
-          <button type="button" class="btn btn-danger" data-dismiss="modal">
-            <i class="glyphicon glyphicon-remove"></i>Cancelar
-          </button>
-        </div>
-          
-        </div>
-      </div>
-      
-    </div>
-  </div>
 
                   </div>
 
@@ -228,5 +252,6 @@
     </div><!-- ./wrapper -->
 
     <?php $this->load->view('inc/pie.php');?>
+    <script src="<?php echo base_url()?>application/modules/panel/views/js/anticipo.js"></script>
   </body>
 </html>

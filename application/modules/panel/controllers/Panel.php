@@ -275,7 +275,7 @@ class Panel extends MY_Controller {
 		print_r( $this->MHistorialMovimiento->listarDetalle($id) );
 	}
 
-	function guardarFiniquito(){
+	public function guardarFiniquito(){
 		$this->load->model('beneficiario/MBeneficiario', 'Beneficiario');
 		$this->load->model('beneficiario/MBeneficiario');
 		$this->load->model('beneficiario/MHistorialMovimiento');
@@ -287,6 +287,8 @@ class Panel extends MY_Controller {
 		if($fecha_aux != ''){
 			
 			$this->MBeneficiario->obtenerID($json->i_d, '');
+			$nombre = $this->MBeneficiario->nombres . ' ' . $this->MBeneficiario->apellidos;
+
 			$f = explode('/', $fecha_aux);			
 			$this->Beneficiario->fecha_retiro = $f[2] . '-' . $f[1] . '-' . $f[0];
 			$json->f_r = $this->Beneficiario->fecha_retiro;
@@ -294,14 +296,35 @@ class Panel extends MY_Controller {
 			$this->Beneficiario->estatus_activo = 203;
 			$this->Beneficiario->observacion = $json->o_b;
 
+			//echo "<pre>";
 			$this->MHistorialMovimiento->InsertarDetalle($json);
 			$this->Beneficiario->ActualizarPorMovimiento();
-
-
 			$this->MBeneficiario->InsertarHistorial();
+			$this->MBeneficiario->insertarDetalle($json);
 			//print_r($Bnf);
-			echo "Beneficiario Liquidado exitosamente...";
+			//print_r($json);
+
+			echo 'Se ha procesado exitosamente el finiquito del beneficiario (' . $nombre . ')...';
 		}
+		
+	}
+
+	public function reversarFiniquito($ced){
+		$this->load->model('beneficiario/MBeneficiario', 'Beneficiario');
+		$this->load->model('beneficiario/MBeneficiario');
+		$this->load->model('beneficiario/MHistorialMovimiento');	
+		
+		$this->MBeneficiario->obtenerID($ced, '');
+		$this->Beneficiario->fecha_retiro = '';
+		$this->Beneficiario->cedula = $ced;
+		$this->Beneficiario->estatus_activo = 201;
+		$this->Beneficiario->observacion = 'REVERSO DE FINIQUITO';		
+		//$this->MHistorialMovimiento->InsertarDetalle($json);
+		$this->Beneficiario->ActualizarPorMovimiento();
+		$this->MBeneficiario->InsertarHistorial(); //Creando la traza de la modificacion
+			
+		echo 'Se ha procesado exitosamente el reverso';
+		
 		
 	}
 

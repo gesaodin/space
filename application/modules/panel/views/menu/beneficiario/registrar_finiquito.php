@@ -292,8 +292,8 @@
               <div class="form-group">
                 <label class="col-md-2">Asig. Muerte AS/FS </label>
                 <div class="col-md-4"> 
-                   <input type="text" placeholder="Monto Asignacion" id='monto_asignacion' class="form-control"></input>                   
-                   <input type="hidden" placeholder="Monto Asignacion" id='monto_asignacion_aux' class="form-control"></input>
+                   <input type="text" placeholder="Monto Asignacion" id='monto_asignacion' class="form-control" value='0.00'></input>                   
+                   <input type="hidden" placeholder="Monto Asignacion" id='monto_asignacion_aux' class="form-control" value='0.00'></input>
                 </div>             
                 
                 </div> <!-- /Numero Cuenta -->

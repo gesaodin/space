@@ -55,6 +55,7 @@ function consultar() {
     ).done(function(msg) {}).fail(function(jqXHR, textStatus) {
        $("#txtMensaje").html('No se encontro cédula de beneficiario'); 
        $("#logMensaje").modal('show');
+       limpiar();
     });
 
 }
@@ -68,4 +69,26 @@ function imprimir(){
 function continuar(){
     $("#logMensaje").modal('hide');
     //$("#id").focus();
+}
+
+function limpiar(){
+    $("#nombres").val('');
+    $("#apellidos").val('');
+    $("#sexo").val('');
+    $("#componente").val('');
+    $("#grado").val('');
+    $("#fingreso").val('');
+    $("#tservicio").val('');
+    $("#nhijos").val('');
+    $("#fuascenso").val('');
+    $("#noascenso").val('');
+    $("#profesionalizacion").val('');
+    $("#arec").val('');
+    $("#mrec").val('');    
+    $("#drec").val('');
+    $("#fecha_retiro").val('');
+    $("#fano").val('');
+    $("#vacaciones").val('');
+    $("#numero_cuenta").val('');
+    $("#estatus").val('');
 }

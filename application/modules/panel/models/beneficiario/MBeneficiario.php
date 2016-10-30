@@ -605,8 +605,8 @@ class MBeneficiario extends CI_Model{
 		WHERE cedula=\'' . $this->Beneficiario->cedula . '\'';
 		//echo $sActualizar;
 		$obj = $this->Dbpace->consultar($sActualizar);
-
 	}
+
 
 
 	function InsertarHistorial(){
@@ -678,8 +678,51 @@ class MBeneficiario extends CI_Model{
 
 	}
 
+	public function insertarDetalle($familia){
+		$sInsertar = '';
+		$sInsertar_a = 'INSERT INTO space.mov_familia (
+			cedu, 
+			cedf, --Cedula del familiar beneficiado
+  			nomb, --Cedula del familiar beneficiado
+  			pocb, -- Porcentaje
+  			cban, -- Capital en Banco
+			mdaa, -- Monto por diferencia de Asignacion de Antiguedad
+  			cmue, -- Monto causa o muerte
+  			pasfs, -- Porcentaje Acto de Servicio / Fuera de Servicio
+  			masfs, -- Monto Acto de Servicio / Fuera de Servicio
+  			usur,
+  			esta, -- Estus del proceso 1:Activo 0:Reversado
+  			posi,
+  			fech 
+		) VALUES ';
+		foreach ($familia->fami as $c => $v) {
+			
 
-	function consultarHistorial($id = ''){
+			
+			$sInsertar .= $sInsertar_a . '(
+				\'' . $familia->i_d . '\',
+				\'' . $v->ced . '\',
+				\'' . $v->nom . '\',
+				\'' . $v->pcb . '\',
+				\'' . $v->cab . '\',
+				\'' . $v->maa . '\',
+				\'' . $v->cmu . '\',
+				\'' . $v->pac . '\',
+				\'' . $v->mcm . '\',
+				\'' . $familia->u_s . '\',
+				1,
+				' . $c . ',
+				\''  .  date("Y-m-d H:i:s") . '\'
+			);';
+			
+		}
+
+		//echo $sInsertar;
+		$obj = $this->Dbpace->consultar($sInsertar);
+		
+	}
+
+	public function consultarHistorial($id = ''){
 		$lst = array();
 		$obj = $this->_consultar($id, 'hist_beneficiario');
 		$i = 0;

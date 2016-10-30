@@ -218,6 +218,16 @@ class MHistorialMovimiento extends CI_Model{
 		//if($obj->a_i != 0) $sInsert .= ',' . $this->valorRepetido(10, $obj, $obj->a_i);
 		if($obj->a_i != 0)$sInsert .= $sInsert_aux . $this->valorRepetido(10, $obj, $obj->a_i) . ';';
 
+		//12 CAUSA MUERTE
+		if($obj->m_f == 9){
+			if($obj->m_asaf != 0)$sInsert .= $sInsert_aux . $this->valorRepetido(12, $obj, $obj->m_asaf) . ';';
+		}
+
+		//13 ACTOS DE SERVICIO
+		if($obj->m_f == 10){
+			if($obj->m_asaf != 0)$sInsert .= $sInsert_aux . $this->valorRepetido(13, $obj, $obj->m_asaf) . ';';
+		}
+
 		//14
 		//if($obj->a_ax != 0)$sInsert .= ',' . $this->valorRepetido(14, $obj, $obj->a_ax);
 		if($obj->a_ax != 0)$sInsert .= $sInsert_aux . $this->valorRepetido(14, $obj, $obj->a_ax) . ';';
@@ -229,6 +239,8 @@ class MHistorialMovimiento extends CI_Model{
 		//16
 		//if($obj->m_r != 0)$sInsert .= ',' . $this->valorRepetido(16, $obj, $obj->m_r);
 		if($obj->m_r != 0)$sInsert .= $sInsert_aux . $this->valorRepetido(16, $obj, $obj->m_r) . ';';
+
+
 
 		//echo $sInsert;
 		$obj = $this->Dbpace->consultar($sInsert);
