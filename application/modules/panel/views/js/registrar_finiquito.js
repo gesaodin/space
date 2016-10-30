@@ -581,9 +581,6 @@ function CartaBanco(id){
 
 
 function GuargarFiniquito(){ 
-
-
-
     ruta = sUrlP + "guardarFiniquito";
     i_d = $("#id").val(); //
     m_d = $("#deuda").val(); //Monto Por Deuda
