@@ -39,7 +39,7 @@ function consultar() {
     iFamiliares = 0;
     $.getJSON(ruta, function(data) {
         
-        if(data.fecha_retiro != null){
+        if(data.fecha_retiro != null && data.fecha_retiro != ''){
             $("#id").val('');
             var boton = '<button type="button" class="btn btn-success pull-right" onclick="continuar()">';
             boton += '<i class="glyphicon glyphicon-ok"></i>&nbsp;&nbsp;Continuar</button>';
@@ -87,6 +87,7 @@ function consultar() {
     });
 
 }
+
 
 
 function limpiar(){
@@ -282,62 +283,6 @@ function CalcularM(id){
         
 }
 
-function Leer(){
-    var boton = '<button type="button" class="btn btn-success pull-right" onclick="continuar()">';
-        boton += '<i class="glyphicon glyphicon-ok"></i>&nbsp;&nbsp;Continuar Finiquito</button>';
-        $("#divContinuar").html(boton);
-    // CAPITAL EN BANCO
-    var suma = 0;
-    for (var i = 1; i <= iFamiliares; i++) {
-        if($("#txtAA" + i).val() != ""){
-            var por = parseFloat($("#txtAA" + i).val());      
-            suma += por;    
-        }
-    }
-    if(suma != 100){         
-        $("#txtMensaje").html('Verifique los porcentajes de Capital en Banco sumen un 100% para poder continuar');         
-        return false;
-    }   
-    
-    // MONTO DE ASIGNACION CAUSA O MUERTE
-    suma = 0;
-    for (var i = 1; i <= iFamiliares; i++) {
-        if($("#txtM" + i).val() != ""){
-            var por = parseFloat($("#txtM" + i).val());      
-            suma += por;    
-        }
-    }
-    if(suma != 100){         
-        $("#txtMensaje").html('Verifique que los porcentajes de la Asig. Muerte AS/FS sumen un 100% para poder continuar ');         
-        return false;
-    }    
-    
-
-
-
-
-    for (var i = 1; i <= iFamiliares; i++) {
-        var capital_banco = parseFloat($("#lblCapital" + i).text());
-        if (capital_banco > 0){
-            pcb = $("#txtAA" + i).val() == ''? 0: $("#txtAA" + i).val();
-            pac = $("#txtM" + i).val() == ''?0:$("#txtM" + i).val();
-            lstFamiliares[i] = {
-                ced: $("#lblCedula" + i).text(),
-                nom: $("#lblNombre" + i).text(),
-                pcb: parseFloat(pcb),
-                cab: parseFloat($("#lblCapital" + i).text()),
-                maa: parseFloat($("#lblMonto" + i).text()),
-                cmu: parseFloat($("#lblCm" + i).text()),
-                pac: parseFloat(pac), 
-                mcm: parseFloat($("#lblMAct" + i).text())
-            }    
-        }
-
-    }
-
-    //console.log(lstFamiliares);
-    return true;
-}
 
 
 
@@ -401,14 +346,20 @@ function consultarBeneficiarioFecha(){
         $("#asignacion_antiguedad").val(data.Calculo.asignacion_antiguedad);
         $("#anticipos").val(data.Calculo.anticipos);
         $("#embargos").val(data.Calculo.embargos);
-        $("#asignacion_depositada").val(data.Calculo.asignacion_depositada);
+        $("#asignacion_depositada").val(data.Calculo.capital_banco);
         $("#monto_recuperar").val(data.Calculo.monto_recuperar);
         $("#asignacion_diferencia").val(data.Calculo.asignacion_diferencia);
         $("#asignacion_diferencia_aux").val(data.Calculo.asignacion_diferencia_aux);
+
+        $("#dias_adicionales").val(data.Calculo.dias_adicionales);
+        $("#garantias").val(data.Calculo.garantias);
+
         $("#comision_servicios").val(data.Calculo.comision_servicios);
+        
+        var total_banco = Number(data.Calculo.saldo_disponible_aux); //+ Number(data.Calculo.dias_adicionales_aux);
         $("#total_banco").val(data.Calculo.saldo_disponible);
-        $("#total_banco_calc").val(data.Calculo.saldo_disponible_aux);
-        $("#total_banco_aux").val(data.Calculo.saldo_disponible_aux);
+        $("#total_banco_calc").val(total_banco);
+        $("#total_banco_aux").val(total_banco);
         $("#monto_recuperar_aux").val(data.Calculo.monto_recuperar_aux);
 
         fallecimiento_actoservicio = data.Calculo.fallecimiento_actoservicio_aux;
@@ -505,25 +456,41 @@ function consultarFiniquitos(){
                 var monto = valores.monto;
                 var observaciones = valores.observacion;
                 var estatus = valores.tipo_texto;
+                var partida = valores.partida;
+
                 var sBoton = '<div class="btn-group">';
                 
                 if(estatus != 'Reverso') sBoton += '<button type="button" class="btn btn-danger" title="Reversar"><i class="fa fa-random"></i></button>';
+                
                 sBoton += '<button type="button" class="btn btn-info" title="Imprimir"><i class="fa fa-print" ></i></button>';                
                 sBoton += '<button aria-expanded="false" type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown">';
                 sBoton += '<span class="caret"></span>';
                 sBoton += '<span class="sr-only">Toggle Dropdown</span>';
-                sBoton += '</button>';                
+                sBoton += '</button>';  
+
                 sAcciones = '<ul class="dropdown-menu" role="menu">';
                 sAcciones += '<li><a href="#!" target="_top" onclick="HojaVida(\'' + cedula + '\')">Hoja de Vida (PRINT)</a></li>';
-                sAcciones += '<li><a href="#!" target="_top" onclick="CartaBanco(\'' + cedula + '\')">Carta Banco</a></li>';
-                sAcciones += '<li><a href="#!" target="_top" onclick="OrdenPago(\'' + cedula + '\')">Orden de Pago</a></li>';
                 
+                
+                if(partida == 1){
+                    sAcciones +='<li class="divider"></li>';
+                    sAcciones += '<li><a href="#!" target="_top" onclick="CartaBancoFallecido(\'' + cedula + '\')">Carta Banco Fallecido</a></li>';
+                    sAcciones += '<li><a href="#!" target="_top" onclick="CausaMuerte(\'' + cedula + '\')">Causa Muerte</a></li>';
+                    //sAcciones += '<li><a href="#!" target="_top" onclick="CapitalBanco(\'' + cedula + '\')">A/A Menor a 10 años.</a></li>';
+                }else if(partida == 4){ 
                     
-                sAcciones +='<li class="divider"></li>';
-                sAcciones += '<li><a href="#!" target="_top" onclick="CapitalBanco(\'' + cedula + '\')">Capital en Banco</a></li>';
-                sAcciones += '<li><a href="#!" target="_top" onclick="DiferenciaAntiguedad(\'' + cedula + '\')">Diferencia de Antiguedad</a></li>';
-                sAcciones += '<li><a href="#!" target="_top" onclick="Indemnizacion(\'' + cedula + '\')">Indemnización AS/FS</a></li>';
-                sAcciones += '<li><a href="#!" target="_top" onclick="CausaMuerte(\'' + cedula + '\')">Causa Muerte</a></li>';
+                   
+                }else{
+                    sAcciones += '<li><a href="#!" target="_top" onclick="CartaBanco(\'' + cedula + '\')">Carta Banco </a></li>';
+                    sAcciones += '<li><a href="#!" target="_top" onclick="OrdenPago(\'' + cedula + '\')">Orden de Pago</a></li>';  
+
+                    sAcciones +='<li class="divider"></li>';
+                    sAcciones += '<li><a href="#!" target="_top" onclick="CapitalBanco(\'' + cedula + '\')">Capital en Banco</a></li>';
+                    sAcciones += '<li><a href="#!" target="_top" onclick="DiferenciaAntiguedad(\'' + cedula + '\')">Diferencia de Antiguedad</a></li>';
+                    sAcciones += '<li><a href="#!" target="_top" onclick="Indemnizacion(\'' + cedula + '\')">Indemnización AS/FS</a></li>';
+                    
+                }
+
 
 
                 sAcciones += '</ul>';
@@ -578,6 +545,12 @@ function CartaBanco(id){
     window.open(URL,"Carta Banco","toolbar=0,location=1,menubar=0,scrollbars=1,resizable=1,width=900,height=800")
 }
 
+function CartaBancoFallecido(id){    
+    URL = sUrlP + "cartaBancoFallecido/" + id;
+    window.open(URL,"Carta Banco","toolbar=0,location=1,menubar=0,scrollbars=1,resizable=1,width=900,height=800")
+}
+
+
 
 
 function GuargarFiniquito(){ 
@@ -600,10 +573,11 @@ function GuargarFiniquito(){
     
     m_r = $("#monto_recuperar").val(); //Monto a Recuperar
     m_rx = $("#monto_recuperar_aux").val(); //Monto a Recuperar
-
-    if (Leer() == false){
-        $("#logMensaje").modal('show');
-        return false;
+    if(iFamiliares > 0){
+        if (Leer() == false){
+            $("#logMensaje").modal('show');
+            return false;
+        }
     }
 
     if(p_p != 0){
@@ -666,6 +640,65 @@ function GuargarFiniquito(){
     return true;
 }
 
+
+function Leer(){
+    var boton = '<button type="button" class="btn btn-success pull-right" onclick="continuar()">';
+        boton += '<i class="glyphicon glyphicon-ok"></i>&nbsp;&nbsp;Continuar Finiquito</button>';
+        $("#divContinuar").html(boton);
+    // CAPITAL EN BANCO
+    var suma = 0;
+    for (var i = 1; i <= iFamiliares; i++) {
+        if($("#txtAA" + i).val() != ""){
+            var por = parseFloat($("#txtAA" + i).val());      
+            suma += por;    
+        }
+    }
+    if(suma != 100){         
+        $("#txtMensaje").html('Verifique los porcentajes de Capital en Banco sumen un 100% para poder continuar');         
+        return false;
+    }   
+    
+    // MONTO DE ASIGNACION CAUSA O MUERTE
+    suma = 0;
+    for (var i = 1; i <= iFamiliares; i++) {
+        if($("#txtM" + i).val() != ""){
+            var por = parseFloat($("#txtM" + i).val());      
+            suma += por;    
+        }
+    }
+    if(suma != 100){         
+        $("#txtMensaje").html('Verifique que los porcentajes de la Asig. Muerte AS/FS sumen un 100% para poder continuar ');         
+        return false;
+    }    
+    
+
+
+
+
+    for (var i = 1; i <= iFamiliares; i++) {
+        var capital_banco = parseFloat($("#lblCapital" + i).text());
+        if (capital_banco > 0){
+            pcb = $("#txtAA" + i).val() == ''? 0: $("#txtAA" + i).val();
+            pac = $("#txtM" + i).val() == ''?0:$("#txtM" + i).val();
+            lstFamiliares[i] = {
+                ced: $("#lblCedula" + i).text(),
+                nom: $("#lblNombre" + i).text(),
+                pcb: parseFloat(pcb),
+                cab: parseFloat($("#lblCapital" + i).text()),
+                maa: parseFloat($("#lblMonto" + i).text()),
+                cmu: parseFloat($("#lblCm" + i).text()),
+                pac: parseFloat(pac), 
+                mcm: parseFloat($("#lblMAct" + i).text())
+            }    
+        }
+
+    }
+
+    //console.log(lstFamiliares);
+    return true;
+}
+
+
 function continuarFiniquito(){
     URL = sUrlP + "finiquitos";
     $(location).attr('href', URL);
@@ -674,4 +707,8 @@ function continuarFiniquito(){
 function continuar(){
     $("#logMensaje").modal('hide');
     //$("#id").focus();
+}
+
+function asignarCausa(){
+    $("#asignacion_causa_aux").val($("#asignacion_causa").val());
 }

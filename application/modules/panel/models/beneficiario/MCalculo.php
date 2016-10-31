@@ -86,11 +86,13 @@ class MCalculo extends CI_Model{
     $this->Beneficiario->Calculo = array(
       'asignacion_antiguedad' => number_format($this->Beneficiario->asignacion_antiguedad, 2, ',','.'),
       'capital_banco' => number_format($this->DepositoBanco(), 2, ',','.'),
+      'capital_banco_aux' => $this->DepositoBanco(),
       'asignacion_depositada' => number_format($this->Asignacion_Depositada(), 2, ',','.'),
       'asignacion_depositada_aux' => $this->Asignacion_Depositada(),
       'fecha_ultimo_deposito' => $this->Fecha_Ultimo_Deposito(),
       'garantias' => number_format($this->Garantias(), 2, ',','.'),
       'dias_adicionales' => number_format($this->Dias_Adicionales(), 2, ',','.'),
+      'dias_adicionales_aux' => $this->Dias_Adicionales(),
       'total_aportados' => number_format($this->Total_Aportados(), 2, ',','.'),
       'saldo_disponible' => number_format($this->Saldo_Disponible(), 2, ',','.'),
       'saldo_disponible_aux' => $this->Saldo_Disponible(),
@@ -98,6 +100,8 @@ class MCalculo extends CI_Model{
       'fecha_ultimo_anticipo' => $this->Fecha_Ultimo_Anticipo(),
       'anticipos' => number_format($this->Anticipos(), 2, ',','.'),
       'embargos' => number_format($this->Embargos(), 2, ',','.'),
+      'finiquito_embargo' => number_format($this->FiniquitoEmbargo(), 2, ',','.'),
+      'finiquito_embargo_aux' => $this->FiniquitoEmbargo(),
       'porcentaje_cancelado' => number_format($this->Porcentaje_Cancelado(), 2, ',','.'),
       'monto_recuperar' => number_format($this->Monto_Recuperar(), 2, ',','.'),
       'monto_recuperar_aux' => $this->Monto_Recuperar(),
@@ -107,7 +111,8 @@ class MCalculo extends CI_Model{
       'fallecimiento_actoservicio' => number_format($this->Fallecimiento_Acto_Servicio(), 2, ',','.'),
       'fallecimiento_fueraservicio' => number_format($this->Fallecimiento_Fuera_Servicio(), 2, ',','.'),
       'fallecimiento_actoservicio_aux' => $this->Fallecimiento_Acto_Servicio(),
-      'fallecimiento_fueraservicio_aux' => $this->Fallecimiento_Fuera_Servicio()
+      'fallecimiento_fueraservicio_aux' => $this->Fallecimiento_Fuera_Servicio(),
+      'interes_capitalizado_banco' => $this->Interes_Capitalizado_Banco()
     );
 
     
@@ -141,8 +146,35 @@ class MCalculo extends CI_Model{
     $this->AlicuotaVacaciones();
     $this->SueldoIntegral();
     $this->AsignacionAntiguedad();
+    /**
+    $this->Beneficiario->Calculo = array(
+      'asignacion_antiguedad' => number_format($this->Beneficiario->asignacion_antiguedad, 2, ',','.'),
+      'capital_banco' => number_format($this->DepositoBanco(), 2, ',','.'),
+      'asignacion_depositada' => number_format($this->Asignacion_Depositada(), 2, ',','.'),
+      'asignacion_depositada_aux' => $this->Asignacion_Depositada(),
+      'fecha_ultimo_deposito' => $this->Fecha_Ultimo_Deposito(),
+      'garantias' => number_format($this->Garantias(), 2, ',','.'),
+      'dias_adicionales' => number_format($this->Dias_Adicionales(), 2, ',','.'),
+      'total_aportados' => number_format($this->Total_Aportados(), 2, ',','.'),
+      'saldo_disponible' => number_format($this->Saldo_Disponible(), 2, ',','.'),
+      'saldo_disponible_aux' => $this->Saldo_Disponible(),
+      'diferencia_AA' => number_format($this->Diferencia_Asignacion(), 2, ',','.'),
+      'fecha_ultimo_anticipo' => $this->Fecha_Ultimo_Anticipo(),
+      'anticipos' => number_format($this->Anticipos(), 2, ',','.'),
+      'embargos' => number_format($this->Embargos(), 2, ',','.'),
+      'porcentaje_cancelado' => number_format($this->Porcentaje_Cancelado(), 2, ',','.'),
+      'monto_recuperar' => number_format($this->Monto_Recuperar(), 2, ',','.'),
+      'monto_recuperar_aux' => $this->Monto_Recuperar(),
+      'asignacion_diferencia' => number_format($this->Asignacion_Diferencia(), 2, ',','.'),
+      'asignacion_diferencia_aux' => $this->Asignacion_Diferencia(),
+      'comision_servicios' => '0,00',
+      'fallecimiento_actoservicio' => number_format($this->Fallecimiento_Acto_Servicio(), 2, ',','.'),
+      'fallecimiento_fueraservicio' => number_format($this->Fallecimiento_Fuera_Servicio(), 2, ',','.'),
+      'fallecimiento_actoservicio_aux' => $this->Fallecimiento_Acto_Servicio(),
+      'fallecimiento_fueraservicio_aux' => $this->Fallecimiento_Fuera_Servicio()
+    );
 
-
+    **/
     
   }
 
@@ -567,7 +599,7 @@ class MCalculo extends CI_Model{
   */
   public function Saldo_Disponible(){
     $total = (($this->DepositoBanco() - $this->Anticipos()) + $this->Garantias()) - ($this->Embargos() + $this->Monto_Recuperar());
-   return $total;  
+    return $total;  
   }
 
   public function Diferencia_Asignacion(){
@@ -584,6 +616,12 @@ class MCalculo extends CI_Model{
        $monto = ($this->Beneficiario->asignacion_antiguedad * $this->Beneficiario->MedidaJudicial[1]->porcentaje)/100;
       }
     }
+    return $monto;
+  }
+
+    public function FiniquitoEmbargo(){
+    $monto = isset($this->Beneficiario->HistorialMovimiento[27]) ? $this->Beneficiario->HistorialMovimiento[27]->monto : '0';
+  
     return $monto;
   }
 
@@ -657,5 +695,11 @@ class MCalculo extends CI_Model{
     return $this->Beneficiario->sueldo_global * 24;
   }
 
+
+  public function Interes_Capitalizado_Banco(){
+    $monto = isset($this->Beneficiario->HistorialMovimiento[10]) ? $this->Beneficiario->HistorialMovimiento[10]->monto : '0';
+  
+    return $monto;
+  }
 
 }

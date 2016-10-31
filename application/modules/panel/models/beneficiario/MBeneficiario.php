@@ -466,8 +466,9 @@ class MBeneficiario extends CI_Model{
 				FROM beneficiario
 				JOIN grado ON grado.id=grado_id
 				WHERE beneficiario.status_id=201 
-				AND beneficiario.componente_id = ' . $idComponente;
-	  $obj = $this->Dbpace->consultar($sConsulta);
+				AND beneficiario.componente_id = ' . $idComponente . '  LIMIT 10';
+
+	  	$obj = $this->Dbpace->consultar($sConsulta);
 		$i = 0;
 		foreach ($obj->rs as $clv => $val) {				
 				$Beneficiario = new $this->MBeneficiario();
@@ -764,6 +765,21 @@ class MBeneficiario extends CI_Model{
 			$Beneficiario->observacion = $val->observ_ult_modificacion;
 			$lst[] = $Beneficiario;
 			$i++;
+		}
+		return $lst;
+	}
+
+	function detalleMovimientoFamiliar($ced = ''){
+		$lst = array();
+		$sConsulta = 'SELECT * FROM space.mov_familia where cedu=\'' . $ced . '\'';
+		$obj = $this->Dbpace->consultar($sConsulta);
+		foreach ($obj->rs as $clv => $val) {
+			$lst[] = array(
+				'codigo' => $val->posi, 
+				'nombre' => $val->nomb,
+				'cedula' => $val->cedf,
+				'monto' => $val->cban,
+			);
 		}
 		return $lst;
 	}

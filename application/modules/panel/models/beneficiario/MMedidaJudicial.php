@@ -43,7 +43,7 @@ class MMedidaJudicial extends CI_Model{
 
 		$sConsulta = 'SELECT  SUM(porcentaje) AS porcentaje, SUM(total_monto) AS total_monto, tipo_medida_id 
 		FROM medida_judicial 
-		WHERE cedula=\'' . $cedula . '\' AND status_id = ' . $estatus . ' GROUP BY tipo_medida_id';
+		WHERE cedula=\'' . $cedula . '\' AND status_id IN(220, 223) AND tipo_medida_id=1 GROUP BY tipo_medida_id';
 		$obj = $this->Dbpace->consultar($sConsulta);
 		
 		$rs = $obj->rs;

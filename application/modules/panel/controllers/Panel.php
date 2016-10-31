@@ -130,6 +130,15 @@ class Panel extends MY_Controller {
 		$this->load->view('reporte/beneficiario/carta_banco', $data);
 	}
 
+	public function cartaBancoFallecido($cedula = ''){
+		$this->load->model('beneficiario/MBeneficiario');
+		$this->MBeneficiario->obtenerID($cedula);
+		$data['Beneficiario'] = $this->MBeneficiario;
+		$data['lst'] = $this->MBeneficiario->detalleMovimientoFamiliar($cedula);
+		
+		$this->load->view('reporte/beneficiario/carta_banco_fallecido', $data);
+	}
+
 	/**
 	*	*******************************************************
 	*	FIN DE LOS REPORTES GENERALES DEL SISTEMA
@@ -202,7 +211,7 @@ class Panel extends MY_Controller {
 	function procesarComponenteLote(){
 		echo '<pre>';
 		$this->load->model('beneficiario/MBeneficiario');
-		$this->MBeneficiario->listarPorComponente(2);
+		$this->MBeneficiario->listarPorComponente(1);
 		
 		
 		echo 'listo...';
@@ -326,6 +335,11 @@ class Panel extends MY_Controller {
 		echo 'Se ha procesado exitosamente el reverso';
 		
 		
+	}
+
+	function roles(){
+		echo "<pre>";
+		print_r($_SESSION);
 	}
 
 	function init(){

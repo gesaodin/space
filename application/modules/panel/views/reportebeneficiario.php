@@ -44,7 +44,7 @@
                             C.I:
                         </div>
                         <div class="col-md-4">
-                            <input type="text" class="form-control" placeholder="Cedula de Identidad">
+                            <input type="text" class="form-control" placeholder="Cedula de Identidad" id='id' onblur="Consultar()">
                         </div>
                     <div class="col-md-2">
                         Apellido:
@@ -136,12 +136,12 @@
                    <div class="row no-print">
         <div class="col-xs-6">
     
-          <button type="button" class="btn btn-success pull-right"><i class="fa fa-info-circle"></i> Consultar
+          <button type="button" class="btn btn-success pull-right"><i class="fa fa-search"></i>&nbsp;&nbsp;Consultar
           </button>
           </div>
           <div class="col-xs-6">
-          <button type="button" class="btn" style="margin-right: 5px;">
-            <i class="fa fa-download"></i> Exportar PDF
+          <button type="button" class="btn btn-warning" style="margin-right: 5px;">
+            <i class="fa fa-print"></i>&nbsp;&nbsp;Imprimir
           </button>
         </div>
       </div>
@@ -165,7 +165,7 @@
 
                         <!-- /.box-header -->
                         <div class="box-body">
-                            <table id="example2" class="table table-bordered table-hover">
+                            <table id="reporte" class="table table-bordered table-hover">
                                 <thead>
                                 <tr>
                                     <th>Cédula</th>
@@ -176,7 +176,7 @@
                                     <th>Asig. Ant.</th>
                                     <th>Fecha de Ingreso</th>
                                     <th>Situación</th>
-                                    <th>Operacions</th>
+                                    
                                 </tr>
                                 </thead>
                               
@@ -206,5 +206,6 @@
     </div><!-- ./wrapper -->
 
     <?php $this->load->view('inc/pie.php');?>
+    <script src="<?php echo base_url()?>application/modules/panel/views/js/reporte.js"></script>
   </body>
 </html>

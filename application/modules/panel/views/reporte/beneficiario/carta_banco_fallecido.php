@@ -109,7 +109,7 @@ th {
     <td>PARA:</td><td><b>C.A GERENTE DE DE FINANZAS A/C SUB. GERENCIA DE TESORERIA</b></td>    
   </tr> 
   <tr>
-    <td>ASUNTO:</td><td><b>SOLICITUD DE FINIQUITO</b></td>
+    <td>ASUNTO:</td><td><b>SOLICITUD DE FINIQUITO FALLECIDO</b></td>
   </tr> 
   <tr>
     <td>REF.:</td><td><b>P.A.V</b></td>
@@ -128,6 +128,20 @@ th {
         echo number_format($monto, 2, ',','.');
 
      ?>.</b><br>
+
+     <table width="100%"> 
+      <tr><td>CODIGO</td><td>CEDULA</td><td>NOMBRE</td><td>MONTO</td></tr>
+        
+       <?php
+          $fila = "";
+          foreach ($lst as $c) {
+            $fila .= "<tr>";
+            $fila .= "<td>" . $c['codigo'] . "</td><td>" . $c['cedula'] . "</td><td>" . $c['nombre'] . "</td><td>" . $c['monto'] . "</td>";
+            $fila .= "</tr>";
+          }
+          echo $fila;
+        ?>      
+     </table>
      <br>
      &emsp;&emsp;Motiva la presente comunicación, el hecho que el mencionado afiliado pasó a la reserva activa en  fecha <b>
      <?php  

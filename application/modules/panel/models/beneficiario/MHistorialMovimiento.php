@@ -74,7 +74,7 @@ class MHistorialMovimiento extends CI_Model{
 		$Detalle = array();
 		$sDonde = '';
 		if($tipo > 0) $sDonde = ' AND tipo_movimiento_id=\'' . $tipo . '\' ';
-		$sConsulta = 'SELECT id, tipo_movimiento_id, transaccion_id, monto, observaciones, f_contable, f_creacion 
+		$sConsulta = 'SELECT id, partida_id, tipo_movimiento_id, transaccion_id, monto, observaciones, f_contable, f_creacion 
 			FROM movimiento WHERE cedula =\'' . $cedula . '\'' .  $sDonde . '
 			ORDER BY tipo_movimiento_id';
 		$obj = $this->Dbpace->consultar($sConsulta);		
@@ -88,6 +88,7 @@ class MHistorialMovimiento extends CI_Model{
 			$hm->fecha_creacion = substr($v->f_creacion, 0, 10);
 			$hm->observacion = $v->observaciones;
 			$hm->monto = $v->monto;	
+			$hm->partida = $v->partida_id;	
 
 			if($hm->tipo != $id_aux){				
 				$Detalle[$id_aux] = $arr;
@@ -121,6 +122,7 @@ class MHistorialMovimiento extends CI_Model{
 					$A['observacion'] =  $valor->observacion;
 
 					$A['tipo_texto'] = 'Finiquito';
+					$A['partida'] = $valor->partida;
 
 					if(isset($arr[$cont])){					
 						foreach ($arr[$cont] as $c => $v) {
@@ -238,7 +240,7 @@ class MHistorialMovimiento extends CI_Model{
 
 		//16
 		//if($obj->m_r != 0)$sInsert .= ',' . $this->valorRepetido(16, $obj, $obj->m_r);
-		if($obj->m_r != 0)$sInsert .= $sInsert_aux . $this->valorRepetido(16, $obj, $obj->m_r) . ';';
+		if($obj->m_rx != 0)$sInsert .= $sInsert_aux . $this->valorRepetido(16, $obj, $obj->m_rx) . ';';
 
 
 

@@ -537,15 +537,17 @@ th {
 
 <table>
   <tr>
-    <td style="border:0px; width: 50%; text-align: center;">
+    <td style="border:0px; width: 50%; text-align: center;"><b>
       OMAR CASTRO RODRIGUEZ<BR>
       TCNEL.<BR>
       JEFE DEL DPTO. DE FIDEICOMISO<BR>
+      </b>
     </td>
-    <td style="border:0px; width: 50%; text-align: center;">
-      NOEL EDUARDO MONTES FUENMAYOR<BR>
+    <td style="border:0px; width: 50%; text-align: center;"><b>
+      EDUARDO JOSE MARTINEZ SALAS<BR>
       CNEL.<BR>
       GERENTE DE BIENESTAR Y SEGURIDAD SOCIAL
+      </b>
     </td>
   </tr>
 </table>

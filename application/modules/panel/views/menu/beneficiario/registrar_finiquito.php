@@ -237,12 +237,28 @@
                 <div class="col-md-4">                       
                       <input type="text" placeholder="Asingación Generada" id='anticipos' class="form-control" readonly="readonly"></input>
                 </div>
+                <label class="col-md-2">Dias Adicionales</label>
+                <div class="col-md-4">                       
+                      <input type="text" placeholder="Dias Adicionales" id='dias_adicionales' class="form-control" readonly="readonly"></input>                      
+                </div>
+              </div> <!-- form-group -->
+            </div> <!-- row -->
+
+            <br>
+            <div class="row">
+              <div class="form-group">
                 <label class="col-md-2">Embargo</label>
                 <div class="col-md-4">                      
                       <input type="text" placeholder="Asignación Depositada" id='embargos' class="form-control" readonly="readonly"></input>
                 </div> 
+                <label class="col-md-2">Garantias</label>
+                <div class="col-md-4">                       
+                      <input type="text" placeholder="Asingación Causa Muerte" id='garantias' class="form-control" readonly="readonly"></input>                
+                </div>
               </div> <!-- form-group -->
             </div> <!-- row -->
+
+
             <br>
             <div class="row">
               <div class="form-group">
@@ -267,7 +283,7 @@
                 </div>
                 <label class="col-md-2">Asig. Causa Muerte</label>
                 <div class="col-md-4">                       
-                      <input type="text" placeholder="Asingación Causa Muerte" id='asignacion_causa' class="form-control" value='0,00'></input>
+                      <input type="text" placeholder="Asingación Causa Muerte" id='asignacion_causa' class="form-control" onblur="asignarCausa()" value="0,00"></input>
                       <input type="hidden" id='asignacion_causa_aux' class="form-control" value='0'></input>
                 </div>
               </div> <!-- form-group -->
