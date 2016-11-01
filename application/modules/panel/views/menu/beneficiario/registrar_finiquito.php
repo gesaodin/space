@@ -32,7 +32,9 @@
               <h3 class="box-title">Datos Basicos</h3>
               <div class="box-tools pull-right">
                 <button class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Minimizar"><i class="fa fa-minus"></i></button>
-                <button class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Cerrar"><i class="fa fa-times"></i></button>
+                <button class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Cerrar" onclick='cerrar()'>
+                  <i class="fa fa-times"></i>
+                </button>
               </div>
             </div>
             <div class="box-body">
@@ -418,7 +420,7 @@
               <div id="controles" style="display: none">
                 <a href="#!" onclick="GuargarFiniquito()" 
                 class="btn btn-success" target="_top"><i class="glyphicon glyphicon-download-alt"></i>&nbsp;&nbsp;Guardar Finiquito</a>
-                <a href="#!" onclick="CancelarFiniquito()" 
+                <a href="#!" onclick="cerrar()" 
                 class="btn btn-danger" target="_top"><i class="glyphicon glyphicon-remove"></i>&nbsp;&nbsp;Cancelar Finiquito</a>
                 </center>
               </div>

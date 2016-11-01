@@ -115,7 +115,7 @@
    <tr><td>TITULO DEL ASUNTO</td><td>DECISIÓN</td><td>OBSERVACIÓN</td></tr>
    <tr>
       <td>
-        Esta Gerencia somete a la consideración del ciudadano GD. Presidente de la Junta Administradora del IPSFA,
+        Esta Gerencia somete a la consideración del ciudadano GB. Presidente de la Junta Administradora del IPSFA,
         la solicitud formulada por <b><?php 
           echo $Beneficiario->Componente->Grado->nombre; echo $Beneficiario->nombres . ' ' . $Beneficiario->apellidos; ?>
          </b> titular de la cédula de identidad <b><?php echo $Beneficiario->cedula;?></b> de un adelanto de su 

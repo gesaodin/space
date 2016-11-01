@@ -154,6 +154,8 @@ class Panel extends MY_Controller {
 	public function consultarBeneficiario($cedula = '', $fecha = ''){		
 		$this->load->model('beneficiario/MBeneficiario');
 		$this->MBeneficiario->obtenerID($cedula, $fecha);
+		$this->load->model('beneficiario/MOrdenPago');
+		$this->MBeneficiario->HistorialOrdenPagos = $this->MOrdenPago->listarPorCedula($cedula);
 		echo json_encode($this->MBeneficiario);
 	}
 	public function consultarHistorialBeneficiario($id = ''){		
@@ -165,10 +167,11 @@ class Panel extends MY_Controller {
 	public function consultarBeneficiarios($cedula = '', $fecha = ''){		
 		$this->load->model('beneficiario/MBeneficiario');
 		$this->load->model('beneficiario/MHistorialMovimiento');
+		$this->load->model('beneficiario/MOrdenPago');
 
 		$this->MBeneficiario->obtenerID($cedula, $fecha);
 		
-
+		$this->MBeneficiario->HistorialOrdenPagos = $this->MOrdenPago->listarPorCedula($cedula);
 		$this->MBeneficiario->HistorialDetalleMovimiento = $this->MHistorialMovimiento->listarDetalle($cedula);
 		
 

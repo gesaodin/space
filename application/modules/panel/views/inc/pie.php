@@ -43,6 +43,10 @@
   <!--FIN DATE-->
   <!-- Page script -->
   <script>
+
+    function principal(){
+        $(location).attr('href', sUrlP + "index");
+     }
     $(function () {
         //Initialize Select2 Elements
         $(".select2").select2();

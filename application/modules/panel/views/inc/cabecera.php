@@ -40,13 +40,17 @@
     <![endif]-->
     
     
-        <script type="text/javascript">
+    <script type="text/javascript">
       /**
       * Validar Ubicacion
       * @return ubicacion
       */
       var sUrl = "<?php echo base_url(); ?>";
       var sUrlP = sUrl + 'index.php' + <?php echo "/" . __CONTROLADOR . "/";?>;
+      function cerrar(){
+        window.history.back();  
+      }
+      
     </script>
 
   </head>

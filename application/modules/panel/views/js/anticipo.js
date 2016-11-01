@@ -1,3 +1,12 @@
+$('#reporteAnticipo').DataTable({
+        "paging":   false,
+        "ordering": false,
+        "info":     false,
+        "searching": false
+    }
+);
+
+
 
 $( "#id" ).keypress(function( event ) {
   if ( event.which == 13 ) {
@@ -57,6 +66,8 @@ function consultar() {
             $("#medidas_judiciales").val(data.Calculo.medida_judicial_activas);
             $("#medidas_judiciales_aux").val(data.Calculo.medida_judicial_activas_aux);
 
+            listar(data.HistorialOrdenPagos);
+
         }
 
     }).done(function(msg) {}).fail(function(jqXHR, textStatus) {
@@ -71,6 +82,15 @@ function consultar() {
         limpiar();
     });
 
+}
+
+function listar(data){
+    var t = $('#reporteAnticipo').DataTable();
+    $.each(data, function (clave, valor){
+        t.row.add( [
+            valor.
+        ] ).draw( false );
+    });
 }
 
 function limpiar(){

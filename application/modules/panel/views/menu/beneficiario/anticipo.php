@@ -303,13 +303,28 @@
             </div><!-- /.box-body -->
             <div class="box-footer">
               <div class="row no-print">
-                <div class="col-xs-12" style="display: none" id='divBotones'>
-                <button type="button" class="btn btn-success pull-right" 
+                <div class="col-xs-12" style="display: none" id='divBotones' >
+                <button type="button" class="btn btn-success" 
                 data-toggle="modal" data-target="#myModal" id='btnAnticipo'><i class="glyphicon glyphicon-plus">
                 </i>&nbsp;&nbsp;Nuevo Anticipo</button>
               </div>
             </div><!-- /.box-footer-->
           </div><!-- /.box -->
+
+          <table id="reporteAnticipo" class="table table-bordered table-hover">
+              <thead>
+              <tr>
+                  <th>Opciones</th>
+                  <th style="width: 90px;">Estatus</th>
+                  <th>Fecha</th>
+                  <th >Motivo</th>
+                  <th>Monto</th>                   
+              </tr>
+              </thead>
+              <tbody>
+              </tbody>
+
+          </table>
 
         </section><!-- /.content -->
 

@@ -292,6 +292,11 @@ class MBeneficiario extends CI_Model{
 	* @var MCalculo
 	*/
 	var $Calculo = array();
+
+	/**
+	* @var MOrdenPago
+	*/
+	var $HistorialOrdenPagos = array();
 	
 	/**
 	* Iniciando la clase, Cargando Elementos Pace
