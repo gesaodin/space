@@ -91,14 +91,16 @@ class MCalculo extends CI_Model{
       'asignacion_depositada_aux' => $this->Asignacion_Depositada(),
       'fecha_ultimo_deposito' => $this->Fecha_Ultimo_Deposito(),
       'garantias' => number_format($this->Garantias(), 2, ',','.'),
+      'garantias_aux' => $this->Garantias(),
       'dias_adicionales' => number_format($this->Dias_Adicionales(), 2, ',','.'),
       'dias_adicionales_aux' => $this->Dias_Adicionales(),
+      'anticipos' => number_format($this->Anticipos(), 2, ',','.'),
+      'anticipos_aux' => $this->Anticipos(),
       'total_aportados' => number_format($this->Total_Aportados(), 2, ',','.'),
       'saldo_disponible' => number_format($this->Saldo_Disponible(), 2, ',','.'),
       'saldo_disponible_aux' => $this->Saldo_Disponible(),
       'diferencia_AA' => number_format($this->Diferencia_Asignacion(), 2, ',','.'),
       'fecha_ultimo_anticipo' => $this->Fecha_Ultimo_Anticipo(),
-      'anticipos' => number_format($this->Anticipos(), 2, ',','.'),
       'embargos' => number_format($this->Embargos(), 2, ',','.'),
       'finiquito_embargo' => number_format($this->FiniquitoEmbargo(), 2, ',','.'),
       'finiquito_embargo_aux' => $this->FiniquitoEmbargo(),
@@ -112,7 +114,9 @@ class MCalculo extends CI_Model{
       'fallecimiento_fueraservicio' => number_format($this->Fallecimiento_Fuera_Servicio(), 2, ',','.'),
       'fallecimiento_actoservicio_aux' => $this->Fallecimiento_Acto_Servicio(),
       'fallecimiento_fueraservicio_aux' => $this->Fallecimiento_Fuera_Servicio(),
-      'interes_capitalizado_banco' => $this->Interes_Capitalizado_Banco()
+      'interes_capitalizado_banco' => $this->Interes_Capitalizado_Banco(),
+      'medida_judicial_activas' => number_format($this->MedidaJudicialActiva(), 2, ',','.'),
+      'medida_judicial_activas_aux' => $this->MedidaJudicialActiva()
     );
 
     
@@ -619,7 +623,13 @@ class MCalculo extends CI_Model{
     return $monto;
   }
 
-    public function FiniquitoEmbargo(){
+  public function MedidaJudicialActiva(){
+    return isset($this->Beneficiario->MedidaJudicialActiva[1])? $this->Beneficiario->MedidaJudicialActiva[1]->monto : 0;
+  }
+
+  
+
+  public function FiniquitoEmbargo(){
     $monto = isset($this->Beneficiario->HistorialMovimiento[27]) ? $this->Beneficiario->HistorialMovimiento[27]->monto : '0';
   
     return $monto;

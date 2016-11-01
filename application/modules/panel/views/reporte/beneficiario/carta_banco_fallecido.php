@@ -118,7 +118,7 @@ th {
  <table style="width: 700px">
   <tr>
    <td style="border: 0px solid #dddddd; text-align: justify; font-size: 16px; line-height: 1.5">
-     &emsp;&emsp;Mediante la presente comunicación me dirijo a Ud., en la oportunidad de autorizar al <b><?php echo $Beneficiario->Componente->Grado->nombre; echo $Beneficiario->nombres . ' ' . $Beneficiario->apellidos; ?></b>, titular de la cédula de identidad <b><?php echo $Beneficiario->cedula;?></b> para realizar trámites ante el Banco Venezuela, a fin de obtener el finiquito del monto total de Bs.<b>
+     &emsp;&emsp;Mediante la presente me dirijo a Ud., en la oportunidad de autorizar al <b><?php echo $Beneficiario->Componente->Grado->nombre; echo $Beneficiario->nombres . ' ' . $Beneficiario->apellidos; ?></b>, titular de la cédula de identidad <b><?php echo $Beneficiario->cedula;?></b> para realizar trámites ante el Banco Venezuela, a fin de obtener el finiquito del monto total de Bs.<b>
 
      <?php 
         $monto = $Beneficiario->Calculo['saldo_disponible_aux'];

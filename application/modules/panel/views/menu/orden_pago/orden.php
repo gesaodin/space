@@ -28,7 +28,7 @@
       <!-- Default box -->
       <div class="box">
         <div class="box-header with-border">
-          <h3 class="box-title">Ordenes de Pago</h3>
+          <h3 class="box-title">Consultar listado de Ordenes</h3>
              <div class="box-tools pull-right">
             <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
               <i class="fa fa-minus"></i></button>
@@ -37,18 +37,23 @@
         </div>
         
             <div class="box-body">
-             <p><b>Generar Ordenes de Pago</b></p>
-                    <div class="col-md-2">
-                        C.I:
-                    </div>
-                    <div class="col-md-4">
-                        <input type="text" class="form-control" placeholder="Cedula de Identidad">
+                   <div class="col-md-2">
+                      <label>Cedula de Identidad.</label>
+                   </div>
+                    <div class="col-md-6">
+                        <div class="input-group">
+                        
+                        <input type="text" class="form-control" placeholder="Cédula de Identidad" id='id' onblur="consultar()"></input>
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-success" onclick="consultar()"><i class="fa fa-search"></i></button>
+                        </span>                        
+                      </div> 
                         
                     </div>
                     <div class="col-md-6">
-                <button type="button" class="btn btn-success pull-midium"><i class="fa fa-check"></i> Consultar
-          </button>
-                </a>
+                
+                      
+
                     </div>
                     <br>
           </div>
@@ -57,18 +62,14 @@
         <div class="box-footer">
          <!-- /.box-header -->
                         <div class="box-body">
-                            <table id="example2" class="table table-bordered table-hover">
+                            <table id="reporteOrdenes" class="table table-bordered table-hover">
                                 <thead>
-                                <tr>
-                                    <th>Fecha de Creación</th>
+                                <tr>                              
                                     <th>Cédula</th>
-                                    <th>Benficiario</th>
-                                    <th>Componente</th>
-                                    <th>Grado</th>
-                                    <th>T. Servicio</th>
-                                    <th>Total Finiquito (BsF.) </th>
+                                    <th>Benficiario</th>                                    
+                                    <th>Monto (BsF.) </th>
                                     <th>Motivo</th>
-                                    <th>Estatus de Beneficiario</th>
+                                    <th>Estatus</th>
                                     <th>Operaciones</th>
                                 </tr>
                                 </thead>

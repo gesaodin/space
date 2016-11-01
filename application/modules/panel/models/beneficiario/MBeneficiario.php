@@ -279,6 +279,11 @@ class MBeneficiario extends CI_Model{
 	var $MedidaJudicial = array();
 
 	/**
+	* @var MMedidaJudicial
+	*/
+	var $MedidaJudicialActiva = array();
+
+	/**
 	* @var MHistorialMovimiento
 	*/
 	var $HistorialDetalleMovimiento = array();
@@ -361,6 +366,7 @@ class MBeneficiario extends CI_Model{
 			$this->HistorialSueldo = $this->MHistorialSueldo->listar($id);
 			$this->HistorialMovimiento = $this->MHistorialMovimiento->listar($id);
 			$this->MedidaJudicial = $this->MMedidaJudicial->listar($id, $this->fecha_retiro);
+			$this->MedidaJudicialActiva = $this->MMedidaJudicial->listar($id, $this->fecha_retiro, true);
 			$this->HistorialAnticipo = $this->MHistorialAnticipo->listar($id);
 			
 			if($fecha != '') $this->fecha_retiro = $fecha; //En el caso de calcular finiquitos

@@ -311,7 +311,7 @@ class MPrima extends CI_Model{
   */
   public function Especial( $sueldo_base = 0.00 ){
     $monto_nominal = 0;
-    if(isset($this->Beneficiario)){
+    if(isset($this->Beneficiario->Componente->Grado->Prima[3])){ //Realizar cambio en caso de poseer prima      
       $Prima = (object)$this->Beneficiario->Componente->Grado->Prima[3];
       foreach ($Prima as $c => $v) {
         if(is_array($v)){

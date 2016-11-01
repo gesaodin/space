@@ -64,7 +64,9 @@ class Panel extends MY_Controller {
 		$this->load->view("menu/beneficiario/medidajudicial");
 	}
 	public function anticipo(){
-		$this->load->view("menu/beneficiario/anticipo");
+		$this->load->model('beneficiario/MAnticipo');
+		$data['lst'] = $this->MAnticipo->listarTodo();
+		$this->load->view("menu/beneficiario/anticipo", $data);
 	}
 
 
@@ -335,6 +337,12 @@ class Panel extends MY_Controller {
 		echo 'Se ha procesado exitosamente el reverso';
 		
 		
+	}
+
+
+	public function listarOrdenesPagoBeneficiario($id){
+		$this->load->model('beneficiario/MOrdenPago');
+		print_r($this->MOrdenPago->listarPorCedula($id));
 	}
 
 	function roles(){

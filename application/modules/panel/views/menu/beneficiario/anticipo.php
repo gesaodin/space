@@ -61,7 +61,7 @@
                       
                       <div class="input-group">
                         <span class="input-group-btn">
-                            <button type="button" class="btn btn-success"><i class="fa fa-bank"></i></button>
+                            <button type="button" class="btn btn-success" id='btnCuenta'><i class="fa fa-bank"></i></button>
                         </span> 
                         <input type="text" class="form-control" placeholder="Número de Cuenta" id="numero_cuenta" readonly="readonly"></input>                          
                       </div>  
@@ -154,13 +154,13 @@
 
                 </div>
               </form>
-                  <hr><b>Lista de anticipos</b></hr>
+                  
                   <div class="form-group">
                      <div class="col-md-8">                      
-                     <button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal"><i class="glyphicon glyphicon-plus"></i>Nuevo anticipo</button>
+                     
                      <!-- Modal -->
-                    <div class="modal fade" id="myModal" role="dialog">
-                      <div class="modal-dialog">
+                    <div div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="myModal" >
+                      <div class="modal-dialog modal-lg" role="document">
                       
                         <!-- Modal content-->
                         <div class="modal-content">
@@ -169,43 +169,122 @@
                             <h4 class="modal-title">Nuevo Anticipo</h4>
                           </div>
                           <div class="modal-body">
+                           
                             <div class="row">
-                              <div class="col-md-4"> <input type="radio" class="pull-right" name="optionsRadios" id="optionsRadios" value="option" checked >
+                              <div class="col-xs-2">
+                                <label>Garantias</label>
                               </div>
-                              <div class="col-md-4"><input type="text" class="form-control" placeholder="Porcentaje" /></div>
-                              <div class="col-md-4"><h4>%</h4></div>
-                            </div>
-                            <div class="row">
-                              <div class="col-md-4"> <input type="radio" class="pull-right" name="optionsRadios" id="optionsRadios1" value="option1" checked >
+                              <div class="col-xs-4">
+                                <input type="text" class="form-control" placeholder="Garantias" id='garantias' readonly="readonly"/>
+                                <input type="hidden" class="form-control" placeholder="Garantias" id='garantias_aux'/>
                               </div>
-                              <div class="col-md-4"><input type="text" class="form-control" placeholder="Monto" /></div>
-                              <div class="col-md-4"><h4>BsF.</h4></div>
+                              <div class="col-xs-2">
+                                <label>Capital en banco</label>
+                              </div>
+                              <div class="col-xs-4">
+                                <input type="text" class="form-control" placeholder="Capital en Banco" id='capital_banco' readonly="readonly" />
+                                <input type="hidden" class="form-control" id='capital_banco_aux' />
+                              </div>
+                                                       
                             </div>
+
+                            <br>
                             <div class="row">
-                               <div class="col-md-4">
-                                        <h4>Motivo del anticipo:</h4>
-                                      </div>
-                                      <div class="col-md-4">
-                                        <select class="form-control select2" style="width: 100%;">
-                                        <option selected="selected">Viajes al exterior:Enfermedad/Tratamiento</option>
-                                        <option>Gastos por Estudios</option>
-                                        <option>Adquisición/Mejora Vivienda</option>
-                                        <option>Liberación de Hipoteca</option>
-                                      </select>
+                              <div class="col-xs-2">
+                                <label>Anticipos</label>
+                              </div>
+                              <div class="col-xs-4">
+                                <input type="text" class="form-control" placeholder="Anticipos" id='anticipos' readonly="readonly" />
+                                <input type="hidden" class="form-control"  id='anticipos_aux' />
+                              </div>
+                              <div class="col-xs-2">
+                                <label>Saldo Disponible</label>
+                              </div>
+                              <div class="col-xs-4">
+                                <input type="text" class="form-control" placeholder="Saldo Disponible" id='saldo_disponible' readonly="readonly" />
+                                <input type="hidden" class="form-control"  id='saldo_disponible_aux' />
+                              </div>
+
                             </div>
+
+
+                            
+
+                            <br>
+                            <div class="row">
+                              <div class="col-xs-2">
+                                <label>M/J Activas</label>
+                              </div>
+                              <div class="col-xs-4">
+                                  
+                                    <input type="text" class="form-control" 
+                                    placeholder="Medidas Judiciales Activas" id='medidas_judiciales'  readonly="readonly"/>
+                                    <input type="hidden" id='medidas_judiciales_aux' />
+                                    
+                                                             
+                              </div> 
+
+                              
+
                             </div>
+
+
+
+                            <br>
+                            <div class="row">
+                              <div class="col-xs-2">
+                                <label>Motivo</label>
+
+                              </div>
+                              <div class="col-xs-10">
+                                  <select class="form-control select2" style="width: 100%;">
+                                        <?php
+                                           foreach ($lst as $k => $v) {
+                                            echo '<option value="' . $v['oid'] . '">' . $v['nomb'] . '</option>';
+                                          }
+                                        ?>
+                                  </select>
+                              </div>
+
+                            </div>
+
+                            <br>
+                            <div class="row">
+                              <div class="col-xs-2">
+                                <label>Porcentaje</label>
+                              </div>
+                              <div class="col-xs-4">
+                                  <div class="input-group">
+                                    <input type="text" class="form-control" placeholder="Porcentaje" id='porcentaje' onblur="calcularPorcentaje()" />
+                                    <span class="input-group-btn">
+                                      <button type="button" class="btn btn-success btn-flat" onclick="calcularPorcentaje()"><i class="fa fa-calculator"></i></button>
+                                    </span> 
+                                  </div>                                
+                              </div> 
+                              <div class="col-xs-2">
+                                <label>Por Monto</label>
+                              </div>
+                              <div class="col-xs-4">
+                                
+                                <div class="input-group">
+                                    <input type="text" class="form-control" placeholder="Monto" id='monto' onblur="calcularMonto()" />
+                                    <span class="input-group-btn">
+                                      <button type="button" class="btn btn-success btn-flat" onclick="calcularMonto()"><i class="fa fa-calculator"></i></button>
+                                    </span> 
+                                </div>
+                              </div> 
+                            </div>
+
+
                             
                           </div>
+                          
                           <div class="box-footer">
-                          <div class="col-xs-6">
-                      
-                            <button type="button" class="btn btn-success pull-right"><i class="glyphicon glyphicon-ok"></i> Aceptar
+                          <div class="col-xs-12">
+                            <button type="button" class="btn btn-danger pull-right" data-dismiss="modal"><i class="glyphicon glyphicon-remove"></i>&nbsp;&nbsp;Cancelar
                             </button>
-                            </div>
-                            <div class="col-xs-6">
-                            <button type="button" class="btn btn-danger" data-dismiss="modal">
-                              <i class="glyphicon glyphicon-remove"></i>Cancelar
-                            </button>
+                            
+                            
                           </div>
                             
                           </div>
@@ -224,16 +303,11 @@
             </div><!-- /.box-body -->
             <div class="box-footer">
               <div class="row no-print">
-        <div class="col-xs-6">
-    
-          <button type="button" class="btn btn-success pull-right"><i class="glyphicon glyphicon-ok"></i> Aceptar
-          </button>
-          </div>
-          <div class="col-xs-6">
-          <button type="button" class="btn btn-danger" style="margin-right: 5px;">
-            <i class="glyphicon glyphicon-remove"></i>Cancelar
-          </button>
-        </div>
+                <div class="col-xs-12" style="display: none" id='divBotones'>
+                <button type="button" class="btn btn-success pull-right" 
+                data-toggle="modal" data-target="#myModal" id='btnAnticipo'><i class="glyphicon glyphicon-plus">
+                </i>&nbsp;&nbsp;Nuevo Anticipo</button>
+              </div>
             </div><!-- /.box-footer-->
           </div><!-- /.box -->
 
