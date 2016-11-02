@@ -134,7 +134,7 @@ class MHistorialMovimiento extends CI_Model{
 					if(isset($arr[$cont])){					
 						foreach ($arr[$cont] as $c => $v) {
 							
-							if($valor->monto == $v->monto){ 
+							if($valor->monto == $v->monto && $valor->codigo == $v->codigo){ 
 								$A['tipo_texto'] = 'Reverso';
 							}//Fin Si
 
@@ -296,7 +296,7 @@ class MHistorialMovimiento extends CI_Model{
 				$sInsert .= $sInsert_aux . '(' . 
 					$this->__conversion($listado[$i]['tipo_movimiento_id']) . ',' . 
 					$listado[$i]['monto'] . ',\'' . 
-					$listado[$i]['cedula'] . '\',\' REVERSADO - ' . 
+					$listado[$i]['cedula'] . '\',\'REVERSADO - ' . 
 					$listado[$i]['observaciones'] . '\',\''  .  
 					$listado[$i]['f_contable'] . '\',280,' . 
 					$listado[$i]['motivo_id'] . ',\''  .  

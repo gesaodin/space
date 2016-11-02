@@ -246,11 +246,11 @@ class Panel extends MY_Controller {
 	function listarFiniquito(){
 		echo '<pre>';
 		
-		$this->load->model('beneficiario/MFiniquito');
-		$lst = $this->MFiniquito->listarCodigo('fb08e9fc3f3407bff9e6');
+		$this->load->model('beneficiario/MFiniquito');			
+		$lst = $this->MFiniquito->listarCodigo('11953710', 'fb08e9fc3f3407bff9e6');
 
 		//$this->MHistorialMovimiento->isertarReverso($lst);
-		//print_r(  ); 
+		print_r( $lst ); 
 	}
 
 	/**
@@ -338,7 +338,7 @@ class Panel extends MY_Controller {
 
 		//$this->MHistorialMovimiento->InsertarDetalle($json);
 
-		$lst = $this->MFiniquito->listarCodigo($codigo);
+		$lst = $this->MFiniquito->listarCodigo($ced, $codigo);
 		$this->MHistorialMovimiento->isertarReverso($lst);
 		$this->Beneficiario->ActualizarPorMovimiento();
 		$this->MBeneficiario->InsertarHistorial(); //Creando la traza de la modificacion

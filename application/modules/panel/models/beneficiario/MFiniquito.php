@@ -57,8 +57,8 @@ class MFiniquito extends CI_Model{
 
   }
 
-  function listarCodigo($codigo){
-    $sConsulta = 'SELECT * FROM movimiento where codigo =\'' . $codigo . '\';';
+  function listarCodigo($cedula, $codigo){
+    $sConsulta = 'SELECT * FROM movimiento where cedula=\'' . $cedula . '\' AND  codigo =\'' . $codigo . '\';';
     
     $obj = $this->Dbpace->consultar($sConsulta);
     $lst = array();
