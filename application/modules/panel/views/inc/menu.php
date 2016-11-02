@@ -20,7 +20,15 @@
                 <li><a href="<?php echo base_url()?>index.php/panel/Panel/consultarmovimiento"><i class="fa fa-search"></i> Consultar Movimientos</a></li>
                 <li><a href="<?php echo base_url()?>index.php/panel/Panel/anticipo"><i class="fa fa-calculator"></i> Anticipos</a></li>
                 <li><a href="<?php echo base_url()?>index.php/panel/Panel/medidajudicial"><i class="fa fa-edit"></i> Medidas Judiciales</a></li>
-                <li><a href="<?php echo base_url()?>index.php/panel/Panel/finiquitos"><i class="fa fa-credit-card"></i> Finiquitos</a></li>
+                <?php
+                  $cant  = count($_SESSION['roles']) -1;
+                  for($i=0; $i<=$cant; $i++){
+                    if($_SESSION['roles'][$i] == 27 || $_SESSION['roles'][$i] == 1){
+                      echo '<li><a href="' . base_url() . 'index.php/panel/Panel/finiquitos"><i class="fa fa-credit-card"></i> Finiquitos</a></li>';    
+                    }
+                  }
+                  
+                ?>
                 <li><a href="<?php echo base_url()?>index.php/panel/Panel/asociarcuenta"><i class="fa fa-bank"></i> Cuentas Bancarias</a></li>
                 <li><a href="<?php echo base_url()?>index.php/panel/Panel/sueldolote"><i class="fa fa-bank"></i> Datos Sueldo Lote</a></li>
 
@@ -66,7 +74,7 @@
               </a>
               <ul class="treeview-menu">
                 <li><a href="../"><i class="fa fa-envelope-square"></i> Tablas del Sistema</a></li>
-                <li><a href="../"><i class="fa fa-users"></i> Administrar Usuarios</a></li>
+                <li><a href="<?php echo base_url()?>index.php/panel/Panel/administrar"><i class="fa fa-users"></i> Administrar Usuarios</a></li>
                 <li><a href="<?php echo base_url()?>index.php/panel/Panel/auditoria"><i class="fa fa-users"></i> Reporte de Auditoria</a></li>
               </ul>
             </li>

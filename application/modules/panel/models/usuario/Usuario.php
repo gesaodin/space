@@ -144,6 +144,13 @@ class Usuario extends CI_Model {
     return $val;
   }
 
+  function actualizar(){
+
+    $sActualizar = 'UPDATE space.usuario SET password=\'' . $this->_claveEncriptada() . '\' WHERE id = \'' . $this->id . '\'';
+    //echo $sActualizar;
+    $this->Dbpace->consultar($sActualizar);
+  }
+
   /**
    * Definir el arreglo de la insercion a la base de datos
    *
@@ -178,7 +185,7 @@ class Usuario extends CI_Model {
    */
   public function existe() {
     $codigo = -1;
-    $consulta = 'SELECT oid FROM usuario_sistema WHERE login =\'' . $this -> cedula . ' \' LIMIT 1';
+    $consulta = 'SELECT oid FROM space.usuario WHERE login =\'' . $this -> cedula . ' \' LIMIT 1';
     $obj = $this->Dbpace->consultar($consulta);
     foreach ($obj->rs as $clv => $val) {
       $codigo = $val -> oid;
@@ -226,13 +233,12 @@ class Usuario extends CI_Model {
 
   function conectar() {    
     $consulta = 'SELECT 
-        usuario_sistema.id, usuario_sistema.login, usuario_sistema.nombre, usuario_sistema.apellido, usuario_sistema.correo,
-        usuario_sistema.status_id,  usuario_rol.rol_id, rol.status_id AS rolestatus, rol_descripcion  
-      FROM usuario_sistema 
-        JOIN usuario_rol ON usuario_sistema.id=usuario_rol.usuario_id 
+        space.usuario.id, space.usuario.login, space.usuario.nombre, space.usuario.apellido, space.usuario.correo,
+        space.usuario.status_id,  usuario_rol.rol_id, rol.status_id AS rolestatus, rol_descripcion  
+      FROM space.usuario 
+        JOIN usuario_rol ON space.usuario.id=usuario_rol.usuario_id 
         JOIN rol ON usuario_rol.rol_id=rol.id 
-
-      WHERE login=\'' . $this -> sobreNombre . '\' AND password !=\'' . $this -> _claveEncriptada() . '\';';
+      WHERE login=\'' . $this -> sobreNombre . '\' AND password =\'' . $this -> _claveEncriptada() . '\';';
     
     
     $obj = $this->Dbpace->consultar($consulta);

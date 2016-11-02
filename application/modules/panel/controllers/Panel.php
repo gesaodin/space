@@ -103,6 +103,9 @@ class Panel extends MY_Controller {
 
 
 	//----------------------------------------
+	public function administrar(){
+		$this->load->view("menu/administracion/administrar");
+	}
 	public function auditoria(){
 		$this->load->view("menu/administracion/reporteauditoria");
 	}
@@ -223,11 +226,9 @@ class Panel extends MY_Controller {
 	}
 
 
-	function listarMovimientos(){
-		
+	function listarMovimientos(){		
 		$this->load->model('beneficiario/MHistorialMovimiento');
-		$this->MHistorialMovimiento->listarPorComponente(1);
-		
+		$this->MHistorialMovimiento->listarPorComponente(1);		
 	}
 
 	/**
@@ -352,6 +353,14 @@ class Panel extends MY_Controller {
 	public function listarOrdenesPagoBeneficiario($id){
 		$this->load->model('beneficiario/MOrdenPago');
 		print_r($this->MOrdenPago->listarPorCedula($id));
+	}
+
+	public function actualizarClave($clv){
+		$this->load->model('usuario/Usuario');
+		$this->Usuario->id = $_SESSION['id'];
+		$this->Usuario->clave =  $clv;
+		$this->Usuario->actualizar();
+		echo 'Actualización de Clave Exitosa';
 	}
 
 	function roles(){
