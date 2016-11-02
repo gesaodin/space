@@ -236,20 +236,21 @@ class Panel extends MY_Controller {
 	*	-----------------------------
 	*/
 	function registrarFiniquito(){
-		$this->load->model('beneficiario/MMotivoFiniquito');
+		$this->load->model('beneficiario/MFiniquito');
 		$this->load->model('beneficiario/MPartidaPresupuestaria');
-		$data['Motivo'] = $this->MMotivoFiniquito->listarTodo(); 
+		$data['Motivo'] = $this->MFiniquito->listarMotivos(); 
 		$data['Partida'] = $this->MPartidaPresupuestaria->listarTodo();
 		$this->load->view('menu/beneficiario/registrar_finiquito', $data);
 	}
 
-	/**
-	*	Listar Motivos de Finiquitos
-	*/
-	function listarMotivoFiniquitos(){
+	function listarFiniquito(){
 		echo '<pre>';
-		$this->load->model('beneficiario/MMotivoFiniquito');
-		print_r( $this->MMotivoFiniquito->listarTodo() ); 
+		
+		$this->load->model('beneficiario/MFiniquito');
+		$lst = $this->MFiniquito->listarCodigo('fb08e9fc3f3407bff9e6');
+
+		//$this->MHistorialMovimiento->isertarReverso($lst);
+		//print_r(  ); 
 	}
 
 	/**
@@ -323,17 +324,22 @@ class Panel extends MY_Controller {
 		
 	}
 
-	public function reversarFiniquito($ced){
+	public function reversarFiniquito($ced, $codigo){
 		$this->load->model('beneficiario/MBeneficiario', 'Beneficiario');
 		$this->load->model('beneficiario/MBeneficiario');
-		$this->load->model('beneficiario/MHistorialMovimiento');	
+		$this->load->model('beneficiario/MHistorialMovimiento');
+		$this->load->model('beneficiario/MFiniquito');	
 		
 		$this->MBeneficiario->obtenerID($ced, '');
 		$this->Beneficiario->fecha_retiro = '';
 		$this->Beneficiario->cedula = $ced;
 		$this->Beneficiario->estatus_activo = 201;
-		$this->Beneficiario->observacion = 'REVERSO DE FINIQUITO';		
+		$this->Beneficiario->observacion = 'REVERSO DE FINIQUITO';
+
 		//$this->MHistorialMovimiento->InsertarDetalle($json);
+
+		$lst = $this->MFiniquito->listarCodigo($codigo);
+		$this->MHistorialMovimiento->isertarReverso($lst);
 		$this->Beneficiario->ActualizarPorMovimiento();
 		$this->MBeneficiario->InsertarHistorial(); //Creando la traza de la modificacion
 			

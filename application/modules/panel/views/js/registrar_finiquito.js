@@ -453,47 +453,49 @@ function consultarFiniquitos(){
             $.each(arr[9], function ( clv, valores ){
                 var fecha_creacion = valores.fecha_creacion;
                 var fecha_contable = valores.fecha_contable;
-                var monto = valores.monto;
+                var monto = Number(valores.monto);
+                var codigo = valores.codigo;
                 var observaciones = valores.observacion;
                 var estatus = valores.tipo_texto;
                 var partida = valores.partida;
-
+                var sAcciones = '';
                 var sBoton = '<div class="btn-group">';
                 
-                if(estatus != 'Reverso') sBoton += '<button type="button" class="btn btn-danger" title="Reversar"><i class="fa fa-random"></i></button>';
+                if(estatus != 'Reverso') {
+                    sBoton += '<button type="button" class="btn btn-danger" title="Reversar" onclick="Reversar(\'' + cedula + '\',\'' + codigo + '\')"><i class="fa fa-random"></i></button>';
                 
-                sBoton += '<button type="button" class="btn btn-info" title="Imprimir"><i class="fa fa-print" ></i></button>';                
-                sBoton += '<button aria-expanded="false" type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown">';
-                sBoton += '<span class="caret"></span>';
-                sBoton += '<span class="sr-only">Toggle Dropdown</span>';
-                sBoton += '</button>';  
+                    sBoton += '<button type="button" class="btn btn-info" title="Imprimir"><i class="fa fa-print" ></i></button>';                
+                    sBoton += '<button aria-expanded="false" type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown">';
+                    sBoton += '<span class="caret"></span>';
+                    sBoton += '<span class="sr-only">Toggle Dropdown</span>';
+                    sBoton += '</button>';  
 
-                sAcciones = '<ul class="dropdown-menu" role="menu">';
-                sAcciones += '<li><a href="#!" target="_top" onclick="HojaVida(\'' + cedula + '\')">Hoja de Vida (PRINT)</a></li>';
-                
-                
-                if(partida == 1){
-                    sAcciones +='<li class="divider"></li>';
-                    sAcciones += '<li><a href="#!" target="_top" onclick="CartaBancoFallecido(\'' + cedula + '\')">Carta Banco Fallecido</a></li>';
-                    sAcciones += '<li><a href="#!" target="_top" onclick="CausaMuerte(\'' + cedula + '\')">Causa Muerte</a></li>';
-                    //sAcciones += '<li><a href="#!" target="_top" onclick="CapitalBanco(\'' + cedula + '\')">A/A Menor a 10 años.</a></li>';
-                }else if(partida == 4){ 
+                    sAcciones = '<ul class="dropdown-menu" role="menu">';
+                    sAcciones += '<li><a href="#!" target="_top" onclick="HojaVida(\'' + cedula + '\')">Hoja de Vida (PRINT)</a></li>';
                     
-                   
-                }else{
-                    sAcciones += '<li><a href="#!" target="_top" onclick="CartaBanco(\'' + cedula + '\')">Carta Banco </a></li>';
-                    sAcciones += '<li><a href="#!" target="_top" onclick="OrdenPago(\'' + cedula + '\')">Orden de Pago</a></li>';  
+                    
+                    if(partida == 1){
+                        sAcciones +='<li class="divider"></li>';
+                        sAcciones += '<li><a href="#!" target="_top" onclick="CartaBancoFallecido(\'' + cedula + '\')">Carta Banco Fallecido</a></li>';
+                        sAcciones += '<li><a href="#!" target="_top" onclick="CausaMuerte(\'' + cedula + '\')">Causa Muerte</a></li>';
+                        //sAcciones += '<li><a href="#!" target="_top" onclick="CapitalBanco(\'' + cedula + '\')">A/A Menor a 10 años.</a></li>';
+                    }else if(partida == 4){ 
+                        sAcciones += '<li><a href="#!" target="_top" onclick="CartaBanco(\'' + cedula + '\')">Carta Banco </a></li>';
+                       
+                    }else{
+                        
+                        sAcciones += '<li><a href="#!" target="_top" onclick="OrdenPago(\'' + cedula + '\')">Orden de Pago</a></li>';  
 
-                    sAcciones +='<li class="divider"></li>';
-                    sAcciones += '<li><a href="#!" target="_top" onclick="CapitalBanco(\'' + cedula + '\')">Capital en Banco</a></li>';
-                    sAcciones += '<li><a href="#!" target="_top" onclick="DiferenciaAntiguedad(\'' + cedula + '\')">Diferencia de Antiguedad</a></li>';
-                    sAcciones += '<li><a href="#!" target="_top" onclick="Indemnizacion(\'' + cedula + '\')">Indemnización AS/FS</a></li>';
-                    
+                        sAcciones +='<li class="divider"></li>';
+                        sAcciones += '<li><a href="#!" target="_top" onclick="CapitalBanco(\'' + cedula + '\')">Capital en Banco</a></li>';
+                        sAcciones += '<li><a href="#!" target="_top" onclick="DiferenciaAntiguedad(\'' + cedula + '\')">Diferencia de Antiguedad</a></li>';
+                        sAcciones += '<li><a href="#!" target="_top" onclick="Indemnizacion(\'' + cedula + '\')">Indemnización AS/FS</a></li>';
+                        
+                    }
+                    sAcciones += '</ul>';
                 }
 
-
-
-                sAcciones += '</ul>';
+                
 
                 
 
@@ -511,7 +513,7 @@ function consultarFiniquitos(){
                     componente,
                     grado,
                     tiempo_servicio,
-                    monto,
+                    monto.formatMoney(2, ',', '.'),
                     fecha_contable,
                     observaciones,
                     estatus
@@ -530,6 +532,7 @@ function consultarFiniquitos(){
 
 
 }
+
 
 function abrirModal(){
     $("#ModalImprimir").modal('show');
@@ -711,4 +714,36 @@ function continuar(){
 
 function asignarCausa(){
     $("#asignacion_causa_aux").val($("#asignacion_causa").val());
+}
+
+function Reversar(ced, cod){
+    $("#txtMensaje").html('Esta seguro que desea realizar el reverso del finiquito'); 
+    
+    var boton = '<button type="button" class="btn btn-danger pull-right" onclick="continuar()">';
+            boton += '<i class="glyphicon glyphicon-remove"></i>&nbsp;&nbsp;No&nbsp;&nbsp;</button>';
+            boton += '<button type="button" class="btn btn-success" onclick="EjecutarReverso(\'' + ced + '\',\'' + cod + '\')">';
+            boton += '<i class="glyphicon glyphicon-ok"></i>&nbsp;&nbsp;Si&nbsp;&nbsp;</button>';
+    $("#divContinuar").html(boton);
+    $("#logMensaje").modal('show');
+}
+
+function EjecutarReverso(ced, cod){
+    var t = $('#reporteFiniquitos').DataTable();
+    $("#logMensaje").modal('hide');
+    
+    ruta = sUrlP + "reversarFiniquito/" + ced + "/" + cod; 
+    $.get(ruta, function(data) {
+        t.clear().draw();
+        $("#txtMensaje").html('El proceso se realizo exitosamente');    
+        var boton = '<button type="button" class="btn btn-danger pull-right" onclick="continuar()">';
+                boton += '<i class="glyphicon glyphicon-remove"></i>&nbsp;&nbsp;Continuar&nbsp;&nbsp;</button>';
+        $("#divContinuar").html(boton);
+        $("#logMensaje").modal('show');
+    }
+
+    ).done(function(msg) {}).fail(function(jqXHR, textStatus) {
+        console.log(jqXHR);
+    });
+
+    
 }

@@ -15,8 +15,12 @@ class MHistorialMovimiento extends CI_Model{
 	var $observacion = '';
 
 	var $monto = 0.00;	
+
+	var $monto_aux = '0,00';	
 	
 	var $fecha_creacion = 0;
+
+	var $codigo = '';
 
 
 
@@ -74,7 +78,7 @@ class MHistorialMovimiento extends CI_Model{
 		$Detalle = array();
 		$sDonde = '';
 		if($tipo > 0) $sDonde = ' AND tipo_movimiento_id=\'' . $tipo . '\' ';
-		$sConsulta = 'SELECT id, partida_id, tipo_movimiento_id, transaccion_id, monto, observaciones, f_contable, f_creacion 
+		$sConsulta = 'SELECT id, codigo, partida_id, tipo_movimiento_id, transaccion_id, monto, observaciones, f_contable, f_creacion 
 			FROM movimiento WHERE cedula =\'' . $cedula . '\'' .  $sDonde . '
 			ORDER BY tipo_movimiento_id';
 		$obj = $this->Dbpace->consultar($sConsulta);		
@@ -84,10 +88,12 @@ class MHistorialMovimiento extends CI_Model{
 			$hm = new $this->MHistorialMovimiento();
 			$hm->id = $v->id;
 			$hm->tipo = $v->tipo_movimiento_id;
+			$hm->codigo = $v->codigo;
 			$hm->fecha = substr($v->f_contable, 0, 10);
 			$hm->fecha_creacion = substr($v->f_creacion, 0, 10);
 			$hm->observacion = $v->observaciones;
 			$hm->monto = $v->monto;	
+			$hm->monto_aux =  number_format($v->monto, 2, ',','.');	
 			$hm->partida = $v->partida_id;	
 
 			if($hm->tipo != $id_aux){				
@@ -121,6 +127,7 @@ class MHistorialMovimiento extends CI_Model{
 					$A['fecha_creacion'] =  $valor->fecha_creacion;
 					$A['observacion'] =  $valor->observacion;
 
+					$A['codigo'] =  $valor->codigo;
 					$A['tipo_texto'] = 'Finiquito';
 					$A['partida'] = $valor->partida;
 
@@ -187,11 +194,15 @@ class MHistorialMovimiento extends CI_Model{
 		return $valor;
 	}
 
+
+
 	function InsertarDetalle($obj){
 		//ID - AUTOINCREMENT
 		//status_id - 280
 		//$sInsert
 		$sInsert = '';
+
+		$this->codigo = substr(md5($obj->i_d . date("Y-m-d H:i:s")), 0, 20);
 
 		$sInsert_aux = 'INSERT INTO public.movimiento 
 			(
@@ -207,7 +218,8 @@ class MHistorialMovimiento extends CI_Model{
 				f_ult_modificacion, 
 				usr_modificacion, 
 				observ_ult_modificacion, 
-				partida_id			
+				partida_id,
+				codigo			
 			) VALUES ';
 
 
@@ -249,24 +261,67 @@ class MHistorialMovimiento extends CI_Model{
 
 	}
 
- private function valorRepetido($cod, $obj, $mnt){
- 	$sCodigo = '(' . $cod . ',' . $mnt . ',\'' . $obj->i_d . '\',\'' . 
-						$obj->m_ft . '\',\''  .  $obj->f_r . '\',280,' . $obj->m_f . ',\''  .  date("Y-m-d H:i:s") . '\',\''  .  
-						$obj->u_s . '\',\''  .  date("Y-m-d H:i:s") . '\',\''  .  $obj->u_s . '\',\'' . $obj->o_b . '\',' . 
-						$obj->p_p . ')'; 
- 	return $sCodigo;
+ 	private function valorRepetido($cod, $obj, $mnt){
+	 	$sCodigo = '(' . $cod . ',' . $mnt . ',\'' . $obj->i_d . '\',\'' . 
+							$obj->m_ft . '\',\''  .  $obj->f_r . '\',280,' . $obj->m_f . ',\''  .  date("Y-m-d H:i:s") . '\',\''  .  
+							$obj->u_s . '\',\''  .  date("Y-m-d H:i:s") . '\',\''  .  $obj->u_s . '\',\'' . $obj->o_b . '\',' . 
+							$obj->p_p . ',\'' . $this->codigo . '\')'; 
+	 	return $sCodigo;
 
- }
+	}
 
+	function isertarReverso($listado){
+		$sInsert = '';
 
- function mapearObjetoLote() {
-    $data = array(
-    	'cedula' => $this -> identificador, 
-    	'transaccion_id' => $this -> nombre, 
-    	'status_id' => $this -> ubicacion, 
-    	'tipo_movimiento_id' => $this -> observacion
-    );
-    return $data;
-  }
+		$sInsert_aux = 'INSERT INTO public.movimiento 
+			(
+				tipo_movimiento_id,
+				monto,
+				cedula, 
+				observaciones, 
+				f_contable, 
+				status_id,				 
+				motivo_id, 
+				f_creacion, 
+				usr_creacion, 
+				f_ult_modificacion, 
+				usr_modificacion, 
+				observ_ult_modificacion, 
+				partida_id,
+				codigo			
+			) VALUES ';
+			
+			$cant = count($listado) - 1;
+			for($i = 0; $i <= $cant; $i++) {
+				$sInsert .= $sInsert_aux . '(' . 
+					$this->__conversion($listado[$i]['tipo_movimiento_id']) . ',' . 
+					$listado[$i]['monto'] . ',\'' . 
+					$listado[$i]['cedula'] . '\',\' REVERSADO - ' . 
+					$listado[$i]['observaciones'] . '\',\''  .  
+					$listado[$i]['f_contable'] . '\',280,' . 
+					$listado[$i]['motivo_id'] . ',\''  .  
+					date("Y-m-d H:i:s") . '\',\''  .  
+					$_SESSION['usuario'] . '\',\''  .  
+					date("Y-m-d H:i:s") . '\',\''  .  
+					$_SESSION['usuario'] . '\',\'' . 
+					$listado[$i]['observ_ult_modificacion'] . '\',' . 
+					$listado[$i]['partida_id']. ',\'' . 
+					$listado[$i]['codigo'] . '\');'; 
+			}
+
+		//echo $sInsert;
+		$obj = $this->Dbpace->consultar($sInsert);
+
+	}
+
+	function mapearObjetoLote() {
+	    $data = array(
+	    	'cedula' => $this -> identificador, 
+	    	'transaccion_id' => $this -> nombre, 
+	    	'status_id' => $this -> ubicacion, 
+	    	'tipo_movimiento_id' => $this -> observacion
+	    );
+		return $data;
+	}
 
 }
