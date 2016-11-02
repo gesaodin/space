@@ -325,7 +325,7 @@ class Panel extends MY_Controller {
 		
 	}
 
-	public function reversarFiniquito($ced, $codigo){
+	public function reversarFiniquito($ced = '', $codigo = ''){
 		$this->load->model('beneficiario/MBeneficiario', 'Beneficiario');
 		$this->load->model('beneficiario/MBeneficiario');
 		$this->load->model('beneficiario/MHistorialMovimiento');

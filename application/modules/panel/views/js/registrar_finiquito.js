@@ -732,13 +732,10 @@ function EjecutarReverso(ced, cod){
     $("#logMensaje").modal('hide');
     
     ruta = sUrlP + "reversarFiniquito/" + ced + "/" + cod; 
-    $.get(ruta, function(data) {
-        t.clear().draw();
-        $("#txtMensaje").html('El proceso se realizo exitosamente');    
-        var boton = '<button type="button" class="btn btn-danger pull-right" onclick="continuar()">';
-                boton += '<i class="glyphicon glyphicon-remove"></i>&nbsp;&nbsp;Continuar&nbsp;&nbsp;</button>';
-        $("#divContinuar").html(boton);
-        $("#logMensaje").modal('show');
+    $.get(ruta, function(data) {        
+        URL = sUrlP + "finiquitos";
+        $(location).attr('href', URL);
+        
     }
 
     ).done(function(msg) {}).fail(function(jqXHR, textStatus) {

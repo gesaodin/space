@@ -33,7 +33,7 @@
               <h3 class="box-title">Datos Basicos</h3>
               <div class="box-tools pull-right">
                 <button class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Minimizar"><i class="fa fa-minus"></i></button>
-                <button class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Cerrar"><i class="fa fa-times"></i></button>
+                <button class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" onclick="principal()" title="Cerrar"><i class="fa fa-times"></i></button>
               </div>
             </div>
             <div class="box-body">
