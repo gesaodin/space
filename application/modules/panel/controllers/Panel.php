@@ -226,6 +226,26 @@ class Panel extends MY_Controller {
 
 	}
 
+	public function paralizarDesparalizar(){
+		$this->load->model('beneficiario/MBeneficiario');
+		$Bnf = new $this->MBeneficiario();
+		$data = json_decode($_POST['data']);
+
+		
+		$this->MBeneficiario->obtenerID($data->Paralizar->id);
+		$this->MBeneficiario->InsertarHistorial(); //Creando la traza de la modificacion
+		
+		$Bnf->cedula = $data->Paralizar->id;
+		$Bnf->estatus_activo = $data->Paralizar->estatus;
+		$Bnf->motivo_paralizacion = $data->Paralizar->motivo;
+		$Bnf->observacion = 'PARALIZADO';
+		$Bnf->ParalizarDesparalizar();
+
+		echo 'Proceso exitoso';
+
+
+	}
+
 	public function consultarFiniquitos($cedula = '', $fecha = ''){
 		$this->load->model('beneficiario/MBeneficiario');
 		$this->load->model('beneficiario/MHistorialMovimiento');

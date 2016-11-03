@@ -50,20 +50,20 @@
                         Apellido:
                     </div>
                     <div class="col-md-4">
-                        <input type="text" class="form-control" placeholder="Apellido">
+                        <input type="text" class="form-control" placeholder="Apellido" readonly="readonly">
                     </div>
                     <br><br>
                     <div class="col-md-2">
                         Nombre
                     </div>
                     <div class="col-md-4">
-                        <input type="text" class="form-control" placeholder="Nombre">
+                        <input type="text" class="form-control" placeholder="Nombre" readonly="readonly">
                     </div>
                     <div class="col-md-2">
                         Situación:
                     </div>
                     <div class="col-md-4">
-                        <select class="form-control select2" style="width: 100%;">
+                        <select class="form-control select2" style="width: 100%;" disabled>
                             <option selected="selected">Todos</option>
                             <option>1</option>
                         </select>
@@ -73,7 +73,7 @@
                         Componentes:
                     </div>
                     <div class="col-md-4">
-                        <select class="form-control select2" style="width: 100%;">
+                        <select class="form-control select2" style="width: 100%;" disabled>
                             <option selected="selected">Todos</option>
                             <option>1</option>
                         </select>
@@ -82,7 +82,7 @@
                         Grado:
                     </div>
                     <div class="col-md-4">
-                        <select class="form-control select2" style="width: 100%;">
+                        <select class="form-control select2" style="width: 100%;" disabled>
                             <option selected="selected">Todos</option>
                             <option>1</option>
                         </select>
@@ -99,7 +99,7 @@
                                 <div class="input-group-addon">
                                     <i class="fa fa-calendar"></i>
                                 </div>
-                                <input type="text" class="form-control" id="datepicker">
+                                <input type="text" class="form-control" id="datepicker" readonly="readonly">
                             </div>
                         </div>
                         <!-- /.input group -->
@@ -114,7 +114,7 @@
                                 <div class="input-group-addon">
                                     <i class="fa fa-calendar"></i>
                                 </div>
-                                <input type="text" class="form-control" id="datepicker1">
+                                <input type="text" class="form-control" id="datepicker1" readonly="readonly">
                             </div>
                         </div>
                         <!-- /.input group -->
@@ -125,7 +125,7 @@
                      Ordenado por:
                     </div>
                     <div class="col-md-4">
-                        <select class="form-control select2" style="width: 100%;">
+                        <select class="form-control select2" style="width: 100%;" disabled>
                             <option selected="selected">Todos</option>
                             <option>1</option>
                         </select>
@@ -168,6 +168,7 @@
                             <table id="reporte" class="table table-bordered table-hover">
                                 <thead>
                                 <tr>
+                                    <th>Acciones</th>
                                     <th>Cédula</th>
                                     <th>Grado</th>
                                     <th>Componente</th>
