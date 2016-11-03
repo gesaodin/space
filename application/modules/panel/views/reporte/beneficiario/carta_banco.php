@@ -170,5 +170,18 @@ th {
  </table>
 
  </center>
+
+  <br><br>
+  <center>
+    <button onclick="imprimir()" id="btnPrint">Imprimir Reporte</button>
+  </center>
+
+  <script language="Javascript">
+    function imprimir(){
+        document.getElementById('btnPrint').style.display = 'none';
+        window.print();
+        window.close();
+    }
+  </script>
 </BODY>
 </HTML>
