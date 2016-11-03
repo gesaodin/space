@@ -574,8 +574,10 @@ class MCalculo extends CI_Model{
   * @return double
   */
   public function Anticipos(){
+    
     $anticipos = isset($this->Beneficiario->HistorialMovimiento[5]) ? $this->Beneficiario->HistorialMovimiento[5]->monto : 0;
-    return $anticipos;
+    $anticipos_reversado = isset($this->Beneficiario->HistorialMovimiento[25]) ? $this->Beneficiario->HistorialMovimiento[25]->monto : 0;
+    return $anticipos - $anticipos_reversado;
   }
 
   /**

@@ -35,7 +35,7 @@
               <h3 class="box-title">Datos Basicos</h3>
               <div class="box-tools pull-right">
                 <button class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Minimizar"><i class="fa fa-minus"></i></button>
-                <button class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Cerrar"><i class="fa fa-times"></i></button>
+                <button class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Cerrar" onclick="principal()"><i class="fa fa-times"></i></button>
               </div>
             </div>
             <div class="box-body">
@@ -310,21 +310,37 @@
               </div>
             </div><!-- /.box-footer-->
           </div><!-- /.box -->
+          </div>
+          </div>
+           
 
-          <table id="reporteAnticipo" class="table table-bordered table-hover">
-              <thead>
-              <tr>
-                  <th>Opciones</th>
-                  <th style="width: 90px;">Estatus</th>
-                  <th>Fecha</th>
-                  <th >Motivo</th>
-                  <th>Monto</th>                   
-              </tr>
-              </thead>
-              <tbody>
-              </tbody>
+                <div class="box box-success">
+                  <div class="box-header with-border">
+                    <h3 class="box-title">Detalles del Anticipo</h3>
+                    <div class="box-tools pull-right">
+                     
+                    </div><!-- /.box-tools -->
+                  </div><!-- /.box-header -->
+                  <div class="box-body">                    
+                        <br><br>
+                          <table id="reporteAnticipo" class="table table-bordered table-hover">
+                            <thead>
+                            <tr>
+                                <th style="width: 40px;">Acciones</th>
+                                <th style="width: 40px;">Estatus</th>
+                                <th>Fecha</th>
+                                <th >Motivo</th>
+                                <th style="width: 80px;">Monto</th>                   
+                            </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
 
-          </table>
+                  </div><!-- /.box-body -->
+                </div><!-- /.box -->
+
+          
 
         </section><!-- /.content -->
 

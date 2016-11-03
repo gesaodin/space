@@ -41,26 +41,6 @@ class MGrado extends CI_Model{
   var $codigo;
 
 
-  /**
-  * @var int
-  */
-  var $tiempo_ascenso = 0;
-
-
-  /**
-  * @var int
-  */
-  var $estatus_id = 30;
-
-  /**
-  * @var MDirectiva
-  */
-  var $Directiva = null;
-
-  /**
-  * @var MDirectiva
-  */
-  var $Prima = null;
 
   /**
   * Iniciando la clase, Cargando Elementos Pace
@@ -70,7 +50,7 @@ class MGrado extends CI_Model{
   */
   public function __construct(){
     parent::__construct();
-    
+    if(!isset($this->Dbpace)) $this->load->model('comun/Dbpace');
   }
 
 
@@ -84,6 +64,23 @@ class MGrado extends CI_Model{
   */
   function obtenerID(){
 
+  }
+
+  function porComponente($id){
+    $sConsulta = 'SELECT * FROM grado WHERE componente_id=\'' . $id . '\' ORDER BY id ASC';
+    $obj = $this->Dbpace->consultar($sConsulta);
+    $arr = array();
+    if($obj->code == 0 ){
+      foreach ($obj->rs as $clv => $val) {
+        $grado = new $this;
+        $grado->id = $val->id;
+        $grado->nombre = $val->nombre;
+        $grado->descripcion = $val->descripcion;
+        $grado->codigo = $val->codigo;
+        $arr[] = $grado;
+      }
+    }
+    return $arr;
   }
 
 }

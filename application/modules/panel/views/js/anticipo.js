@@ -18,8 +18,8 @@ function consultar() {
     var val = $("#id").val();
     ruta = sUrlP + "consultarBeneficiario/" + val;
     $.getJSON(ruta, function(data) {
-        
-        if(data.fecha_retiro != null){
+       
+        if(data.fecha_retiro != null && data.fecha_retiro != ''){
             $("#id").val('');
             var boton = '<button type="button" class="btn btn-success pull-right" onclick="continuar()">';
             boton += '<i class="glyphicon glyphicon-ok"></i>&nbsp;&nbsp;Continuar</button>';
@@ -86,11 +86,70 @@ function consultar() {
 
 function listar(data){
     var t = $('#reporteAnticipo').DataTable();
+    t.clear().draw();
     $.each(data, function (clave, valor){
+        var monto = Number(valor.monto);
+        var sBoton = '<div class="btn-group">';
+        var sAcciones = '';
+        if(valor.estatus == '100'){
+            sBoton += '<button type="button" class="btn btn-info" title="Imprimir"><i class="fa fa-print" ></i></button>';                
+            sBoton += '<button aria-expanded="false" type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown">';
+            sBoton += '<span class="caret"></span>';
+            sBoton += '<span class="sr-only">Toggle Dropdown</span>';
+            sBoton += '</button>';
+
+            sAcciones = '<ul class="dropdown-menu" role="menu">';
+            sAcciones += '<li><a href="#!" target="_top" onclick="HojaVida(\'' + valor.cedula_beneficiario + '\')">Hoja de Vida (PRINT)</a></li>';
+            sAcciones += '<li><a href="#!" target="_top" onclick="OrdenPagoAnticipo(\'' + valor.cedula_beneficiario + '\')">Orden de Pago</a></li>';
+            sAcciones += '<li><a href="#!" target="_top" onclick="PuntoCuenta(\'' + valor.cedula_beneficiario + '\')">Punto de Cuenta</a></li>';
+            
+            sAcciones += '</ul>';
+        }
+        sBoton += sAcciones + '</div>';
+        
+
         t.row.add( [
-            valor.
+            sBoton,
+            estatus(valor.estatus),
+            valor.fecha_creacion,
+            valor.motivo,
+            monto.formatMoney(2, ',', '.')
         ] ).draw( false );
     });
+}
+
+function estatus(cod){
+    var texto = '';
+    switch (cod){
+        case '100': 
+            texto = 'EJECUTADA';
+            break;
+        case '101': 
+            texto = 'PENDIENTE';
+            break;
+        case '102': 
+            texto = 'RECHAZADA';
+            break;
+        case '103': 
+            texto = 'REVERSADA';
+            break;
+    }
+    return texto;
+}
+
+function HojaVida(id){    
+    URL = sUrlP + "hojavida/" + id;
+    window.open(URL,"Hoja de Vida","toolbar=0,location=1,menubar=0,scrollbars=1,resizable=1,width=900,height=800")
+}
+
+function OrdenPagoAnticipo(id){    
+    URL = sUrlP + "ordenpago/" + id;
+    window.open(URL,"Orden de Pago","toolbar=0,location=1,menubar=0,scrollbars=1,resizable=1,width=900,height=800")
+}
+
+function PuntoCuenta(id){    
+    URL = sUrlP + "puntocuenta/" + id;
+    window.open(URL,"Punto de Cuenta","toolbar=0,location=1,menubar=0,scrollbars=1,resizable=1,width=900,height=800")
 }
 
 function limpiar(){

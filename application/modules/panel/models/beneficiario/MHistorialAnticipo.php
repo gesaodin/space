@@ -14,7 +14,8 @@ class MHistorialAnticipo extends CI_Model{
 
 	function listar($cedula = ''){
 		$arr = array();
-		$sConsulta = 'SELECT f_contable, monto FROM movimiento WHERE cedula=\'' . $cedula . '\' AND tipo_movimiento_id=5
+		$sConsulta = 'SELECT f_contable, monto FROM movimiento 
+		WHERE cedula=\'' . $cedula . '\' AND tipo_movimiento_id=5
 		ORDER BY f_contable ASC';
 		
 

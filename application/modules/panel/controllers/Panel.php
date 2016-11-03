@@ -33,7 +33,7 @@ class Panel extends MY_Controller {
 	}
 
 	public function actualizar(){
-		$this->load->view("actualizarbeneficiario");
+		$this->load->view("menu/beneficiario/actualizarbeneficiario");
 	}
 
 	public function finiquitos(){
@@ -124,7 +124,11 @@ class Panel extends MY_Controller {
 	public function hojavida($cedula = ''){
 		$this->load->model('beneficiario/MBeneficiario');
 		$this->MBeneficiario->obtenerID($cedula);
+		$this->load->model('beneficiario/MOrdenPago');
+		$this->MBeneficiario->HistorialOrdenPagos = $this->MOrdenPago->listarPorCedula($cedula);
+
 		$data['Beneficiario'] = $this->MBeneficiario;
+
 		$this->load->view('reporte/beneficiario/hoja_vida', $data);
 	}
 
@@ -181,6 +185,45 @@ class Panel extends MY_Controller {
 		echo "<pre>";
 		print_r($this->MBeneficiario);
 		//echo json_encode($this->MBeneficiario);
+	}
+
+	public function cargarGradoComponente($id = 1){
+		$this->load->model('beneficiario/MGrado');
+		echo json_encode($this->MGrado->porComponente($id));
+	}
+
+	public function actualizarBeneficiario(){
+		$this->load->model('beneficiario/MBeneficiario');
+		$data = json_decode($_POST['data']);
+		$Persona = $data->Persona;
+		$Bnf = new $this->MBeneficiario();
+		
+		$this->MBeneficiario->obtenerID($Persona->cedula);
+
+		$Bnf->cedula = $Persona->cedula;
+		$Bnf->grado_id = $Persona->grado;
+		$Bnf->nombres = $Persona->nombres;
+		$Bnf->apellidos = $Persona->apellidos;
+		$Bnf->tiempo_servicio_db = $Persona->tservicio;
+		$Bnf->fecha_ingreso = $Persona->fingreso;
+		//$Bnf->estado_civil = $Persona->cedula;
+		$Bnf->numero_hijos = $Persona->nhijos;
+		$Bnf->fecha_ultimo_ascenso = $Persona->fuascenso;
+		$Bnf->ano_reconocido = $Persona->arec;
+		$Bnf->mes_reconocido = $Persona->mrec;
+		$Bnf->dia_reconocido = $Persona->drec;
+		$Bnf->no_ascenso = $Persona->noascenso;
+		$Bnf->profesionalizacion = $Persona->profesionalizacion;
+		$Bnf->sexo = $Persona->sexo;
+		$Bnf->fecha_creacion = date("Y-m-d H:i:s");
+		$Bnf->usuario_creador = $_SESSION['usuario'];
+		$Bnf->fecha_ultima_modificacion = date("Y-m-d H:i:s");
+		$Bnf->usuario_modificacion = $_SESSION['usuario'];
+		
+		print_r($Bnf->guardar());
+
+		//$this->MBeneficiario->InsertarHistorial(); //Creando la traza de la modificacion
+
 	}
 
 	public function consultarFiniquitos($cedula = '', $fecha = ''){

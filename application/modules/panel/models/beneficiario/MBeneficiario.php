@@ -320,7 +320,53 @@ class MBeneficiario extends CI_Model{
 	} 
 
 	public function guardar(){
+		/**
+		$this->cedula
+		$this->grado_id 
+		$this->nombres
+		$this->apellidos
+		$this->tiempo_servicio_db
+		$this->fecha_ingreso ;
+		$this->estado_civi;
+		$this->numero_hijos;
+		$this->fecha_ultimo_ascenso;
+		$this->ano_reconocido;
+		$this->mes_reconocido;
+		$this->dia_reconocido;
+		$this->no_ascenso ;
+		$this->profesionalizacion;
+		$this->sexo ;
+		$this->fecha_creacion;
+		$this->usuario_creador;
+		$this->fecha_ultima_modificacion;
+		$this->usuario_modificacion;
+		**/
 
+		$sActualizar = 'UPDATE beneficiario SET 			
+			grado_id = \'' . $this->grado_id .  '\',
+			nombres = \'' . $this->nombres .  '\', 
+			apellidos = \'' . $this->apellidos .  '\', 
+			tiempo_servicio = \'' . $this->tiempo_servicio_db .  '\', 
+			fecha_ingreso = \'' . $this->fecha_ingreso .  '\', 
+			
+			n_hijos = \'' . $this->numero_hijos .  '\', 
+			f_ult_ascenso = \'' . $this->fecha_ultimo_ascenso .  '\', 
+			anio_reconocido = \'' . $this->ano_reconocido .  '\', 
+			mes_reconocido = \'' . $this->mes_reconocido .  '\', 
+			dia_reconocido = \'' . $this->dia_reconocido .  '\', 
+			f_ingreso_sistema = \'' . $this->fecha_ingreso .  '\',  
+			st_no_ascenso = \'' . $this->no_ascenso .  '\', 
+			 
+			st_profesion = \'' . $this->profesionalizacion .  '\', 
+			sexo = \'' . $this->sexo .  '\', 
+			f_creacion = \'' . $this->fecha_creacion .  '\', 
+			usr_creacion = \'' . $this->fecha_ultimo_ascenso .  '\', 
+			f_ult_modificacion = \'' . $this->fecha_ultima_modificacion .  '\', 
+			usr_modificacion = \'' . $this->usuario_modificacion .  '\', 
+			observ_ult_modificacion=\'MODIFICACION DATOS BASICOS\' 
+		WHERE cedula = \'' . $this->cedula .  '\'';
+		echo $sActualizar;
+		
 	}
 
 	public function eliminar(){

@@ -289,7 +289,7 @@ th {
       <td>Saldo Disponible</td>
       <td><?php 
 
-              $anticipo = isset($Beneficiario->HistorialMovimiento[5]) ? $Beneficiario->HistorialMovimiento[5]->monto : 0;
+              $anticipo = isset($Beneficiario->Calculo['anticipos_aux']) ? $Beneficiario->Calculo['anticipos_aux'] : 0;
               $disponible = ($montoCapital - $anticipo) + $garantia;
               echo number_format($disponible, 2, ',','.');
 
@@ -336,7 +336,7 @@ th {
       </td>
       <td>Anticipos.</td>
       <td><?php 
-        $anticipo = isset($Beneficiario->HistorialMovimiento[5]) ? $Beneficiario->HistorialMovimiento[5]->monto : 0;
+        $anticipo = isset($Beneficiario->Calculo['anticipos_aux']) ? $Beneficiario->Calculo['anticipos_aux'] : 0;
         echo number_format($anticipo, 2, ',','.');
 
       ?></td>
@@ -515,12 +515,14 @@ th {
   $sPie = '
   </tbody>
   </table>';
-  $iCant = count($Beneficiario->HistorialAnticipo);
+  $iCant = count($Beneficiario->HistorialOrdenPagos);
   if($iCant > 0){
-    foreach ($Beneficiario->HistorialAnticipo as $k => $v) {
+    foreach ($Beneficiario->HistorialOrdenPagos as $k => $v) {
       $f =  explode('-',$v->fecha);    
-      $sCuerpo .= '<tr><td>' . $f[2] . '-' . $f[1] . '-' . $f[0] . 
-      '</td><td style="text-align: right;">' . number_format($v->monto, 2, ',','.') . '</td></tr>';
+      if($v->estatus == 100){        
+        $sCuerpo .= '<tr><td>' . $f[2] . '-' . $f[1] . '-' . $f[0] . 
+          '</td><td style="text-align: right;">' . number_format($v->monto, 2, ',','.') . '</td></tr>';
+      }
     
     }
 
