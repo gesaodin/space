@@ -63,7 +63,9 @@ function ventana(fn){
         boton += '<button type="button" class="btn btn-success" onclick="' + fn + '()">';
         boton += '<i class="glyphicon glyphicon-ok"></i>&nbsp;&nbsp;Si&nbsp;&nbsp;</button>';
     $("#divContinuar").html(boton);
-    $("#txtMensaje").html('Esta seguro que desea ' + fn + ' este beneficiario<br><br><input type="text" id="txtObservacion" class="form-control" placeholder="Observaciones"  >'); 
+    texto = 'Esta seguro que desea ' + fn + ' este beneficiario<br><br><input type="text" id="txtObservacion" ';
+    texto += 'class="form-control" placeholder="Observaciones" >'; 
+    $("#txtMensaje").html(texto); 
     $("#logMensaje").modal('show');
     
 }
