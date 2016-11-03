@@ -192,7 +192,7 @@
                       <div class="input-group-addon">
                           <i class="fa fa-calendar"></i>
                       </div>
-                      <input class="form-control" id="datepicker" type="text">
+                      <input class="form-control" id="datepicker" type="text" data-provide="datepicker">
                       <span class="input-group-btn">
                         <button type="button" class="btn btn-success btn-flat" onclick="consultarBeneficiarioFecha()"><i class="fa fa-calculator"></i></button>
                       </span>
