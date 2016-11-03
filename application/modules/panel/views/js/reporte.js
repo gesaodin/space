@@ -89,7 +89,7 @@ function activar(){
               url: sUrlP + "paralizarDesparalizar",
               type: "POST",
               data: {'data' : JSON.stringify({
-                Paralizar
+                Paralizar: Paralizar
               })},
               success: function (data) {  
                
@@ -123,7 +123,7 @@ function desparalizar(){
               url: sUrlP + "paralizarDesparalizar",
               type: "POST",
               data: {'data' : JSON.stringify({
-                Paralizar
+                Paralizar: Paralizar
               })},
               success: function (data) {  
                
