@@ -311,18 +311,24 @@ class MPrima extends CI_Model{
   */
   public function Especial( $sueldo_base = 0.00 ){
     $monto_nominal = 0;
-    if(isset($this->Beneficiario->Componente->Grado->Prima[3])){ //Realizar cambio en caso de poseer prima      
-      $Prima = (object)$this->Beneficiario->Componente->Grado->Prima[3];
-      foreach ($Prima as $c => $v) {
-        if(is_array($v)){
-          $monto_nominal = $v[0]->monto_nominal;  
-        } 
+    $valor = 0;
+    
+    
+
+    if(isset($this->Beneficiario->Componente->Grado->Prima)){
+      if(isset($this->Beneficiario->Componente->Grado->Prima[3])){ //Realizar cambio en caso de poseer prima      
+        $Prima = (object)$this->Beneficiario->Componente->Grado->Prima[3];
+        foreach ($Prima as $c => $v) {
+          if(is_array($v)){
+            $monto_nominal = $v[0]->monto_nominal;  
+          } 
+        }
       }
+      //$valor = $this->unidad_tributaria * $monto_nominal;
+      $valor =  round($this->unidad_tributaria * $monto_nominal,2);
+      $this->Beneficiario->prima_especial = $valor;
+      //return round($this->unidad_tributaria * $monto_nominal,2);
     }
-    //$valor = $this->unidad_tributaria * $monto_nominal;
-    $valor =  round($this->unidad_tributaria * $monto_nominal,2);
-    $this->Beneficiario->prima_especial = $valor;
-    //return round($this->unidad_tributaria * $monto_nominal,2);
     return $valor;
 
 

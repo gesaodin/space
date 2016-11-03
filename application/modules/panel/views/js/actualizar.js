@@ -174,7 +174,7 @@ function actualizar(){
               url: sUrlP + "actualizarBeneficiario",
               type: "POST",
               data: {'data' : JSON.stringify({
-                Persona      
+                Persona: Persona      
               })},
               success: function (data) {  
                 $("#txtMensaje").html(data);             
