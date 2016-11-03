@@ -20,7 +20,7 @@ function consultar() {
         
 
         $("#componente").val(data.Componente.nombre);
-        cargarGrado(data.Componente.Grado.codigo, data.Componente.Grado.nombre, data.Componente.id);
+        cargarGrado(data.Componente.Grado.id, data.Componente.Grado.nombre, data.Componente.id);
         //$("#fingreso").val();
         //$("#fingreso").val('23/07/1985');
         $('#fingreso').val(cargarFecha(data.fecha_ingreso));
@@ -92,9 +92,9 @@ function cargarGrado(cod, nom, id){
     $.getJSON(ruta, function(data) {
 
         $.each(data, function(d, v){            
-            var opt = new Option(v.nombre, v.codigo);
+            var opt = new Option(v.nombre, v.id);
             $("#grado").append(opt);
-            if(v.codigo == cod) opt.setAttribute("selected","selected");
+            if(v.id == cod) opt.setAttribute("selected","selected");
         });
         
 
@@ -158,31 +158,38 @@ function cargarBeneficiario(){
 }
 
 function actualizar(){
-    
-    cargarBeneficiario();
     var boton = '<button type="button" class="btn btn-success pull-right" onclick="continuar()">';
         boton += '<i class="glyphicon glyphicon-ok"></i>&nbsp;&nbsp;Continuar</button>';
-        $("#divContinuar").html(boton);
+    $("#divContinuar").html(boton);
 
-    $.ajax({
-          url: sUrlP + "actualizarBeneficiario",
-          type: "POST",
-          data: {'data' : JSON.stringify({
-            Persona      
-          })},
-          success: function (data) {  
-            $("#txtMensaje").html(data);             
-            $("#logMensaje").modal('show');
-            $("#id").val('');
 
-          },
-          error: function(data){ 
-            $("#txtMensaje").html(data); 
-            $("#logMensaje").modal('show');
+    if($("#id").val() == '' ){
+        $("#txtMensaje").html('Debe ingresar una cédula de identidad');
+        $("#logMensaje").modal('show');
+        
+    }else{
+        cargarBeneficiario();
+        
+        $.ajax({
+              url: sUrlP + "actualizarBeneficiario",
+              type: "POST",
+              data: {'data' : JSON.stringify({
+                Persona      
+              })},
+              success: function (data) {  
+                $("#txtMensaje").html(data);             
+                $("#logMensaje").modal('show');
+                $("#id").val('');
 
-          }
-        });
-    limpiar();
+              },
+              error: function(data){ 
+                $("#txtMensaje").html(data); 
+                $("#logMensaje").modal('show');
+
+              }
+            });
+        limpiar();
+    }
 }
 
 

@@ -220,9 +220,9 @@ class Panel extends MY_Controller {
 		$Bnf->fecha_ultima_modificacion = date("Y-m-d H:i:s");
 		$Bnf->usuario_modificacion = $_SESSION['usuario'];
 		
-		print_r($Bnf->guardar());
-
-		//$this->MBeneficiario->InsertarHistorial(); //Creando la traza de la modificacion
+		$this->MBeneficiario->InsertarHistorial(); //Creando la traza de la modificacion
+		$Bnf->guardar();
+		echo 'Proceso exitoso';
 
 	}
 
