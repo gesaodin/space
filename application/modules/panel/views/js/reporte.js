@@ -74,7 +74,7 @@ function continuar(){
     $("#logMensaje").modal('hide');
 }
 
-function activar(){
+function paralizar(){
     var Paralizar = {};
     Paralizar['id'] = $("#id").val();
     Paralizar['motivo'] = $("#txtObservacion").val();
@@ -108,7 +108,7 @@ function activar(){
  
 }
 
-function desparalizar(){
+function activar(){
     var Paralizar = {};
     Paralizar['id'] = $("#id").val();
     Paralizar['motivo'] = '';

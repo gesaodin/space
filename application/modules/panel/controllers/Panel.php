@@ -240,7 +240,7 @@ class Panel extends MY_Controller {
 		$Bnf->motivo_paralizacion = $data->Paralizar->motivo;
 		$Bnf->observacion = 'PARALIZADO';
 		$Bnf->ParalizarDesparalizar();
-
+		
 		echo 'Proceso exitoso';
 
 
