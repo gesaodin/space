@@ -34,7 +34,7 @@
     <script src="<?php echo base_url()?>assets/plugins/input-mask/jquery.inputmask.js"></script>
     <script src="<?php echo base_url()?>assets/plugins/input-mask/jquery.inputmask.date.extensions.js"></script>
     <!-- date-range-picker -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.min.js"></script>
+    <script src="<?php echo base_url()?>assets/moment/moment.min.js"></script>
     <script src="<?php echo base_url()?>assets/plugins/daterangepicker/daterangepicker.js"></script>
     <!-- bootstrap datepicker -->
     <script src="<?php echo base_url()?>assets/plugins/datepicker/bootstrap-datepicker.js"></script>

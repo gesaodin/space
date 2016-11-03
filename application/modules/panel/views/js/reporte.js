@@ -28,7 +28,7 @@ function Consultar(){
             sBoton += '<button type="button" class="btn btn-warning" title="Paralizar" onclick="ventana(\'paralizar\')"><i class="fa fa-lock" ></i></button>';                                
             sBoton += '</button>';
         }else if(data.estatus_activo == '205'){
-            sBoton += '<button type="button" class="btn btn-success" title="Desparalizar" onclick="ventana(\'desparalizar\')"><i class="fa fa-unlock-alt" ></i></button>';                                
+            sBoton += '<button type="button" class="btn btn-success" title="Desparalizar" onclick="ventana(\'activar\')"><i class="fa fa-unlock-alt" ></i></button>';                                
             sBoton += '</button>';
         }else{
 
@@ -63,7 +63,7 @@ function ventana(fn){
         boton += '<button type="button" class="btn btn-success" onclick="' + fn + '()">';
         boton += '<i class="glyphicon glyphicon-ok"></i>&nbsp;&nbsp;Si&nbsp;&nbsp;</button>';
     $("#divContinuar").html(boton);
-    $("#txtMensaje").html('Esta seguro que desea paralizar este beneficiario<br><br><input type="text" id="txtObservacion" class="form-control" placeholder="Observaciones"  >'); 
+    $("#txtMensaje").html('Esta seguro que desea ' + fn + ' este beneficiario<br><br><input type="text" id="txtObservacion" class="form-control" placeholder="Observaciones"  >'); 
     $("#logMensaje").modal('show');
     
 }
@@ -72,7 +72,7 @@ function continuar(){
     $("#logMensaje").modal('hide');
 }
 
-function paralizar(){
+function activar(){
     var Paralizar = {};
     Paralizar['id'] = $("#id").val();
     Paralizar['motivo'] = $("#txtObservacion").val();
