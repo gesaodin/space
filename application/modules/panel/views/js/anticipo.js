@@ -1,3 +1,6 @@
+var Anticipo = {};
+Anticipo['monto'] = 0;
+
 $('#reporteAnticipo').DataTable({
         "paging":   false,
         "ordering": false,
@@ -92,18 +95,18 @@ function listar(data){
         var sBoton = '<div class="btn-group">';
         var sAcciones = '';
         if(valor.estatus == '100'){
-            sBoton += '<button type="button" class="btn btn-info" title="Imprimir"><i class="fa fa-print" ></i></button>';                
-            sBoton += '<button aria-expanded="false" type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown">';
-            sBoton += '<span class="caret"></span>';
-            sBoton += '<span class="sr-only">Toggle Dropdown</span>';
-            sBoton += '</button>';
-
+            sBoton += '<button type="button" class="btn btn-info" title="Punto de Cuenta" onclick="PuntoCuenta(\'' + valor.id + '\')"><i class="fa fa-print" ></i></button>';                
+            /**
+            Buscar Archivos Viejos del sistema
             sAcciones = '<ul class="dropdown-menu" role="menu">';
             sAcciones += '<li><a href="#!" target="_top" onclick="HojaVida(\'' + valor.cedula_beneficiario + '\')">Hoja de Vida (PRINT)</a></li>';
             sAcciones += '<li><a href="#!" target="_top" onclick="OrdenPagoAnticipo(\'' + valor.cedula_beneficiario + '\')">Orden de Pago</a></li>';
             sAcciones += '<li><a href="#!" target="_top" onclick="PuntoCuenta(\'' + valor.cedula_beneficiario + '\')">Punto de Cuenta</a></li>';
             
             sAcciones += '</ul>';
+            **/
+        }else if(valor.estatus == '101'){
+            sBoton += '<button type="button" class="btn btn-success" title="Ejecutar" onclick="ejecutar(\'' + valor.id + '\')"><i class="fa fa-cogs" ></i></button>';
         }
         sBoton += sAcciones + '</div>';
         
@@ -180,6 +183,7 @@ function continuar(){
 }
 
 function calcularPorcentaje(){
+    if($("#porcentaje").val() == '')return false;
     var porcentaje = Number($("#porcentaje").val());
 
     if(porcentaje > 75 || porcentaje == 0){
@@ -200,8 +204,9 @@ function calcularPorcentaje(){
 
         var disponible = Number($("#saldo_disponible_aux").val());
         var cantidad = (disponible * porcentaje) / 100;
-        var resultado = parseFloat(cantidad).toFixed(2);
-        $("#txtMensaje").html('Está seguro que desea efectuar el anticipo por Bs. ' + resultado); 
+        Anticipo['monto'] = parseFloat(cantidad).toFixed(2);
+
+        $("#txtMensaje").html('Está seguro que desea efectuar el anticipo por Bs. ' + cantidad.formatMoney(2, ',', '.')); 
         $("#logMensaje").modal('show');
         $("#controles").hide();
         
@@ -209,10 +214,13 @@ function calcularPorcentaje(){
 }
 
 function calcularMonto(){
+    if($("#monto").val() == '')return false;
     monto = Number($("#monto").val());
     var disponible = Number($("#saldo_disponible_aux").val());
     
     var cantidad = (100 * monto) / disponible;
+    Anticipo['monto'] = parseFloat(monto).toFixed(2);
+
     if(cantidad > 75 || cantidad == 0){
         var boton = '<button type="button" class="btn btn-success pull-right" onclick="continuar()">';
             boton += '<i class="glyphicon glyphicon-ok"></i>&nbsp;&nbsp;Continuar</button>';
@@ -228,12 +236,52 @@ function calcularMonto(){
         $("#divContinuar").html(boton);
 
         
-        $("#txtMensaje").html('Está seguro que desea efectuar el anticipo por Bs. ' + monto); 
+        $("#txtMensaje").html('Está seguro que desea efectuar el anticipo por Bs. ' + monto.formatMoney(2, ',', '.')); 
         $("#logMensaje").modal('show');
         $("#controles").hide(); 
     }
 }
 
-function continuarAnticipo(){
 
+function cargar(){
+    if (Anticipo['monto'] > 0){
+        Anticipo['id'] = $("#id").val();
+        Anticipo['motivo'] = $("#motivo_medida option:selected").text();
+        Anticipo['estatus'] = 101;
+        Anticipo['tipo'] = 1;
+        Anticipo['nombre'] = $('#nombres').val();
+        Anticipo['apellido'] = $('#apellidos').val();
+     
+    }
+    
+}
+function continuarAnticipo(){
+    cargar();
+    
+    $("#myModal").modal('hide');
+    $.ajax({
+              url: sUrlP + "crearOrdenPago",
+              type: "POST",
+              data: {'data' : JSON.stringify({
+                Anticipo: Anticipo      
+              })},
+              success: function (data) { 
+                var boton = '<button type="button" class="btn btn-success pull-right" onclick="recargar()">';
+                    boton += '<i class="glyphicon glyphicon-ok"></i>&nbsp;&nbsp;Continuar</button>';
+                $("#divContinuar").html(boton);
+                $("#txtMensaje").html(data);             
+                $("#logMensaje").modal('show');
+                
+              },
+              error: function(data){ 
+                $("#txtMensaje").html('Ocurrio un error en la conexion'); 
+                $("#logMensaje").modal('show');
+
+              }
+            });
+}
+
+function recargar(){
+    URL = sUrlP + "anticipo";
+    $(location).attr('href', URL);
 }

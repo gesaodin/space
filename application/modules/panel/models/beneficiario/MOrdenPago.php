@@ -193,7 +193,7 @@ class MOrdenPago extends CI_Model{
     return $this;
   }
 
-  public function guardar(){
+  public function salvar(){
     $sInsert = 'INSERT INTO orden_pago (
       cedula_beneficiario,
       nombres_beneficiario,
@@ -233,11 +233,11 @@ class MOrdenPago extends CI_Model{
       \'' . $this->cedula_afiliado . '\',
       \'' . $this->fecha_creacion . '\',
       \'' . $this->usuario_creacion . '\',
-      \'' . $this->fecha_modificacionc . '\',
+      \'' . $this->fecha_modificacion . '\',
       \'' . $this->usuario_modificacion . '\',
       \'' . $this->ultima_observacion . '\')';
     
-    //echo $sInsert;
+    echo $sInsert;
     $obj = $this->Dbpace->consultar($sInsert);
 
 

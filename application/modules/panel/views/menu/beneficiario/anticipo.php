@@ -237,7 +237,7 @@
 
                               </div>
                               <div class="col-xs-10">
-                                  <select class="form-control select2" style="width: 100%;">
+                                  <select class="form-control select2" style="width: 100%;" id='motivo_medida'>
                                         <?php
                                            foreach ($lst as $k => $v) {
                                             echo '<option value="' . $v['oid'] . '">' . $v['nomb'] . '</option>';

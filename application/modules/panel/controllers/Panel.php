@@ -412,6 +412,35 @@ class Panel extends MY_Controller {
 		
 	}
 
+	public function crearOrdenPago(){
+		$this->load->model('beneficiario/MBeneficiario');
+		$this->load->model('beneficiario/MOrdenPago');
+
+		
+		$data = json_decode($_POST['data']);
+		$this->MOrdenPago->cedula_beneficiario = $data->Anticipo->id;
+		$this->MOrdenPago->cedula_afiliado = $data->Anticipo->id;
+		
+		$this->MOrdenPago->nombre = $data->Anticipo->nombre;
+		$this->MOrdenPago->apellido = $data->Anticipo->apellido;
+		$this->MOrdenPago->fecha =  date("Y-m-d");
+		
+		$this->MOrdenPago->motivo = $data->Anticipo->motivo;
+		$this->MOrdenPago->estatus = $data->Anticipo->estatus;
+		$this->MOrdenPago->tipo = $data->Anticipo->tipo;
+		$this->MOrdenPago->monto = $data->Anticipo->monto;
+
+		$this->MOrdenPago->fecha_creacion =  date("Y-m-d H:i:s");
+		$this->MOrdenPago->usuario_creacion = $_SESSION['usuario'];
+		$this->MOrdenPago->fecha_modificacion =  date("Y-m-d H:i:s");
+		$this->MOrdenPago->usuario_modificacion = $_SESSION['usuario'];
+
+
+		$this->MOrdenPago->salvar();
+
+		echo "Se registro el nuevo anticipo en estatus de pendiente";
+	}
+
 
 	public function listarOrdenesPagoBeneficiario($id){
 		$this->load->model('beneficiario/MOrdenPago');
