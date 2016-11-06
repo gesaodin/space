@@ -107,8 +107,8 @@ function listar(data){
         var monto = Number(valor.monto);
         var sBoton = '<div class="btn-group">';
         var sAcciones = '';
-        if(valor.estatus == '100'){
-            sBoton += '<button type="button" class="btn btn-info" title="Punto de Cuenta" onclick="PuntoCuenta(\'' + valor.id + '\')"><i class="fa fa-print" ></i></button>';                
+        if(valor.estatus == 100){
+            if(valor.movimiento == 0 )sBoton += '<button type="button" class="btn btn-info" title="Punto de Cuenta" onclick="PuntoCuenta(\'' + valor.id + '\')"><i class="fa fa-print" ></i></button>';                
             /**
             Buscar Archivos Viejos del sistema
             sAcciones = '<ul class="dropdown-menu" role="menu">';
@@ -119,7 +119,7 @@ function listar(data){
             sAcciones += '</ul>';
             **/
         }else if(valor.estatus == '101'){
-            sBoton += '<button type="button" class="btn btn-danger" title="Recharzar" onclick="rechazar(\'' + valor.id + '\')"><i class="fa fa-remove" ></i></button>';
+            if(valor.movimiento == 0 )sBoton += '<button type="button" class="btn btn-danger" title="Recharzar" onclick="rechazar(\'' + valor.id + '\')"><i class="fa fa-remove" ></i></button>';
         }
         sBoton += sAcciones + '</div>';
         
@@ -134,10 +134,10 @@ function listar(data){
     });
 }
 
-function rechazar(){
+function rechazar(id){
     var boton = '<button type="button" class="btn btn-danger pull-right" onclick="continuar()">';
             boton += '<i class="glyphicon glyphicon-ok"></i>&nbsp;&nbsp;No</button>';
-            boton += '<button type="button" class="btn btn-success" onclick="continuarAnticipo(102)">';
+            boton += '<button type="button" class="btn btn-success" onclick="rechazarAnticipo(\'' + id + '\')">';
             boton += '<i class="glyphicon glyphicon-ok"></i>&nbsp;&nbsp;Si</button>';
     var msj = '¿Está seguro que desea rechazar está operación?';    
     $("#divContinuar").html(boton);
@@ -178,8 +178,8 @@ function OrdenPagoAnticipo(id){
 }
 
 function PuntoCuenta(id){    
-    URL = sUrlP + "puntocuenta/" + id;
-    window.open(URL,"Punto de Cuenta","toolbar=0,location=1,menubar=0,scrollbars=1,resizable=1,width=900,height=800")
+    URL = sUrlP + "puntocuenta/" + $("#id").val()  + "/" + id;
+    window.open(URL,"Punto de Cuenta","toolbar=0,location=0,menubar=0,scrollbars=1,resizable=1,width=1100,height=600")
 }
 
 function limpiar(){
@@ -281,7 +281,7 @@ function calcularMonto(){
 function cargar(){
     if (Anticipo['monto'] > 0){
         Anticipo['id'] = $("#id").val();
-        Anticipo['motivo'] = $("#motivo_medida option:selected").text();
+        Anticipo['motivo'] = 'Anticipo - ' + $("#motivo_medida option:selected").text();
        
         Anticipo['tipo'] = 1;
         Anticipo['nombre'] = $('#nombres').val();
@@ -300,6 +300,31 @@ function continuarAnticipo(estatus){
               type: "POST",
               data: {'data' : JSON.stringify({
                 Anticipo: Anticipo      
+              })},
+              success: function (data) { 
+                var boton = '<button type="button" class="btn btn-success pull-right" onclick="recargar()">';
+                    boton += '<i class="glyphicon glyphicon-ok"></i>&nbsp;&nbsp;Continuar</button>';
+                $("#divContinuar").html(boton);
+                $("#txtMensaje").html(data);             
+                $("#logMensaje").modal('show');
+                
+              },
+              error: function(data){ 
+                $("#txtMensaje").html('Ocurrio un error en la conexion'); 
+                $("#logMensaje").modal('show');
+
+              }
+            });
+}
+
+function rechazarAnticipo(id){
+
+    $("#myModal").modal('hide');
+    $.ajax({
+              url: sUrlP + "rechazarAnticipo",
+              type: "POST",
+              data: {'data' : JSON.stringify({
+                id: id
               })},
               success: function (data) { 
                 var boton = '<button type="button" class="btn btn-success pull-right" onclick="recargar()">';

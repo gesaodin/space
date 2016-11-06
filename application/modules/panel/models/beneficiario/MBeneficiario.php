@@ -656,9 +656,13 @@ class MBeneficiario extends CI_Model{
 
 
 	function ActualizarPorMovimiento(){
-		$sActualizar = 'UPDATE beneficiario SET  
-			f_retiro=\'' . $this->Beneficiario->fecha_retiro . '\', 
-			f_retiro_efectiva=\'' . $this->Beneficiario->fecha_retiro . '\', 
+		$fecha_r = 'f_retiro=\'' . $this->Beneficiario->fecha_retiro . '\', 
+			f_retiro_efectiva=\'' . $this->Beneficiario->fecha_retiro . '\',';
+
+		if ($this->Beneficiario->fecha_retiro == ''){
+			$fecha_r = 'f_retiro=null, f_retiro_efectiva=null, ';
+		}
+		$sActualizar = 'UPDATE beneficiario SET  ' . $fecha_r . ' 
 			status_id=\'' . $this->Beneficiario->estatus_activo . '\',
 			usr_modificacion=\'' . $_SESSION['usuario'] . '\',
 			observ_ult_modificacion=\'' . $this->Beneficiario->observacion . '\',

@@ -151,6 +151,18 @@ class Panel extends MY_Controller {
 		$this->load->view('reporte/beneficiario/carta_banco_fallecido', $data);
 	}
 
+	public function puntoCuenta($cedula = '', $codigo){
+		$this->load->model('beneficiario/MBeneficiario');
+		$this->MBeneficiario->obtenerID($cedula);
+		$this->load->model('beneficiario/MOrdenPago');
+		$this->MBeneficiario->HistorialOrdenPagos = $this->MOrdenPago->listarPorCedula($cedula);
+
+		$data['Beneficiario'] = $this->MBeneficiario;
+		$data['codigo'] = $codigo;
+
+		$this->load->view('reporte/beneficiario/punto_cuenta_anticipo', $data);
+	}
+
 	/**
 	*	*******************************************************
 	*	FIN DE LOS REPORTES GENERALES DEL SISTEMA
@@ -446,7 +458,7 @@ class Panel extends MY_Controller {
 	}
 
 	public function ejecutarAnticipo(){
-		echo "<pre>";
+		//echo "<pre>";
 		
 		$this->load->model('beneficiario/MHistorialMovimiento');
 		$this->load->model('beneficiario/MOrdenPago');
@@ -480,17 +492,26 @@ class Panel extends MY_Controller {
 		$codigo = $json->certificado;
 
 		$this->MOrdenPago->estatus = 103;
-		$this->cedula_afiliado = $ced;
+		$this->MOrdenPago->cedula_afiliado = $ced;
 		$this->MOrdenPago->ultima_observacion = $codigo;
-		
+		//echo "<pre>";
 		$lst = $this->MAnticipo->listarCodigo($ced, $codigo);
-		//$this->MHistorialMovimiento->isertarReverso($lst);
-		//$this->MOrdenPago->reversar();			
+		//print_r($lst);
+		$this->MHistorialMovimiento->isertarReverso($lst);
+		$this->MOrdenPago->reversar();			
 		echo 'Se ha procesado exitosamente el reverso';
 		
 		
 	}
-
+	public function rechazarAnticipo(){
+		$this->load->model('beneficiario/MOrdenPago');
+		$json = json_decode($_POST['data']);
+		print_r($json);
+		$this->MOrdenPago->estatus = 102;
+		$this->MOrdenPago->id = $json->id;
+		$this->MOrdenPago->rechazar();			
+		echo 'Se ha procesado exitosamente el reverso';
+	}
 
 
 

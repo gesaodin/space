@@ -21,7 +21,7 @@ function consultar() {
     var val = $("#id").val();
     ruta = sUrlP + "consultarBeneficiario/" + val;
     $.getJSON(ruta, function(data) {
- 	  
+ 	  console.log(data);
         $("#cedula").val(data.cedula);
         $("#nombres").val(data.nombres);
         $("#apellidos").val(data.apellidos);
@@ -61,13 +61,7 @@ function listar(){
 	            monto.formatMoney(2, ',', '.'),
 	            valor.motivo	            
 	        ] ).draw( false );
-    	}else{
-            var boton = '<button id="btnContinuar" type="button" class="btn btn-success pull-right" onclick="continuar()">';
-                boton += '<i class="glyphicon glyphicon-ok"></i>&nbsp;&nbsp;Continuar</button>';
-            $("#divContinuar").html(boton);
-            $("#txtMensaje").html('El Beneficiario que intenta consultar no posee anticipos pendientes'); 
-            $("#logMensaje").modal('show'); 
-        }
+    	}
     });
 }
 
@@ -122,7 +116,7 @@ function ejecutarAnticipo(){
     a_ax = 0; //Diferencia Asignación Antiguedad
     p_p = 1; //Partida Presupuestaria
     m_f = 31; //Motivo de Finiquito
-    m_ft = 'Anticipo - '$("#motivo").val(); //motivo_finiquito
+    m_ft = $("#motivo").val(); //motivo_finiquito
 
     m_asaf = 0; //motivo_finiquito   
 
@@ -132,10 +126,9 @@ function ejecutarAnticipo(){
     m_r = 0; //Monto a Recuperar
     m_rx = 0; //Monto a Recuperar
 
-    emi = $("#emisor").val()
-    rev = $("#revision").val()
-    aut = $("#autoriza").val()
-    console.log(emi);
+    emi = $("#emisor").val();
+    rev = $("#revision").val();
+    aut = $("#autoriza").val();
 
     $.ajax({
       type: "POST",

@@ -262,7 +262,7 @@ class MHistorialMovimiento extends CI_Model{
 
 
 
-		echo $sInsert;
+		//echo $sInsert;
 		$obj = $this->Dbpace->consultar($sInsert);		
 		return $this->codigo;
 

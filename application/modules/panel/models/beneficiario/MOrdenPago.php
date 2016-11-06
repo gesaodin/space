@@ -237,7 +237,7 @@ class MOrdenPago extends CI_Model{
       \'' . $this->usuario_modificacion . '\',
       \'' . $this->ultima_observacion . '\')';
     
-    echo $sInsert;
+    //echo $sInsert;
     $obj = $this->Dbpace->consultar($sInsert);
 
 
@@ -302,6 +302,7 @@ class MOrdenPago extends CI_Model{
           status_id = \'' . $this->estatus . '\'
         WHERE 
          cedula_afiliado = \'' . $this->cedula_afiliado . '\' AND observ_ult_modificacion = \'' . $this->ultima_observacion . '\';';
+    
     $obj = $this->Dbpace->consultar($sConsulta);
   }
 

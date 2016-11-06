@@ -1,4 +1,13 @@
 <?php  
+
+  foreach ($Beneficiario->HistorialOrdenPagos as $c => $v) {
+    if($v->id == $codigo){
+      $finalidad = $v->motivo;
+      $monto = $v->monto;
+    }  
+    
+  }
+
   function fecha($fecha = ''){
     $mes = 'Enero';
     switch ($fecha) {
@@ -62,7 +71,7 @@
     }
 
     td{
-        border: 0px solid #dddddd;
+        
         text-align: left;
         padding: 8px;
     }
@@ -80,7 +89,7 @@
   </head>
 <BODY>
  <center>
- <table style="width: 700px">
+ <table style="width: 1000px">
  <tr>
    <td style="width: 65%;  border: 0px solid #dddddd; text-align: center; font-size: 10px">    
      REPÚBLICA BOLIVARIANA DE VENEZUELA<BR>
@@ -96,39 +105,112 @@
 
    </td>
  </tr>
- </table><BR>
+ </table>
 
- <table style="width: 900px;  text-align: justify;  font-size: 15px">
+ <table style="width: 1000px;  text-align: justify;  font-size: 14px" >
+
   <tr>
-    <td>Nro.</td><td>320.600-<?php echo substr(md5($Beneficiario->cedula . $Beneficiario->fecha_ultima_modificacion), 0,6);?>/01</td>
+    <td>PARA:</td><td><b>PRESIDENTE DEL IPSFA</b></td>
+    <td><center><b>
+      Nro. 320.600-<?php echo substr(md5($Beneficiario->cedula . $Beneficiario->fecha_ultima_modificacion), 0,6);?>r
+      </b></center>
+    </td>  
   </tr> 
   <tr>
-    <td>DE:</td><td><b>CNEL. EDUARDO JOSE MARTINEZ SALAS</b></td>
-  </tr> 
-  <tr>
-    <td>PARA:</td><td><b>PRESIDENTE DEL IPSFA</b></td>    
+    <td>DE:</td><td><b>GERENCIA DE BIENESTAR Y SEGURIDAD SOCIAL</b></td>
+    <td><center> 
+    <button onclick="imprimir()" id="btnPrint">Imprimir Reporte</button>
+  </center></td>
   </tr> 
 
  </table>
 
- <table style="width: 900px;  text-align: justify;  font-size: 15px">
-   <tr><td>TITULO DEL ASUNTO</td><td>DECISIÓN</td><td>OBSERVACIÓN</td></tr>
+ <table style="width: 1000px;" border="1">
+   <tr><td style="width: 550px;">TITULO DEL ASUNTO</td><td>DECISIÓN</td><td>OBSERVACIÓN</td></tr>
    <tr>
-      <td>
-        Esta Gerencia somete a la consideración del ciudadano GB. Presidente de la Junta Administradora del IPSFA,
+      <td style="text-align: justify; font-size: 14px; line-height: 1.5" valign="top">
+        &emsp;Esta Gerencia somete a la consideración del ciudadano GB. Presidente de la Junta Administradora del IPSFA,
         la solicitud formulada por <b><?php 
           echo $Beneficiario->Componente->Grado->nombre; echo $Beneficiario->nombres . ' ' . $Beneficiario->apellidos; ?>
-         </b> titular de la cédula de identidad <b><?php echo $Beneficiario->cedula;?></b> de un adelanto de su 
-         XXXXXXXXXX, con la finalidad: XXXXXCONCEPTOXXXXX. <br><br>
-         Esta solicitud cumple con lo establecido en el Arículo 7° ordinal 4to del Reglamento de pago de 
-         Asignaciones al Personal Militar.<br><br>
-         Al profesional le corresponde por concepto de XXXXXXXXXX, la cantidad de Bs.
+         </b> titular de la cédula de identidad <b><?php echo $Beneficiario->cedula . ' (' . $Beneficiario->Componente->nombre . ')';?>
+         </b> de un adelanto de su 
+         Asignación de Antiguedad, con la finalidad:<b> <?php echo strtoupper($finalidad);?></b><br><br>
+         
+         &emsp;Esta solicitud cumple con lo establecido en el Arículo 59 de la LOSSFANB (LEY NEGRO PRIMERO).<br><br>
+         
+         &emsp;Al profesional le corresponde por concepto de Asignación de Antiguedad (Años de Servicios cumplidos), 
+         la cantidad de Bs. <b><?php echo $Beneficiario->Calculo['asignacion_antiguedad'];?></b> Actualmente se la depositado un monto         
+         total de Bs.<b><?php echo $Beneficiario->Calculo['asignacion_depositada'];?></b> lo que representa el 
+         <b><?php echo $Beneficiario->Calculo['porcentaje_cancelado'];?>%</b> de la Asignación de Antiguedad y se han 
+         otorgado adelantos que totalizan la cantidad de Bs. <b><?php echo $Beneficiario->Calculo['anticipos'];?>.</b>
+         El monto a otorgar es de Bs. <b><?php echo number_format($monto, 2, ',','.');?></b> del Saldo disponible en banco.
+         <br><br>
+         &emsp;Por lo que me permito realizar esta tramitación con opinión favorable.<br><br>
+
+         <center><b>CNEL. EDUARDO JOSE MARTINEZ SALAS<BR>
+         GERENTE DE BIENESTAR Y SEGURIDAD SOCIAL<B><center>
+
          
 
       </td>
-      <td>DECISIÓN</td>
-      <td>OBSERVACIÓN</td>
+      <td style="width: 325px;text-align: justify; font-size: 14px; line-height: 1.5" valign="top">
+        
+      <table style="height: 100%; width: 100%">
+        <tr style="height: 50%; width: 100%">
+          <td>APROBADO</td>
+          <td><input type="text" style="width:20px"></input></td>
+          <td>NEGADO</td>
+          <td><input type="text" style="width:20px"></input></td>
+        </tr>
+        <tr style="height: 50%; width: 100%">
+          <td>VISTO</td>
+          <td><input type="text" style="width:20px"></input></td>
+          <td>DIFERIDO</td>
+          <td><input type="text" style="width:20px"></input></td>
+        </tr>
+        <tr style="height: 50%; width: 100%">
+          <td>OTRO</td>
+          <td><input type="text" style="width:20px"></input></td>
+          <td></td>
+          <td></td>
+        </tr>
+
+
+        <tr style="height: 50%; width: 100%; text-align: justify; font-size: 14px; line-height: 1.5" valign="bottom">
+          <td colspan="4">
+            <br><br><br><br><br><br>
+            <br><br><br><br><br><br>
+            <b><center>
+            JESÚS RAFAEL SALAZAR VELASQUEZ<BR>
+            GENERAL DE BRIGADA<BR>
+            PRESIDENTE DEL I.P.S.F.A<BR>
+            </center>
+            </B>
+          </td>
+        </tr>
+      </table>
+        
+        
+
+
+        
+      </td>
+
+      <td style="width: 225px;text-align: justify; font-size: 14px; line-height: 1.5" valign="top">
+        Según Resolución N° DG-00044 del 08FEBB99, se delegó la firma Parcial de la Asignación de Antiguedad del personal militar,
+        al General de Brigada Presidente de la Junta Administradora del Instituto de Previsión Social de las Fuerzas Armadas.
+      </td>
     </tr>
  </table>
+
+
+
+  <script language="Javascript">
+    function imprimir(){
+        document.getElementById('btnPrint').style.display = 'none';
+        window.print();
+        window.close();
+    }
+  </script>
 </body>
 </html>
