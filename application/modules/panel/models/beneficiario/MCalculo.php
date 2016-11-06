@@ -102,6 +102,7 @@ class MCalculo extends CI_Model{
       'diferencia_AA' => number_format($this->Diferencia_Asignacion(), 2, ',','.'),
       'fecha_ultimo_anticipo' => $this->Fecha_Ultimo_Anticipo(),
       'embargos' => number_format($this->Embargos(), 2, ',','.'),
+      'embargos_aux' => $this->Embargos(),
       'finiquito_embargo' => number_format($this->FiniquitoEmbargo(), 2, ',','.'),
       'finiquito_embargo_aux' => $this->FiniquitoEmbargo(),
       'porcentaje_cancelado' => number_format($this->Porcentaje_Cancelado(), 2, ',','.'),
@@ -605,6 +606,7 @@ class MCalculo extends CI_Model{
   */
   public function Saldo_Disponible(){
     $total = (($this->DepositoBanco() - $this->Anticipos()) + $this->Garantias()) - ($this->Embargos() + $this->Monto_Recuperar());
+    
     return $total;  
   }
 

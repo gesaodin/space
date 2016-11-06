@@ -552,6 +552,7 @@ function GuargarFiniquito(){
     i_d = $("#id").val(); //
     m_d = $("#deuda").val(); //Monto Por Deuda
     a_i = $("#intereses").val(); //Ajuste PorInteres
+    t_an = 0;
     t_b = $("#total_banco").val(); //Total en Banco
     t_bx = $("#total_banco_calc").val(); //Total en Banco
     a_a = $("#asignacion_diferencia").val(); //Diferencia Asignación Antiguedad
@@ -582,6 +583,7 @@ function GuargarFiniquito(){
           //dataType: "json",
           data: {'data' : JSON.stringify({
             i_d: i_d, //Cedula de Identidad
+            t_an: t_an, //5 Formato Moneda
             t_b: t_b, //9 Formato Moneda
             t_bx: t_bx, //9 Fomato Cientifico
             a_i: a_i, //10

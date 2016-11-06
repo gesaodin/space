@@ -66,10 +66,23 @@ function consultar() {
             $("#saldo_disponible").val(data.Calculo.saldo_disponible);
             $("#saldo_disponible_aux").val(data.Calculo.saldo_disponible_aux);
 
-            $("#medidas_judiciales").val(data.Calculo.medida_judicial_activas);
-            $("#medidas_judiciales_aux").val(data.Calculo.medida_judicial_activas_aux);
+            $("#medidas_judiciales").val(data.Calculo.embargos);
+            $("#medidas_judiciales_aux").val(data.Calculo.embargos_aux);
 
             listar(data.HistorialOrdenPagos);
+            var monto = data.Calculo.saldo_disponible_aux;
+            var saldo =  (Number(monto) * 75)/100;
+            var calculo = Number(saldo) - Number(data.Calculo.embargos_aux);
+            if(calculo < 0){
+                $("#divBotones").hide();
+                var boton = '<button type="button" class="btn btn-danger pull-right" onclick="continuar()">';
+                    boton += '<i class="glyphicon glyphicon-ok"></i>&nbsp;&nbsp;Continuar</button>';
+                var msj = 'El beneficiaio no puede solicitar anticipo porque excede el monto del capital en banco al aplicarle la Medida Judicial';
+                $("#divContinuar").html(boton);
+                $("#txtMensaje").html(msj); 
+                $("#logMensaje").modal('show');
+            }
+            
 
         }
 
@@ -106,7 +119,7 @@ function listar(data){
             sAcciones += '</ul>';
             **/
         }else if(valor.estatus == '101'){
-            sBoton += '<button type="button" class="btn btn-success" title="Ejecutar" onclick="ejecutar(\'' + valor.id + '\')"><i class="fa fa-cogs" ></i></button>';
+            sBoton += '<button type="button" class="btn btn-danger" title="Recharzar" onclick="rechazar(\'' + valor.id + '\')"><i class="fa fa-remove" ></i></button>';
         }
         sBoton += sAcciones + '</div>';
         
@@ -120,6 +133,20 @@ function listar(data){
         ] ).draw( false );
     });
 }
+
+function rechazar(){
+    var boton = '<button type="button" class="btn btn-danger pull-right" onclick="continuar()">';
+            boton += '<i class="glyphicon glyphicon-ok"></i>&nbsp;&nbsp;No</button>';
+            boton += '<button type="button" class="btn btn-success" onclick="continuarAnticipo(102)">';
+            boton += '<i class="glyphicon glyphicon-ok"></i>&nbsp;&nbsp;Si</button>';
+    var msj = '¿Está seguro que desea rechazar está operación?';    
+    $("#divContinuar").html(boton);
+    $("#txtMensaje").html(msj); 
+    $("#logMensaje").modal('show');
+    $("#controles").hide();
+}
+
+
 
 function estatus(cod){
     var texto = '';
@@ -179,7 +206,6 @@ function limpiar(){
 
 function continuar(){
     $("#logMensaje").modal('hide');
-    //$("#id").focus();
 }
 
 function calcularPorcentaje(){
@@ -198,15 +224,24 @@ function calcularPorcentaje(){
     }else{
         var boton = '<button type="button" class="btn btn-danger pull-right" onclick="continuar()">';
             boton += '<i class="glyphicon glyphicon-ok"></i>&nbsp;&nbsp;No</button>';
-            boton += '<button type="button" class="btn btn-success" onclick="continuarAnticipo()">';
+            boton += '<button type="button" class="btn btn-success" onclick="continuarAnticipo(101)">';
             boton += '<i class="glyphicon glyphicon-ok"></i>&nbsp;&nbsp;Si</button>';
         $("#divContinuar").html(boton);
 
         var disponible = Number($("#saldo_disponible_aux").val());
-        var cantidad = (disponible * porcentaje) / 100;
-        Anticipo['monto'] = parseFloat(cantidad).toFixed(2);
+        var cantidad = ((disponible * porcentaje) / 100) - Number($("#medidas_judiciales_aux").val());
+        var msj = 'Está seguro que desea efectuar el anticipo por Bs. ' + cantidad.formatMoney(2, ',', '.');
 
-        $("#txtMensaje").html('Está seguro que desea efectuar el anticipo por Bs. ' + cantidad.formatMoney(2, ',', '.')); 
+        Anticipo['monto'] = parseFloat(cantidad).toFixed(2);
+        if(cantidad < 0){
+            var boton = '<button type="button" class="btn btn-danger pull-right" onclick="recargar()">';
+                boton += '<i class="glyphicon glyphicon-ok"></i>&nbsp;&nbsp;Continuar</button>';
+            msj = 'El beneficiaio no puede solicitar anticipo porque excede el monto del capital en banco al aplicarle la Medida Judicial';
+            $("#divContinuar").html(boton);
+        }
+
+
+        $("#txtMensaje").html(msj); 
         $("#logMensaje").modal('show');
         $("#controles").hide();
         
@@ -231,7 +266,7 @@ function calcularMonto(){
     }else{
        var boton = '<button type="button" class="btn btn-danger pull-right" onclick="continuar()">';
             boton += '<i class="glyphicon glyphicon-ok"></i>&nbsp;&nbsp;No</button>';
-            boton += '<button type="button" class="btn btn-success" onclick="continuarAnticipo()">';
+            boton += '<button type="button" class="btn btn-success" onclick="continuarAnticipo(101)">';
             boton += '<i class="glyphicon glyphicon-ok"></i>&nbsp;&nbsp;Si</button>';
         $("#divContinuar").html(boton);
 
@@ -247,7 +282,7 @@ function cargar(){
     if (Anticipo['monto'] > 0){
         Anticipo['id'] = $("#id").val();
         Anticipo['motivo'] = $("#motivo_medida option:selected").text();
-        Anticipo['estatus'] = 101;
+       
         Anticipo['tipo'] = 1;
         Anticipo['nombre'] = $('#nombres').val();
         Anticipo['apellido'] = $('#apellidos').val();
@@ -255,7 +290,8 @@ function cargar(){
     }
     
 }
-function continuarAnticipo(){
+function continuarAnticipo(estatus){
+    Anticipo['estatus'] = estatus;
     cargar();
     
     $("#myModal").modal('hide');

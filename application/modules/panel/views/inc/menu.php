@@ -43,9 +43,9 @@
                 <i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class="treeview-menu">
-                <li><a href="<?php echo base_url()?>index.php/panel/Panel/ordenpago"><i class="fa fa-edit"></i> Crear Orden de Pago</a></li>
-                <li><a href="../"><i class="fa fa-envelope-o"></i> Ordenes Pendientes</a></li>
-                <li><a href="../"><i class="fa fa-envelope-square"></i> Ordenes Ejecutadas</a></li>
+                <li><a href="<?php echo base_url()?>index.php/panel/Panel/ordenpago"><i class="fa fa-edit"></i> Pendiente</a></li>
+                <!-- <li><a href="../"><i class="fa fa-envelope-o"></i> Ordenes Pendientes</a></li> -->
+                <li><a href="<?php echo base_url()?>index.php/panel/Panel/ordenpagoejecutada"><i class="fa fa-envelope-square"></i> Ejecutadas</a></li>
 
               </ul>
             </li>

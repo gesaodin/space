@@ -101,4 +101,34 @@ class MAnticipo extends CI_Model{
 
   }
 
+   function listarCodigo($cedula, $codigo){
+    $sConsulta = 'SELECT * FROM movimiento where cedula=\'' . $cedula . '\' AND  codigo =\'' . $codigo . '\';';
+    
+    $obj = $this->Dbpace->consultar($sConsulta);
+    $lst = array();
+
+    if($obj->code == 0 ){
+      foreach ($obj->rs as $clv => $val) {
+       $lst[] = array(
+          'id' => $val->id, 
+          'cedula' => $val->cedula,
+          'monto' => $val->monto,
+          'tipo_movimiento_id' => $val->tipo_movimiento_id,
+          'codigo' => $val->codigo,
+          'observaciones' => $val->observaciones,
+          'f_contable' => $val->f_contable,
+          'status_id' => $val->status_id,
+          'motivo_id' => $val->motivo_id,
+          'f_creacion' => $val->f_creacion,
+          'usr_creacion' => $val->usr_creacion,
+          'f_ult_modificacion' => $val->f_ult_modificacion,
+          'usr_modificacion' => $val->usr_modificacion,
+          'observ_ult_modificacion' => $val->observ_ult_modificacion,
+          'partida_id' => $val->partida_id
+        );
+      }
+    }
+    return $lst;
+  }
+
 }

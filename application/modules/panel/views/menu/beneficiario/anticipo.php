@@ -314,31 +314,31 @@
           </div>
            
 
-                <div class="box box-success">
-                  <div class="box-header with-border">
-                    <h3 class="box-title">Detalles del Anticipo</h3>
-                    <div class="box-tools pull-right">
-                     
-                    </div><!-- /.box-tools -->
-                  </div><!-- /.box-header -->
-                  <div class="box-body">                    
-                        <br><br>
-                          <table id="reporteAnticipo" class="table table-bordered table-hover">
-                            <thead>
-                            <tr>
-                                <th style="width: 40px;">Acciones</th>
-                                <th style="width: 40px;">Estatus</th>
-                                <th>Fecha</th>
-                                <th >Motivo</th>
-                                <th style="width: 80px;">Monto</th>                   
-                            </tr>
-                            </thead>
-                            <tbody>
-                            </tbody>
-                        </table>
+          <div class="box box-success">
+            <div class="box-header with-border">
+              <h3 class="box-title">Detalles del Anticipo</h3>
+              <div class="box-tools pull-right">
+               
+              </div><!-- /.box-tools -->
+            </div><!-- /.box-header -->
+            <div class="box-body">                    
+                  <br><br>
+                    <table id="reporteAnticipo" class="table table-bordered table-hover">
+                      <thead>
+                      <tr>
+                          <th style="width: 40px;">Acciones</th>
+                          <th style="width: 40px;">Estatus</th>
+                          <th>Fecha</th>
+                          <th >Motivo</th>
+                          <th style="width: 80px;">Monto</th>                   
+                      </tr>
+                      </thead>
+                      <tbody>
+                      </tbody>
+                  </table>
 
-                  </div><!-- /.box-body -->
-                </div><!-- /.box -->
+            </div><!-- /.box-body -->
+          </div><!-- /.box -->
 
           
 

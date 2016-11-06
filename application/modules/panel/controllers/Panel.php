@@ -55,6 +55,9 @@ class Panel extends MY_Controller {
 	public function ordenpago(){
 		$this->load->view("menu/orden_pago/orden");
 	}
+	public function ordenpagoejecutada(){
+		$this->load->view("menu/orden_pago/ejecutada");
+	}
 
 	public function consultarmovimiento(){
 		$this->load->view("menu/beneficiario/consultarmovimiento");
@@ -413,7 +416,7 @@ class Panel extends MY_Controller {
 	}
 
 	public function crearOrdenPago(){
-		$this->load->model('beneficiario/MBeneficiario');
+		
 		$this->load->model('beneficiario/MOrdenPago');
 
 		
@@ -435,11 +438,60 @@ class Panel extends MY_Controller {
 		$this->MOrdenPago->fecha_modificacion =  date("Y-m-d H:i:s");
 		$this->MOrdenPago->usuario_modificacion = $_SESSION['usuario'];
 
-
-		$this->MOrdenPago->salvar();
+		
+		$this->MOrdenPago->salvar();	
+		
 
 		echo "Se registro el nuevo anticipo en estatus de pendiente";
 	}
+
+	public function ejecutarAnticipo(){
+		echo "<pre>";
+		
+		$this->load->model('beneficiario/MHistorialMovimiento');
+		$this->load->model('beneficiario/MOrdenPago');
+
+		$json = json_decode($_POST['data']); // 'Hola Mundo'; //Object($_POST);
+		$json->u_s = $_SESSION['usuario'];
+		
+		$fecha_aux = isset($json->f_r) ? $json->f_r : '';
+		if($fecha_aux != ''){
+			$this->MOrdenPago->estatus = 100;
+			$this->MOrdenPago->id = $json->o_b;
+			$this->MOrdenPago->emisor = $json->emi;
+			$this->MOrdenPago->revision = $json->rev;
+			$this->MOrdenPago->autoriza = $json->aut;
+
+			$this->MOrdenPago->ultima_observacion = $this->MHistorialMovimiento->InsertarDetalle($json);
+			$this->MOrdenPago->ejecutar();
+			echo 'Se ha ejecutado exitosamente el anticipo del beneficiario...';
+			//print_r($json);
+		}
+		
+
+	}
+
+	public function reversarAnticipo(){
+		$this->load->model('beneficiario/MOrdenPago');
+		$this->load->model('beneficiario/MHistorialMovimiento');
+		$this->load->model('beneficiario/MAnticipo');	
+		$json = json_decode($_POST['data']);
+		$ced = $json->cedula;
+		$codigo = $json->certificado;
+
+		$this->MOrdenPago->estatus = 103;
+		$this->cedula_afiliado = $ced;
+		$this->MOrdenPago->ultima_observacion = $codigo;
+		
+		$lst = $this->MAnticipo->listarCodigo($ced, $codigo);
+		//$this->MHistorialMovimiento->isertarReverso($lst);
+		//$this->MOrdenPago->reversar();			
+		echo 'Se ha procesado exitosamente el reverso';
+		
+		
+	}
+
+
 
 
 	public function listarOrdenesPagoBeneficiario($id){

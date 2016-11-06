@@ -163,6 +163,9 @@ class MHistorialMovimiento extends CI_Model{
 	private function __conversion($id = 0){
 		$valor = 0;
 		switch ($id) {
+			case 5: 
+				$valor = 25;
+				break;
 			case 9:
 				$valor = 18;
 				break;
@@ -223,6 +226,9 @@ class MHistorialMovimiento extends CI_Model{
 			) VALUES ';
 
 
+		//5
+		if($obj->t_an != 0)$sInsert = $sInsert_aux . $this->valorRepetido(5, $obj, $obj->t_an) . ';';
+
 		//9
 		//if($obj->t_bx != 0)$sInsert .= $this->valorRepetido(9, $obj, $obj->t_bx);
 		if($obj->t_bx != 0)$sInsert = $sInsert_aux . $this->valorRepetido(9, $obj, $obj->t_bx) . ';';
@@ -256,15 +262,16 @@ class MHistorialMovimiento extends CI_Model{
 
 
 
-		//echo $sInsert;
-		$obj = $this->Dbpace->consultar($sInsert);
+		echo $sInsert;
+		$obj = $this->Dbpace->consultar($sInsert);		
+		return $this->codigo;
 
 	}
 
  	private function valorRepetido($cod, $obj, $mnt){
 	 	$sCodigo = '(' . $cod . ',' . $mnt . ',\'' . $obj->i_d . '\',\'' . 
-							$obj->m_ft . '\',\''  .  $obj->f_r . '\',280,' . $obj->m_f . ',\''  .  date("Y-m-d H:i:s") . '\',\''  .  
-							$obj->u_s . '\',\''  .  date("Y-m-d H:i:s") . '\',\''  .  $obj->u_s . '\',\'' . $obj->o_b . '\',' . 
+							strtoupper($obj->m_ft) . '\',\''  .  $obj->f_r . '\',280,' . $obj->m_f . ',\''  .  date("Y-m-d H:i:s") . '\',\''  .  
+							$_SESSION['usuario'] . '\',\''  .  date("Y-m-d H:i:s") . '\',\''  .  $_SESSION['usuario'] . '\',\'' . $obj->o_b . '\',' . 
 							$obj->p_p . ',\'' . $this->codigo . '\')'; 
 	 	return $sCodigo;
 

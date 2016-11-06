@@ -272,12 +272,39 @@ class MOrdenPago extends CI_Model{
 
 
   public function ejecutar(){
+    
+    
+
+    $sConsulta = 'UPDATE  orden_pago SET 
+          status_id = \'' . $this->estatus . '\', 
+          observ_ult_modificacion =\'' . $this->ultima_observacion . '\',
+          emisor = \'' . $this->emisor . '\',
+          revision = \'' . $this->revision . '\',
+          autoriza = \'' . $this->autoriza . '\'
+        WHERE 
+          id = \'' . $this->id . '\';';
+    $obj = $this->Dbpace->consultar($sConsulta);
+
+  }
+
+  public function rechazar(){
+
     $sConsulta = 'UPDATE  orden_pago SET 
           status_id = \'' . $this->estatus . '\'
         WHERE 
-          cedula_beneficiario = \'' . $this->cedula_beneficiario . '\';';
+          id = \'' . $this->id . '\';';
+    $obj = $this->Dbpace->consultar($sConsulta);
+
+  }
+
+  public function reversar(){
+    $sConsulta = 'UPDATE  orden_pago SET 
+          status_id = \'' . $this->estatus . '\'
+        WHERE 
+         cedula_afiliado = \'' . $this->cedula_afiliado . '\' AND observ_ult_modificacion = \'' . $this->ultima_observacion . '\';';
     $obj = $this->Dbpace->consultar($sConsulta);
   }
+
 
   /**
   * Obtener el listado de los Motivos
