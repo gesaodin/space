@@ -440,7 +440,8 @@ function consultarFiniquitos(){
         var arr = data.HistorialDetalleMovimiento;
         
         if(Array.isArray(arr) == false){
-            
+            ;
+
             $.each(arr[9], function ( clv, valores ){
                 var fecha_creacion = valores.fecha_creacion;
                 var fecha_contable = valores.fecha_contable;
@@ -450,9 +451,11 @@ function consultarFiniquitos(){
                 var estatus = valores.tipo_texto;
                 var partida = valores.partida;
                 var sAcciones = '';
+                alert(fecha_contable);
                 var sBoton = '<div class="btn-group">';
                 
                 if(estatus != 'Reverso') {
+                    console.log(fecha_contable);
                     if(fecha_contable > '2016-11-01')sBoton += '<button type="button" class="btn btn-danger" title="Reversar" onclick="Reversar(\'' + cedula + '\',\'' + codigo + '\')"><i class="fa fa-random"></i></button>';
                 
                     sBoton += '<button type="button" class="btn btn-info" title="Imprimir"><i class="fa fa-print" ></i></button>';                

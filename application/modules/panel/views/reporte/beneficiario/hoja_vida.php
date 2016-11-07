@@ -300,8 +300,9 @@ th {
       <td>Diferencia A.A.</td>
       <td><?php 
 
-              $diferencia = (($Beneficiario->asignacion_antiguedad - $totalA) -  $diasA) - $garantia;
-              echo number_format($diferencia, 2, ',','.') ;
+              //$diferencia = (($Beneficiario->asignacion_antiguedad - $totalA) -  $diasA) - $garantia;
+              $diferencia = $Beneficiario->Calculo['diferencia_AA'];
+              echo $diferencia; //number_format($diferencia, 2, ',','.') ;
             ?>
       </td>
       <td>Fecha Ultimo Dep.</td>

@@ -139,8 +139,8 @@
          &emsp;Esta solicitud cumple con lo establecido en el Arículo 59 de la LOSSFANB (LEY NEGRO PRIMERO).<br><br>
          
          &emsp;Al profesional le corresponde por concepto de Asignación de Antiguedad (Años de Servicios cumplidos), 
-         la cantidad de Bs. <b><?php echo $Beneficiario->Calculo['asignacion_antiguedad'];?></b> Actualmente se la depositado un monto         
-         total de Bs.<b><?php echo $Beneficiario->Calculo['asignacion_depositada'];?></b> lo que representa el 
+         la cantidad de Bs. <b><?php echo $Beneficiario->Calculo['asignacion_antiguedad'];?></b> Actualmente se le ha depositado un monto         
+         total de Bs.<b><?php echo $Beneficiario->Calculo['total_aportados'];?></b> lo que representa el 
          <b><?php echo $Beneficiario->Calculo['porcentaje_cancelado'];?>%</b> de la Asignación de Antiguedad y se han 
          otorgado adelantos que totalizan la cantidad de Bs. <b><?php echo $Beneficiario->Calculo['anticipos'];?>.</b>
          El monto a otorgar es de Bs. <b><?php echo number_format($monto, 2, ',','.');?></b> del Saldo disponible en banco.
