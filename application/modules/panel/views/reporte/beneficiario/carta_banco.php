@@ -1,4 +1,21 @@
 <?php  
+
+  /**
+  foreach ($Beneficiario->HistorialOrdenPagos as $c => $v) {
+    if($v->id == $codigo){
+      $finalidad = $v->motivo;
+      $monto = $v->monto;
+    }  
+    
+  }
+  **/
+  $monto = 0;
+  $Detalle = $Beneficiario->HistorialDetalleMovimiento['Detalle'];
+  $finiquito = $Detalle[9];
+  foreach ($finiquito as $k => $v) {
+    if($v->codigo = $codigo)$monto = $v->monto;
+  }
+
   function fecha($fecha = ''){
     $mes = 'Enero';
     switch ($fecha) {
@@ -45,6 +62,7 @@
     return $mes;
     
   }
+
 
 ?>
 
@@ -128,10 +146,12 @@ th {
      Venezuela, a fin de obtener el finiquito del monto total de Bs.<b>
 
      <?php 
+        /**
         $monto = $Beneficiario->Calculo['saldo_disponible_aux'];
         if($Beneficiario->Calculo['interes_capitalizado_banco'] > 0){
           $monto += $Beneficiario->Calculo['interes_capitalizado_banco'];   
         }
+        **/
         echo number_format($monto, 2, ',','.');
 
      ?>.</b><br>

@@ -155,7 +155,7 @@ class Panel extends MY_Controller {
 	*	Reportes Generales del Sistema
 	*	--------------------------------------
 	*/
-	public function hojavida($cedula = ''){
+	public function hojavida($cedula = '', $cod = ''){
 		$this->load->model('beneficiario/MBeneficiario');
 		$this->MBeneficiario->obtenerID($cedula);
 		$this->load->model('beneficiario/MOrdenPago');
@@ -166,10 +166,16 @@ class Panel extends MY_Controller {
 		$this->load->view('reporte/beneficiario/hoja_vida', $data);
 	}
 
-	public function cartaBanco($cedula = ''){
+	public function cartaBanco($cedula = '', $cod = ''){
 		$this->load->model('beneficiario/MBeneficiario');
+		$this->load->model('beneficiario/MHistorialMovimiento');
+		
 		$this->MBeneficiario->obtenerID($cedula);
+		$this->MBeneficiario->HistorialDetalleMovimiento = $this->MHistorialMovimiento->listarDetalle($cedula);
+
 		$data['Beneficiario'] = $this->MBeneficiario;
+
+		$data['codigo'] = $cod; 
 		$this->load->view('reporte/beneficiario/carta_banco', $data);
 	}
 
@@ -414,22 +420,26 @@ class Panel extends MY_Controller {
 			$this->MBeneficiario->obtenerID($json->i_d, '');
 			$nombre = $this->MBeneficiario->nombres . ' ' . $this->MBeneficiario->apellidos;
 
-			$f = explode('/', $fecha_aux);			
-			$this->Beneficiario->fecha_retiro = $f[2] . '-' . $f[1] . '-' . $f[0];
-			$json->f_r = $this->Beneficiario->fecha_retiro;
-			$this->Beneficiario->cedula = $json->i_d;
-			$this->Beneficiario->estatus_activo = 203;
-			$this->Beneficiario->observacion = $json->o_b;
+			if($this->MBeneficiario->fecha_retiro == ''){
+				
+				$f = explode('/', $fecha_aux);			
+				$this->Beneficiario->fecha_retiro = $f[2] . '-' . $f[1] . '-' . $f[0];
+				$json->f_r = $this->Beneficiario->fecha_retiro;
+				$this->Beneficiario->cedula = $json->i_d;
+				$this->Beneficiario->estatus_activo = 203;
+				$this->Beneficiario->observacion = $json->o_b;
 
-			//echo "<pre>";
-			$this->MHistorialMovimiento->InsertarDetalle($json);
-			$this->Beneficiario->ActualizarPorMovimiento();
-			$this->MBeneficiario->InsertarHistorial();
-			$this->MBeneficiario->insertarDetalle($json);
-			//print_r($Bnf);
-			//print_r($json);
+				//echo "<pre>";
+				$this->MHistorialMovimiento->InsertarDetalle($json);
+				$this->Beneficiario->ActualizarPorMovimiento();
+				$this->MBeneficiario->InsertarHistorial();
+				$this->MBeneficiario->insertarDetalle($json);
+				echo 'Se ha procesado exitosamente el finiquito del beneficiario (' . $nombre . ')...';
+			}else{
+				echo 'El beneficiario  (' . $nombre . ') ya posee un finiquito...';
+			}
 
-			echo 'Se ha procesado exitosamente el finiquito del beneficiario (' . $nombre . ')...';
+			
 		}
 		
 	}

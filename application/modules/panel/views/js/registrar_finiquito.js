@@ -451,11 +451,10 @@ function consultarFiniquitos(){
                 var estatus = valores.tipo_texto;
                 var partida = valores.partida;
                 var sAcciones = '';
-                alert(fecha_contable);
                 var sBoton = '<div class="btn-group">';
                 
                 if(estatus != 'Reverso') {
-                    console.log(fecha_contable);
+                    
                     if(fecha_contable > '2016-11-01')sBoton += '<button type="button" class="btn btn-danger" title="Reversar" onclick="Reversar(\'' + cedula + '\',\'' + codigo + '\')"><i class="fa fa-random"></i></button>';
                 
                     sBoton += '<button type="button" class="btn btn-info" title="Imprimir"><i class="fa fa-print" ></i></button>';                
@@ -465,7 +464,7 @@ function consultarFiniquitos(){
                     sBoton += '</button>';  
 
                     sAcciones = '<ul class="dropdown-menu" role="menu">';
-                    sAcciones += '<li><a href="#!" target="_top" onclick="HojaVida(\'' + cedula + '\')">Hoja de Vida (PRINT)</a></li>';
+                    sAcciones += '<li><a href="#!" target="_top" onclick="HojaVida(\'' + cedula + '\',\'' + codigo + '\')">Hoja de Vida (PRINT)</a></li>';
                     
                     
                     if(partida == 1){
@@ -474,7 +473,7 @@ function consultarFiniquitos(){
                         sAcciones += '<li><a href="#!" target="_top" onclick="CausaMuerte(\'' + cedula + '\')">Causa Muerte</a></li>';
                         //sAcciones += '<li><a href="#!" target="_top" onclick="CapitalBanco(\'' + cedula + '\')">A/A Menor a 10 años.</a></li>';
                     }else if(partida == 4){ 
-                        sAcciones += '<li><a href="#!" target="_top" onclick="CartaBanco(\'' + cedula + '\')">Carta Banco </a></li>';
+                        sAcciones += '<li><a href="#!" target="_top" onclick="CartaBanco(\'' + cedula + '\',\'' + codigo + '\')">Carta Banco </a></li>';
                        
                     }else{
                         
@@ -532,13 +531,13 @@ function abrirModal(){
     $("#ModalImprimir").modal('show');
 }
 
-function HojaVida(id){    
-    URL = sUrlP + "hojavida/" + id;
+function HojaVida(id, cod){    
+    URL = sUrlP + "hojavida/" + id  + '/' + cod;
     window.open(URL,"Hoja de Vida","toolbar=0,location=1,menubar=0,scrollbars=1,resizable=1,width=900,height=800")
 }
 
-function CartaBanco(id){    
-    URL = sUrlP + "cartaBanco/" + id;
+function CartaBanco(id, cod){    
+    URL = sUrlP + "cartaBanco/" + id + '/' + cod;
     window.open(URL,"Carta Banco","toolbar=0,location=1,menubar=0,scrollbars=1,resizable=1,width=900,height=800")
 }
 
