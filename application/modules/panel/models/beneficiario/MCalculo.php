@@ -613,7 +613,7 @@ class MCalculo extends CI_Model{
   public function Diferencia_Asignacion(){
     $monto = (($this->Beneficiario->asignacion_antiguedad - $this->DepositoBanco()) -  $this->Dias_Adicionales()) - $this->Garantias();
     if ($monto < 0) $monto = 0;
-    return 
+    return $monto;
   }
 
 
