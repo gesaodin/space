@@ -44,7 +44,12 @@
                             C.I:
                         </div>
                         <div class="col-md-4">
-                            <input type="text" class="form-control" placeholder="Cedula de Identidad" id='id' onblur="Consultar()">
+                            <div class="input-group">
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-success" onclick="consultar()"><i class="fa fa-search"></i></button>
+                            </span> 
+                            <input type="text" class="form-control" placeholder="Cédula de Identidad" id='id' onblur="Consultar()" />
+                          </div> 
                         </div>
                     <div class="col-md-2">
                         Apellido:
@@ -140,7 +145,7 @@
           </button>
           </div>
           <div class="col-xs-6">
-          <button type="button" class="btn btn-warning" style="margin-right: 5px;">
+          <button type="button" class="btn btn-primary" style="margin-right: 5px;" id='btnImprimir'>
             <i class="fa fa-print"></i>&nbsp;&nbsp;Imprimir
           </button>
         </div>

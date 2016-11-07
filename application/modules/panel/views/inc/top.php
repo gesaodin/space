@@ -109,7 +109,7 @@
                     <img src="<?php echo base_url()?>system/img/pace.png" class="img-circle" alt="User Image">
                     <p>
                      Prestaciones a cargo del estado
-                      <small>Miembro desde Nov. 2016</small>
+                      <small><?php echo $Directiva->numero;?></small>
                     </p>
                   </li>
                   <!-- Menu Body -->

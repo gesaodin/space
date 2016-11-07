@@ -6,9 +6,13 @@ $('#reporte').DataTable({
     }
 );
 
+$( "#id" ).keypress(function( event ) {
+  if ( event.which == 13 ) {
+    $("#btnImrimir").focus();
+  }
+});
 
 function Consultar(){
-
 	
     var t = $('#reporte').DataTable();
 

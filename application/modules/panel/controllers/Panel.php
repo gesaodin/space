@@ -5,68 +5,95 @@ date_default_timezone_set ( 'America/Caracas' );
 define ('__CONTROLADOR', 'panel');
 class Panel extends MY_Controller {
 
+	var $_DIRECTIVA = array();
+
+	/**
+	* CONSTRUCTOR DEL PANEL
+	*
+	*/
 	function __construct(){
 		parent::__construct();
 		$this->load->helper('url');
 		$this->load->library('session');
+		$this->load->model('beneficiario/MDirectiva');
+		$this->_DIRECTIVA = $this->MDirectiva->iniciar();
 		if(!isset($_SESSION['usuario']))$this->salir();
-	}
 
-	public function index(){
-		$this->load->view("view_home");
-	}
-
-	public function fideicomitente(){		
-		$this->load->view("fideicomitente");		
-	}
-
-	public function beneficiario(){
-		$this->load->view("menu/beneficiario/beneficiario");	
-	}
-
-	public function asociarcuenta(){
-		$this->load->view("asociarcuenta");
-	}
-
-	public function reporte(){
-		$this->load->view("reportebeneficiario");
-	}
-
-	public function actualizar(){
-		$this->load->view("menu/beneficiario/actualizarbeneficiario");
-	}
-
-	public function finiquitos(){
-		$this->load->view("menu/beneficiario/finiquito");
-	}
-	public function historialsueldo(){
-		$this->load->view("relaciondesueldo");
-	}
-
-	public function sueldolote(){
-		$this->load->view('sueldolote');
 	}
 
 	public function verificar(){		
 		$this->load->model('usuario/Iniciar');
 	}
 
+	/**
+	* 	----------------------------------
+	*	Sección de la GUI
+	* 	----------------------------------
+	*/
+	public function index(){
+		$data['Directiva'] = $this->_DIRECTIVA;
+		$this->load->view("view_home", $data);
+	}
+
+	public function fideicomitente(){
+		$data['Directiva'] = $this->_DIRECTIVA;
+		$this->load->view("fideicomitente", $data);		
+	}
+
+	public function beneficiario(){
+		$data['Directiva'] = $this->_DIRECTIVA;
+		$this->load->view("menu/beneficiario/beneficiario", $data);	
+	}
+
+	public function asociarcuenta(){
+		$data['Directiva'] = $this->_DIRECTIVA;
+		$this->load->view("asociarcuenta", $data);
+	}
+
+	public function reporte(){
+		$data['Directiva'] = $this->_DIRECTIVA;
+		$this->load->view("menu/beneficiario/reporte", $data);
+	}
+
+	public function actualizar(){
+		$data['Directiva'] = $this->_DIRECTIVA;
+		$this->load->view("menu/beneficiario/actualizarbeneficiario", $data);
+	}
+
+	public function finiquitos(){
+		$data['Directiva'] = $this->_DIRECTIVA;
+		$this->load->view("menu/beneficiario/finiquito", $data);
+	}
+	public function historialsueldo(){
+		$data['Directiva'] = $this->_DIRECTIVA;
+		$this->load->view("relaciondesueldo", $data);
+	}
+
+	public function sueldolote(){
+		$data['Directiva'] = $this->_DIRECTIVA;
+		$this->load->view('sueldolote', $data);
+	}
 
 	public function ordenpago(){
-		$this->load->view("menu/orden_pago/orden");
+		$data['Directiva'] = $this->_DIRECTIVA;
+		$this->load->view("menu/orden_pago/orden", $data);
 	}
 	public function ordenpagoejecutada(){
-		$this->load->view("menu/orden_pago/ejecutada");
+		$data['Directiva'] = $this->_DIRECTIVA;
+		$this->load->view("menu/orden_pago/ejecutada", $data);
 	}
 
 	public function consultarmovimiento(){
-		$this->load->view("menu/beneficiario/consultarmovimiento");
+		$data['Directiva'] = $this->_DIRECTIVA;
+		$this->load->view("menu/beneficiario/consultarmovimiento", $data);
 	}
 
 	public function medidajudicial(){
-		$this->load->view("menu/beneficiario/medidajudicial");
+		$data['Directiva'] = $this->_DIRECTIVA;
+		$this->load->view("menu/beneficiario/medidajudicial", $data);
 	}
 	public function anticipo(){
+		$data['Directiva'] = $this->_DIRECTIVA;
 		$this->load->model('beneficiario/MAnticipo');
 		$data['lst'] = $this->MAnticipo->listarTodo();
 		$this->load->view("menu/beneficiario/anticipo", $data);
@@ -74,55 +101,59 @@ class Panel extends MY_Controller {
 
 
 	public function directiva(){
-
-		$this->load->view("menu/calculos/directiva");
+		$data['Directiva'] = $this->_DIRECTIVA;
+		$this->load->view("menu/calculos/directiva", $data);
 	}
 
 
 	public function aportecapital(){
-		$this->load->view("menu/calculos/aportecapital");
+		$data['Directiva'] = $this->_DIRECTIVA;
+		$this->load->view("menu/calculos/aportecapital", $data);
 	}
 
 	public function asignacionantiguedad(){
-		$this->load->view("menu/calculos/asignacionantiguedad");
+		$data['Directiva'] = $this->_DIRECTIVA;
+		$this->load->view("menu/calculos/asignacionantiguedad", $data);
 	}
 
 	public function interesescaidos(){
-		$this->load->view("menu/calculos/interesescaidos");
+		$data['Directiva'] = $this->_DIRECTIVA;
+		$this->load->view("menu/calculos/interesescaidos", $data);
 	}
 
 	public function interessemestral(){
-		$this->load->view("menu/calculos/interessemestral");
+		$data['Directiva'] = $this->_DIRECTIVA;
+		$this->load->view("menu/calculos/interessemestral", $data);
 	}
 
 	public function calcinitereses(){
-		$this->load->view("menu/calculos/calcinitereses");
+		$data['Directiva'] = $this->_DIRECTIVA;
+		$this->load->view("menu/calculos/calcinitereses", $data);
 	}
-
 	public function reclamos(){
-		$this->load->view("menu/reclamos/reclamos");
+		$data['Directiva'] = $this->_DIRECTIVA;
+		$this->load->view("menu/reclamos/reclamos", $data);
 	}
-		
-
-
-	//----------------------------------------
 	public function administrar(){
-		$this->load->view("menu/administracion/administrar");
+		$data['Directiva'] = $this->_DIRECTIVA;
+		$this->load->view("menu/administracion/administrar", $data);
 	}
 	public function auditoria(){
-		$this->load->view("menu/administracion/reporteauditoria");
+		$data['Directiva'] = $this->_DIRECTIVA;
+		$this->load->view("menu/administracion/reporteauditoria", $data);
 	}
 
 	//----------------------------------------
 	public function calculadoraspace(){
-		$this->load->view("menu/otros/calculadoraspace");
+		$data['Directiva'] = $this->_DIRECTIVA;
+		$this->load->view("menu/otros/calculadoraspace", $data);
 	}
 
 
 	/**
-	*	*******************************************************
-	*	REPORTES GENERALES DEL SISTEMA
-	*	*******************************************************
+	*	--------------------------------------
+	*	Reportes Generales del Sistema
+	*	--------------------------------------
 	*/
 	public function hojavida($cedula = ''){
 		$this->load->model('beneficiario/MBeneficiario');
@@ -164,9 +195,9 @@ class Panel extends MY_Controller {
 	}
 
 	/**
-	*	*******************************************************
+	*	---------------------------------------------
 	*	FIN DE LOS REPORTES GENERALES DEL SISTEMA
-	*	*******************************************************
+	*	---------------------------------------------
 	*/
 
 	public function salir(){

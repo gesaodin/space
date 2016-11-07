@@ -30,7 +30,7 @@ function consultar() {
     iFamiliares = 0;
     $.getJSON(ruta, function(data) {
         
-        if(data.fecha_retiro != null && data.fecha_retiro != ''){
+        if(data.fecha_retiro != null && data.fecha_retiro != '' || data.estatus == 205){
             $("#id").val('');
             var boton = '<button type="button" class="btn btn-success pull-right" onclick="continuar()">';
             boton += '<i class="glyphicon glyphicon-ok"></i>&nbsp;&nbsp;Continuar</button>';
@@ -453,7 +453,7 @@ function consultarFiniquitos(){
                 var sBoton = '<div class="btn-group">';
                 
                 if(estatus != 'Reverso') {
-                    sBoton += '<button type="button" class="btn btn-danger" title="Reversar" onclick="Reversar(\'' + cedula + '\',\'' + codigo + '\')"><i class="fa fa-random"></i></button>';
+                    if(fecha_contable > '2016-11-01')sBoton += '<button type="button" class="btn btn-danger" title="Reversar" onclick="Reversar(\'' + cedula + '\',\'' + codigo + '\')"><i class="fa fa-random"></i></button>';
                 
                     sBoton += '<button type="button" class="btn btn-info" title="Imprimir"><i class="fa fa-print" ></i></button>';                
                     sBoton += '<button aria-expanded="false" type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown">';
