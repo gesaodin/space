@@ -81,13 +81,17 @@ function Imprimir(){
 	var hasta = cargarFechaSlash($("#datepicker1").val());
 	var componente = $("#componente option:selected").val();
 
-    URL = sUrlP + "impirmirAnticiposReportes/" + desde + '/' + hasta + '/' + componente ;
-    window.open(URL,"Reporte de Anticipos","toolbar=0,location=1,menubar=0,scrollbars=1,resizable=1,width=900,height=800")
+  URL = sUrlP + "impirmirAnticiposReportes/" + desde + '/' + hasta + '/' + componente ;
+  window.open(URL,"Reporte de Anticipos","toolbar=0,location=1,menubar=0,scrollbars=1,resizable=1,width=900,height=800")
 }
 
-function CartaFinanzas(id){    
-    //URL = sUrlP + "cartaBancoFallecido/" + id;
-    //window.open(URL,"Carta Banco","toolbar=0,location=1,menubar=0,scrollbars=1,resizable=1,width=900,height=800")
+function CartaFinanzas(){
+  var desde = cargarFechaSlash($("#datepicker").val());
+  var hasta = cargarFechaSlash($("#datepicker1").val());
+  var componente = $("#componente option:selected").val();
+
+  URL = sUrlP + "cartaFinanzas/" + desde + '/' + hasta + '/' + componente;
+  window.open(URL,"Carta Finanzas","toolbar=0,location=1,menubar=0,scrollbars=1,resizable=1,width=900,height=800")
 }
 
 

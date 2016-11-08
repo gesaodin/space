@@ -174,7 +174,6 @@ class Panel extends MY_Controller {
 		$this->MBeneficiario->HistorialDetalleMovimiento = $this->MHistorialMovimiento->listarDetalle($cedula);
 
 		$data['Beneficiario'] = $this->MBeneficiario;
-
 		$data['codigo'] = $cod; 
 		$this->load->view('reporte/beneficiario/carta_banco', $data);
 	}
@@ -183,8 +182,7 @@ class Panel extends MY_Controller {
 		$this->load->model('beneficiario/MBeneficiario');
 		$this->MBeneficiario->obtenerID($cedula);
 		$data['Beneficiario'] = $this->MBeneficiario;
-		$data['lst'] = $this->MBeneficiario->detalleMovimientoFamiliar($cedula);
-		
+		$data['lst'] = $this->MBeneficiario->detalleMovimientoFamiliar($cedula);		
 		$this->load->view('reporte/beneficiario/carta_banco_fallecido', $data);
 	}
 
@@ -193,19 +191,21 @@ class Panel extends MY_Controller {
 		$this->MBeneficiario->obtenerID($cedula);
 		$this->load->model('beneficiario/MOrdenPago');
 		$this->MBeneficiario->HistorialOrdenPagos = $this->MOrdenPago->listarPorCedula($cedula);
-
 		$data['Beneficiario'] = $this->MBeneficiario;
 		$data['codigo'] = $codigo;
-
 		$this->load->view('reporte/beneficiario/punto_cuenta_anticipo', $data);
 	}
-
 	
 	public function impirmirAnticiposReportes($desde = '', $hasta = '', $componente){
 		$this->load->model('beneficiario/MOrdenPago');
 		$data['Anticipos'] = $this->MOrdenPago->listarPorFecha($desde, $hasta, $componente);
-
 		$this->load->view('reporte/beneficiario/reporte_anticipos', $data);
+	}
+
+	public function cartaFinanzas($desde = '', $hasta = '', $componente){
+		$this->load->model('beneficiario/MOrdenPago');
+		$data['Anticipos'] = $this->MOrdenPago->listarPorFecha($desde, $hasta, $componente);
+		$this->load->view('reporte/beneficiario/carta_anticipos_finanzas', $data);
 	}
 
 	/**
