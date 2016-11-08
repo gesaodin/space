@@ -350,4 +350,70 @@ class MOrdenPago extends CI_Model{
 
   }
 
+
+   /**
+  * Obtener el listado de los Motivos
+  *
+  * @access public
+  * @return void
+  */
+  public function listarPorFecha($desde = '', $hasta = '', $componente = ''){
+    $lst = array();
+    $sConsulta = 'select orden_pago.id, orden_pago.cedula_beneficiario, 
+    orden_pago.motivo,
+    orden_pago.status_id,
+    orden_pago.movimiento_id,
+    orden_pago.monto,
+    orden_pago.fecha,
+    orden_pago.observacion,
+    orden_pago.tipo_id,
+    orden_pago.cedula_afiliado,
+    orden_pago.f_creacion,
+    orden_pago.usr_creacion,
+    orden_pago.f_ult_modificacion,
+    orden_pago.usr_modificacion,
+    orden_pago.observ_ult_modificacion,
+    orden_pago.nombres_beneficiario,
+    orden_pago.apellidos_beneficiario,
+    grado.nombre, nombres, apellidos, beneficiario.cedula from orden_pago 
+      JOIN beneficiario on orden_pago.cedula_afiliado=beneficiario.cedula 
+      JOIN grado ON grado.id=beneficiario.grado_id
+    where beneficiario.componente_id=' . $componente  . ' AND 
+      orden_pago.f_creacion >= \'' . $desde . '\' AND 
+      orden_pago.f_creacion <= \'' . $hasta . '\' AND
+      orden_pago.status_id = 100';
+        
+    $obj = $this->Dbpace->consultar($sConsulta);
+    
+    if($obj->code == 0 ){
+
+      foreach ($obj->rs as $clv => $val) {
+        $Orden = new $this;
+        $Orden->id = $val->id;
+        //$Orden->cedula_beneficiario = $val->cedula_beneficiario;
+        $Orden->nombre = $val->nombres_beneficiario;
+        $Orden->apellido = $val->apellidos_beneficiario;
+        //$Orden->emisor = $val->emisor;
+        //$Orden->revision = $val->revision;
+        //$Orden->autoriza = $val->autoriza;
+        $Orden->motivo = $val->motivo;
+        $Orden->estatus = $val->status_id;
+        $Orden->movimiento = $val->movimiento_id;
+        $Orden->monto = $val->monto;
+        $Orden->fecha = $val->fecha;
+        $Orden->observacion = $val->observacion;
+        $Orden->tipo = $val->tipo_id;
+        $Orden->cedula_afiliado = $val->cedula_afiliado;
+        $Orden->fecha_creacion = $val->f_creacion;
+        $Orden->usuario_creacion = $val->usr_creacion;
+        $Orden->fecha_modificacionc = $val->f_ult_modificacion;
+        $Orden->usuario_modificacion = $val->usr_modificacion;
+        $Orden->ultima_observacion = $val->observ_ult_modificacion;
+        $lst[] = $Orden;
+      }
+    }
+    return $lst;
+
+  }
+
 }

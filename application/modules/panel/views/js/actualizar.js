@@ -63,8 +63,14 @@ function consultar() {
 
 function cargarFecha(fecha){
     var f = fecha.split('-');
-    return f[2] + '/' + f[1] + '/' + f[0];
+    return f[1] + '/' + f[2] + '/' + f[0];
 }
+
+function cargarFechaSlash(fecha){
+    var f = fecha.split('/');
+    return f[2] + '-' + f[1] + '-' + f[0];
+}
+
 
 function cargarSexo(sex){
     if (sex == '' || sex == null){
@@ -149,10 +155,10 @@ function cargarBeneficiario(){
     Persona['nombres'] = $("#nombres").val();
     Persona['apellidos'] = $("#apellidos").val();    
     Persona['componente'] = $("#componente").val();
-    Persona['fingreso'] = $("#fingreso").val();
+    Persona['fingreso'] = cargarFechaSlash($("#fingreso").val());
     Persona['tservicio'] = $("#tservicio").val();
     Persona['nhijos'] = $("#nhijos").val();
-    Persona['fuascenso'] = $("#fuascenso").val();
+    Persona['fuascenso'] = cargarFechaSlash($("#fuascenso").val());
     Persona['noascenso'] = $("#noascenso").val();
     Persona['profesionalizacion'] = $("#profesionalizacion").val();
     Persona['arec'] = $("#arec").val();

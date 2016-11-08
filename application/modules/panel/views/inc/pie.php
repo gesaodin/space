@@ -51,6 +51,16 @@
         //Initialize Select2 Elements
         $(".select2").select2();
 
+        $('#fingreso').datepicker({
+          format: 'dd/mm/yyyy',
+          autoclose: true
+        });
+
+        $('#fuascenso').datepicker({
+          format: 'dd/mm/yyyy',
+          autoclose: true
+        });     
+
         //Datemask dd/mm/yyyy
         $("#datemask").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/yyyy"});
         //Datemask2 mm/dd/yyyy
@@ -83,10 +93,12 @@
 
         //Date picker
         $('#datepicker').datepicker({
+
           format: 'dd/mm/yyyy',
           autoclose: true
         });
         $('#datepicker1').datepicker({
+          format: 'dd/mm/yyyy',
           autoclose: true
         });
         /**

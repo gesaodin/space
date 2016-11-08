@@ -169,7 +169,7 @@ class Panel extends MY_Controller {
 	public function cartaBanco($cedula = '', $cod = ''){
 		$this->load->model('beneficiario/MBeneficiario');
 		$this->load->model('beneficiario/MHistorialMovimiento');
-		
+
 		$this->MBeneficiario->obtenerID($cedula);
 		$this->MBeneficiario->HistorialDetalleMovimiento = $this->MHistorialMovimiento->listarDetalle($cedula);
 
@@ -547,13 +547,18 @@ class Panel extends MY_Controller {
 	public function rechazarAnticipo(){
 		$this->load->model('beneficiario/MOrdenPago');
 		$json = json_decode($_POST['data']);
-		print_r($json);
+		//print_r($json);
 		$this->MOrdenPago->estatus = 102;
 		$this->MOrdenPago->id = $json->id;
 		$this->MOrdenPago->rechazar();			
 		echo 'Se ha procesado exitosamente el reverso';
 	}
-
+	public function lstAnticipoFecha(){
+		$this->load->model('beneficiario/MOrdenPago');
+		$json = json_decode($_POST['data']);
+		$lst = $this->MOrdenPago->listarPorFecha($json->desde, $json->hasta, $json->componente);
+		print_r($lst);
+	}
 
 
 	public function listarOrdenesPagoBeneficiario($id){
