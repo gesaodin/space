@@ -8,6 +8,17 @@ $( "#id" ).keypress(function( event ) {
   }
 });
 
+$('#fingreso').datepicker({
+  format: 'dd/mm/yyyy',
+  autoclose: true
+});
+
+$('#fuascenso').datepicker({
+  format: 'dd/mm/yyyy',
+  autoclose: true
+});     
+
+
 function consultar() {
     limpiar();
     var val = $("#id").val();
@@ -21,11 +32,8 @@ function consultar() {
 
         $("#componente").val(data.Componente.nombre);
         cargarGrado(data.Componente.Grado.id, data.Componente.Grado.nombre, data.Componente.id);
-        //$("#fingreso").val();
-        //$("#fingreso").val('23/07/1985');
-        $('#fingreso').val(cargarFecha(data.fecha_ingreso));
 
-        //$("#fingreso").val( data.fecha_ingreso );
+        $('#fingreso').val(cargarFecha(data.fecha_ingreso));
         $("#tservicio").val(data.tiempo_servicio);
         $("#nhijos").val(data.numero_hijos);
         $('#fuascenso').val(cargarFecha(data.fecha_ultimo_ascenso));
