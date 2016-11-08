@@ -63,7 +63,7 @@ function consultar() {
 
 function cargarFecha(fecha){
     var f = fecha.split('-');
-    return f[1] + '/' + f[2] + '/' + f[0];
+    return f[2] + '/' + f[1] + '/' + f[0];
 }
 
 function cargarFechaSlash(fecha){

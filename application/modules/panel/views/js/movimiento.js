@@ -35,7 +35,8 @@ function consultar(){
           url: ruta,
           success: function (data) {  
             
-            $("#txtMensaje").html(data); 
+            $("#txtMensaje").html('Consulta Efectuada'); 
+
             var boton = '<button type="button" class="btn btn-success pull-right" onclick="continuarMovimiento()">';
             boton += '<i class="glyphicon glyphicon-ok"></i>&nbsp;&nbsp;Continuar</button>';
             $("#divContinuar").html(boton);
