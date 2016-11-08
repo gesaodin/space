@@ -131,7 +131,6 @@ class MAnticipo extends CI_Model{
     return $lst;
   }
 
-  function 
 
 
 }

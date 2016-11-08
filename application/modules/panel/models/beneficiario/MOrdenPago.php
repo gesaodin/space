@@ -119,6 +119,12 @@ class MOrdenPago extends CI_Model{
   */
   var $ultima_observacion = '';
 
+  /**
+  * @var string
+  */
+  var $grado = '';
+
+
 
   /**
     id integer NOT NULL DEFAULT nextval('orden_pago_id_seq'::regclass),
@@ -375,7 +381,7 @@ class MOrdenPago extends CI_Model{
     orden_pago.observ_ult_modificacion,
     orden_pago.nombres_beneficiario,
     orden_pago.apellidos_beneficiario,
-    grado.nombre, nombres, apellidos, beneficiario.cedula from orden_pago 
+    grado.nombre AS grado, nombres, apellidos, beneficiario.cedula from orden_pago 
       JOIN beneficiario on orden_pago.cedula_afiliado=beneficiario.cedula 
       JOIN grado ON grado.id=beneficiario.grado_id
     where beneficiario.componente_id=' . $componente  . ' AND 
@@ -406,6 +412,7 @@ class MOrdenPago extends CI_Model{
         $Orden->cedula_afiliado = $val->cedula_afiliado;
         $Orden->fecha_creacion = $val->f_creacion;
         $Orden->usuario_creacion = $val->usr_creacion;
+        $Orden->grado = $val->grado;
         $Orden->fecha_modificacionc = $val->f_ult_modificacion;
         $Orden->usuario_modificacion = $val->usr_modificacion;
         $Orden->ultima_observacion = $val->observ_ult_modificacion;

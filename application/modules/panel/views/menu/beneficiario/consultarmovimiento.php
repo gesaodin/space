@@ -101,9 +101,9 @@
                     <center>
                         <button type="button" class="btn btn-success pull-midium" onclick="consultar()"><i class="fa fa-search"></i>&nbsp;&nbsp;Consultar
                         </button>
-                        <button type="button" class="btn btn-primary pull-midium" onclick="imprimir()"><i class="fa fa-search"></i>&nbsp;&nbsp;Imprimir
+                        <button type="button" class="btn btn-primary pull-midium" onclick="Imprimir()"><i class="fa fa-search"></i>&nbsp;&nbsp;Imprimir
                         </button>
-                        <button type="button" class="btn btn-warning pull-midium" onclick="carta()"><i class="fa fa-search"></i>&nbsp;&nbsp;Carta a Finanzas
+                        <button type="button" class="btn btn-warning pull-midium" onclick="CartaFinanzas()"><i class="fa fa-search"></i>&nbsp;&nbsp;Carta a Finanzas
                         </button>
                     </center>
                 </div>
@@ -128,7 +128,7 @@
                               <thead>
                               <tr>
                                   <th style="width: 90px;">Nro</th>
-                                  <thGrado</th>
+                                  <th>Grado</th>
                                   <th >Nombres y Apellidos</th>
                                   <th>Cédula</th>
                                   <th style="width: 80px;">Monto</th>                                                          

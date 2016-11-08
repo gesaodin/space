@@ -200,6 +200,14 @@ class Panel extends MY_Controller {
 		$this->load->view('reporte/beneficiario/punto_cuenta_anticipo', $data);
 	}
 
+	
+	public function impirmirAnticiposReportes($desde = '', $hasta = '', $componente){
+		$this->load->model('beneficiario/MOrdenPago');
+		$data['Anticipos'] = $this->MOrdenPago->listarPorFecha($desde, $hasta, $componente);
+
+		$this->load->view('reporte/beneficiario/reporte_anticipos', $data);
+	}
+
 	/**
 	*	---------------------------------------------
 	*	FIN DE LOS REPORTES GENERALES DEL SISTEMA
@@ -557,7 +565,7 @@ class Panel extends MY_Controller {
 		$this->load->model('beneficiario/MOrdenPago');
 		$json = json_decode($_POST['data']);
 		$lst = $this->MOrdenPago->listarPorFecha($json->desde, $json->hasta, $json->componente);
-		print_r($lst);
+		echo json_encode($lst);
 	}
 
 
