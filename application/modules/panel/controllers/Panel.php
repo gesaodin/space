@@ -311,6 +311,7 @@ class Panel extends MY_Controller {
 		$Bnf->estatus_activo = $data->Paralizar->estatus;
 		$Bnf->motivo_paralizacion = $data->Paralizar->motivo;
 		$Bnf->observacion = 'PARALIZADO';
+		if($data->Paralizar->estatus == '202')$Bnf->observacion = 'RETIRADO';		
 		$Bnf->ParalizarDesparalizar();
 		
 		echo 'Proceso exitoso';

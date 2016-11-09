@@ -440,7 +440,6 @@ function consultarFiniquitos(){
         var arr = data.HistorialDetalleMovimiento;
         
         if(Array.isArray(arr) == false){
-            ;
             $.each(arr[9], function ( clv, valores ){
                 var fecha_creacion = valores.fecha_creacion;
                 var fecha_contable = valores.fecha_contable;

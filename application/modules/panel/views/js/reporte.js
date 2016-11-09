@@ -28,15 +28,31 @@ function Consultar(){
                 
         var sBoton = '<div class="btn-group">';
         var sAcciones = '';
-        if(data.estatus_activo == '201'){
-            sBoton += '<button type="button" class="btn btn-warning" title="Paralizar" onclick="ventana(\'paralizar\')"><i class="fa fa-lock" ></i></button>';                                
-            sBoton += '</button>';
-        }else if(data.estatus_activo == '205'){
-            sBoton += '<button type="button" class="btn btn-success" title="Desparalizar" onclick="ventana(\'activar\')"><i class="fa fa-unlock-alt" ></i></button>';                                
-            sBoton += '</button>';
-        }else{
 
+        switch (data.estatus_activo) {
+            case '201':
+                sBoton += '<button type="button" class="btn btn-warning" title="Paralizar" onclick="ventana(\'paralizar\')"><i class="fa fa-lock" ></i></button>';                                
+                sBoton += '</button>';
+                sBoton += '<button type="button" class="btn btn-danger" title="Retirar" onclick="ventana(\'retirar\')"><i class="fa fa-ban" ></i></button>';                                
+                sBoton += '</button>';
+                break;
+            case '202':
+                sBoton += '<button type="button" class="btn btn-primary" title="Activar" onclick="ventana(\'activar\')"><i class="fa fa-rotate-left" ></i></button>';                                
+                sBoton += '</button>';
+                break;
+            case '203':
+                
+                break;
+            case '204':
+                break;
+            case '205':
+                sBoton += '<button type="button" class="btn btn-success" title="Desparalizar" onclick="ventana(\'activar\')"><i class="fa fa-unlock-alt" ></i></button>';                                
+                sBoton += '</button>';
+                break;
+            default:
+                break;
         }
+
         sBoton += sAcciones + '</div>';        
 
 
@@ -83,6 +99,40 @@ function paralizar(){
     Paralizar['id'] = $("#id").val();
     Paralizar['motivo'] = $("#txtObservacion").val();
     Paralizar['estatus'] = '205';
+    
+    var boton = '<button type="button" class="btn btn-success pull-right" onclick="continuar()">';
+        boton += '<i class="glyphicon glyphicon-ok"></i>&nbsp;&nbsp;Continuar</button>';
+    
+    $("#divContinuar").html(boton);
+    
+    $.ajax({
+              url: sUrlP + "paralizarDesparalizar",
+              type: "POST",
+              data: {'data' : JSON.stringify({
+                Paralizar: Paralizar
+              })},
+              success: function (data) {  
+               
+                $("#txtMensaje").html(data);             
+                $("#logMensaje").modal('show');
+               
+              },
+              error: function(data){ 
+               
+                $("#txtMensaje").html(data); 
+                $("#logMensaje").modal('show');
+                 
+              }
+            });
+    limpiar();
+ 
+}
+
+function retirar(){
+    var Paralizar = {};
+    Paralizar['id'] = $("#id").val();
+    Paralizar['motivo'] = $("#txtObservacion").val();
+    Paralizar['estatus'] = '202';
     
     var boton = '<button type="button" class="btn btn-success pull-right" onclick="continuar()">';
         boton += '<i class="glyphicon glyphicon-ok"></i>&nbsp;&nbsp;Continuar</button>';
