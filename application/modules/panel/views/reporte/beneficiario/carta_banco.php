@@ -13,7 +13,7 @@
   $Detalle = $Beneficiario->HistorialDetalleMovimiento['Detalle'];
   $finiquito = $Detalle[9];
 
-  print_r($finiquito);
+  //print_r($finiquito);
 
   foreach ($finiquito as $k => $v) {
     if($v->codigo == $codigo)$monto = $v->monto;
