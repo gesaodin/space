@@ -31,6 +31,16 @@ class MDirectiva extends CI_Model{
   * @var string
   */
   var $numero = '';  
+  
+  /**
+  * @var string
+  */
+  var $fecha_inicio = ''; 
+
+  /**
+  * @var string
+  */
+  var $fecha_vigencia = ''; 
 
   /**
   * @var double
@@ -61,12 +71,13 @@ class MDirectiva extends CI_Model{
   * @param int
   */
   public function iniciar(){
+    $fecha = date("Y-m-d");
     $sConsulta = 'SELECT 
         A.id, A.nombre, A.numero, A.f_vigencia, 
         A.f_inicio, udad_tributaria, detalle_directiva.grado_id, 
         detalle_directiva.anio, detalle_directiva.sueldo_base 
         FROM (SELECT * FROM directiva_sueldo 
-          WHERE f_vigencia <= \'2016-05-16\' ORDER BY f_inicio desc LIMIT 1) AS A 
+          WHERE f_inicio < \'' . $fecha . '\'  AND f_vigencia > \'' . $fecha . '\' ORDER BY f_inicio desc LIMIT 1) AS A 
       JOIN 
         detalle_directiva ON A.id=detalle_directiva.directiva_sueldo_id
       ORDER BY grado_id, anio;';
@@ -79,7 +90,9 @@ class MDirectiva extends CI_Model{
       $this->id = $obj->rs[0]->id;
       //$Grado = $this->MGrado->obtenerSegunDirectiva($this->id);
       $this->nombre = $obj->rs[0]->nombre;
-      $this->numero = $obj->rs[0]->numero;
+      $this->numero = $obj->rs[0]->numero;      
+      $this->fecha_inicio = $obj->rs[0]->f_inicio;
+      $this->fecha_vigencia = $obj->rs[0]->f_vigencia;
       $this->unidad_tributaria = $obj->rs[0]->udad_tributaria;
       $grado = $obj->rs[0]->grado_id;
       $rs = $obj->rs;

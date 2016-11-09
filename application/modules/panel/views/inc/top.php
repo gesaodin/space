@@ -106,23 +106,28 @@
                 <ul class="dropdown-menu">
                   <!-- User image -->
                   <li class="user-header">
-                    <img src="<?php echo base_url()?>system/img/pace.png" class="img-circle" alt="User Image">
+                    <img src="<?php echo base_url()?>system/img/pace.png" class="img-circle" alt="User Image"><br>
                     <p>
                      Prestaciones a cargo del estado
-                      <small><?php echo $Directiva->numero;?></small>
+                      <small>Fecha: <?php echo $Directiva->fecha_inicio . ' - ' . $Directiva->fecha_vigencia;?> </small>
                     </p>
                   </li>
                   <!-- Menu Body -->
                   <li class="user-body">
-                    <div class="col-xs-4 text-center">
-                      <a href="#">Usuarios</a>
+                    <div class="col-xs-12 text-center">
+                      <small><?php echo $Directiva->nombre;?></small>
                     </div>
-                    <div class="col-xs-4 text-center">
-                      <a href="#">Conectados</a>
-                    </div>
-                    <div class="col-xs-4 text-center">
-                      <a href="#">Procesos</a>
-                    </div>
+                    <!-- Menu 
+                      <div class="col-xs-4 text-center">
+                        <a href="#">Usuarios</a>
+                      </div>
+                      <div class="col-xs-4 text-center">
+                        <a href="#">Conectados</a>
+                      </div>
+                      <div class="col-xs-4 text-center">
+                        <a href="#">Procesos</a>
+                      </div>
+                     -->
                   </li>
                   <!-- Menu Footer-->
                   <li class="user-footer">

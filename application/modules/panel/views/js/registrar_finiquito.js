@@ -456,6 +456,7 @@ function consultarFiniquitos(){
                     
                     if(fecha_creacion > '2016-11-01')sBoton += '<button type="button" class="btn btn-danger" title="Reversar" onclick="Reversar(\'' + cedula + '\',\'' + codigo + '\')"><i class="fa fa-random"></i></button>';
                 
+                    
                     sBoton += '<button type="button" class="btn btn-info" title="Imprimir"><i class="fa fa-print" ></i></button>';                
                     sBoton += '<button aria-expanded="false" type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown">';
                     sBoton += '<span class="caret"></span>';
@@ -464,26 +465,34 @@ function consultarFiniquitos(){
 
                     sAcciones = '<ul class="dropdown-menu" role="menu">';
                     sAcciones += '<li><a href="#!" target="_top" onclick="HojaVida(\'' + cedula + '\',\'' + codigo + '\')">Hoja de Vida (PRINT)</a></li>';
-                    
-                    
-                    if(partida == 1){
-                        sAcciones +='<li class="divider"></li>';
-                        sAcciones += '<li><a href="#!" target="_top" onclick="CartaBancoFallecido(\'' + cedula + '\')">Carta Banco Fallecido</a></li>';
-                        sAcciones += '<li><a href="#!" target="_top" onclick="CausaMuerte(\'' + cedula + '\')">Causa Muerte</a></li>';
-                        //sAcciones += '<li><a href="#!" target="_top" onclick="CapitalBanco(\'' + cedula + '\')">A/A Menor a 10 años.</a></li>';
-                    }else if(partida == 4){ 
-                        sAcciones += '<li><a href="#!" target="_top" onclick="CartaBanco(\'' + cedula + '\',\'' + codigo + '\')">Carta Banco </a></li>';
-                       
-                    }else{
-                        
-                        sAcciones += '<li><a href="#!" target="_top" onclick="OrdenPago(\'' + cedula + '\')">Orden de Pago</a></li>';  
+                    switch (partida){
+                        case '1':
+                            sAcciones +='<li class="divider"></li>';
+                            sAcciones += '<li><a href="#!" target="_top" onclick="CartaBancoFallecido(\'' + cedula + '\')">Carta Banco Fallecido</a></li>';
+                            sAcciones += '<li><a href="#!" target="_top" onclick="CausaMuerte(\'' + cedula + '\')">Causa Muerte</a></li>';
+                            //sAcciones += '<li><a href="#!" target="_top" onclick="CapitalBanco(\'' + cedula + '\')">A/A Menor a 10 años.</a></li>';
+                            break;
+                        case '2':
+                            sAcciones += '<li><a href="#!" target="_top" onclick="CartaBanco(\'' + cedula + '\',\'' + codigo + '\')">Carta Banco </a></li>';
+                            sAcciones += '<li><a href="#!" target="_top" onclick="OrdenPago(\'' + cedula + '\')">Orden de Pago</a></li>';  
 
-                        sAcciones +='<li class="divider"></li>';
-                        sAcciones += '<li><a href="#!" target="_top" onclick="CapitalBanco(\'' + cedula + '\')">Capital en Banco</a></li>';
-                        sAcciones += '<li><a href="#!" target="_top" onclick="DiferenciaAntiguedad(\'' + cedula + '\')">Diferencia de Antiguedad</a></li>';
-                        sAcciones += '<li><a href="#!" target="_top" onclick="Indemnizacion(\'' + cedula + '\')">Indemnización AS/FS</a></li>';
-                        
+                            sAcciones +='<li class="divider"></li>';
+                            sAcciones += '<li><a href="#!" target="_top" onclick="CapitalBanco(\'' + cedula + '\')">Capital en Banco</a></li>';
+                            sAcciones += '<li><a href="#!" target="_top" onclick="DiferenciaAntiguedad(\'' + cedula + '\')">Diferencia de Antiguedad</a></li>';
+                            sAcciones += '<li><a href="#!" target="_top" onclick="Indemnizacion(\'' + cedula + '\')">Indemnización AS/FS</a></li>';
+                            break;
+                        case '3':
+                            break;
+                        case '4':
+                            sAcciones += '<li><a href="#!" target="_top" onclick="CartaBanco(\'' + cedula + '\',\'' + codigo + '\')">Carta Banco </a></li>'; 
+                            break;
+                        case '5':
+                             sAcciones += '<li><a href="#!" target="_top" onclick="CartaBanco(\'' + cedula + '\',\'' + codigo + '\')">Carta Banco </a></li>';
+                        default:
+                            break;
                     }
+
+                    
                     sAcciones += '</ul>';
                 }
 

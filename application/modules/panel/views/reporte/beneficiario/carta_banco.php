@@ -12,8 +12,11 @@
   $monto = 0;
   $Detalle = $Beneficiario->HistorialDetalleMovimiento['Detalle'];
   $finiquito = $Detalle[9];
+
+  print_r($finiquito);
+
   foreach ($finiquito as $k => $v) {
-    if($v->codigo = $codigo)$monto = $v->monto;
+    if($v->codigo == $codigo)$monto = $v->monto;
   }
 
   function fecha($fecha = ''){

@@ -188,10 +188,15 @@
                       <thead>
                       <tr>
                           <th style="width: 40px;">Acciones</th>
-                          <th style="width: 40px;">Estatus</th>
+                          <th style="width: 40px;">Tipo</th>
+                          <th>Estatus</th>
                           <th>Fecha</th>
-                          <th >Motivo</th>
-                          <th style="width: 80px;">Monto</th>                   
+                          <th>Oficio</th>
+                          <th>Expediente</th>
+                          <th>Cedula</th>
+                          <th>Beneficiario</th>
+                          <th >Estado</th>
+                          
                       </tr>
                       </thead>
                       <tbody>
