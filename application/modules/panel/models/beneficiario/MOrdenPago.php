@@ -365,6 +365,9 @@ class MOrdenPago extends CI_Model{
   */
   public function listarPorFecha($desde = '', $hasta = '', $componente = ''){
     $lst = array();
+    $texto = 'beneficiario.componente_id=' . $componente  . ' AND ';
+    if($componente == '') $texto = '';
+
     $sConsulta = 'select orden_pago.id, orden_pago.cedula_beneficiario, 
     orden_pago.motivo,
     orden_pago.status_id,
@@ -384,9 +387,9 @@ class MOrdenPago extends CI_Model{
     grado.nombre AS grado, nombres, apellidos, beneficiario.cedula from orden_pago 
       JOIN beneficiario on orden_pago.cedula_afiliado=beneficiario.cedula 
       JOIN grado ON grado.id=beneficiario.grado_id
-    where beneficiario.componente_id=' . $componente  . ' AND 
-      orden_pago.f_creacion >= \'' . $desde . '\' AND 
-      orden_pago.f_creacion <= \'' . $hasta . '\' AND
+    where ' . $texto . '
+      orden_pago.f_creacion >= \'' . $desde . ' 00:00:00\' AND 
+      orden_pago.f_creacion <= \'' . $hasta . ' 24:00:00\' AND
       orden_pago.status_id = 100';
         
     $obj = $this->Dbpace->consultar($sConsulta);

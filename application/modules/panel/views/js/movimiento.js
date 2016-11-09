@@ -81,7 +81,7 @@ function Imprimir(){
 	var hasta = cargarFechaSlash($("#datepicker1").val());
 	var componente = $("#componente option:selected").val();
 
-  URL = sUrlP + "impirmirAnticiposReportes/" + desde + '/' + hasta + '/' + componente ;
+  URL = sUrlP + "impirmirAnticiposReportes/" + desde + '/' + hasta + '/' + componente + "/" + $("#componente option:selected").text();
   window.open(URL,"Reporte de Anticipos","toolbar=0,location=1,menubar=0,scrollbars=1,resizable=1,width=900,height=800")
 }
 

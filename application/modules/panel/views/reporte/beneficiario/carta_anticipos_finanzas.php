@@ -1,4 +1,5 @@
 <?php  
+
   function fecha($fecha = ''){
     $mes = 'Enero';
     switch ($fecha) {
@@ -96,6 +97,7 @@ th {
 
  </table><BR><BR><B>
  MEMORANDUM</B><BR><BR>
+ 
  <table style="width: 700px;  text-align: justify;  font-size: 15px">
   <tr>
     <td>Nro.</td><td>320.600-<?php echo substr(md5(date('YYYY-MM-DD')), 0,6);?>/01</td>
@@ -118,11 +120,12 @@ th {
   <tr>
    <td style="border: 0px solid #dddddd; text-align: justify; font-size: 16px; line-height: 1.5">
      &emsp;&emsp;Tengo el honor de dirigirme a usted en la oportunidad de remitirle
-     anexo a la presente (CANTIDAD) solicitudes de adelantos correspondientes a los diferentes componentes,
+     anexo a la presente <?php echo $Numero->to_word(count($Anticipos));?> solicitudes de adelantos 
+     correspondientes a los diferentes componentes,
      para su debido tramite ante las entidades bancarias descritas en la relación anexa, procesados el 
-     FECHA.
+     <?php echo $desde?>.
      <br><br><br>
-     $emsp;$emsp;Remisión que hago llegar a usted, para su conocimiento y demas fines.
+     &emsp;&emsp;Remisión que hago llegar a usted, para su conocimiento y demas fines.
      <br><br>
 
      <br>

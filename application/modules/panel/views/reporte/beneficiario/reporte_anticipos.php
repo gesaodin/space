@@ -9,6 +9,8 @@
     
   }
   **/
+
+
   $monto = 0;
 
 
@@ -111,7 +113,13 @@ th {
 
    </td>
  </tr>
- </table><BR>
+ </table>
+  <b>
+   <BR>
+    REPORTE DE ANTICIPOS<br>
+    PERIODO: <?php echo $desde . ' - ' . $hasta;?><br>
+    COMPONENTE: <?php echo $Componente;?><br><br>
+  </b>
  <table >
   <thead>
     <tr>

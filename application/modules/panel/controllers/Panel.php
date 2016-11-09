@@ -196,16 +196,28 @@ class Panel extends MY_Controller {
 		$this->load->view('reporte/beneficiario/punto_cuenta_anticipo', $data);
 	}
 	
-	public function impirmirAnticiposReportes($desde = '', $hasta = '', $componente){
+	public function impirmirAnticiposReportes($desde = '', $hasta = '', $componente = '', $nombre_componente = ''){
 		$this->load->model('beneficiario/MOrdenPago');
+		$data['Componente'] = $nombre_componente;
+		$data['desde'] = $desde;
+		$data['hasta'] = $hasta;
 		$data['Anticipos'] = $this->MOrdenPago->listarPorFecha($desde, $hasta, $componente);
 		$this->load->view('reporte/beneficiario/reporte_anticipos', $data);
 	}
 
-	public function cartaFinanzas($desde = '', $hasta = '', $componente){
+	public function cartaFinanzas($desde = '', $hasta = '', $componente = '', $nombre_componente = ''){
 		$this->load->model('beneficiario/MOrdenPago');
-		$data['Anticipos'] = $this->MOrdenPago->listarPorFecha($desde, $hasta, $componente);
+		$this->load->model('utilidad/NumeroLetras');
+		$data['Numero'] = $this->NumeroLetras;
+		$data['Componente'] = $nombre_componente;
+		$data['desde'] = $desde;
+		$data['Anticipos'] = $this->MOrdenPago->listarPorFecha($desde, $hasta);
 		$this->load->view('reporte/beneficiario/carta_anticipos_finanzas', $data);
+	}
+
+	public function numeroLetras(){
+		
+		
 	}
 
 	/**

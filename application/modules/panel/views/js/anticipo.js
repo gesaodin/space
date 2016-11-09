@@ -108,16 +108,19 @@ function listar(data){
         var sBoton = '<div class="btn-group">';
         var sAcciones = '';
         if(valor.estatus == 100){
-            if(valor.movimiento == 0 )sBoton += '<button type="button" class="btn btn-info" title="Punto de Cuenta" onclick="PuntoCuenta(\'' + valor.id + '\')"><i class="fa fa-print" ></i></button>';                
-            /**
-            Buscar Archivos Viejos del sistema
-            sAcciones = '<ul class="dropdown-menu" role="menu">';
-            sAcciones += '<li><a href="#!" target="_top" onclick="HojaVida(\'' + valor.cedula_beneficiario + '\')">Hoja de Vida (PRINT)</a></li>';
-            sAcciones += '<li><a href="#!" target="_top" onclick="OrdenPagoAnticipo(\'' + valor.cedula_beneficiario + '\')">Orden de Pago</a></li>';
-            sAcciones += '<li><a href="#!" target="_top" onclick="PuntoCuenta(\'' + valor.cedula_beneficiario + '\')">Punto de Cuenta</a></li>';
+            if(valor.movimiento == 0 ){
+                sBoton += '<button type="button" class="btn btn-info" title="Imprimir"><i class="fa fa-print" ></i></button>';                
+                sBoton += '<button aria-expanded="false" type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown">';
+                sBoton += '<span class="caret"></span>';
+                sBoton += '<span class="sr-only">Toggle Dropdown</span>';
+                sBoton += '</button>'; 
+                sAcciones = '<ul class="dropdown-menu" role="menu">';
+                sAcciones += '<li><a href="#!" target="_top" onclick="HojaVida(\'' + $("#id").val() + '\')">Hoja de Vida (PRINT)</a></li>';
+                sAcciones += '<li><a href="#!" target="_top" onclick="PuntoCuenta(\'' + valor.id + '\')">Punto de Cuenta</a></li>';
+
+                sAcciones += '</ul>';
+            }
             
-            sAcciones += '</ul>';
-            **/
         }else if(valor.estatus == '101'){
             if(valor.movimiento == 0 )sBoton += '<button type="button" class="btn btn-danger" title="Recharzar" onclick="rechazar(\'' + valor.id + '\')"><i class="fa fa-remove" ></i></button>';
         }
@@ -172,13 +175,8 @@ function HojaVida(id){
     window.open(URL,"Hoja de Vida","toolbar=0,location=1,menubar=0,scrollbars=1,resizable=1,width=900,height=800")
 }
 
-function OrdenPagoAnticipo(id){    
-    URL = sUrlP + "ordenpago/" + id;
-    window.open(URL,"Orden de Pago","toolbar=0,location=1,menubar=0,scrollbars=1,resizable=1,width=900,height=800")
-}
-
 function PuntoCuenta(id){    
-    URL = sUrlP + "puntocuenta/" + $("#id").val()  + "/" + id;
+    URL = sUrlP + "puntocuenta/" + $("#id").val()  + "/" + id  ;
     window.open(URL,"Punto de Cuenta","toolbar=0,location=0,menubar=0,scrollbars=1,resizable=1,width=1100,height=600")
 }
 
