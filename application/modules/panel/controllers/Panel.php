@@ -237,6 +237,20 @@ class Panel extends MY_Controller {
 		$this->MBeneficiario->HistorialOrdenPagos = $this->MOrdenPago->listarPorCedula($cedula);
 		echo json_encode($this->MBeneficiario);
 	}
+
+	public function consultarBeneficiarioJudicial($cedula = '', $fecha = ''){		
+		$this->load->model('beneficiario/MBeneficiario');
+		$this->load->model('beneficiario/MMedidaJudicial');
+
+		$this->MBeneficiario->obtenerID($cedula, $fecha);
+		$this->load->model('beneficiario/MOrdenPago');
+		$this->MBeneficiario->HistorialOrdenPagos = $this->MOrdenPago->listarPorCedula($cedula);
+		$this->MBeneficiario->MedidaJudicial = $this->MMedidaJudicial->listarTodo($cedula);
+		//print_r($this->MBeneficiario->MedidaJudicial);
+
+		echo json_encode($this->MBeneficiario);
+	}
+
 	public function consultarHistorialBeneficiario($id = ''){		
 		$this->load->model('beneficiario/MBeneficiario');
 		$lst = $this->MBeneficiario->consultarHistorial($id);

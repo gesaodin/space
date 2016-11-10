@@ -19,7 +19,7 @@ $( "#id" ).keypress(function( event ) {
 
 function consultar() {
     var val = $("#id").val();
-    ruta = sUrlP + "consultarBeneficiario/" + val;
+    ruta = sUrlP + "consultarBeneficiarioJudicial/" + val;
     $.getJSON(ruta, function(data) {
        
         if(data.fecha_retiro != null && data.fecha_retiro != ''){
@@ -30,7 +30,7 @@ function consultar() {
             $("#txtMensaje").html('El Beneficiario que intenta consultar ya se encuentra retirado, por favor consultarlo por finiquito'); 
             $("#logMensaje").modal('show');
             $("#controles").hide();
-            limpiar();
+            //limpiar();
         }else{
             $("#divBotones").show();
             $("#btnAnticipo").focus();
@@ -68,25 +68,16 @@ function consultar() {
 
             $("#medidas_judiciales").val(data.Calculo.embargos);
             $("#medidas_judiciales_aux").val(data.Calculo.embargos_aux);
-
-            listar(data.HistorialOrdenPagos);
-            var monto = data.Calculo.saldo_disponible_aux;
-            var saldo =  (Number(monto) * 75)/100;
-            var calculo = Number(saldo) - Number(data.Calculo.embargos_aux);
-            if(calculo < 0){
-                $("#divBotones").hide();
-                var boton = '<button type="button" class="btn btn-danger pull-right" onclick="continuar()">';
-                    boton += '<i class="glyphicon glyphicon-ok"></i>&nbsp;&nbsp;Continuar</button>';
-                var msj = 'El beneficiaio no puede solicitar anticipo porque excede el monto del capital en banco al aplicarle la Medida Judicial';
-                $("#divContinuar").html(boton);
-                $("#txtMensaje").html(msj); 
-                $("#logMensaje").modal('show');
-            }
+            //console.log(data.MedidaJudicial);
+            listar(data.MedidaJudicial);
+            
             
 
         }
 
     }).done(function(msg) {}).fail(function(jqXHR, textStatus) {
+       
+
         $("#id").val('');
         var boton = '<button id="btnContinuar" type="button" class="btn btn-success pull-right" onclick="continuar()">';
         boton += '<i class="glyphicon glyphicon-ok"></i>&nbsp;&nbsp;Continuar</button>';
@@ -95,41 +86,39 @@ function consultar() {
         $("#logMensaje").modal('show');
         $("#controles").hide();
         $("#btnContinuar").focus();
-        limpiar();
+        
     });
 
 }
 
 function listar(data){
-    var t = $('#reporteAnticipo').DataTable();
+    var t = $('#reporteMedida').DataTable();
     t.clear().draw();
+    //console.log(data);
     $.each(data, function (clave, valor){
+
         var monto = Number(valor.monto);
         var sBoton = '<div class="btn-group">';
         var sAcciones = '';
-        if(valor.estatus == 100){
-            if(valor.movimiento == 0 )sBoton += '<button type="button" class="btn btn-info" title="Punto de Cuenta" onclick="PuntoCuenta(\'' + valor.id + '\')"><i class="fa fa-print" ></i></button>';                
-            /**
-            Buscar Archivos Viejos del sistema
-            sAcciones = '<ul class="dropdown-menu" role="menu">';
-            sAcciones += '<li><a href="#!" target="_top" onclick="HojaVida(\'' + valor.cedula_beneficiario + '\')">Hoja de Vida (PRINT)</a></li>';
-            sAcciones += '<li><a href="#!" target="_top" onclick="OrdenPagoAnticipo(\'' + valor.cedula_beneficiario + '\')">Orden de Pago</a></li>';
-            sAcciones += '<li><a href="#!" target="_top" onclick="PuntoCuenta(\'' + valor.cedula_beneficiario + '\')">Punto de Cuenta</a></li>';
-            
-            sAcciones += '</ul>';
-            **/
-        }else if(valor.estatus == '101'){
-            if(valor.movimiento == 0 )sBoton += '<button type="button" class="btn btn-danger" title="Recharzar" onclick="rechazar(\'' + valor.id + '\')"><i class="fa fa-remove" ></i></button>';
-        }
+        
         sBoton += sAcciones + '</div>';
         
-
+        
         t.row.add( [
             sBoton,
-            estatus(valor.estatus),
-            valor.fecha_creacion,
-            valor.motivo,
-            monto.formatMoney(2, ',', '.')
+            '',
+            '',
+            '',
+            '',
+            '',
+            '',
+            '',
+            ''
         ] ).draw( false );
+        
     });
+}
+
+function continuar(){
+    $("#logMensaje").modal('hide');
 }

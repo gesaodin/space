@@ -186,7 +186,7 @@ class MMedidaJudicial extends CI_Model{
 		return $arr;
 	}
 
-	public function listarTodos($cedula = ''){
+	public function listarTodo($cedula = ''){
 		$arr = array();
 		$sConsulta = 'SELECT  * 
 			FROM medida_judicial 
@@ -194,6 +194,7 @@ class MMedidaJudicial extends CI_Model{
 
 		$obj = $this->Dbpace->consultar($sConsulta);
 		
+
 		$rs = $obj->rs;
 		foreach ($rs as $c => $v) {
 			$mdj = new $this->MMedidaJudicial();
@@ -212,6 +213,7 @@ class MMedidaJudicial extends CI_Model{
 			
 			$arr[$v->tipo_medida_id] = $mdj;
 		}
+
 		return $arr;
 	}
 

@@ -68,7 +68,7 @@ function Consultar(){
             data.fecha_ingreso,
             data.estatus_descripcion
         ] ).draw( false );
-        ConsultarHistorialBeneficiario();
+        //ConsultarHistorialBeneficiario();
 
     }).done(function(msg) {}).fail(function(jqXHR, textStatus) {
 

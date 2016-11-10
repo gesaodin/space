@@ -184,7 +184,7 @@
             </div><!-- /.box-header -->
             <div class="box-body">                    
                   <br><br>
-                    <table id="reporteAnticipo" class="table table-bordered table-hover">
+                    <table id="reporteMedida" class="table table-bordered table-hover">
                       <thead>
                       <tr>
                           <th style="width: 40px;">Acciones</th>
