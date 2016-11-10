@@ -118,6 +118,7 @@ th {
  <BR><BR>
  <table style="width: 700px">
   <tr>
+
    <td style="border: 0px solid #dddddd; text-align: justify; font-size: 16px; line-height: 1.5">
      &emsp;&emsp;Tengo el honor de dirigirme a usted en la oportunidad de remitirle
      anexo a la presente <?php echo $Numero->to_word(count($Anticipos));?> solicitudes de adelantos 
@@ -126,7 +127,6 @@ th {
      <?php 
       $f = explode('-', $desde);
       echo $f[2] . '/' . $f[1] . '/' . $f[0];
-
      ?>.
      <br><br><br>
      &emsp;&emsp;Remisión que hago llegar a usted, para su conocimiento y demas fines.
