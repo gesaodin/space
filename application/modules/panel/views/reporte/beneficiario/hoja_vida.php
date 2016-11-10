@@ -291,7 +291,7 @@ th {
 
               //$anticipo = isset($Beneficiario->Calculo['anticipos_aux']) ? $Beneficiario->Calculo['anticipos_aux'] : 0;
               //$disponible = ($montoCapital - $anticipo) + $garantia;
-              echo number_format($Beneficiario->Calculo['saldo_disponible'], 2, ',','.');
+              echo $Beneficiario->Calculo['saldo_disponible'];
               
 
 
