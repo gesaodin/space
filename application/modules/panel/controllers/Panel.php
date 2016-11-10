@@ -185,6 +185,22 @@ class Panel extends MY_Controller {
 		$data['lst'] = $this->MBeneficiario->detalleMovimientoFamiliar($cedula);		
 		$this->load->view('reporte/beneficiario/carta_banco_fallecido', $data);
 	}
+	public function cartaBancoFallecidoM($cedula = ''){
+		$this->load->model('beneficiario/MBeneficiario');
+		$this->MBeneficiario->obtenerID($cedula);
+		$data['Beneficiario'] = $this->MBeneficiario;
+		$data['lst'] = $this->MBeneficiario->detalleMovimientoFamiliar($cedula);		
+		$this->load->view('reporte/beneficiario/asignacion_menos_diez', $data);
+	}
+	public function asignacionFAS($cedula = ''){
+		$this->load->model('beneficiario/MBeneficiario');
+		$this->MBeneficiario->obtenerID($cedula);
+		$data['Beneficiario'] = $this->MBeneficiario;
+		$data['lst'] = $this->MBeneficiario->detalleMovimientoFamiliar($cedula);		
+		$this->load->view('reporte/beneficiario/asignacion_fs', $data);
+	}
+	
+
 
 	public function puntoCuenta($cedula = '', $codigo){
 		$this->load->model('beneficiario/MBeneficiario');

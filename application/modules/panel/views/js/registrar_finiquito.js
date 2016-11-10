@@ -460,15 +460,16 @@ function consultarFiniquitos(){
                     sBoton += '<button aria-expanded="false" type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown">';
                     sBoton += '<span class="caret"></span>';
                     sBoton += '<span class="sr-only">Toggle Dropdown</span>';
-                    sBoton += '</button>';  
+                    sBoton += '</button>';
 
                     sAcciones = '<ul class="dropdown-menu" role="menu">';
                     sAcciones += '<li><a href="#!" target="_top" onclick="HojaVida(\'' + cedula + '\',\'' + codigo + '\')">Hoja de Vida (PRINT)</a></li>';
                     switch (partida){
                         case '1':
                             sAcciones +='<li class="divider"></li>';
-                            sAcciones += '<li><a href="#!" target="_top" onclick="CartaBancoFallecido(\'' + cedula + '\')">Carta Banco Fallecido</a></li>';
-                            sAcciones += '<li><a href="#!" target="_top" onclick="CausaMuerte(\'' + cedula + '\')">Causa Muerte</a></li>';
+                            sAcciones += '<li><a href="#!" target="_top" onclick="CartaBancoFallecido(\'' + cedula + '\')">Carta Banco (-10)</a></li>';
+                            sAcciones += '<li><a href="#!" target="_top" onclick="AFAS(\'' + cedula + '\')">Asignacion FAS</a></li>';
+                            //sAcciones += '<li><a href="#!" target="_top" onclick="CausaMuerte(\'' + cedula + '\')">Causa Muerte</a></li>';
                             //sAcciones += '<li><a href="#!" target="_top" onclick="CapitalBanco(\'' + cedula + '\')">A/A Menor a 10 años.</a></li>';
                             break;
                         case '2':
@@ -549,7 +550,12 @@ function CartaBanco(id, cod){
 }
 
 function CartaBancoFallecido(id){    
-    URL = sUrlP + "cartaBancoFallecido/" + id;
+    URL = sUrlP + "cartaBancoFallecidoM/" + id;
+    window.open(URL,"Carta Banco","toolbar=0,location=1,menubar=0,scrollbars=1,resizable=1,width=900,height=800")
+}
+
+function AFAS(id){    
+    URL = sUrlP + "asignacionFAS/" + id;
     window.open(URL,"Carta Banco","toolbar=0,location=1,menubar=0,scrollbars=1,resizable=1,width=900,height=800")
 }
 

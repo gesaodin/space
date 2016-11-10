@@ -856,6 +856,7 @@ class MBeneficiario extends CI_Model{
 				'nombre' => $val->nomb,
 				'cedula' => $val->cedf,
 				'monto' => $val->cban,
+				'masfs' => $val->masfs
 			);
 		}
 		return $lst;

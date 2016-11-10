@@ -1,5 +1,6 @@
 <?php  
 
+
   function fecha($fecha = ''){
     $mes = 'Enero';
     switch ($fecha) {
@@ -92,61 +93,77 @@ th {
      INSTITUTO DE PREVISIÓN SOCIAL<BR>
      DE LAS FUERZAS ARMADAS<BR>
    </td>
-  
+   
  </tr>
+ </table><BR>
 
- </table><BR><BR><B>
- MEMORANDUM</B><BR><BR>
- 
  <table style="width: 700px;  text-align: justify;  font-size: 15px">
   <tr>
-    <td>Nro.</td><td>320.600-<?php echo substr(md5(date('YYYY-MM-DD')), 0,6);?>/01</td>
+    <td>Nro.</td><td>320.600-<?php echo substr(md5($Beneficiario->cedula . $Beneficiario->fecha_ultima_modificacion), 0,6);?>/01</td>
   </tr> 
   <tr>
     <td>DE:</td><td><b>CNEL. GERENTE DE BIENESTAR Y SEGURIDAD SOCIAL</b></td>
   </tr> 
   <tr>
-    <td>PARA:</td><td><b>CNEL. GERENTE DE DE FINANZAS<BR> A/C SUB. GERENCIA DE TESORERIA</b></td>    
+    <td>PARA:</td><td><b>C.A GERENTE DE DE FINANZAS A/C SUB. GERENCIA DE TESORERIA</b></td>    
   </tr> 
   <tr>
-    <td>ASUNTO:</td><td><b>REMISION DE SOLICITUDES DE ADELANTOS.</b></td>
+    <td>ASUNTO:</td><td><b>SOLICITUD DE FINIQUITO</b></td>
   </tr> 
+  
   <tr>
-    <td>REF.:</td><td><b>P.A.V</b></td>
-  </tr> 
+    <td valign="TOP">AFILIADO:</td><td><b><?php 
+      echo $Beneficiario->Componente->Grado->nombre . ' ' . $Beneficiario->Componente->descripcion . ' ' . 
+      $Beneficiario->nombres . ' ' . $Beneficiario->apellidos . '<br> CEDULA DE IDENTIDAD: ' . $Beneficiario->cedula; ?></b></td>
+  </tr>
+  <tr>
+    <td valign="TOP">FALLECIMIENTO:</td><td><b><?php 
+      echo $Beneficiario->fecha_retiro; ?></b></td>
+  </tr>
  </table>
- <BR><BR>
  <table style="width: 700px">
   <tr>
    <td style="border: 0px solid #dddddd; text-align: justify; font-size: 16px; line-height: 1.5">
-     &emsp;&emsp;Tengo el honor de dirigirme a usted en la oportunidad de remitirle
-     anexo a la presente <?php echo $Numero->to_word(count($Anticipos));?> solicitudes de adelantos 
-     correspondientes a los diferentes componentes,
-     para su debido tramite ante las entidades bancarias descritas en la relación anexa, procesados el 
-     <?php 
-      $f = explode('-', $desde);
-      echo $f[2] . '/' . $f[1] . '/' . $f[0];
-
-     ?>.
-     <br><br><br>
-     &emsp;&emsp;Remisión que hago llegar a usted, para su conocimiento y demas fines.
+     &emsp;&emsp;Mediante la presente comunicación me dirijo a Ud., en la oportunidad de solicitar su valiosa colaboración a objeto 
+     gire sus instruciones con la finalidad sea realizado el pago de la Asignación de Antiguedad generada por el fallecimiento del afiliado 
+     en referencia quien de acuerdo a lo previsto en el artículo 57 de la LOSSFANB y los artículos 822 al 832 del Código Civil Venezolano
      <br><br>
 
+     <table>
+       <thead>
+          <tr>
+            <th>COD</th>
+            <th>APELLIDOS Y NOMBRES DE LOS BENEFICIARIOS</th>
+            <th>CEDULA</th>
+            <th>MONTO BS.</th>
+          </tr>
+       </thead>
+       <tbody>
+        <?php
+          foreach ($lst as $c => $v) {
+
+            echo '<tr><td>' . $v['codigo'] . '</td><td>' . strtoupper($v['nombre']) . '</td><td>' . $v['cedula'] . '</td><td>' . 
+            number_format($v['monto'], 2, ',','.') . '</td></tr>';
+          }
+        ?>
+       </tbody>
+     </table>
      <br>
+     &emsp;&emsp;Solicitud que le hago llegar, para su conocimiento para los demas fines consiguientes.<br>
+     <p align="right">
+       Caracas,&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+     </p>
      <center>
-        Atentamente <br>
-        <p align="right"><?php echo 'Caracas, ' . date('d') . ' de ' . fecha(date('F')) . ' de '. date('Y') ?> 
-        </p>
-
-        <br><br><b>
-
-        CNEL. EDUARDO JOSE MARTINEZ SALAS<BR>
-        GERENTE DE BIENESTAR Y SEGURIDAD SOCIAL<BR></b>
+        Atentamente 
+        <br><br><br><b>
+        CNEL. EDUARDO JOSE MARTINEZ SALAS<BR></b>
      </center>
      <br>
-    
-     
-     OCR/<?php echo $_SESSION['usuario'];?>
+
+     Notas:<br>
+     <?php echo $Beneficiario->observacion;?>
+     <br><br>
+     OCR/<?php echo $Beneficiario->usuario_modificacion;?>
    </td>
    
  </tr>

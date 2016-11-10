@@ -665,12 +665,13 @@ class MCalculo extends CI_Model{
   * @return double
   */
   public function Monto_Recuperar(){   
-    $resta = $this->AsignacionAntiguedad() - $this->Asignacion_Depositada();
+    $resta = $this->AsignacionAntiguedad() - ($this->Asignacion_Depositada() + $this->Dias_Adicionales());
     $valor = 0.00;
     if($resta < 0) $valor = $resta * -1;
 
     return $valor;
   }
+
 
 
   /**

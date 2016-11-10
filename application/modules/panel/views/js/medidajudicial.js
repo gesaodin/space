@@ -76,7 +76,7 @@ function consultar() {
         }
 
     }).done(function(msg) {}).fail(function(jqXHR, textStatus) {
-       
+       14893700
 
         $("#id").val('');
         var boton = '<button id="btnContinuar" type="button" class="btn btn-success pull-right" onclick="continuar()">';
