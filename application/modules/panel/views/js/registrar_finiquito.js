@@ -438,7 +438,7 @@ function consultarFiniquitos(){
         var tiempo_servicio = data.tiempo_servicio;
         
         var arr = data.HistorialDetalleMovimiento;
-        
+        console.log(arr);
         if(Array.isArray(arr) == false){
             $.each(arr[9], function ( clv, valores ){
                 var fecha_creacion = valores.fecha_creacion;
@@ -448,6 +448,7 @@ function consultarFiniquitos(){
                 var observaciones = valores.observacion;
                 var estatus = valores.tipo_texto;
                 var partida = valores.partida;
+                var motivo = valores.motivo;
                 var sAcciones = '';
                 var sBoton = '<div class="btn-group">';
                 
@@ -464,22 +465,22 @@ function consultarFiniquitos(){
 
                     sAcciones = '<ul class="dropdown-menu" role="menu">';
                     sAcciones += '<li><a href="#!" target="_top" onclick="HojaVida(\'' + cedula + '\',\'' + codigo + '\')">Hoja de Vida (PRINT)</a></li>';
+                    sAcciones +='<li class="divider"></li>';
                     switch (partida){
                         case '1':
-                            sAcciones +='<li class="divider"></li>';
-                            sAcciones += '<li><a href="#!" target="_top" onclick="CartaBancoFallecido(\'' + cedula + '\')">Carta Banco (-10)</a></li>';
-                            sAcciones += '<li><a href="#!" target="_top" onclick="AFAS(\'' + cedula + '\')">Asignacion FAS</a></li>';
-                            //sAcciones += '<li><a href="#!" target="_top" onclick="CausaMuerte(\'' + cedula + '\')">Causa Muerte</a></li>';
-                            //sAcciones += '<li><a href="#!" target="_top" onclick="CapitalBanco(\'' + cedula + '\')">A/A Menor a 10 años.</a></li>';
+                            
+                            sAcciones += '<li><a href="#!" target="_top" onclick="ConsultoriaJuridica(\'' + cedula + '\',\'' + codigo + '\')">Consultoria Juridica</a></li>';
+                            sAcciones += '<li><a href="#!" target="_top" onclick="CartaBancoFallecido(\'' + cedula + '\',\'' + codigo + '\')">Carta Banco</a></li>';
+                            sAcciones += '<li><a href="#!" target="_top" onclick="AFAS(\'' + cedula + '\',\'' + codigo + '\',\'' + motivo + '\')">Asignacion FS/AS</a></li>';
+                            sAcciones += '<li><a href="#!" target="_top" onclick="CausaMuerte(\'' + cedula + '\',\'' + codigo + '\')">Causa Muerte</a></li>';
+                            sAcciones += '<li><a href="#!" target="_top" onclick="DiferenciaAntiguedad(\'' + cedula + '\',\'' + codigo + '\')">Diferencia de Antiguedad</a></li>';
                             break;
                         case '2':
-                            sAcciones += '<li><a href="#!" target="_top" onclick="CartaBanco(\'' + cedula + '\',\'' + codigo + '\')">Carta Banco </a></li>';
-                            sAcciones += '<li><a href="#!" target="_top" onclick="OrdenPago(\'' + cedula + '\')">Orden de Pago</a></li>';  
-
-                            sAcciones +='<li class="divider"></li>';
-                            sAcciones += '<li><a href="#!" target="_top" onclick="CapitalBanco(\'' + cedula + '\')">Capital en Banco</a></li>';
-                            sAcciones += '<li><a href="#!" target="_top" onclick="DiferenciaAntiguedad(\'' + cedula + '\')">Diferencia de Antiguedad</a></li>';
-                            sAcciones += '<li><a href="#!" target="_top" onclick="Indemnizacion(\'' + cedula + '\')">Indemnización AS/FS</a></li>';
+                            sAcciones += '<li><a href="#!" target="_top" onclick="ConsultoriaJuridica(\'' + cedula + '\',\'' + codigo + '\')">Consultoria Juridica</a></li>';
+                            sAcciones += '<li><a href="#!" target="_top" onclick="CartaBancoFallecido(\'' + cedula + '\',\'' + codigo + '\')">Carta Banco</a></li>';
+                            sAcciones += '<li><a href="#!" target="_top" onclick="AFAS(\'' + cedula + '\',\'' + codigo + '\',\'' + motivo + '\')">Asignacion FS/AS</a></li>';
+                            sAcciones += '<li><a href="#!" target="_top" onclick="CausaMuerte(\'' + cedula + '\',\'' + codigo + '\')">Causa Muerte</a></li>';
+                            sAcciones += '<li><a href="#!" target="_top" onclick="DiferenciaAntiguedad(\'' + cedula + '\',\'' + codigo + '\')">Diferencia de Antiguedad</a></li>';
                             break;
                         case '3':
                             break;
@@ -549,16 +550,32 @@ function CartaBanco(id, cod){
     window.open(URL,"Carta Banco","toolbar=0,location=1,menubar=0,scrollbars=1,resizable=1,width=900,height=800")
 }
 
-function CartaBancoFallecido(id){    
-    URL = sUrlP + "cartaBancoFallecidoM/" + id;
+function CartaBancoFallecido(id, cod){    
+    URL = sUrlP + "cartaBancoFallecidoM/" + id + '/' + cod;
     window.open(URL,"Carta Banco","toolbar=0,location=1,menubar=0,scrollbars=1,resizable=1,width=900,height=800")
 }
 
-function AFAS(id){    
-    URL = sUrlP + "asignacionFAS/" + id;
+function CausaMuerte(id, cod){    
+    URL = sUrlP + "CausaMuerte/" + id + '/' + cod;
     window.open(URL,"Carta Banco","toolbar=0,location=1,menubar=0,scrollbars=1,resizable=1,width=900,height=800")
 }
 
+function AFAS(id, cod, motivo){    
+    URL = sUrlP + "asignacionFAS/" + id + '/' + cod + '/' + motivo;
+    window.open(URL,"Carta Banco","toolbar=0,location=1,menubar=0,scrollbars=1,resizable=1,width=900,height=800")
+}
+
+
+function ConsultoriaJuridica(id, cod){    
+    URL = sUrlP + "ConsultoriaJuridica/" + id + '/' + cod;
+    window.open(URL,"Carta Banco","toolbar=0,location=1,menubar=0,scrollbars=1,resizable=1,width=900,height=800")
+}
+
+
+function DiferenciaAntiguedad(id, cod){    
+    URL = sUrlP + "DiferenciaAntiguedad/" + id + '/' + cod;
+    window.open(URL,"Carta Banco","toolbar=0,location=1,menubar=0,scrollbars=1,resizable=1,width=900,height=800")
+}
 
 
 

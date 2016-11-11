@@ -74,13 +74,13 @@
                           <table id="reporteFiniquitos" class="table table-bordered table-hover">
                               <thead>
                               <tr>
-                                  <th style="width: 90px;">Acciones</th>
+                                  <th style="width: 110px;">Acciones</th>
                                   <th>F. Creación</th>
                                   <!--<th>Cédula</th>
                                   <th>Benficiario</th>-->
                                   <th >Componente</th>
                                   <th>Grado</th>
-                                  <th style="width: 80px;">T. Servicio</th>
+                                  <th style="width: 70px;">T. Servicio</th>
                                   <th>Total (BsF.) </th>
                                   <th>F. Finiquito</th>
                                   <th>Motivo o Concepto</th>

@@ -756,7 +756,9 @@ class MBeneficiario extends CI_Model{
 
 	}
 
-	public function insertarDetalle($familia){
+	public function insertarDetalle($familia, $codigo = ''){
+
+
 		$sInsertar = '';
 		$sInsertar_a = 'INSERT INTO space.mov_familia (
 			cedu, 
@@ -770,8 +772,9 @@ class MBeneficiario extends CI_Model{
   			masfs, -- Monto Acto de Servicio / Fuera de Servicio
   			usur,
   			esta, -- Estus del proceso 1:Activo 0:Reversado
-  			posi,
-  			fech 
+  			posi, -- 
+  			fech, --
+  			codi --
 		) VALUES ';
 		foreach ($familia->fami as $c => $v) {
 			
@@ -790,7 +793,8 @@ class MBeneficiario extends CI_Model{
 				\'' . $familia->u_s . '\',
 				1,
 				' . $c . ',
-				\''  .  date("Y-m-d H:i:s") . '\'
+				\''  .  date("Y-m-d H:i:s") . '\',
+				\'' . $codigo . '\'
 			);';
 			
 		}
@@ -846,9 +850,9 @@ class MBeneficiario extends CI_Model{
 		return $lst;
 	}
 
-	function detalleMovimientoFamiliar($ced = ''){
+	function detalleMovimientoFamiliar($ced = '', $cod){
 		$lst = array();
-		$sConsulta = 'SELECT * FROM space.mov_familia where cedu=\'' . $ced . '\'';
+		$sConsulta = 'SELECT * FROM space.mov_familia where cedu=\'' . $ced . '\' AND codi =\'' . $cod . '\'';
 		$obj = $this->Dbpace->consultar($sConsulta);
 		foreach ($obj->rs as $clv => $val) {
 			$lst[] = array(
@@ -856,7 +860,9 @@ class MBeneficiario extends CI_Model{
 				'nombre' => $val->nomb,
 				'cedula' => $val->cedf,
 				'monto' => $val->cban,
-				'masfs' => $val->masfs
+				'masfs' => $val->masfs,
+				'mdaa' => $val->mdaa,
+				'cmue' => $val->cmue
 			);
 		}
 		return $lst;

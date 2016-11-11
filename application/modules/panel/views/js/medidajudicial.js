@@ -76,7 +76,7 @@ function consultar() {
         }
 
     }).done(function(msg) {}).fail(function(jqXHR, textStatus) {
-       14893700
+       
 
         $("#id").val('');
         var boton = '<button id="btnContinuar" type="button" class="btn btn-success pull-right" onclick="continuar()">';
@@ -107,12 +107,12 @@ function listar(data){
         t.row.add( [
             sBoton,
             '',
-            '',
-            '',
-            '',
-            '',
-            '',
-            '',
+            valor.estatus,
+            valor.fecha,
+            valor.numero_oficio,
+            valor.numero_expediente,
+            valor.cedula_beneficiario,
+            valor.nombre_beneficiario,
             ''
         ] ).draw( false );
         

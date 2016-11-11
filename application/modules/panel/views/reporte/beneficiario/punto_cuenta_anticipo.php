@@ -202,8 +202,8 @@
       </td>
     </tr>
  </table>
-
-
+</center><br>
+&emsp;&emsp;&emsp;OCR/<?php echo $Beneficiario->usuario_modificacion;?>
 
   <script language="Javascript">
     function imprimir(){

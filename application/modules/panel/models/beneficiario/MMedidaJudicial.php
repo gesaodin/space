@@ -44,12 +44,17 @@ class MMedidaJudicial extends CI_Model{
 	/**
 	* @var string
 	*/
-	var $cedula_beneficiario;
+	var $cedula_beneficiario = '';
 
 	/**
 	* @var string
 	*/
-	var $numero_beneficiario;
+	var $nombre_beneficiario = '';
+
+	/**
+	* @var string
+	*/
+	var $numero_beneficiario = 0;
 
 	/**
 	* @var string
@@ -205,11 +210,15 @@ class MMedidaJudicial extends CI_Model{
 			$mdj->forma_pago = $v->forma_pago_id;
 			$mdj->municipio = $v->municipio_id;
 			$mdj->institucion = $v->institucion;
+			$mdj->cedula_beneficiario = $v->ci_beneficiario;
+			$mdj->cedula = $v->cedula;
+			$mdj->nombre_beneficiario = $v->n_beneficiario;
+			$mdj->parentesco = $v->parentesco_id;
 
 			$mdj->porcentaje = $v->porcentaje;
 			$mdj->monto = $v->total_monto;
-			$mdj->numero_expediente = $v->nro_expediente;
 			$mdj->tipo = $v->tipo_medida_id;
+			$mdj->estaus = $v->status_id;
 			
 			$arr[$v->tipo_medida_id] = $mdj;
 		}
@@ -226,12 +235,12 @@ class MMedidaJudicial extends CI_Model{
 		*desc_embargo text,
 		*forma_pago_id smallint,
 		*municipio_id smallint,
-		institucion character varying(200),
+		*institucion character varying(200),
 		desc_institucion text,
-		ci_beneficiario character varying(20),
-		n_beneficiario character varying(100),
+		*ci_beneficiario character varying(20),
+		*n_beneficiario character varying(100),
 		n_autorizado character varying(100),
-		status_id integer,
+		*status_id integer,
 		parentesco_id integer,
 		tipo_medida_id integer,
 		cantidad_salario integer,
@@ -239,7 +248,7 @@ class MMedidaJudicial extends CI_Model{
 		nombre_autoridad character varying(100),
 		cargo_autoridad character varying(100),
 		motivo_id integer,
-		cedula character varying(12),
+		*cedula character varying(12),
 		id integer NOT NULL DEFAULT nextval('medida_judicial_id_seq'::regclass),
 		ci_autorizado character varying(20),
 		f_creacion timestamp without time zone,

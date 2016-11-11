@@ -12,6 +12,8 @@ class MHistorialMovimiento extends CI_Model{
 
 	var $fecha = '';
 	
+	var $motivo = 0;
+
 	var $observacion = '';
 
 	var $monto = 0.00;	
@@ -78,7 +80,7 @@ class MHistorialMovimiento extends CI_Model{
 		$Detalle = array();
 		$sDonde = '';
 		if($tipo > 0) $sDonde = ' AND tipo_movimiento_id=\'' . $tipo . '\' ';
-		$sConsulta = 'SELECT id, codigo, partida_id, tipo_movimiento_id, transaccion_id, monto, observaciones, f_contable, f_creacion 
+		$sConsulta = 'SELECT id, codigo, motivo_id, partida_id, tipo_movimiento_id, transaccion_id, monto, observaciones, f_contable, f_creacion 
 			FROM movimiento WHERE cedula =\'' . $cedula . '\'' .  $sDonde . '
 			ORDER BY tipo_movimiento_id';
 		$obj = $this->Dbpace->consultar($sConsulta);		
@@ -88,6 +90,7 @@ class MHistorialMovimiento extends CI_Model{
 			$hm = new $this->MHistorialMovimiento();
 			$hm->id = $v->id;
 			$hm->tipo = $v->tipo_movimiento_id;
+			$hm->motivo = $v->motivo_id;
 			$hm->codigo = $v->codigo;
 			$hm->fecha = substr($v->f_contable, 0, 10);
 			$hm->fecha_creacion = substr($v->f_creacion, 0, 10);
@@ -126,6 +129,7 @@ class MHistorialMovimiento extends CI_Model{
 					$A['fecha_contable'] =  $valor->fecha;
 					$A['fecha_creacion'] =  $valor->fecha_creacion;
 					$A['observacion'] =  $valor->observacion;
+					$A['motivo'] =  $valor->motivo;
 
 					$A['codigo'] =  $valor->codigo;
 					$A['tipo_texto'] = 'Finiquito';

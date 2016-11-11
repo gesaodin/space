@@ -96,70 +96,64 @@ th {
  </tr>
  </table><BR>
  <br>
- CANCELACIÓN "ASIGNACIÓN CAUSA MUERTE".<BR>
- ESTATUTO ORGANICO DEL IPSFA CÓDIGO 86<BR><BR>
 
  <table style="width: 700px;  text-align: justify;  font-size: 15px">
+  <tr>
+    <td>DE:</td><td><b>CNEL. GERENTE DE BIENESTAR Y SEGURIDAD SOCIAL</b></td>
+  </tr> 
+  <tr>
+    <td>PARA:</td><td><b>MAY. CONSULTOR JURIDICO</b></td>    
+  </tr> 
+  <tr>
+    <td>ASUNTO:</td><td><b>REMISION DE EXPEDIENTE Y SOLICITUD DE VISADO.</b></td>
+  </tr> 
 
-  
-  <tr>
-    <td valign="TOP">AFILIADO:</td><td><b><?php 
-      echo $Beneficiario->Componente->Grado->nombre . ' ' . $Beneficiario->Componente->descripcion . ' ' . 
-      $Beneficiario->nombres . ' ' . $Beneficiario->apellidos . '<br> CEDULA DE IDENTIDAD: ' . $Beneficiario->cedula; ?></b></td>
-  </tr>
-  <tr>
-    <td valign="TOP">FALLECIMIENTO:</td><td><b><?php 
-      echo $Beneficiario->fecha_retiro; ?></b></td>
-  </tr>
  </table>
+ <BR><BR>
  <table style="width: 700px">
   <tr>
    <td style="border: 0px solid #dddddd; text-align: justify; font-size: 16px; line-height: 1.5">
-     &emsp;&emsp;Cancelar a los familiares a través de la nomina de pensiones la Asignación Causa Muerte generada por el 
-     fallecimiento del militar en referencia.
-     familiares:
+     
+     &emsp;&emsp;Mediante la presente me dirijo a Ud., en la oportunidad de remitirle anexo a la presente 
+     anexo a la presente comunicación un (01) expediente del afiliado fallecido que se relaciona a continuación 
+     para dar cumplimiento a lo establecido por la Contraloría Interna, según Memo del 14JUL95.
+     
      <br><br>
-
      <table>
        <thead>
-          <tr>
-            <th>COD</th>
-            <th>APELLIDOS Y NOMBRES DE LOS BENEFICIARIOS</th>
-            <th>CEDULA</th>
-            <th>MONTO BS.</th>
-          </tr>
+         <tr>
+           <th>GRADO</th>
+           <th>COMPONENTE</th>
+           <th>CEDULA</th>
+           <th>APELLIDOS Y NOMBRES</th>
+           
+           <th>FINIQUITO</th>
+           <th>M. ACTO DE SERVICIOS</th>
+         </tr>
        </thead>
-       <tbody>
-        <?php
-          foreach ($lst as $c => $v) {
-
-            echo '<tr><td>' . $v['codigo'] . '</td><td>' . strtoupper($v['nombre']) . '</td><td>' . $v['cedula'] . '</td><td>' . 
-            number_format($v['cmue'], 2, ',','.') . '</td></tr>';
-          }
-        ?>
-       </tbody>
-     </table>
-     <br><br><br>
-     <table>
-       <tr>
-         <td><hr></td>
-         <td><hr></td>
-         <td><hr></td>
-         <td><hr></td>
-       </tr>
-       <tr>
-         <td>ELABORADO</td>
-         <td>JEFE DPTO.</td>
-         <td>GERENTE DE B y S.S.</td>
-         <td>TRANSCRITO</td>
-       </tr>
+       <body>
+         <tr>
+           <td><?php echo $Beneficiario->Componente->Grado->nombre;?></td>
+           <td><?php echo $Beneficiario->Componente->descripcion;?></td>
+           <td><?php echo $Beneficiario->cedula;?></td>
+           <td><?php echo $Beneficiario->nombres . ' ' . $Beneficiario->apellidos;?></td>
+           <td><?php echo substr(md5($Beneficiario->cedula . $Beneficiario->fecha_ultima_modificacion), 0,6) . '/01';?></td>
+           <td><?php echo substr(md5($Beneficiario->cedula . $Beneficiario->fecha_ultima_modificacion), 0,6) . '/02';?></td>
+         </tr>
+       </body>
      </table>
      
-     <br>
+     <br> &emsp;&emsp;Solicitud que le hago llegar, para su conocimiento y demas fines consiguientes.
+     <p align="right">
+       Caracas,&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+     </p>
+     <center>
+        
+        <br><br><br><b><br><b>
+        CNEL. EDUARDO JOSE MARTINEZ SALAS<BR></b>
+     </center><br> <br>
 
-     Notas:<br>
-     El monto a cancelar debe ser cargado al código de la partida presupuestaria 4.07.01.01.99.06 del proyecto 
-     98555, unidad ejecutora 3206 PACE, acción especifica 98555-1
+    
      <br><br>
      OCR/<?php echo $Beneficiario->usuario_modificacion;?>
    </td>

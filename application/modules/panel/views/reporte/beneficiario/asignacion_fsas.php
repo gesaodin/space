@@ -98,7 +98,7 @@ th {
 
  <table style="width: 700px;  text-align: justify;  font-size: 15px">
   <tr>
-    <td>Nro.</td><td>320.600-<?php echo substr(md5($Beneficiario->cedula . $Beneficiario->fecha_ultima_modificacion), 0,6);?>/01</td>
+    <td>Nro.</td><td>320.600-<?php echo substr(md5($Beneficiario->cedula . $Beneficiario->fecha_ultima_modificacion), 0,6);?>/02</td>
   </tr> 
   <tr>
     <td>DE:</td><td><b>CNEL. GERENTE DE BIENESTAR Y SEGURIDAD SOCIAL</b></td>
@@ -124,7 +124,13 @@ th {
   <tr>
    <td style="border: 0px solid #dddddd; text-align: justify; font-size: 16px; line-height: 1.5">
      &emsp;&emsp;Mediante la presente comunicación me dirijo a Ud., en la oportunidad de solicitar la elaboración de los cheques que otorga la Asginación causada por la muerte del afiliado en 
-     referencia, y calificada como fallecimiento fuera de actos de servicio, que de acuerdo 
+     referencia, y calificada como fallecimiento <?php 
+      $txt = 'fuera de actos de servicio';
+     
+      if($motivo == 10) $txt = 'en actos de servicio';
+
+      echo $txt;
+     ?>, que de acuerdo 
      a las previsiones de los Art. 57, 60 y 61 de LOSSFANB, deja como beneficiarios a los siguientes
      familiares:
      <br><br>
@@ -149,7 +155,7 @@ th {
        </tbody>
      </table>
      <br>
-     &emsp;&emsp;Solicitud que le hago llegar, para su conocimiento para los demas fines consiguientes.<br>
+     &emsp;&emsp;Solicitud que le hago llegar, para su conocimiento y demas fines consiguientes.<br>
      <p align="right">
        Caracas,&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
      </p>

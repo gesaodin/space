@@ -102,7 +102,7 @@ th {
     <td>Nro.</td><td>320.600-<?php echo substr(md5($Beneficiario->cedula . $Beneficiario->fecha_ultima_modificacion), 0,6);?>/01</td>
   </tr> 
   <tr>
-    <td>DE:</td><td><b>CNEL. GERENTE DE BIENESTAR Y SEGURIDAD SOCIAL</b></td>
+    <td >DE:</td><td><b>CNEL. GERENTE DE BIENESTAR Y SEGURIDAD SOCIAL</b></td>
   </tr> 
   <tr>
     <td>PARA:</td><td><b>C.A GERENTE DE DE FINANZAS A/C SUB. GERENCIA DE TESORERIA</b></td>    
@@ -149,7 +149,7 @@ th {
        </tbody>
      </table>
      <br>
-     &emsp;&emsp;Solicitud que le hago llegar, para su conocimiento para los demas fines consiguientes.<br>
+     &emsp;&emsp;Solicitud que le hago llegar, para su conocimiento y demas fines consiguientes.<br>
      <p align="right">
        Caracas,&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
      </p>
