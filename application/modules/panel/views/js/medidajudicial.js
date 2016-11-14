@@ -1,5 +1,6 @@
-var Anticipo = {};
-Anticipo['monto'] = 0;
+var MedidaJudcial = {};
+
+MedidaJudcial['cedula'] = 0;
 
 $('#reporteMedida').DataTable({
         "paging":   false,
@@ -30,10 +31,13 @@ function consultar() {
             $("#txtMensaje").html('El Beneficiario que intenta consultar ya se encuentra retirado, por favor consultarlo por finiquito'); 
             $("#logMensaje").modal('show');
             $("#controles").hide();
-            //limpiar();
+
         }else{
             $("#divBotones").show();
             $("#btnAnticipo").focus();
+            MedidaJudcial['cedula'] = data.cedula;
+
+            $("#lblNombre").text(' Nombres: ' + data.nombres + ' ' + data.apellidos + ' C.I: ' + data.cedula );
             $("#nombres").val(data.nombres);
             $("#apellidos").val(data.apellidos);
             $("#sexo").val(data.sexo);
@@ -47,32 +51,12 @@ function consultar() {
             $("#profesionalizacion").val(data.profesionalizacion);
             $("#arec").val(data.ano_reconocido);
             $("#mrec").val(data.mes_reconocido);    
-            $("#drec").val(data.dia_reconocido);
-            $("#fecha_retiro").val(data.fecha_retiro);
+            $("#drec").val(data.dia_reconocido);            
             $("#fano").val(data.aguinaldos_aux);
             $("#vacaciones").val(data.vacaciones_aux);
             $("#numero_cuenta").val(data.numero_cuenta);
             $("#estatus").val(data.estatus_descripcion);
-
-            $("#capital_banco").val(data.Calculo.capital_banco);
-            $("#capital_banco_aux").val(data.Calculo.capital_banco_aux);
-            
-            $("#garantias").val(data.Calculo.garantias);
-            $("#garantias_aux").val(data.Calculo.garantias_aux);
-
-            $("#anticipos").val(data.Calculo.anticipos);
-            $("#anticipos_aux").val(data.Calculo.anticipos_aux);
-
-            $("#saldo_disponible").val(data.Calculo.saldo_disponible);
-            $("#saldo_disponible_aux").val(data.Calculo.saldo_disponible_aux);
-
-            $("#medidas_judiciales").val(data.Calculo.embargos);
-            $("#medidas_judiciales_aux").val(data.Calculo.embargos_aux);
-            //console.log(data.MedidaJudicial);
-            listar(data.MedidaJudicial);
-            
-            
-
+            listar(data.MedidaJudicial);            
         }
 
     }).done(function(msg) {}).fail(function(jqXHR, textStatus) {
@@ -96,11 +80,9 @@ function listar(data){
     t.clear().draw();
     //console.log(data);
     $.each(data, function (clave, valor){
-
         var monto = Number(valor.monto);
         var sBoton = '<div class="btn-group">';
-        var sAcciones = '';
-        
+        var sAcciones = '';        
         sBoton += '<button type="button" class="btn btn-success" title="Ver Detalles"><i class="fa fa-search" ></i></button>'; 
         switch (valor.estatus){
             case '220':
@@ -111,8 +93,7 @@ function listar(data){
                 break;
             case '222':
                 break;
-            case '223':
-                
+            case '223':                
                 sBoton += '<button type="button" class="btn btn-danger" title="Suspender"><i class="fa fa-cogs" ></i></button>'; 
                 break;
             default:
@@ -178,4 +159,20 @@ function obtenerMunicipiosID(id){
        $("#txtMensaje").html('No se encontraron municipios'); 
        $("#logMensaje").modal('show');
     });
+}
+
+
+function cargarMedida(){
+    MedidaJudcial['numero_oficio'] = $("#numero_oficio").val();
+    MedidaJudcial['numero_expediente'] = $("#numero_expediente").val();
+
+    MedidaJudcial['tipo'] = $("#tipo").val();
+    MedidaJudcial['fecha'] = $("#datepicker").val();
+    MedidaJudcial['observacion'] = $("#observacion").val();
+
+    MedidaJudcial['porcentaje'] = $("#parcentaje").val();
+    MedidaJudcial['salario'] = $("#salario").val();
+    MedidaJudcial['ut'] = $("#ut").val();
+    MedidaJudcial['monto'] = $("#monto_total").val();
+
 }

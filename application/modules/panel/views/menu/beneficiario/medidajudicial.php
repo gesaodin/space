@@ -17,12 +17,12 @@
         <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Anticipo
+        Medida Judcial
         <small>.</small>
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Beneficiario</a></li>
-        <li><a href="#">Anticipo</a></li>
+        <li><a href="#">Medida Judcial</a></li>
       </ol>
     </section>
 
@@ -144,13 +144,7 @@
                     </div> 
                   </div> <!-- /Numero Cuenta -->
 
-                  <div class="form-group">
-                    <label class="col-md-2">Fecha de Retiro</label>
-                    <div class="col-md-2">                      
-                      <input type="text" placeholder="Fecha de Retiro" id='fecha_retiro' class="form-control" readonly="readonly"></input>
-                    </div> 
-                  </div> <!-- /Numero Cuenta -->
-
+                  
 
                 </div>
               </form>
@@ -177,7 +171,7 @@
 
           <div class="box box-success">
             <div class="box-header with-border">
-              <h3 class="box-title">Detalles de las Medidas</h3>
+              <h3 class="box-title">Detalles de las Medidas </h3>
               <div class="box-tools pull-right">
                
               </div><!-- /.box-tools -->
@@ -215,7 +209,7 @@
                         <div class="modal-content">
                           <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            <h4 class="modal-title">Nueva Medida Judicial
+                            <h4 class="modal-title"><label>Nueva Medida</label> <label id='lblNombre'></label></h4>
                           </div>
                           <div class="modal-body">
                            <div class="row">
@@ -227,7 +221,7 @@
                           <div class="row">
                             <div class="col-md-2">Tipo:</div>
                             <div class="col-md-4">
-                              <select class="form-control select2" style="width: 100%;">
+                              <select class="form-control select2" style="width: 100%;" id='tipo'>
                                 <option selected="selected" value="1">ASIGNACION DE ANTIGUEDAD</option>
                                 <option value="2">INTERESES</option>
                               </select></div>
@@ -246,7 +240,7 @@
                             <div class="row">
                               <div class="col-md-2">Observaciones:</div>
                               <div class="col-md-10">
-                                <textarea class="form-control" placeholder="Descripción"></textarea>
+                                <textarea class="form-control" placeholder="Descripción" id='observacion'></textarea>
                               </div>
                             </div>
                             <div class="row">

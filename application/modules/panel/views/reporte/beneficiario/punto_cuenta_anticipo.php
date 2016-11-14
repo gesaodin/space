@@ -1,9 +1,10 @@
 <?php  
-
+  $usuario = '';
   foreach ($Beneficiario->HistorialOrdenPagos as $c => $v) {
     if($v->id == $codigo){
       $finalidad = $v->motivo;
       $monto = $v->monto;
+      $usuario = $v->usuario_modificacion;
     }  
     
   }
@@ -203,7 +204,7 @@
     </tr>
  </table>
 </center><br>
-&emsp;&emsp;&emsp;OCR/<?php echo $Beneficiario->usuario_modificacion;?>
+&emsp;&emsp;&emsp;OCR/<?php echo $usuario;?>
 
   <script language="Javascript">
     function imprimir(){
