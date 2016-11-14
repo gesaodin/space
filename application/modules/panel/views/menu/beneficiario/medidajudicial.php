@@ -359,7 +359,11 @@
                           
                           <div class="box-footer">
                           <div class="col-xs-12">
-                            <button type="button" class="btn btn-danger pull-right" data-dismiss="modal"><i class="glyphicon glyphicon-remove"></i>&nbsp;&nbsp;Cancelar
+                            <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="glyphicon glyphicon-remove"></i>&nbsp;&nbsp;Cancelar
+                            </button>
+
+                            <button type="button" class="btn btn-success pull-right" data-dismiss="modal" onclick="guardarMedida()">
+                            <i class="glyphicon glyphicon-ok"></i>&nbsp;&nbsp;Aceptar
                             </button>
                             
                             

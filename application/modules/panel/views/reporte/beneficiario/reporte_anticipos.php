@@ -120,7 +120,12 @@ th {
     PERIODO: <?php echo $desde . ' - ' . $hasta;?><br>
     COMPONENTE: <?php 
     $com = explode('%20', $Componente);
-    echo $com[0] . ' ' . $com[1];
+    if(count($com) > 1){ 
+      echo $com[0] . ' ' . $com[1];
+    }else{
+      echo $Componente;
+    }
+
     ?><br><br>
   </b>
  <table >

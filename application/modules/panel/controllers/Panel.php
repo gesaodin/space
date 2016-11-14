@@ -583,6 +583,52 @@ class Panel extends MY_Controller {
 		echo "Se registro el nuevo anticipo en estatus de pendiente";
 	}
 
+	public function crearMedidaJudicial(){
+		
+		$this->load->model('beneficiario/MMedidaJudicial');
+
+		
+		$data = json_decode($_POST['data']);
+		
+		$this->MMedidaJudicial->numero_oficio = $data->MedidaJudicial->numero_oficio;
+		$this->MMedidaJudicial->numero_expediente = $data->MedidaJudicial->numero_expediente;
+		
+		$this->MMedidaJudicial->tipo = $data->MedidaJudicial->tipo;
+		$this->MMedidaJudicial->fecha = $data->MedidaJudicial->fecha;
+		$this->MMedidaJudicial->observacion =  $data->MedidaJudicial->observacion;
+		
+		$this->MMedidaJudicial->porcentaje = $data->MedidaJudicial->porcentaje;
+		$this->MMedidaJudicial->institucion = $data->MedidaJudicial->institucion;
+		$this->MMedidaJudicial->autoridad = $data->MedidaJudicial->autoridad;
+		$this->MMedidaJudicial->cargo = $data->MedidaJudicial->cargo;
+
+
+		$this->MMedidaJudicial->estado = $data->MedidaJudicial->estado;
+		$this->MMedidaJudicial->ciudad = $data->MedidaJudicial->ciudad;
+		$this->MMedidaJudicial->municipio = $data->MedidaJudicial->municipio;
+		$this->MMedidaJudicial->descripcion_institucion = $data->MedidaJudicial->descripcion_institucion;
+
+		$this->MMedidaJudicial->nombre_beneficiario = $data->MedidaJudicial->nombre_beneficiario;
+		$this->MMedidaJudicial->cedula_beneficiario = $data->MedidaJudicial->cedula_beneficiario;
+		$this->MMedidaJudicial->parentesco = $data->MedidaJudicial->parentesco;
+
+		$this->MMedidaJudicial->cedula_autorizado = $data->MedidaJudicial->cedula_autorizado;
+		$this->MMedidaJudicial->nombre_autorizado = $data->MedidaJudicial->nombre_autorizado;
+
+		$this->MMedidaJudicial->fecha_creacion =  date("Y-m-d H:i:s");
+		$this->MMedidaJudicial->usuario_creacion = $_SESSION['usuario'];
+		$this->MMedidaJudicial->fecha_modificacion =  date("Y-m-d H:i:s");
+		$this->MMedidaJudicial->usuario_modificacion = $_SESSION['usuario'];
+
+		
+		//$this->MMedidaJudicial->salvar();	
+		print_r($this->MMedidaJudicial);
+		
+
+		echo "Se registro el nuevo MMedidaJudicial en estatus de pendiente";
+	}
+
+
 	public function ejecutarAnticipo(){
 		//echo "<pre>";
 		

@@ -1,6 +1,6 @@
-var MedidaJudcial = {};
+var MedidaJudicial = {};
 
-MedidaJudcial['cedula'] = 0;
+MedidaJudicial['cedula'] = 0;
 
 $('#reporteMedida').DataTable({
         "paging":   false,
@@ -35,7 +35,7 @@ function consultar() {
         }else{
             $("#divBotones").show();
             $("#btnAnticipo").focus();
-            MedidaJudcial['cedula'] = data.cedula;
+            MedidaJudicial['cedula'] = data.cedula;
 
             $("#lblNombre").text(' Nombres: ' + data.nombres + ' ' + data.apellidos + ' C.I: ' + data.cedula );
             $("#nombres").val(data.nombres);
@@ -162,17 +162,66 @@ function obtenerMunicipiosID(id){
 }
 
 
-function cargarMedida(){
-    MedidaJudcial['numero_oficio'] = $("#numero_oficio").val();
-    MedidaJudcial['numero_expediente'] = $("#numero_expediente").val();
+function cargar(){
+    MedidaJudicial['numero_oficio'] = $("#numero_oficio").val();
+    MedidaJudicial['numero_expediente'] = $("#numero_expediente").val();
 
-    MedidaJudcial['tipo'] = $("#tipo").val();
-    MedidaJudcial['fecha'] = $("#datepicker").val();
-    MedidaJudcial['observacion'] = $("#observacion").val();
+    MedidaJudicial['tipo'] = $("#tipo").val();
+    MedidaJudicial['fecha'] = $("#datepicker").val();
+    MedidaJudicial['observacion'] = $("#observacion").val();
 
-    MedidaJudcial['porcentaje'] = $("#parcentaje").val();
-    MedidaJudcial['salario'] = $("#salario").val();
-    MedidaJudcial['ut'] = $("#ut").val();
-    MedidaJudcial['monto'] = $("#monto_total").val();
+    MedidaJudicial['porcentaje'] = $("#porcentaje").val();
+    MedidaJudicial['salario'] = $("#salario").val();
+    MedidaJudicial['ut'] = $("#ut").val();
+    MedidaJudicial['monto'] = $("#monto_total").val();
 
+    MedidaJudicial['forma_pago'] = $("#forma_pago option:selected").val();
+    MedidaJudicial['institucion'] = $("#institucion").val();
+    MedidaJudicial['autoridad'] = $("#autoridad").val();
+    MedidaJudicial['cargo'] = $("#cargo").val();
+
+
+    MedidaJudicial['estado'] = $("#estado option:selected").val();
+    MedidaJudicial['ciudad'] = $("#ciudad option:selected").val();
+    MedidaJudicial['municipio'] = $("#municipio option:selected").val();
+    MedidaJudicial['descripcion_institucion'] = $("#descripcion_institucion").val();
+
+    MedidaJudicial['nombre_beneficiario'] = $("#beneficiario").val();
+    MedidaJudicial['cedula_beneficiario'] = $("#cedula_beneficiario").val();
+    MedidaJudicial['parentesco'] = $("#parentesco option:selected").val();
+
+    MedidaJudicial['cedula_autorizado'] = $("#cedula_autorizado").val();
+    MedidaJudicial['nombre_autorizado'] = $("#autorizado").val();
+
+}
+function guardarMedida(){
+
+    cargar();
+    
+    $("#myModal").modal('hide');
+    $.ajax({
+              url: sUrlP + "crearMedidaJudicial",
+              type: "POST",
+              data: {'data' : JSON.stringify({
+                MedidaJudicial: MedidaJudicial      
+              })},
+              success: function (data) { 
+                var boton = '<button type="button" class="btn btn-success pull-right" onclick="recargar()">';
+                    boton += '<i class="glyphicon glyphicon-ok"></i>&nbsp;&nbsp;Continuar</button>';
+                $("#divContinuar").html(boton);
+                $("#txtMensaje").html(data);             
+                $("#logMensaje").modal('show');
+                
+              },
+              error: function(data){ 
+                $("#txtMensaje").html('Ocurrio un error en la conexion'); 
+                $("#logMensaje").modal('show');
+
+              }
+            });
+}
+
+function recargar(){
+    URL = sUrlP + "medidajudicial";
+    $(location).attr('href', URL);
 }

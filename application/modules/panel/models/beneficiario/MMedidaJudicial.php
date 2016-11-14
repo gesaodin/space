@@ -56,10 +56,6 @@ class MMedidaJudicial extends CI_Model{
 	*/
 	var $numero_beneficiario = 0;
 
-	/**
-	* @var string
-	*/
-	var $numero_autorizado;
 
 	/**
 	* @var integer
@@ -99,12 +95,12 @@ class MMedidaJudicial extends CI_Model{
 	/**
 	* @var string
 	*/
-	var $nombre_autoridad = '';
+	var $autoridad = '';
 
 	/**
 	* @var string
 	*/
-	var $cargo_autoridad = '';
+	var $cargo = '';
 
 	/**
 	* @var string
@@ -120,6 +116,11 @@ class MMedidaJudicial extends CI_Model{
 	* @var string
 	*/
 	var $cedula_autorizado = '';
+
+	/**
+	* @var string
+	*/
+	var $nombre_autorizado;
 
 	/**
 	* @var string
@@ -146,15 +147,21 @@ class MMedidaJudicial extends CI_Model{
 	*/
 	var $ultima_observacion = '';
 
-	/**
-	* @var string
-	*/
-	var $municipio = 0;
 
 	/**
 	* @var string
 	*/
 	var $estado = 0;
+
+	/**
+	* @var string
+	*/
+	var $ciudad = 0;
+
+	/**
+	* @var string
+	*/
+	var $municipio = 0;
 
 	/**
 	* @var string
