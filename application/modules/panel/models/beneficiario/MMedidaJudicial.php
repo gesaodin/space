@@ -65,6 +65,16 @@ class MMedidaJudicial extends CI_Model{
 	* @var integer
 	*/
 	var $estaus = 0;
+	
+	/**
+	* @var string
+	*/
+	var $estatus_nombre = 0;
+
+	/**
+	* @var string
+	*/
+	var $tipo_nombre = 0;
 
 	/**
 	* @var string
@@ -144,6 +154,11 @@ class MMedidaJudicial extends CI_Model{
 	/**
 	* @var string
 	*/
+	var $estado = 0;
+
+	/**
+	* @var string
+	*/
 	var $numero_expediente = '';
 
 	/**
@@ -155,6 +170,11 @@ class MMedidaJudicial extends CI_Model{
 	* @var double
 	*/
 	var $monto = 0;
+
+	/**
+	* @var double
+	*/
+	var $estatus = 0;
 
 	function __construct(){
 		parent::__construct();
@@ -193,12 +213,21 @@ class MMedidaJudicial extends CI_Model{
 
 	public function listarTodo($cedula = ''){
 		$arr = array();
-		$sConsulta = 'SELECT  * 
-			FROM medida_judicial 
+		$sConsulta = 'select *, medida_judicial.status_id AS estatus, status.nombre as estatus_nombre, 
+			tipo_medida.nombre AS tipo_nombre, 
+			motivo.nombre AS motivo_nombre,
+			estado.nombre AS estado_nombre
+			from medida_judicial
+			JOIN status ON status.id=medida_judicial.status_id
+			JOIN tipo_medida ON tipo_medida.id=medida_judicial.tipo_medida_id
+			JOIN motivo ON motivo.id=medida_judicial.motivo_id
+			JOIN municipio ON municipio.id=medida_judicial.municipio_id
+			JOIN ciudad ON municipio.ciudad_id=ciudad.id
+			JOIN estado ON ciudad.estado_id=estado.id
 			WHERE cedula=\'' . $cedula . '\' ';
+		//WHERE tipo_medida_id = 1 and medida_judicial.status_id=220
 
-		$obj = $this->Dbpace->consultar($sConsulta);
-		
+		$obj = $this->Dbpace->consultar($sConsulta);		
 
 		$rs = $obj->rs;
 		foreach ($rs as $c => $v) {
@@ -212,13 +241,17 @@ class MMedidaJudicial extends CI_Model{
 			$mdj->institucion = $v->institucion;
 			$mdj->cedula_beneficiario = $v->ci_beneficiario;
 			$mdj->cedula = $v->cedula;
-			$mdj->nombre_beneficiario = $v->n_beneficiario;
+			$mdj->nombre_beneficiario = strtoupper($v->n_beneficiario);
 			$mdj->parentesco = $v->parentesco_id;
+
+			$mdj->estatus_nombre = $v->estatus_nombre;
+			$mdj->tipo_nombre = strtoupper($v->tipo_nombre);
 
 			$mdj->porcentaje = $v->porcentaje;
 			$mdj->monto = $v->total_monto;
 			$mdj->tipo = $v->tipo_medida_id;
-			$mdj->estaus = $v->status_id;
+			$mdj->estatus = $v->estatus;
+			$mdj->estado = strtoupper($v->estado_nombre);
 			
 			$arr[$v->tipo_medida_id] = $mdj;
 		}

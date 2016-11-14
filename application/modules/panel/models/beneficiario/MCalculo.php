@@ -98,7 +98,9 @@ class MCalculo extends CI_Model{
       'anticipos_aux' => $this->Anticipos(),
       'total_aportados' => number_format($this->Total_Aportados(), 2, ',','.'),
       'saldo_disponible' => number_format($this->Saldo_Disponible(), 2, ',','.'),
-      'saldo_disponible_aux' => $this->Saldo_Disponible(),
+      'saldo_disponible_aux' => $this->Saldo_Disponible(),      
+      'saldo_disponible_fini' => number_format($this->Saldo_DisponibleFiniquito(), 2, ',','.'),
+      'saldo_disponible_fini_aux' => $this->Saldo_DisponibleFiniquito(),
       'diferencia_AA' => number_format($this->Diferencia_Asignacion(), 2, ',','.'),
       'fecha_ultimo_anticipo' => $this->Fecha_Ultimo_Anticipo(),
       'embargos' => number_format($this->Embargos(), 2, ',','.'),
@@ -605,10 +607,23 @@ class MCalculo extends CI_Model{
   * @return double
   */
   public function Saldo_Disponible(){
-    $total = (($this->DepositoBanco() - $this->Anticipos()) + $this->Garantias()) - ($this->Embargos() + $this->Monto_Recuperar());
+    $total = ($this->DepositoBanco() - $this->Anticipos()) + $this->Garantias();
     
     return $total;  
   }
+
+  /**
+  * Saldo Disponible Finiquito
+  *
+  * @access public
+  * @return double
+  */
+  public function Saldo_DisponibleFiniquito(){
+    $total = (($this->DepositoBanco() - $this->Anticipos()) + $this->Garantias()) - ($this->Embargos() + $this->Monto_Recuperar());
+    return $total;  
+  }
+
+
 
   public function Diferencia_Asignacion(){
     $monto = (($this->Beneficiario->asignacion_antiguedad - $this->DepositoBanco()) -  $this->Dias_Adicionales()) - $this->Garantias();

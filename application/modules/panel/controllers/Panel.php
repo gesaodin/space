@@ -89,7 +89,15 @@ class Panel extends MY_Controller {
 	}
 
 	public function medidajudicial(){
+		$this->load->model('beneficiario/MEstado');
+		$this->load->model('beneficiario/MParentesco');
+		$this->load->model('beneficiario/MFormaPago');
+		
 		$data['Directiva'] = $this->_DIRECTIVA;
+
+		$data['Estado'] = $this->MEstado->listar();
+		$data['Parentesco'] = $this->MParentesco->listar();
+		$data['FormaPago'] = $this->MFormaPago->listar();
 		$this->load->view("menu/beneficiario/medidajudicial", $data);
 	}
 	public function anticipo(){
@@ -650,6 +658,21 @@ class Panel extends MY_Controller {
 		$this->Usuario->actualizar();
 		echo 'Actualización de Clave Exitosa';
 	}
+
+
+	public function obtenerCiudades($estado_id = 0){
+		$this->load->model('beneficiario/MCiudad');		
+		$lst = $this->MCiudad->listarID($estado_id);
+		echo json_encode($lst);
+	}
+
+	public function obtenerMunicipios($ciudad_id = 0){
+		$this->load->model('beneficiario/MMunicipio');		
+		$lst = $this->MMunicipio->listarID($ciudad_id);
+		echo json_encode($lst);
+	}
+
+
 
 	function roles(){
 		echo "<pre>";

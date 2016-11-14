@@ -118,7 +118,10 @@ th {
    <BR>
     REPORTE DE ANTICIPOS<br>
     PERIODO: <?php echo $desde . ' - ' . $hasta;?><br>
-    COMPONENTE: <?php echo $Componente;?><br><br>
+    COMPONENTE: <?php 
+    $com = explode('%20', $Componente);
+    echo $com[0] . ' ' . $com[1];
+    ?><br><br>
   </b>
  <table >
   <thead>

@@ -121,7 +121,7 @@ th {
 
    <td style="border: 0px solid #dddddd; text-align: justify; font-size: 16px; line-height: 1.5">
      &emsp;&emsp;Tengo el honor de dirigirme a usted en la oportunidad de remitirle
-     anexo a la presente <?php echo $Numero->to_word(count($Anticipos));?> solicitudes de adelantos 
+     anexo a la presente <b><?php echo $Numero->to_word(count($Anticipos));?></b> ( <b><?php echo count($Anticipos);?> </b>) solicitudes de adelantos 
      correspondientes a los diferentes componentes,
      para su debido tramite ante las entidades bancarias descritas en la relación anexa, procesados el 
      <?php 

@@ -1,7 +1,7 @@
 var Anticipo = {};
 Anticipo['monto'] = 0;
 
-$('#reporteAnticipo').DataTable({
+$('#reporteMedida').DataTable({
         "paging":   false,
         "ordering": false,
         "info":     false,
@@ -101,19 +101,36 @@ function listar(data){
         var sBoton = '<div class="btn-group">';
         var sAcciones = '';
         
-        sBoton += sAcciones + '</div>';
+        sBoton += '<button type="button" class="btn btn-success" title="Ver Detalles"><i class="fa fa-search" ></i></button>'; 
+        switch (valor.estatus){
+            case '220':
+                sBoton += '<button type="button" class="btn btn-warning" title="Inactivar"><i class="fa fa-mail-reply-all" ></i></button>';
+                sBoton += '<button type="button" class="btn btn-info" title="Ejecutar"><i class="fa fa-cogs" ></i></button>'; 
+                break;
+            case '221':
+                break;
+            case '222':
+                break;
+            case '223':
+                
+                sBoton += '<button type="button" class="btn btn-danger" title="Suspender"><i class="fa fa-cogs" ></i></button>'; 
+                break;
+            default:
+                break;
+        }
         
+        sBoton += '</div>';
         
         t.row.add( [
             sBoton,
-            '',
-            valor.estatus,
+            valor.tipo_nombre,
+            valor.estatus_nombre,
             valor.fecha,
             valor.numero_oficio,
             valor.numero_expediente,
             valor.cedula_beneficiario,
             valor.nombre_beneficiario,
-            ''
+            valor.estado
         ] ).draw( false );
         
     });
@@ -121,4 +138,44 @@ function listar(data){
 
 function continuar(){
     $("#logMensaje").modal('hide');
+}
+
+function obtenerCiudades(){
+    var i = 0;
+    id = $("#estado option:selected").val();
+    ruta = sUrlP + "obtenerCiudades/" + id;
+    $("#ciudad option").remove();
+    $("#municipio option").remove();
+
+    $.getJSON(ruta, function(data) {
+        $.each(data, function(d, v){            
+            var opt = new Option(v.nombre, v.id);
+            $("#ciudad").append(opt);
+            i = v.id;
+        });
+        obtenerMunicipiosID(i);
+
+    }).done(function(msg) {}).fail(function(jqXHR, textStatus) {
+       $("#txtMensaje").html('No se encontraron ciudades'); 
+       $("#logMensaje").modal('show');
+    });
+}
+
+function obtenerMunicipios(){
+    id = $("#ciudad option:selected").val();
+    obtenerMunicipiosID(id);
+}
+
+function obtenerMunicipiosID(id){
+    ruta = sUrlP + "obtenerMunicipios/" + id;
+    $("#municipio option").remove();
+    $.getJSON(ruta, function(data) {
+        $.each(data, function(d, v){            
+            var opt = new Option(v.nombre, v.id);
+            $("#municipio").append(opt);           
+        });
+    }).done(function(msg) {}).fail(function(jqXHR, textStatus) {
+       $("#txtMensaje").html('No se encontraron municipios'); 
+       $("#logMensaje").modal('show');
+    });
 }

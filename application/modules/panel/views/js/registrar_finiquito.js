@@ -347,8 +347,8 @@ function consultarBeneficiarioFecha(){
 
         $("#comision_servicios").val(data.Calculo.comision_servicios);
         
-        var total_banco = Number(data.Calculo.saldo_disponible_aux); //+ Number(data.Calculo.dias_adicionales_aux);
-        $("#total_banco").val(data.Calculo.saldo_disponible);
+        var total_banco = Number(data.Calculo.saldo_disponible_fini_aux); //+ Number(data.Calculo.dias_adicionales_aux);
+        $("#total_banco").val(data.Calculo.saldo_disponible_fini);
         $("#total_banco_calc").val(total_banco);
         $("#total_banco_aux").val(total_banco);
         $("#monto_recuperar_aux").val(data.Calculo.monto_recuperar_aux);

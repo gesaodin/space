@@ -187,7 +187,7 @@
                     <table id="reporteMedida" class="table table-bordered table-hover">
                       <thead>
                       <tr>
-                          <th style="width: 40px;">Acciones</th>
+                          <th style="width: 100px;">Acciones</th>
                           <th style="width: 40px;">Tipo</th>
                           <th>Estatus</th>
                           <th>Fecha</th>
@@ -215,41 +215,153 @@
                         <div class="modal-content">
                           <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            <h4 class="modal-title">Nueva Medida Judicial</h4>
+                            <h4 class="modal-title">Nueva Medida Judicial
                           </div>
                           <div class="modal-body">
                            <div class="row">
-                            <div class="col-md-2"><h4>N° Oficio:</h4></div>
-                            <div class="col-md-4"><input type="text" class="form-control" placeholder="N° Oficio" /></div>
-                            <div class="col-md-2"><h4>Expediente:</h4></div>
-                            <div class="col-md-4"><input type="text" class="form-control" placeholder="Expediente" /></div>
+                            <div class="col-md-2">N° Oficio:</div>
+                            <div class="col-md-4"><input type="text" class="form-control" placeholder="N° Oficio" id='numero_oficio'/></div>
+                            <div class="col-md-2">Expediente:</div>
+                            <div class="col-md-4"><input type="text" class="form-control" placeholder="Expediente" id='numero_expediente'/></div>
                           </div>
                           <div class="row">
-                              <div class="col-md-2"><h4>Tipo:</h4></div>
-                            <div class="col-md-4"><select class="form-control select2" style="width: 100%;">
-                                      <option selected="selected">Asignación de Antiguedad</option>
-                                      <option>Intereses</option>
-                                    </select></div>
-                             <div class="col-md-2">
-                                      <h4>Fecha:</h4>
-                                    </div>
-                                    <div class="col-md-4">
-                                      <div class="input-group date">
-                                        <div class="input-group-addon">
-                                          <i class="fa fa-calendar"></i>
-                                        </div>
-                                        <input type="text" class="form-control" id="datepicker">
-                                      </div>
-                                      </div>          
-                          </div>
-                          <div class="row">
-                            <div class="col-md-12"><h4>Observaciones:</h4><textarea class="form-control" placeholder="Descripción"></textarea></div>
-                          </div>
-                              
-
-
+                            <div class="col-md-2">Tipo:</div>
+                            <div class="col-md-4">
+                              <select class="form-control select2" style="width: 100%;">
+                                <option selected="selected" value="1">ASIGNACION DE ANTIGUEDAD</option>
+                                <option value="2">INTERESES</option>
+                              </select></div>
+                            <div class="col-md-2">
+                              Fecha:
+                            </div>
+                            <div class="col-md-4">
+                              <div class="input-group date">
+                                <div class="input-group-addon">
+                                  <i class="fa fa-calendar"></i>
+                                </div>
+                                <input type="text" class="form-control" id="datepicker">
+                              </div>
+                              </div>          
+                            </div>
+                            <div class="row">
+                              <div class="col-md-2">Observaciones:</div>
+                              <div class="col-md-10">
+                                <textarea class="form-control" placeholder="Descripción"></textarea>
+                              </div>
+                            </div>
+                            <div class="row">
+                              <div class="col-md-2">Porcentaje:</div>
+                              <div class="col-md-4"><input type="text" class="form-control" placeholder="Porcentaje" id='porcentaje'/></div>
+                              <div class="col-md-2">Salarios:</div>
+                              <div class="col-md-4"><input type="text" class="form-control" placeholder="Salarios" id='salario'/></div>
+                            </div>
+                            <div class="row">
+                              <div class="col-md-2">U.T.:</div>
+                              <div class="col-md-4"><input type="text" class="form-control" placeholder="Unidad Tributaria" id='ut'/></div>
+                              <div class="col-md-2">Monto Total:</div>
+                              <div class="col-md-4"><input type="text" class="form-control" placeholder="Monto Total" id='monto_total'/></div>
+                            </div>
+                            <div class="row">
+                              <div class="col-md-2">Forma Pago:</div>
+                              <div class="col-md-10">
+                                <select class="form-control select2" id='forma_pago' style="width: 100%;">
+                                  <option value='0'>SELECCIONE UNA OPCION</option>
+                                  <?php
+                                    foreach ($FormaPago as $k => $v) {
+                                      echo '<option value="' . $v->id . '">' . $v->nombre . '</option>';
+                                    }
+                                  ?>
+                                </select>
+                              </div>
+                            </div>
+                            <div class="row">
+                              <div class="col-md-2">Institucion:</div>
+                              <div class="col-md-10">
+                                <input type="text" class="form-control" placeholder="Institución" id='institucion'/>
+                              </div>
+                            </div>
+                            <div class="row">
+                              <div class="col-md-2">Autoridad:</div>
+                              <div class="col-md-10">
+                                <input type="text" class="form-control" placeholder="Autoridad" id='autoridad'/>
+                              </div>
+                            </div>
+                            <div class="row">
+                              <div class="col-md-2">Cargo:</div>
+                              <div class="col-md-10">
+                                <input type="text" class="form-control" placeholder="Cargo" id='cargo'/>
+                              </div>
+                            </div>
                             
+                            <div class="row">
+                              <div class="col-md-2">Estado</div>
+                              <div class="col-md-10">
+                                <select class="form-control select2" id='estado' style="width: 100%;" onchange="obtenerCiudades()">
+                                  <option value='0'>SELECCIONE UNA OPCION</option>
+                                  <?php
+                                    foreach ($Estado as $k => $v) {
+                                      echo '<option value="' . $v->id . '">' . $v->nombre . '</option>';
+                                    }
+                                  ?>
+                                </select>
+                              </div>
+                            </div>
+                            <div class="row">
+                              <div class="col-md-2">Ciudad:</div>
+                              <div class="col-md-10">
+                                <select class="form-control" id='ciudad' style="width: 100%;" onchange="obtenerMunicipios()">
+                                  <option value='0'>SELECCIONE UNA OPCION</option>
+                                </select>
+                              </div>
+                            </div>
+                            <div class="row">
+                              <div class="col-md-2">Municipio:</div>
+                              <div class="col-md-10">
+                                <select class="form-control" id='municipio' style="width: 100%;">
+                                  <option value='0'>SELECCIONE UNA OPCION</option>
+                                </select>
+                              </div>
+                            </div>
+                            <div class="row">
+                              <div class="col-md-2">Descripción Institución:</div>
+                              <div class="col-md-10">
+                                <textarea class="form-control" placeholder="Descripción Institución" id='descripcion_institucion'></textarea>
+                              </div>
+                            </div>
+                            <div class="row">
+                              <div class="col-md-2">Beneficiario:</div>
+                              <div class="col-md-10">
+                                <input type="text" class="form-control" placeholder="Datos del Beneficiario" id='beneficiario'/>
+                              </div>
+                            </div>
+
+                            <div class="row">
+                              <div class="col-md-2">Cedula:</div>
+                              <div class="col-md-4"><input type="text" class="form-control" placeholder="Cédula de Identidad" id='cedula_beneficiario'/></div>
+                              <div class="col-md-2">Parentesco:</div>
+                              <div class="col-md-4">
+                                <select class="form-control" id='parentesco' style="width: 100%;">
+                                  <option value='0'>SELECCIONE UNA OPCION</option>
+                                  <?php
+                                    foreach ($Parentesco as $k => $v) {
+                                      echo '<option value="' . $v->id . '">' . $v->nombre . '</option>';
+                                    }
+                                  ?>
+                                </select>
+                              </div>
+                            </div>
+                            <div class="row">
+                              <div class="col-md-2">Cedula Autorizado:</div>
+                              <div class="col-md-4"><input type="text" class="form-control" placeholder="Cédula de Identidad" id='cedula_autorizado'/></div>
+                              <div class="col-md-2">Autorizado:</div>
+                              <div class="col-md-4"><input type="text" class="form-control" placeholder="Autorizado" id='autorizado'/></div>
+                            </div>
+
+
+
                           </div>
+
+
                           
                           <div class="box-footer">
                           <div class="col-xs-12">
