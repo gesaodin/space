@@ -263,6 +263,17 @@ class Panel extends MY_Controller {
 	}
 
 
+	public function medida_judicial($cedula = '', $id = ''){
+		$this->load->model('beneficiario/MBeneficiario');
+		$this->load->model('beneficiario/MMedidaJudicial');
+		$this->MBeneficiario->obtenerID($cedula);
+		$this->MBeneficiario->MedidaJudicial = $this->MMedidaJudicial->listarPorCodigo($cedula, $id);
+
+		$data['Beneficiario'] = $this->MBeneficiario;
+
+
+		$this->load->view('reporte/beneficiario/medida_judicial', $data);
+	}
 
 
 	public function numeroLetras(){
@@ -589,17 +600,24 @@ class Panel extends MY_Controller {
 
 		
 		$data = json_decode($_POST['data']);
-		
+		$this->MMedidaJudicial->cedula = $data->MedidaJudicial->cedula;
+		$this->MMedidaJudicial->estatus = '220';
 		$this->MMedidaJudicial->numero_oficio = $data->MedidaJudicial->numero_oficio;
 		$this->MMedidaJudicial->numero_expediente = $data->MedidaJudicial->numero_expediente;
 		
 		$this->MMedidaJudicial->tipo = $data->MedidaJudicial->tipo;
 		$this->MMedidaJudicial->fecha = $data->MedidaJudicial->fecha;
 		$this->MMedidaJudicial->observacion =  $data->MedidaJudicial->observacion;
+
 		
 		$this->MMedidaJudicial->porcentaje = $data->MedidaJudicial->porcentaje;
+		$this->MMedidaJudicial->salario = $data->MedidaJudicial->salario;
+		$this->MMedidaJudicial->unidad_tributaria = $data->MedidaJudicial->ut;
+		$this->MMedidaJudicial->monto = $data->MedidaJudicial->monto;
+
+		$this->MMedidaJudicial->forma_pago = $data->MedidaJudicial->forma_pago;
 		$this->MMedidaJudicial->institucion = $data->MedidaJudicial->institucion;
-		$this->MMedidaJudicial->autoridad = $data->MedidaJudicial->autoridad;
+		$this->MMedidaJudicial->nombre_autoridad = $data->MedidaJudicial->autoridad;
 		$this->MMedidaJudicial->cargo = $data->MedidaJudicial->cargo;
 
 
@@ -619,13 +637,14 @@ class Panel extends MY_Controller {
 		$this->MMedidaJudicial->usuario_creacion = $_SESSION['usuario'];
 		$this->MMedidaJudicial->fecha_modificacion =  date("Y-m-d H:i:s");
 		$this->MMedidaJudicial->usuario_modificacion = $_SESSION['usuario'];
+		$this->MMedidaJudicial->ultima_observacion = '';
 
 		
-		//$this->MMedidaJudicial->salvar();	
-		print_r($this->MMedidaJudicial);
+		$this->MMedidaJudicial->salvar();	
+		//print_r($this->MMedidaJudicial);
 		
 
-		echo "Se registro el nuevo MMedidaJudicial en estatus de pendiente";
+		echo "Se registro nueva Medida Judicial en estatus de activo";
 	}
 
 

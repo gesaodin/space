@@ -88,6 +88,7 @@ function listar(data){
             case '220':
                 sBoton += '<button type="button" class="btn btn-warning" title="Inactivar"><i class="fa fa-mail-reply-all" ></i></button>';
                 sBoton += '<button type="button" class="btn btn-info" title="Ejecutar"><i class="fa fa-cogs" ></i></button>'; 
+                sBoton += '<button type="button" class="btn btn-info" title="Imprimir" onclick="imprimir(\'' + valor.id + '\')"><i class="fa fa-print" ></i></button>'; 
                 break;
             case '221':
                 break;
@@ -120,6 +121,14 @@ function listar(data){
 function continuar(){
     $("#logMensaje").modal('hide');
 }
+
+
+function imprimir(id){
+    var val = $("#id").val();
+    URL = sUrlP + "medida_judicial/" + val +  '/' + id;
+    window.open(URL,"Hoja de Vida","toolbar=0,location=1,menubar=0,scrollbars=1,resizable=1,width=900,height=800")
+}
+
 
 function obtenerCiudades(){
     var i = 0;

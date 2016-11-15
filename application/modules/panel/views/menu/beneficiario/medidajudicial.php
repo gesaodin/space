@@ -181,7 +181,7 @@
                     <table id="reporteMedida" class="table table-bordered table-hover">
                       <thead>
                       <tr>
-                          <th style="width: 100px;">Acciones</th>
+                          <th style="width: 140px;">Acciones</th>
                           <th style="width: 40px;">Tipo</th>
                           <th>Estatus</th>
                           <th>Fecha</th>
