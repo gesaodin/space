@@ -354,7 +354,7 @@ th {
           echo $Medida->nombre_autorizado;
         ?>
       </td>
-      <td style="text-align:right">
+      <td style="text-align:right"    >
         Cedula:
       </td>
       <td>
