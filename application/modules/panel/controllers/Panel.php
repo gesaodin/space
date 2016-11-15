@@ -304,8 +304,6 @@ class Panel extends MY_Controller {
 		$this->load->model('beneficiario/MMedidaJudicial');
 
 		$this->MBeneficiario->obtenerID($cedula, $fecha);
-		$this->load->model('beneficiario/MOrdenPago');
-		$this->MBeneficiario->HistorialOrdenPagos = $this->MOrdenPago->listarPorCedula($cedula);
 		$this->MBeneficiario->MedidaJudicial = $this->MMedidaJudicial->listarTodo($cedula);
 		//print_r($this->MBeneficiario->MedidaJudicial);
 

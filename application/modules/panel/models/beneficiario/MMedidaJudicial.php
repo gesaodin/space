@@ -274,7 +274,7 @@ class MMedidaJudicial extends CI_Model{
 			$mdj->unidad_tributaria = $v->unidad_tributaria;
 			
 			
-			$arr[$v->tipo_medida_id] = $mdj;
+			$arr[$v->medida_id] = $mdj;
 		}
 
 		return $arr;
@@ -403,7 +403,7 @@ class MMedidaJudicial extends CI_Model{
 			$mdj->cedula_autorizado = $v->ci_autorizado;
 			$mdj->unidad_tributaria = $v->unidad_tributaria;
 			
-			$arr[$v->tipo_medida_id] = $mdj;
+			$arr[$v->medida_id] = $mdj;
 		}
 		return $arr;
 	}
