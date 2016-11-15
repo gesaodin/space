@@ -152,13 +152,13 @@ th {
       }
       echo $fila;
     ?>
-  </tbody>
-  <tfoot>
+ 
+    
     <tr>
       <td colspan="4">TOTAL</td>
       <td style="text-align:right"><?php echo number_format($monto, 2, ',','.')?></td>
     </tr>
-  </tfoot>
+   </tbody>
  </table>
 
  </center>
