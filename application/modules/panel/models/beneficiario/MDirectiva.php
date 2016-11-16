@@ -3,7 +3,7 @@ if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
 /**
- * MamonSoft 
+ * MamonSoft C.A
  *
  * Directiva de Sueldos Establece las reglas para la base del calculo
  *
