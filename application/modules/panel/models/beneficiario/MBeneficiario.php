@@ -748,12 +748,14 @@ class MBeneficiario extends CI_Model{
 	function ParalizarDesparalizar(){
 		$sActualizar = 'UPDATE beneficiario SET  
 			motivo_paralizacion=\'' . $this->motivo_paralizacion . '\', 
+			f_retiro=NULL, 
+			f_retiro_efectiva=NULL,
 			status_id=\'' . $this->estatus_activo . '\',
 			usr_modificacion=\'' . $_SESSION['usuario'] . '\',
 			observ_ult_modificacion=\'' . $this->observacion . '\',
 			f_ult_modificacion=\'' . date("Y-m-d H:i:s") . '\' 
 		WHERE cedula=\'' . $this->cedula . '\'';
-		//echo $sActualizar;
+		echo $sActualizar;
 		$obj = $this->Dbpace->consultar($sActualizar);
 	}
 

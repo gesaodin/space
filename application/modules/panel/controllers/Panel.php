@@ -389,8 +389,11 @@ class Panel extends MY_Controller {
 		$Bnf->cedula = $data->Paralizar->id;
 		$Bnf->estatus_activo = $data->Paralizar->estatus;
 		$Bnf->motivo_paralizacion = $data->Paralizar->motivo;
+		$Bnf->fecha_retiro = NULL;
+		$Bnf->fecha_retiro_efectiva = NULL;
 		$Bnf->observacion = 'PARALIZADO';
-		if($data->Paralizar->estatus == '202')$Bnf->observacion = 'RETIRADO';		
+		if($data->Paralizar->estatus == '202')$Bnf->observacion = 'RETIRADO';
+		if($data->Paralizar->estatus == '201')$Bnf->observacion = 'ACTIVO';		
 		$Bnf->ParalizarDesparalizar();
 		
 		echo 'Proceso exitoso';
