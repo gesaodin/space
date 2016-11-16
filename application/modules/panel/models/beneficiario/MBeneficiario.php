@@ -320,27 +320,6 @@ class MBeneficiario extends CI_Model{
 	} 
 
 	public function guardar(){
-		/**
-		$this->cedula
-		$this->grado_id 
-		$this->nombres
-		$this->apellidos
-		$this->tiempo_servicio_db
-		$this->fecha_ingreso ;
-		$this->estado_civi;
-		$this->numero_hijos;
-		$this->fecha_ultimo_ascenso;
-		$this->ano_reconocido;
-		$this->mes_reconocido;
-		$this->dia_reconocido;
-		$this->no_ascenso ;
-		$this->profesionalizacion;
-		$this->sexo ;
-		$this->fecha_creacion;
-		$this->usuario_creador;
-		$this->fecha_ultima_modificacion;
-		$this->usuario_modificacion;
-		**/
 
 		$sActualizar = 'UPDATE beneficiario SET 			
 			grado_id = ' . $this->grado_id .  ',
@@ -482,12 +461,12 @@ class MBeneficiario extends CI_Model{
 				status.descripcion AS estatus_descripcion
 			FROM 
 				' . $tbl . ' 
-				JOIN beneficiario_calc ON 
+				LEFT JOIN beneficiario_calc ON 
 					' . $tbl . '.cedula=beneficiario_calc.cedula
 				JOIN status ON 
 					' . $tbl . '.status_id=status.id 
 			WHERE 
-				beneficiario_calc.cedula=\'' . $cedula . '\'';
+				beneficiario.cedula=\'' . $cedula . '\'';
 	
 
 		//echo $sConsulta;
@@ -653,6 +632,100 @@ class MBeneficiario extends CI_Model{
 		}
 		return $familiar;
 	}
+
+	/**
+	*	Cargar una Datos de una persona desde SAMAN 
+	*
+	*/
+	function CargarPersonaMilitar($id, $valor){
+		$this->load->model('comun/DbSaman');
+		$militar = array();
+		
+		$sConsulta = 'SELECT 
+			personas.nropersona, 
+			personas.nombreprimero, 
+			personas.nombresegundo, 
+			personas.apellidoprimero, 
+			personas.apellidosegundo, 
+			personas.nombrecompleto, 
+			personas.sexocod, 
+			personas.codnip,
+			pers_dat_militares.fchingcomponente,
+			pers_dat_militares.fchultimoascenso,
+			pers_dat_militares.gradocod,
+			ipsfa_grados.gradocodrangoid,
+			ipsfa_componentes.componentepriorpt
+			FROM personas 
+			JOIN pers_dat_militares ON pers_dat_militares.nropersona=personas.nropersona 
+			INNER JOIN ipsfa_grados ON pers_dat_militares.gradocod=ipsfa_grados.gradocod
+			INNER JOIN ipsfa_componentes ON pers_dat_militares.componentecod=ipsfa_componentes.componentecod			
+			WHERE personas.codnip = \'' . $id . '\' LIMIT 1';
+		
+		$obj = $this->DbSaman->consultar($sConsulta);
+		foreach ($obj->rs as $clv => $val) {				
+			$militar = array(
+				'cedula' => $val->codnip,
+				'nombre'=> $val->nombreprimero . ' ' . $val->nombresegundo,
+				'apellido'=> $val->apellidoprimero . ' ' . $val->apellidosegundo,
+				'parentesco' => 'OTRO',
+				'grado' => $val->gradocod,
+				'componente' => $val->componentepriorpt,
+				'fecha_ingreso' => $val->fchingcomponente,
+				'fecha_ultimo_ascenso' => $val->fchultimoascenso
+			);
+				
+				
+		}
+		if($valor != 0) $this->_insertarPersonaMilitar($militar);
+		return $militar;
+	}
+	
+	private function _insertarPersonaMilitar($Militar = array()){
+		$SELECT_ = '(SELECT id FROM grado WHERE 
+			REPLACE(nombre, \'.\', \'\') LIKE \'' . $Militar['grado'] . '\' AND componente_id=' . $Militar['componente'] . ' LIMIT 1)';
+		$sInsertar = 'INSERT INTO beneficiario (
+			  cedula,
+			  nombres,
+			  apellidos,
+			  grado_id,
+			  componente_id,
+			  fecha_ingreso,
+			  f_ult_ascenso,
+			  f_ingreso_sistema,
+			  status_id,
+			  st_no_ascenso,
+			  st_profesion,
+			  f_creacion ,
+			  usr_creacion,
+			  f_ult_modificacion,
+			  usr_modificacion,
+			  observ_ult_modificacion)
+			  VALUES ';
+
+		$sInsertar .= '(
+			\'' . $Militar['cedula'] . '\',
+			\'' . $Militar['nombre'] . '\',
+			\'' . $Militar['apellido'] . '\',
+			' . $SELECT_ . ',
+			' . $Militar['componente'] . ',
+			\'' . $Militar['fecha_ingreso'] . '\',
+			\'' . $Militar['fecha_ultimo_ascenso'] . '\',
+			\'' . date("Y-m-d") . '\',
+			201,
+			0,
+			0,
+			\'' . date("Y-m-d H:i:s") . '\',
+			\'' . $_SESSION['usuario'] . '\',
+			\'' . date("Y-m-d H:i:s") . '\',
+			\'' . $_SESSION['usuario'] . '\',
+			\'INSERTADO DESDE SAMAN\'
+		)';
+		//echo $sInsertar;
+
+		$obj = $this->Dbpace->consultar($sInsertar);
+
+	}
+
 
 
 	function ActualizarPorMovimiento(){

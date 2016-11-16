@@ -169,7 +169,15 @@ th {
 
      Notas:<br>
      <?php echo $Beneficiario->observacion;?>
-     <br><br>
+     <br>Notas:<br>
+     <?php echo $Beneficiario->observacion;?>
+     <br>
+     <?php 
+      if ( $Beneficiario->Calculo['monto_recuperar_aux'] > 0){
+        echo 'Moto a recuperar a favor del Fondo de Fideicomiso por la cantidad de: ' . $Beneficiario->Calculo['monto_recuperar'];
+      }
+
+     ?><br>
      OCR/<?php echo $Beneficiario->usuario_modificacion;?>
    </td>
    

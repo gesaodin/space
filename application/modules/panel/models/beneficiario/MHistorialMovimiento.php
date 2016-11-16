@@ -78,6 +78,7 @@ class MHistorialMovimiento extends CI_Model{
 	function listarDetalle($cedula = '', $tipo = 0){
 		$arr = array();
 		$Detalle = array();
+		$Comparacion = array();
 		$sDonde = '';
 		if($tipo > 0) $sDonde = ' AND tipo_movimiento_id=\'' . $tipo . '\' ';
 		$sConsulta = 'SELECT id, codigo, motivo_id, partida_id, tipo_movimiento_id, transaccion_id, monto, observaciones, f_contable, f_creacion 
@@ -85,29 +86,31 @@ class MHistorialMovimiento extends CI_Model{
 			ORDER BY tipo_movimiento_id';
 		$obj = $this->Dbpace->consultar($sConsulta);		
 		$rs = $obj->rs;		
-		$id_aux = $rs[0]->tipo_movimiento_id;
-		foreach ($rs as $c => $v) {
-			$hm = new $this->MHistorialMovimiento();
-			$hm->id = $v->id;
-			$hm->tipo = $v->tipo_movimiento_id;
-			$hm->motivo = $v->motivo_id;
-			$hm->codigo = $v->codigo;
-			$hm->fecha = substr($v->f_contable, 0, 10);
-			$hm->fecha_creacion = substr($v->f_creacion, 0, 10);
-			$hm->observacion = $v->observaciones;
-			$hm->monto = $v->monto;	
-			$hm->monto_aux =  number_format($v->monto, 2, ',','.');	
-			$hm->partida = $v->partida_id;	
+		if(count($rs) > 0){
+			$id_aux = $rs[0]->tipo_movimiento_id;
+			foreach ($rs as $c => $v) {
+				$hm = new $this->MHistorialMovimiento();
+				$hm->id = $v->id;
+				$hm->tipo = $v->tipo_movimiento_id;
+				$hm->motivo = $v->motivo_id;
+				$hm->codigo = $v->codigo;
+				$hm->fecha = substr($v->f_contable, 0, 10);
+				$hm->fecha_creacion = substr($v->f_creacion, 0, 10);
+				$hm->observacion = $v->observaciones;
+				$hm->monto = $v->monto;	
+				$hm->monto_aux =  number_format($v->monto, 2, ',','.');	
+				$hm->partida = $v->partida_id;	
 
-			if($hm->tipo != $id_aux){				
-				$Detalle[$id_aux] = $arr;
-				$arr = array();
-				$id_aux = $hm->tipo;
-			}
-			$arr[] = $hm;
-		}		
-		$Detalle[$id_aux] = $arr;
-		$Comparacion = $this->compararDetalles($Detalle);
+				if($hm->tipo != $id_aux){				
+					$Detalle[$id_aux] = $arr;
+					$arr = array();
+					$id_aux = $hm->tipo;
+				}
+				$arr[] = $hm;
+			}		
+			$Detalle[$id_aux] = $arr;
+			$Comparacion = $this->compararDetalles($Detalle);
+		}
 		$data = array('Detalle' => $Detalle, 'Comparacion' => $Comparacion);
 		return $data;
 	}

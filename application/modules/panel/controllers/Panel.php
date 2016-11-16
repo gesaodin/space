@@ -309,6 +309,12 @@ class Panel extends MY_Controller {
 
 		echo json_encode($this->MBeneficiario);
 	}
+	
+	public function cargarMilitarSAMAN($id = '', $valor = 0){
+		$this->load->model('beneficiario/MBeneficiario');
+		$lst = $this->MBeneficiario->CargarPersonaMilitar($id, $valor);
+		echo json_encode($lst);
+	}
 
 	public function consultarHistorialBeneficiario($id = ''){		
 		$this->load->model('beneficiario/MBeneficiario');
@@ -450,6 +456,7 @@ class Panel extends MY_Controller {
 		$this->load->model('beneficiario/MPartidaPresupuestaria');
 		$data['Motivo'] = $this->MFiniquito->listarMotivos(); 
 		$data['Partida'] = $this->MPartidaPresupuestaria->listarTodo();
+		$data['Directiva'] = $this->_DIRECTIVA;
 		$this->load->view('menu/beneficiario/registrar_finiquito', $data);
 	}
 

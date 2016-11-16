@@ -658,7 +658,10 @@ class MCalculo extends CI_Model{
 
   public function Porcentaje_Cancelado(){
     //print_r($this->Beneficiario->asignacion_antiguedad);
-    $cancelado = ($this->DepositoBanco() + $this->Garantias() + $this->Dias_Adicionales() )/ $this->Beneficiario->asignacion_antiguedad;
+    $cancelado = 0;
+    if( $this->Beneficiario->asignacion_antiguedad > 0)
+      $cancelado = ($this->DepositoBanco() + $this->Garantias() + $this->Dias_Adicionales() )/ $this->Beneficiario->asignacion_antiguedad;
+    
     return $cancelado * 100;
   }
 

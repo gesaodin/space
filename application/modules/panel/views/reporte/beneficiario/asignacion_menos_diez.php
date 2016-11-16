@@ -150,6 +150,7 @@ th {
      </table>
      <br>
      &emsp;&emsp;Solicitud que le hago llegar, para su conocimiento y demas fines consiguientes.<br>
+
      <p align="right">
        Caracas,&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
      </p>
@@ -162,7 +163,13 @@ th {
 
      Notas:<br>
      <?php echo $Beneficiario->observacion;?>
-     <br><br>
+     <br>
+     <?php 
+      if ( $Beneficiario->Calculo['monto_recuperar_aux'] > 0){
+        echo 'Moto a recuperar a favor del Fondo de Fideicomiso por la cantidad de: ' . $Beneficiario->Calculo['monto_recuperar'];
+      }
+
+     ?><br>
      OCR/<?php echo $Beneficiario->usuario_modificacion;?>
    </td>
    

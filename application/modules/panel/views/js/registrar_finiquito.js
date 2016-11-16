@@ -65,6 +65,32 @@ function consultar() {
             $("#controles").show();
         }
 
+    }).done(function(msg) {
+
+    }).fail(function(jqXHR, textStatus) {
+        consultarSAMAN();        
+    });
+
+}
+function consultarSAMAN(){
+    var val = $("#id").val();
+    ruta = sUrlP + "cargarMilitarSAMAN/" + val;
+    $.getJSON(ruta, function(data) {
+        if(data.cedula != null){
+            var boton = '<button id="btnContinuar" type="button" class="btn btn-success pull-right" onclick="insertarSAMAN()">';
+            boton += '<i class="glyphicon glyphicon-ok"></i>&nbsp;&nbsp;Si</button>';
+            boton += '<button id="btnContinuar" type="button" class="btn btn-danger" onclick="continuar()">';
+            boton += '<i class="glyphicon glyphicon-remove"></i>&nbsp;&nbsp;No</button>';
+
+            $("#divContinuar").html(boton);
+            $("#txtMensaje").html('El beneficiario que intenta consultar se encontro en SAMAN desdea importarlo a PACE'); 
+            $("#logMensaje").modal('show');
+            $("#controles").hide();
+            $("#btnContinuar").focus();
+        }else{
+            console.log('No se encontro registro');
+        }
+
     }).done(function(msg) {}).fail(function(jqXHR, textStatus) {
         $("#id").val('');
         var boton = '<button id="btnContinuar" type="button" class="btn btn-success pull-right" onclick="continuar()">';
@@ -74,12 +100,47 @@ function consultar() {
         $("#logMensaje").modal('show');
         $("#controles").hide();
         $("#btnContinuar").focus();
-        limpiar();
-    });
 
+        limpiar();
+        
+        
+    });
+}
+function insertarSAMAN(){
+    var val = $("#id").val();
+    ruta = sUrlP + "cargarMilitarSAMAN/" + val + '/1';
+    
+    $.getJSON(ruta, function(data) {
+        var boton = '<button id="btnContinuar" type="button" class="btn btn-success pull-right" onclick="actualizarBeneficiario()">';
+        boton += '<i class="glyphicon glyphicon-ok"></i>&nbsp;&nbsp;Si</button>';
+
+        $("#divContinuar").html(boton);
+        $("#txtMensaje").html('Debe actualizar los datos del nuevo beneficiario para poder efectuar los calculos'); 
+        $("#logMensaje").modal('show');
+        $("#controles").hide();
+        $("#btnContinuar").focus();
+
+    }).done(function(msg) {}).fail(function(jqXHR, textStatus) {
+        $("#id").val('');
+        var boton = '<button id="btnContinuar" type="button" class="btn btn-success pull-right" onclick="continuar()">';
+        boton += '<i class="glyphicon glyphicon-ok"></i>&nbsp;&nbsp;Continuar</button>';
+        $("#divContinuar").html(boton);
+        $("#txtMensaje").html('No se logro recuperar los datos desde SAMAN o se perdio la conexion con el servidor SAMAN'); 
+        $("#logMensaje").modal('show');
+        $("#controles").hide();
+        $("#btnContinuar").focus();
+
+        limpiar();
+        
+        
+    });
 }
 
-
+function actualizarBeneficiario(){
+    var val = $("#id").val();
+    URL = sUrlP + "actualizar/" + val;
+    $(location).attr('href', URL);
+}
 
 function limpiar(){
     $("#nombres").val('');

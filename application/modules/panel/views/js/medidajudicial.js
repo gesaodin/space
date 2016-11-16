@@ -10,8 +10,6 @@ $('#reporteMedida').DataTable({
     }
 );
 
-
-
 $( "#id" ).keypress(function( event ) {
   if ( event.which == 13 ) {
     $("#btnMedida").focus();
@@ -21,8 +19,7 @@ $( "#id" ).keypress(function( event ) {
 function consultar() {
     var val = $("#id").val();
     ruta = sUrlP + "consultarBeneficiarioJudicial/" + val;
-    $.getJSON(ruta, function(data) {
-       
+    $.getJSON(ruta, function(data) {       
         if(data.fecha_retiro != null && data.fecha_retiro != ''){
             $("#id").val('');
             var boton = '<button type="button" class="btn btn-success pull-right" onclick="continuar()">';
@@ -31,12 +28,10 @@ function consultar() {
             $("#txtMensaje").html('El Beneficiario que intenta consultar ya se encuentra retirado, por favor consultarlo por finiquito'); 
             $("#logMensaje").modal('show');
             $("#controles").hide();
-
         }else{
             $("#divBotones").show();
             $("#btnAnticipo").focus();
             MedidaJudicial['cedula'] = data.cedula;
-
             $("#lblNombre").text(' Nombres: ' + data.nombres + ' ' + data.apellidos + ' C.I: ' + data.cedula );
             $("#nombres").val(data.nombres);
             $("#apellidos").val(data.apellidos);
@@ -58,10 +53,7 @@ function consultar() {
             $("#estatus").val(data.estatus_descripcion);
             listar(data.MedidaJudicial);            
         }
-
     }).done(function(msg) {}).fail(function(jqXHR, textStatus) {
-       
-
         $("#id").val('');
         var boton = '<button id="btnContinuar" type="button" class="btn btn-success pull-right" onclick="continuar()">';
         boton += '<i class="glyphicon glyphicon-ok"></i>&nbsp;&nbsp;Continuar</button>';
@@ -70,9 +62,7 @@ function consultar() {
         $("#logMensaje").modal('show');
         $("#controles").hide();
         $("#btnContinuar").focus();
-        
     });
-
 }
 
 function listar(data){
@@ -87,7 +77,7 @@ function listar(data){
         switch (valor.estatus){
             case '220':
                 sBoton += '<button type="button" class="btn btn-warning" title="Inactivar"><i class="fa fa-mail-reply-all" ></i></button>';
-                sBoton += '<button type="button" class="btn btn-info" title="Ejecutar"><i class="fa fa-cogs" ></i></button>'; 
+                //sBoton += '<button type="button" class="btn btn-info" title="Ejecutar"><i class="fa fa-cogs" ></i></button>'; 
                 sBoton += '<button type="button" class="btn btn-info" title="Imprimir" onclick="imprimir(\'' + valor.id + '\')"><i class="fa fa-print" ></i></button>'; 
                 break;
             case '221':
