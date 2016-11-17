@@ -20,7 +20,7 @@ function consultar() {
     var val = $("#id").val();
     ruta = sUrlP + "consultarBeneficiarioJudicial/" + val;
     $.getJSON(ruta, function(data) {       
-        if(data.fecha_retiro != null && data.fecha_retiro != '') $("#btnMedida").show();
+        if(data.fecha_retiro != null && data.fecha_retiro != '') $("#btnMedida").hide();
             
         MedidaJudicial['cedula'] = data.cedula;
         $("#lblNombre").text(' Nombres: ' + data.nombres + ' ' + data.apellidos + ' C.I: ' + data.cedula );
