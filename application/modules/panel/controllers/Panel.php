@@ -47,7 +47,7 @@ class Panel extends MY_Controller {
 
 	public function asociarcuenta(){
 		$data['Directiva'] = $this->_DIRECTIVA;
-		$this->load->view("asociarcuenta", $data);
+		$this->load->view("menu/beneficiario/cuentabancaria", $data);
 	}
 
 	public function reporte(){
