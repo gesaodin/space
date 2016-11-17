@@ -1,7 +1,7 @@
 var MedidaJudicial = {};
 
 MedidaJudicial['cedula'] = 0;
-
+$("#btnMedida").hide();
 $('#reporteMedida').DataTable({
         "paging":   false,
         "ordering": false,
@@ -20,7 +20,11 @@ function consultar() {
     var val = $("#id").val();
     ruta = sUrlP + "consultarBeneficiarioJudicial/" + val;
     $.getJSON(ruta, function(data) {       
-        if(data.fecha_retiro != null && data.fecha_retiro != '') $("#btnMedida").hide();
+        if(data.fecha_retiro != null && data.fecha_retiro != '') {
+            $("#btnMedida").hide();
+        }else{
+            $("#btnMedida").show();
+        }
             
         MedidaJudicial['cedula'] = data.cedula;
         $("#lblNombre").text(' Nombres: ' + data.nombres + ' ' + data.apellidos + ' C.I: ' + data.cedula );
