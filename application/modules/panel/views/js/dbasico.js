@@ -5,7 +5,9 @@ $( "#id" ).keypress(function( event ) {
 });
 
 function consultar() {
+
     var val = $("#id").val();
+    $("#lblMedida").text('');
     ruta = sUrlP + "consultarBeneficiario/" + val;
     $.getJSON(ruta, function(data) {
             $("#nombres").val(data.nombres);
@@ -49,6 +51,11 @@ function consultar() {
             $("#fecha_ultimo_anticipo").val(data.Calculo.fecha_ultimo_anticipo);
             $("#anticipos").val(data.Calculo.anticipos);
             $("#embargos").val(data.Calculo.embargos);
+                   
+            $.each(data.MedidaJudicialActiva, function (clave, valor){
+                $("#lblMedida").text('Beneficiario con Medidas Judiciales');
+
+            });
             $("#porcentaje_cancelado").val(data.Calculo.porcentaje_cancelado);
         }
 

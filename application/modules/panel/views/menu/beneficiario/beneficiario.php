@@ -270,6 +270,7 @@
                   </div>
                   <!-- /.tab-pane -->
                   <div class="tab-pane" id="tab_2">
+                  <label id='lblMedida' style='font-size:18px;color:red'></label>
                     <h4>Asignación de Antiguedad</h4>
                     <hr>
                     <div class="row">
