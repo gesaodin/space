@@ -5,10 +5,10 @@ if (!defined('BASEPATH'))
 /**
  * MamonSoft 
  *
- * Grado
+ * Calculo de Intereses Compuesto
  *
- * @package pace\application\modules\panel\model\beneficiario
- * @subpackage utilidad
+ * @package pace\application\modules\panel\model\beneficiario\intereses
+ * @subpackage intereses
  * @author Carlos Peña
  * @copyright Derechos Reservados (c) 2015 - 2016, MamonSoft C.A.
  * @link http://www.mamonsoft.com.ve
