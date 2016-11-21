@@ -108,6 +108,7 @@ function ejecutarAnticipo(){
 	ruta = sUrlP + "ejecutarAnticipo";
     i_d = $("#cedula").val(); //
     t_an = $("#monto").val(); //Monto Por Deuda
+    t_e = 0;
     m_d = 0; //Monto Por Deuda
     a_i = 0; //Ajuste PorInteres
     t_b = 0; //Total en Banco

@@ -119,7 +119,7 @@ class MHistorialMovimiento extends CI_Model{
 	function compararDetalles($arr = array()){
 		$Padre = array();
 		$Auxiliar = array();
-		$valores = array(9,10,12,13,14,15,16,17);
+		$valores = array(9,10,12,13,14,15,16,17,27);
 		$cant = count($valores);
 		for ($i=0; $i < $cant; $i++) { 
 			$pos = $valores[$i];
@@ -197,6 +197,9 @@ class MHistorialMovimiento extends CI_Model{
 			case 17:
 				$valor = 26;
 				break;
+			case 27:
+				$valor = 34;
+				break;
 			default:
 				# code...
 				break;
@@ -266,6 +269,10 @@ class MHistorialMovimiento extends CI_Model{
 		//16
 		//if($obj->m_r != 0)$sInsert .= ',' . $this->valorRepetido(16, $obj, $obj->m_r);
 		if($obj->m_rx != 0)$sInsert .= $sInsert_aux . $this->valorRepetido(16, $obj, $obj->m_rx) . ';';
+		
+		if(isset($obj->t_e)){
+			if($obj->t_e != 0)$sInsert .= $sInsert_aux . $this->valorRepetido(27, $obj, $obj->t_e) . ';';
+		}
 
 
 

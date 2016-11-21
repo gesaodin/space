@@ -272,6 +272,7 @@ class MMedidaJudicial extends CI_Model{
 			$mdj->descripcion_institucion = $v->desc_institucion;
 			$mdj->cedula_autorizado = $v->ci_autorizado;
 			$mdj->unidad_tributaria = $v->unidad_tributaria;
+			$mdj->ultima_observacion = $v->observ_ult_modificacion;
 			
 			
 			$arr[$v->medida_id] = $mdj;
@@ -358,13 +359,13 @@ class MMedidaJudicial extends CI_Model{
 			parentesco.nombre AS parentesco_nombre,
 			estado.nombre AS estado_nombre
 			from medida_judicial
-			JOIN status ON status.id=medida_judicial.status_id
-			JOIN tipo_medida ON tipo_medida.id=medida_judicial.tipo_medida_id
-			JOIN tipo_pago ON medida_judicial.forma_pago_id=tipo_pago.id
-			JOIN municipio ON municipio.id=medida_judicial.municipio_id
-			JOIN ciudad ON municipio.ciudad_id=ciudad.id
-			JOIN estado ON ciudad.estado_id=estado.id
-			JOIN parentesco ON medida_judicial.parentesco_id=parentesco.id
+			LEFT JOIN status ON status.id=medida_judicial.status_id
+			LEFT JOIN tipo_medida ON tipo_medida.id=medida_judicial.tipo_medida_id
+			LEFT JOIN tipo_pago ON medida_judicial.forma_pago_id=tipo_pago.id
+			LEFT JOIN municipio ON municipio.id=medida_judicial.municipio_id
+			LEFT JOIN ciudad ON municipio.ciudad_id=ciudad.id
+			LEFT JOIN estado ON ciudad.estado_id=estado.id
+			LEFT JOIN parentesco ON medida_judicial.parentesco_id=parentesco.id
 			WHERE cedula=\'' . $cedula . '\' AND medida_judicial.id = ' . $id;
 			
 		//echo $sConsulta;
@@ -372,6 +373,7 @@ class MMedidaJudicial extends CI_Model{
 
 		$rs = $obj->rs;
 		foreach ($rs as $c => $v) {
+
 			$mdj = new $this->MMedidaJudicial();
 			$mdj->id = $v->medida_id;
 			$mdj->fecha = $v->f_documento;
@@ -391,8 +393,16 @@ class MMedidaJudicial extends CI_Model{
 			$mdj->parentesco_nombre = $v->parentesco_nombre;
 			$mdj->estatus_nombre = $v->estatus_nombre;
 			$mdj->tipo_nombre = strtoupper($v->tipo_nombre);
-			$mdj->porcentaje = $v->porcentaje;
-			$mdj->monto = $v->total_monto;
+			
+			if ($v->porcentaje > 0 && $v->total_monto >0){
+				$mdj->porcentaje = $v->porcentaje;
+				$mdj->monto = ($v->total_monto * $v->porcentaje)/100;	
+			}else{
+				$mdj->porcentaje = $v->porcentaje;
+				$mdj->monto = $v->total_monto;
+			}
+			
+
 			$mdj->tipo = $v->tipo_medida_id;
 			$mdj->estatus = $v->estatus;
 			$mdj->estado = strtoupper($v->estado_nombre);
@@ -402,7 +412,7 @@ class MMedidaJudicial extends CI_Model{
 			$mdj->descripcion_institucion = $v->desc_institucion;
 			$mdj->cedula_autorizado = $v->ci_autorizado;
 			$mdj->unidad_tributaria = $v->unidad_tributaria;
-			
+			$mdj->ultima_observacion = $v->observ_ult_modificacion;
 			$arr[$v->medida_id] = $mdj;
 		}
 		return $arr;
@@ -440,5 +450,16 @@ class MMedidaJudicial extends CI_Model{
 	**/
 
 
+	public function ejecutarMedidas($ced = '', $estatus = 0, $codigo = '', $monto = 0){
+		if ($ced != ''){
+			$est = 220;
+			if($estatus == 220){
+				$est = 223;
+			}
+			$sModificar = 'UPDATE medida_judicial SET total_monto= ' . $monto . ', status_id = ' . $estatus . ', observ_ult_modificacion=\'' . $codigo . '\'  WHERE cedula=\'' . $ced . '\' AND status_id = ' . $est . ' AND tipo_medida_id=1';
+			echo $sModificar;
+			$this->Dbpace->consultar($sModificar);	
 
+		}
+	}
 }

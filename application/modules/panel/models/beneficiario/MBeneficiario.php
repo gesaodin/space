@@ -755,7 +755,7 @@ class MBeneficiario extends CI_Model{
 			observ_ult_modificacion=\'' . $this->observacion . '\',
 			f_ult_modificacion=\'' . date("Y-m-d H:i:s") . '\' 
 		WHERE cedula=\'' . $this->cedula . '\'';
-		echo $sActualizar;
+		//echo $sActualizar;
 		$obj = $this->Dbpace->consultar($sActualizar);
 	}
 

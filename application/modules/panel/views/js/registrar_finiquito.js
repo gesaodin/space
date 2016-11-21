@@ -396,8 +396,11 @@ function consultarBeneficiarioFecha(){
     $.getJSON(ruta, function(data) {    
         $("#directiva").val(data.Componente.Grado.Directiva.nombre);    
         $("#asignacion_antiguedad").val(data.Calculo.asignacion_antiguedad);
+        $("#asignacion_antiguedad_aux").val(data.Calculo.asignacion_antiguedad_aux);
+        
         $("#anticipos").val(data.Calculo.anticipos);
         $("#embargos").val(data.Calculo.embargos);
+        $("#embargos_aux").val(data.Calculo.embargos_aux);
         $("#asignacion_depositada").val(data.Calculo.capital_banco);
         $("#monto_recuperar").val(data.Calculo.monto_recuperar);
         $("#asignacion_diferencia").val(data.Calculo.asignacion_diferencia);
@@ -502,6 +505,9 @@ function consultarFiniquitos(){
         console.log(arr);
         if(Array.isArray(arr) == false){
             $.each(arr[9], function ( clv, valores ){
+                
+                console.log(valores);
+
                 var fecha_creacion = valores.fecha_creacion;
                 var fecha_contable = valores.fecha_contable;
                 var monto = Number(valores.monto);
@@ -527,6 +533,8 @@ function consultarFiniquitos(){
                     sAcciones = '<ul class="dropdown-menu" role="menu">';
                     sAcciones += '<li><a href="#!" target="_top" onclick="HojaVida(\'' + cedula + '\',\'' + codigo + '\')">Hoja de Vida (PRINT)</a></li>';
                     sAcciones +='<li class="divider"></li>';
+
+                    //sAcciones += '<li><a href="#!" target="_top" onclick="MedidaEjecutada(\'' + cedula + '\',\'' + codigo + '\')">Medida Ejecutada </a></li>'; 
                     switch (partida){
                         case '1':
                             
@@ -611,6 +619,12 @@ function CartaBanco(id, cod){
     window.open(URL,"Carta Banco","toolbar=0,location=1,menubar=0,scrollbars=1,resizable=1,width=900,height=800")
 }
 
+function MedidaEjecutada(id, cod){    
+    URL = sUrlP + "medidaejecutada/" + id + '/' + cod;
+    window.open(URL,"Medida Ejecutada","toolbar=0,location=1,menubar=0,scrollbars=1,resizable=1,width=900,height=800")
+}
+
+
 function CartaBancoFallecido(id, cod){    
     URL = sUrlP + "cartaBancoFallecidoM/" + id + '/' + cod;
     window.open(URL,"Carta Banco","toolbar=0,location=1,menubar=0,scrollbars=1,resizable=1,width=900,height=800")
@@ -645,8 +659,9 @@ function GuargarFiniquito(){
     i_d = $("#id").val(); //
     m_d = $("#deuda").val(); //Monto Por Deuda
     a_i = $("#intereses").val(); //Ajuste PorInteres
-    t_an = 0;
+    t_an = $("#asignacion_antiguedad_aux").val(); //A.A Generada
     t_b = $("#total_banco").val(); //Total en Banco
+    t_e = $("#embargos_aux").val(); //Total de los embargos
     t_bx = $("#total_banco_calc").val(); //Total en Banco
     a_a = $("#asignacion_diferencia").val(); //Diferencia Asignación Antiguedad
     a_ax = $("#asignacion_diferencia_aux").val(); //Diferencia Asignación Antiguedad
@@ -678,6 +693,7 @@ function GuargarFiniquito(){
             i_d: i_d, //Cedula de Identidad
             t_an: t_an, //5 Formato Moneda
             t_b: t_b, //9 Formato Moneda
+            t_e: t_e, //9 Formato de Embargo
             t_bx: t_bx, //9 Fomato Cientifico
             a_i: a_i, //10
             a_a: a_a, //14 Formato Moneda       
@@ -695,7 +711,7 @@ function GuargarFiniquito(){
           })},
           url: ruta,
           success: function (data) {  
-            //console.log(data);      
+            //console.log(data);    
             //alert(data);
             //$("#txtMensaje").html(data);
             $("#txtMensaje").html(data); 

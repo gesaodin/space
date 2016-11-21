@@ -62,7 +62,7 @@ function consultar() {
 function listar(data){
     var t = $('#reporteMedida').DataTable();
     t.clear().draw();
-    //console.log(data);
+    console.log(data);
     $.each(data, function (clave, valor){
         var monto = Number(valor.monto);
         var sBoton = '<div class="btn-group">';
@@ -79,7 +79,8 @@ function listar(data){
             case '222':
                 break;
             case '223':                
-                sBoton += '<button type="button" class="btn btn-danger" title="Suspender"><i class="fa fa-cogs" ></i></button>'; 
+                //sBoton += '<button type="button" class="btn btn-danger" title="Suspender"><i class="fa fa-cogs" ></i></button>';
+                sBoton += '<button type="button" class="btn btn-info" title="Imprimir" onclick="MedidaEjecutada(\'' + valor.cedula + '\', \'' + valor.ultima_observacion + '\',\'' + valor.id + '\')"><i class="fa fa-print" ></i></button>'; 
                 break;
             default:
                 break;
@@ -113,6 +114,10 @@ function imprimir(id){
     window.open(URL,"Hoja de Vida","toolbar=0,location=1,menubar=0,scrollbars=1,resizable=1,width=900,height=800")
 }
 
+function MedidaEjecutada(ced,  cod, id){    
+    URL = sUrlP + "medidaejecutada/" + ced + '/' + id + '/' + cod;
+    window.open(URL,"Medida Ejecutada","toolbar=0,location=1,menubar=0,scrollbars=1,resizable=1,width=900,height=800")
+}
 
 function obtenerCiudades(){
     var i = 0;

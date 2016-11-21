@@ -85,6 +85,7 @@ class MCalculo extends CI_Model{
 
     $this->Beneficiario->Calculo = array(
       'asignacion_antiguedad' => number_format($this->Beneficiario->asignacion_antiguedad, 2, ',','.'),
+      'asignacion_antiguedad_aux' => $this->Beneficiario->asignacion_antiguedad,
       'capital_banco' => number_format($this->DepositoBanco(), 2, ',','.'),
       'capital_banco_aux' => $this->DepositoBanco(),
       'asignacion_depositada' => number_format($this->Asignacion_Depositada(), 2, ',','.'),
@@ -641,7 +642,8 @@ class MCalculo extends CI_Model{
        $monto = ($this->Beneficiario->asignacion_antiguedad * $this->Beneficiario->MedidaJudicial[1]->porcentaje)/100;
       }
     }
-    return $monto;
+    
+    return round($monto, 2);
   }
 
   public function MedidaJudicialActiva(){

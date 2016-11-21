@@ -186,6 +186,19 @@ class Panel extends MY_Controller {
 		$this->load->view('reporte/beneficiario/carta_banco', $data);
 	}
 
+	public function medidaejecutada($cedula = '', $id = '', $cod = ''){
+		$this->load->model('beneficiario/MBeneficiario');
+		$this->load->model('beneficiario/MMedidaJudicial');
+		$this->MBeneficiario->obtenerID($cedula);
+
+		$this->MBeneficiario->MedidaJudicial = $this->MMedidaJudicial->listarPorCodigo($cedula, $id);
+		
+
+		$data['Beneficiario'] = $this->MBeneficiario;
+		$data['codigo'] = $cod; 
+		$this->load->view('reporte/beneficiario/medida_judicial_ejecutada', $data);
+	}
+
 	public function cartaBancoFallecido($cedula = '', $codigo = ''){
 		$this->load->model('beneficiario/MBeneficiario');
 		$this->MBeneficiario->obtenerID($cedula);
@@ -514,6 +527,7 @@ class Panel extends MY_Controller {
 		$this->load->model('beneficiario/MBeneficiario', 'Beneficiario');
 		$this->load->model('beneficiario/MBeneficiario');
 		$this->load->model('beneficiario/MHistorialMovimiento');
+		$this->load->model('beneficiario/MMedidaJudicial');
 
 		$json = json_decode($_POST['data']); // 'Hola Mundo'; //Object($_POST);
 		$json->u_s = $_SESSION['usuario'];
@@ -538,6 +552,8 @@ class Panel extends MY_Controller {
 				$this->Beneficiario->ActualizarPorMovimiento();
 				$this->MBeneficiario->InsertarHistorial();
 				$this->MBeneficiario->insertarDetalle($json, $codigo);
+				$this->MMedidaJudicial->ejecutarMedidas($json->i_d, 223, $codigo, $json->t_an);
+				//print_r($json);
 				echo 'Se ha procesado exitosamente el finiquito del beneficiario (' . $nombre . ')...';
 			}else{
 				echo 'El beneficiario  (' . $nombre . ') ya posee un finiquito...';
@@ -553,6 +569,7 @@ class Panel extends MY_Controller {
 		$this->load->model('beneficiario/MBeneficiario');
 		$this->load->model('beneficiario/MHistorialMovimiento');
 		$this->load->model('beneficiario/MFiniquito');	
+		$this->load->model('beneficiario/MMedidaJudicial');	
 		
 		$this->MBeneficiario->obtenerID($ced, '');
 		$this->Beneficiario->fecha_retiro = '';
@@ -566,6 +583,8 @@ class Panel extends MY_Controller {
 		$this->MHistorialMovimiento->isertarReverso($lst);
 		$this->Beneficiario->ActualizarPorMovimiento();
 		$this->MBeneficiario->InsertarHistorial(); //Creando la traza de la modificacion
+
+		$this->MMedidaJudicial->ejecutarMedidas($ced, 220, $codigo);
 			
 		echo 'Se ha procesado exitosamente el reverso';
 		

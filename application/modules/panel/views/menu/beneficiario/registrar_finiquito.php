@@ -225,6 +225,7 @@
                 <label class="col-md-2">A.A Generada</label>
                 <div class="col-md-4">                       
                       <input type="text" placeholder="Asingación Generada" readonly="readonly" id='asignacion_antiguedad' class="form-control"></input>
+                      <input type="hdden" readonly="readonly" id='asignacion_antiguedad_aux' class="form-control"></input>
                 </div>
                 <label class="col-md-2">A.A Depositado</label>
                 <div class="col-md-4">                      
@@ -251,7 +252,8 @@
               <div class="form-group">
                 <label class="col-md-2">Embargo</label>
                 <div class="col-md-4">                      
-                      <input type="text" placeholder="Asignación Depositada" id='embargos' class="form-control" readonly="readonly"></input>
+                      <input type="text" placeholder="Medidas Judiciales Activas" id='embargos' class="form-control" readonly="readonly"></input>
+                      <input type="hidden"  id='embargos_aux' readonly="readonly"></input>
                 </div> 
                 <label class="col-md-2">Garantias</label>
                 <div class="col-md-4">                       
