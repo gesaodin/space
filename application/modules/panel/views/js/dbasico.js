@@ -27,7 +27,7 @@ function consultar() {
             $("#arec").val(data.ano_reconocido);
             $("#mrec").val(data.mes_reconocido);    
             $("#drec").val(data.dia_reconocido);
-            $("#fecha_retiro").val(data.fecha_retiro);
+            $("#fecha_retiro").val(cargarFecha(data.fecha_retiro));
             $("#fano").val(data.aguinaldos_aux);
             $("#vacaciones").val(data.vacaciones_aux);
             $("#numero_cuenta").val(data.numero_cuenta);

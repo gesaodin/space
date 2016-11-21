@@ -225,7 +225,7 @@
                 <label class="col-md-2">A.A Generada</label>
                 <div class="col-md-4">                       
                       <input type="text" placeholder="Asingación Generada" readonly="readonly" id='asignacion_antiguedad' class="form-control"></input>
-                      <input type="hdden" readonly="readonly" id='asignacion_antiguedad_aux' class="form-control"></input>
+                      <input type="hidden" readonly="readonly" id='asignacion_antiguedad_aux' class="form-control"></input>
                 </div>
                 <label class="col-md-2">A.A Depositado</label>
                 <div class="col-md-4">                      
