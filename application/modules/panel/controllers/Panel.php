@@ -276,13 +276,14 @@ class Panel extends MY_Controller {
 	}
 
 
-	public function medida_judicial($cedula = '', $id = ''){
+	public function medida_judicial($cedula = '', $id = '', $cod = ''){
 		$this->load->model('beneficiario/MBeneficiario');
 		$this->load->model('beneficiario/MMedidaJudicial');
 		$this->MBeneficiario->obtenerID($cedula);
 		$this->MBeneficiario->MedidaJudicial = $this->MMedidaJudicial->listarPorCodigo($cedula, $id);
 
 		$data['Beneficiario'] = $this->MBeneficiario;
+		$data['id'] = $id;
 
 
 		$this->load->view('reporte/beneficiario/medida_judicial', $data);

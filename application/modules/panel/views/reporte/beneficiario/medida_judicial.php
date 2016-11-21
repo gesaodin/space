@@ -1,6 +1,7 @@
 <?php
 
-  $Medida = $Beneficiario->MedidaJudicial[1];
+  
+  $Medida = $Beneficiario->MedidaJudicial[$id];
   
   function fecha($fecha = ''){
     $mes = 'Enero';

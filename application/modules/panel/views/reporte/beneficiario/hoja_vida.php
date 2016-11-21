@@ -146,7 +146,7 @@ th {
       ?>
       </td>
       <td>Tiempo de Serv.</td>
-      <td><?php echo $Beneficiario->tiempo_servicio_aux; ?></td>
+      <td><?php echo $Beneficiario->tiempo_servicio; ?></td>
       <td>N° Hijos</td>
       <td><?php echo $Beneficiario->numero_hijos; ?></td>
     </tr>

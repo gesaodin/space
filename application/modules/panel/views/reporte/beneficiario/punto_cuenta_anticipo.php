@@ -1,7 +1,10 @@
 <?php  
   $usuario = '';
+  
+
   foreach ($Beneficiario->HistorialOrdenPagos as $c => $v) {
     if($v->id == $codigo){
+      $f = explode('-', substr($v->fecha_creacion, 0, 10));
       $finalidad = $v->motivo;
       $monto = $v->monto;
       $usuario = $v->usuario_modificacion;
@@ -12,40 +15,40 @@
   function fecha($fecha = ''){
     $mes = 'Enero';
     switch ($fecha) {
-      case 'January':
+      case 1:
         $mes="Enero";
         break;
-      case 'February':
+      case 2:
         $mes="Febrero";
         break;
-      case 'March':
+      case 3:
         $mes="Marzo";
         break;
-      case 'April':
+      case 4:
         $mes="Abril";
         break;
-      case 'May':
+      case 5:
         $mes="Mayo";
         break;
-      case 'June':
+      case 6:
         $mes="Junio";
         break;
-      case 'July':
+      case 7:
         $mes="Julio";
         break;
-      case 'August':
+      case 8:
         $mes="Agosto";
         break;
-      case 'September':
+      case 9:
         $mes="Septiembre";
         break;
-      case 'October':
+      case 10:
         $mes="Octubre";
         break;
-      case 'November':
+      case 11:
         $mes="Noviembre";
         break;
-      case 'December':
+      case 12:
         $mes="Diciembre";
         break;
       default:
@@ -102,7 +105,7 @@
    </td>
    <td style="width: 35%;  border: 0px solid #dddddd; text-align: right;">
      Sistema PACE<br>
-     <?php echo 'Caracas, ' . date('d') . ' de ' . fecha(date('F')) . ' de '. date('Y') ?>
+     <?php echo 'Caracas, ' . $f[2] . ' de ' . fecha($f[1]*1) . ' de '. $f[0] ?>
 
    </td>
  </tr>

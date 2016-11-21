@@ -113,7 +113,7 @@ th {
    </td>
    
  </tr>
- </table><BR>
+ </table>
 
  <table style="width: 700px;  text-align: justify;  font-size: 15px">
   <tr>
@@ -153,17 +153,17 @@ th {
      <br><br>
      &emsp;&emsp;Solicitud que le hago llegar, para su conocimiento y demas fines consiguientes.<br>
     
-     <center>
+     <center><br>
         Atentamente 
-        <br><br><br><b>
+        <br><br><b>
         CNEL. EDUARDO JOSE MARTINEZ SALAS<BR>
         </b>
      </center>
-     <br>
 
      Notas:<br>
-     <?php echo $Beneficiario->observacion;?>
-     <br><br>
+      <textarea style="width: 100%; height: 60px"></textarea>
+     <br>
+
      OCR/<?php echo $Beneficiario->usuario_modificacion;?>
    </td>
    
