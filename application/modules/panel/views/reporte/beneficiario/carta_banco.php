@@ -9,15 +9,15 @@
     
   }
   **/
-
+  $partida = '';
   $monto = 0;
   $Detalle = $Beneficiario->HistorialDetalleMovimiento['Detalle'];
   $finiquito = $Detalle[9];
-
   foreach ($finiquito as $k => $v) {
     if($v->codigo == $codigo){
       $monto = $v->monto;
       $f = explode('-', substr($v->fecha_creacion, 0, 10));
+      $partida = $v->partida_des;
     }
   }
 
@@ -174,12 +174,12 @@ th {
       Militar, así como también las cláusulas décimo cuarta y décimo sexta del contrato firmado entre el IPSFA y esa 
       Institución Fiduciaría, en fecha 17FEB2009 ante la Notaría Pública Tercera de Caracas, debe salir del sistema de 
       Fideicomiso de la Asignación de Antiguedad.
-     <br><br>
+     <br>
      &emsp;&emsp;Sin otro particular al cual hacer referencia, se despide de ustedes, quedando a sus gratas órdenes.
      <br>
      <center>
         Atentamente 
-        <br><br><br><b>
+        <br><br><b>
         CNEL. EDUARDO JOSE MARTINEZ SALAS<BR>
         GERENTE DE BIENESTAR Y SEGURIDAD SOCIAL<BR></b>
      </center>
@@ -187,7 +187,9 @@ th {
 
      Notas:<br>
      <?php echo $Beneficiario->observacion;?>
-     <br><br>
+     <br>
+     Partida Recuperación: <?php echo $partida?><br>
+     <br>
      OCR/<?php echo $Beneficiario->usuario_modificacion;?>
    </td>
    

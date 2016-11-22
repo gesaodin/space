@@ -22,6 +22,10 @@ class MHistorialMovimiento extends CI_Model{
 	
 	var $fecha_creacion = 0;
 
+	var $partida = '';
+
+	var $partida_des = '';
+
 	var $codigo = '';
 
 
@@ -81,8 +85,11 @@ class MHistorialMovimiento extends CI_Model{
 		$Comparacion = array();
 		$sDonde = '';
 		if($tipo > 0) $sDonde = ' AND tipo_movimiento_id=\'' . $tipo . '\' ';
-		$sConsulta = 'SELECT id, codigo, motivo_id, partida_id, tipo_movimiento_id, transaccion_id, monto, observaciones, f_contable, f_creacion 
-			FROM movimiento WHERE cedula =\'' . $cedula . '\'' .  $sDonde . '
+		$sConsulta = 'SELECT movimiento.id, movimiento.codigo, movimiento.motivo_id, partida_id, tipo_movimiento_id, 
+			transaccion_id, monto, observaciones, f_contable, f_creacion, partida.codigo AS partida
+			FROM movimiento 
+				JOIN partida ON movimiento.partida_id=partida.id
+ 			WHERE cedula =\'' . $cedula . '\'' .  $sDonde . '
 			ORDER BY tipo_movimiento_id';
 		$obj = $this->Dbpace->consultar($sConsulta);		
 		$rs = $obj->rs;		
@@ -100,6 +107,7 @@ class MHistorialMovimiento extends CI_Model{
 				$hm->monto = $v->monto;	
 				$hm->monto_aux =  number_format($v->monto, 2, ',','.');	
 				$hm->partida = $v->partida_id;	
+				$hm->partida_des = $v->partida;
 
 				if($hm->tipo != $id_aux){				
 					$Detalle[$id_aux] = $arr;
@@ -137,6 +145,7 @@ class MHistorialMovimiento extends CI_Model{
 					$A['codigo'] =  $valor->codigo;
 					$A['tipo_texto'] = 'Finiquito';
 					$A['partida'] = $valor->partida;
+					$A['partida_des'] = $valor->partida_des;
 
 					if(isset($arr[$cont])){					
 						foreach ($arr[$cont] as $c => $v) {

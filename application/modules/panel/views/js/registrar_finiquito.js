@@ -615,8 +615,17 @@ function HojaVida(id, cod){
 }
 
 function CartaBanco(id, cod){    
-    URL = sUrlP + "cartaBanco/" + id + '/' + cod;
-    window.open(URL,"Carta Banco","toolbar=0,location=1,menubar=0,scrollbars=1,resizable=1,width=900,height=800")
+    if(cod == 'null'){
+        var boton = '<button id="btnContinuar" type="button" class="btn btn-success pull-right" onclick="continuar()">';
+        boton += '<i class="glyphicon glyphicon-ok"></i>&nbsp;&nbsp;Si</button>';
+
+        $("#divContinuar").html(boton);
+        $("#txtMensaje").html('Esta carta procede del sistema anterior, consultar en informatica'); 
+        $("#logMensaje").modal('show');
+    }else{
+        URL = sUrlP + "cartaBanco/" + id + '/' + cod;
+        window.open(URL,"Carta Banco","toolbar=0,location=1,menubar=0,scrollbars=1,resizable=1,width=900,height=800")
+    }
 }
 
 function MedidaEjecutada(id, cod){    
