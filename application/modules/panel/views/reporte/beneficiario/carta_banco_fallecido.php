@@ -106,7 +106,7 @@ th {
     <td>DE:</td><td><b>CNEL. GERENTE DE BIENESTAR Y SEGURIDAD SOCIAL</b></td>
   </tr> 
   <tr>
-    <td>PARA:</td><td><b>C.A GERENTE DE DE FINANZAS A/C SUB. GERENCIA DE TESORERIA</b></td>    
+    <td>PARA:</td><td><b>CNEL. GERENTE DE DE FINANZAS A/C SUB. GERENCIA DE TESORERIA</b></td>    
   </tr> 
   <tr>
     <td>ASUNTO:</td><td><b>SOLICITUD DE FINIQUITO FALLECIDO</b></td>
