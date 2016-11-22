@@ -213,8 +213,11 @@ class Panel extends MY_Controller {
 
 	public function cartaBancoFallecidoM($cedula = '', $codigo = ''){
 		$this->load->model('beneficiario/MBeneficiario');
+		$this->load->model('beneficiario/MHistorialMovimiento');
 		$this->MBeneficiario->obtenerID($cedula);
+		$this->MBeneficiario->HistorialDetalleMovimiento = $this->MHistorialMovimiento->listarDetalle($cedula);
 		$data['Beneficiario'] = $this->MBeneficiario;
+		$data['codigo'] = $codigo; 
 		$data['lst'] = $this->MBeneficiario->detalleMovimientoFamiliar($cedula, $codigo);		
 		$this->load->view('reporte/beneficiario/asignacion_menos_diez', $data);
 	}
