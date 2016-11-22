@@ -1,4 +1,19 @@
 <?php  
+
+  $partida_id = 0;
+  $partida = '';
+  $monto = 0;
+  $Detalle = $Beneficiario->HistorialDetalleMovimiento['Detalle'];
+  $finiquito = $Detalle[9];
+  //print_r($finiquito);
+  foreach ($finiquito as $k => $v) {
+    if($v->codigo == $codigo){
+      $monto = $v->monto;
+      $f = explode('-', substr($v->fecha_creacion, 0, 10));
+      $partida = $v->partida_des;
+      $partida_id = $v->partida;
+    }
+  }
   function fecha($fecha = ''){
     $mes = 'Enero';
     switch ($fecha) {
@@ -174,7 +189,8 @@ th {
      <br>
      <?php 
       if ( $Beneficiario->Calculo['monto_recuperar_aux'] > 0){
-        echo 'Moto a recuperar a favor del Fondo de Fideicomiso por la cantidad de: ' . $Beneficiario->Calculo['monto_recuperar'];
+        echo 'Moto a recuperar a favor del Fondo de Fideicomiso por la cantidad de: ' . $Beneficiario->Calculo['monto_recuperar'] . '<br>';
+        echo 'Partida Recuperación: ' . $partida;
       }
 
      ?><br>

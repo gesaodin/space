@@ -186,6 +186,17 @@ class Panel extends MY_Controller {
 		$this->load->view('reporte/beneficiario/carta_banco', $data);
 	}
 
+	public function cartaBancoFallecido($cedula = '', $cod = ''){
+		$this->load->model('beneficiario/MBeneficiario');
+		$this->load->model('beneficiario/MHistorialMovimiento');
+		$this->MBeneficiario->obtenerID($cedula);
+		$data['Beneficiario'] = $this->MBeneficiario;
+		$this->MBeneficiario->HistorialDetalleMovimiento = $this->MHistorialMovimiento->listarDetalle($cedula);
+		$data['lst'] = $this->MBeneficiario->detalleMovimientoFamiliar($cedula, $cod);
+		$data['codigo'] = $cod; 		
+		$this->load->view('reporte/beneficiario/carta_banco_fallecido', $data);
+	}
+
 	public function medidaejecutada($cedula = '', $id = '', $cod = ''){
 		$this->load->model('beneficiario/MBeneficiario');
 		$this->load->model('beneficiario/MMedidaJudicial');
@@ -199,13 +210,7 @@ class Panel extends MY_Controller {
 		$this->load->view('reporte/beneficiario/medida_judicial_ejecutada', $data);
 	}
 
-	public function cartaBancoFallecido($cedula = '', $codigo = ''){
-		$this->load->model('beneficiario/MBeneficiario');
-		$this->MBeneficiario->obtenerID($cedula);
-		$data['Beneficiario'] = $this->MBeneficiario;
-		$data['lst'] = $this->MBeneficiario->detalleMovimientoFamiliar($cedula, $codigo);		
-		$this->load->view('reporte/beneficiario/carta_banco_fallecido', $data);
-	}
+
 	public function cartaBancoFallecidoM($cedula = '', $codigo = ''){
 		$this->load->model('beneficiario/MBeneficiario');
 		$this->MBeneficiario->obtenerID($cedula);

@@ -192,7 +192,10 @@ th {
      <?php echo $Beneficiario->observacion;?>
      <br>
      <?php 
-        if($partida_id == 5)echo 'Partida Recuperación: ' . $partida;
+        if ( $Beneficiario->Calculo['monto_recuperar_aux'] > 0){
+          echo 'Moto a recuperar a favor del Fondo de Fideicomiso por la cantidad de: ' . $Beneficiario->Calculo['monto_recuperar'] . '<br>';
+          echo 'Partida Recuperación: ' . $partida;
+        }
       ?><br>
      <br>
      OCR/<?php echo $Beneficiario->usuario_modificacion;?>
