@@ -142,7 +142,7 @@ th {
         <?php
           foreach ($lst as $c => $v) {
 
-            echo '<tr><td>' . $v['codigo'] . '</td><td>' . strtoupper($v['nombre']) . '</td><td>' . $v['cedula'] . '</td><td>' . 
+            echo '<tr style="font-size:14px;"><td>' . $v['codigo'] . '</td><td>' . strtoupper($v['nombre']) . '</td><td>' . $v['cedula'] . '</td><td>' . 
             number_format($v['monto'], 2, ',','.') . '</td></tr>';
           }
         ?>
@@ -156,7 +156,7 @@ th {
      </p>
      <center>
         Atentamente 
-        <br><br><br><b>
+        <br><br><br><br><br><b>
         CNEL. EDUARDO JOSE MARTINEZ SALAS<BR></b>
      </center>
      <br>

@@ -107,7 +107,13 @@ th {
     <td>PARA:</td><td><b>CNEL. GERENTE DE DE FINANZAS </b></td>    
   </tr> 
   <tr>
-    <td>ASUNTO:</td><td><b>SOLICITUD DE FINIQUITO</b></td>
+    <td>ASUNTO:</td><td><b>ASIGNACIÓN <?php 
+      $txt = 'FUERA DE ACTOS DEL SERVICIO';
+     
+      if($motivo == 10) $txt = 'EN ACTOS DEL SERVICIO';
+
+      echo $txt;
+     ?></b></td>
   </tr> 
   
   <tr>
@@ -125,9 +131,9 @@ th {
    <td style="border: 0px solid #dddddd; text-align: justify; font-size: 16px; line-height: 1.5">
      &emsp;&emsp;Mediante la presente comunicación me dirijo a Ud., en la oportunidad de solicitar la elaboración de los cheques que otorga la Asginación causada por la muerte del afiliado en 
      referencia, y calificada como fallecimiento <?php 
-      $txt = 'fuera de actos de servicio';
+      $txt = 'fuera de actos del servicio';
      
-      if($motivo == 10) $txt = 'en actos de servicio';
+      if($motivo == 10) $txt = 'en actos del servicio';
 
       echo $txt;
      ?>, que de acuerdo 
@@ -147,8 +153,8 @@ th {
        <tbody>
         <?php
           foreach ($lst as $c => $v) {
-
-            echo '<tr><td>' . $v['codigo'] . '</td><td>' . strtoupper($v['nombre']) . '</td><td>' . $v['cedula'] . '</td><td>' . 
+           
+            echo '<tr style="font-size:14px;"><td>' . $v['codigo'] . '</td><td>' . strtoupper($v['nombre']) . '</td><td>' . $v['cedula'] . '</td><td>' . 
             number_format($v['masfs'], 2, ',','.') . '</td></tr>';
           }
         ?>
@@ -161,7 +167,7 @@ th {
      </p>
      <center>
         Atentamente 
-        <br><br><br><b>
+        <br><br><br><br><br><b>
         CNEL. EDUARDO JOSE MARTINEZ SALAS<BR></b>
      </center>
      <br>
