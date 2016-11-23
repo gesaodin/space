@@ -25,7 +25,7 @@ function consultar() {
             $("#sueldo_global").val(data.sueldo_global_aux);
             $("#sueldo_integral").val(data.sueldo_integral_aux);
             $("#arec").val(data.ano_reconocido);
-            $("#mrec").val(data.mes_reconocido);    
+            $("#mrec").val(data.mes_reconocido);
             $("#drec").val(data.dia_reconocido);
             $("#fecha_retiro").val(cargarFecha(data.fecha_retiro));
             $("#fano").val(data.aguinaldos_aux);
@@ -51,7 +51,7 @@ function consultar() {
             $("#fecha_ultimo_anticipo").val(data.Calculo.fecha_ultimo_anticipo);
             $("#anticipos").val(data.Calculo.anticipos);
             $("#embargos").val(data.Calculo.embargos);
-                   
+
             $.each(data.MedidaJudicialActiva, function (clave, valor){
                 $("#lblMedida").text('Beneficiario con Medidas Judiciales');
 
@@ -60,7 +60,7 @@ function consultar() {
         }
 
     ).done(function(msg) {}).fail(function(jqXHR, textStatus) {
-       $("#txtMensaje").html('No se encontro cédula de beneficiario'); 
+       $("#txtMensaje").html('No se encontro cédula de beneficiario');
        $("#logMensaje").modal('show');
        limpiar();
     });
@@ -68,8 +68,10 @@ function consultar() {
 }
 
 function cargarFecha(fecha){
-    var f = fecha.split('-');
-    return f[2] + '/' + f[1] + '/' + f[0];
+    if(fecha != null){
+      var f = fecha.split('-');
+      return f[2] + '/' + f[1] + '/' + f[0];
+    }
 }
 
 
@@ -97,7 +99,7 @@ function limpiar(){
     $("#noascenso").val('');
     $("#profesionalizacion").val('');
     $("#arec").val('');
-    $("#mrec").val('');    
+    $("#mrec").val('');
     $("#drec").val('');
     $("#fecha_retiro").val('');
     $("#fano").val('');

@@ -21,7 +21,7 @@ class Panel extends MY_Controller {
 
 	}
 
-	public function verificar(){		
+	public function verificar(){
 		$this->load->model('usuario/Iniciar');
 	}
 
@@ -37,12 +37,12 @@ class Panel extends MY_Controller {
 
 	public function fideicomitente(){
 		$data['Directiva'] = $this->_DIRECTIVA;
-		$this->load->view("fideicomitente", $data);		
+		$this->load->view("fideicomitente", $data);
 	}
 
 	public function beneficiario(){
 		$data['Directiva'] = $this->_DIRECTIVA;
-		$this->load->view("menu/beneficiario/beneficiario", $data);	
+		$this->load->view("menu/beneficiario/beneficiario", $data);
 	}
 
 	public function asociarcuenta(){
@@ -92,7 +92,7 @@ class Panel extends MY_Controller {
 		$this->load->model('beneficiario/MEstado');
 		$this->load->model('beneficiario/MParentesco');
 		$this->load->model('beneficiario/MFormaPago');
-		
+
 		$data['Directiva'] = $this->_DIRECTIVA;
 
 		$data['Estado'] = $this->MEstado->listar();
@@ -182,7 +182,7 @@ class Panel extends MY_Controller {
 		$this->MBeneficiario->HistorialDetalleMovimiento = $this->MHistorialMovimiento->listarDetalle($cedula);
 
 		$data['Beneficiario'] = $this->MBeneficiario;
-		$data['codigo'] = $cod; 
+		$data['codigo'] = $cod;
 		$this->load->view('reporte/beneficiario/carta_banco', $data);
 	}
 
@@ -193,7 +193,7 @@ class Panel extends MY_Controller {
 		$data['Beneficiario'] = $this->MBeneficiario;
 		$this->MBeneficiario->HistorialDetalleMovimiento = $this->MHistorialMovimiento->listarDetalle($cedula);
 		$data['lst'] = $this->MBeneficiario->detalleMovimientoFamiliar($cedula, $cod);
-		$data['codigo'] = $cod; 		
+		$data['codigo'] = $cod;
 		$this->load->view('reporte/beneficiario/carta_banco_fallecido', $data);
 	}
 
@@ -203,10 +203,10 @@ class Panel extends MY_Controller {
 		$this->MBeneficiario->obtenerID($cedula);
 
 		$this->MBeneficiario->MedidaJudicial = $this->MMedidaJudicial->listarPorCodigo($cedula, $id);
-		
+
 
 		$data['Beneficiario'] = $this->MBeneficiario;
-		$data['codigo'] = $cod; 
+		$data['codigo'] = $cod;
 		$this->load->view('reporte/beneficiario/medida_judicial_ejecutada', $data);
 	}
 
@@ -217,8 +217,8 @@ class Panel extends MY_Controller {
 		$this->MBeneficiario->obtenerID($cedula);
 		$this->MBeneficiario->HistorialDetalleMovimiento = $this->MHistorialMovimiento->listarDetalle($cedula);
 		$data['Beneficiario'] = $this->MBeneficiario;
-		$data['codigo'] = $codigo; 
-		$data['lst'] = $this->MBeneficiario->detalleMovimientoFamiliar($cedula, $codigo);		
+		$data['codigo'] = $codigo;
+		$data['lst'] = $this->MBeneficiario->detalleMovimientoFamiliar($cedula, $codigo);
 		$this->load->view('reporte/beneficiario/asignacion_menos_diez', $data);
 	}
 	public function asignacionFAS($cedula = '', $codigo = '', $motivo = ''){
@@ -226,7 +226,7 @@ class Panel extends MY_Controller {
 		$this->MBeneficiario->obtenerID($cedula);
 		$data['Beneficiario'] = $this->MBeneficiario;
 		$data['motivo'] = $motivo;
-		$data['lst'] = $this->MBeneficiario->detalleMovimientoFamiliar($cedula, $codigo);		
+		$data['lst'] = $this->MBeneficiario->detalleMovimientoFamiliar($cedula, $codigo);
 		$this->load->view('reporte/beneficiario/asignacion_fsas', $data);
 	}
 	public function CausaMuerte($cedula = '', $codigo = ''){
@@ -234,7 +234,7 @@ class Panel extends MY_Controller {
 		$this->MBeneficiario->obtenerID($cedula);
 		$data['Beneficiario'] = $this->MBeneficiario;
 
-		$data['lst'] = $this->MBeneficiario->detalleMovimientoFamiliar($cedula, $codigo);		
+		$data['lst'] = $this->MBeneficiario->detalleMovimientoFamiliar($cedula, $codigo);
 		$this->load->view('reporte/beneficiario/causa_muerte', $data);
 	}
 
@@ -242,15 +242,15 @@ class Panel extends MY_Controller {
 		$this->load->model('beneficiario/MBeneficiario');
 		$this->MBeneficiario->obtenerID($cedula);
 		$data['Beneficiario'] = $this->MBeneficiario;
-		$data['lst'] = $this->MBeneficiario->detalleMovimientoFamiliar($cedula, $codigo);	
+		$data['lst'] = $this->MBeneficiario->detalleMovimientoFamiliar($cedula, $codigo);
 		$this->load->view('reporte/beneficiario/memorandum_fas', $data);
 	}
-	
+
 	public function DiferenciaAntiguedad($cedula = '', $codigo = ''){
 		$this->load->model('beneficiario/MBeneficiario');
 		$this->MBeneficiario->obtenerID($cedula);
 		$data['Beneficiario'] = $this->MBeneficiario;
-		$data['lst'] = $this->MBeneficiario->detalleMovimientoFamiliar($cedula, $codigo);	
+		$data['lst'] = $this->MBeneficiario->detalleMovimientoFamiliar($cedula, $codigo);
 		$this->load->view('reporte/beneficiario/diferencia_asignacion', $data);
 	}
 
@@ -263,7 +263,7 @@ class Panel extends MY_Controller {
 		$data['codigo'] = $codigo;
 		$this->load->view('reporte/beneficiario/punto_cuenta_anticipo', $data);
 	}
-	
+
 	public function impirmirAnticiposReportes($desde = '', $hasta = '', $componente = '', $nombre_componente = ''){
 		$this->load->model('beneficiario/MOrdenPago');
 		$data['Componente'] = $nombre_componente;
@@ -299,8 +299,8 @@ class Panel extends MY_Controller {
 
 
 	public function numeroLetras(){
-		
-		
+
+
 	}
 
 	/**
@@ -313,7 +313,8 @@ class Panel extends MY_Controller {
 		redirect('panel/Login/salir');
 	}
 
-	public function consultarBeneficiario($cedula = '', $fecha = ''){		
+	public function consultarBeneficiario($cedula = '', $fecha = ''){
+		header('Content-Type: application/json');
 		$this->load->model('beneficiario/MBeneficiario');
 		$this->MBeneficiario->obtenerID($cedula, $fecha);
 		$this->load->model('beneficiario/MOrdenPago');
@@ -321,7 +322,7 @@ class Panel extends MY_Controller {
 		echo json_encode($this->MBeneficiario);
 	}
 
-	public function consultarBeneficiarioJudicial($cedula = '', $fecha = ''){		
+	public function consultarBeneficiarioJudicial($cedula = '', $fecha = ''){
 		$this->load->model('beneficiario/MBeneficiario');
 		$this->load->model('beneficiario/MMedidaJudicial');
 
@@ -331,29 +332,29 @@ class Panel extends MY_Controller {
 
 		echo json_encode($this->MBeneficiario);
 	}
-	
+
 	public function cargarMilitarSAMAN($id = '', $valor = 0){
 		$this->load->model('beneficiario/MBeneficiario');
 		$lst = $this->MBeneficiario->CargarPersonaMilitar($id, $valor);
 		echo json_encode($lst);
 	}
 
-	public function consultarHistorialBeneficiario($id = ''){		
+	public function consultarHistorialBeneficiario($id = ''){
 		$this->load->model('beneficiario/MBeneficiario');
 		$lst = $this->MBeneficiario->consultarHistorial($id);
 		echo json_encode($lst);
 	}
 
-	public function consultarBeneficiarios($cedula = '', $fecha = ''){		
+	public function consultarBeneficiarios($cedula = '', $fecha = ''){
 		$this->load->model('beneficiario/MBeneficiario');
 		$this->load->model('beneficiario/MHistorialMovimiento');
 		$this->load->model('beneficiario/MOrdenPago');
 
 		$this->MBeneficiario->obtenerID($cedula, $fecha);
-		
+
 		$this->MBeneficiario->HistorialOrdenPagos = $this->MOrdenPago->listarPorCedula($cedula);
 		$this->MBeneficiario->HistorialDetalleMovimiento = $this->MHistorialMovimiento->listarDetalle($cedula);
-		
+
 
 		echo "<pre>";
 		print_r($this->MBeneficiario);
@@ -370,7 +371,7 @@ class Panel extends MY_Controller {
 		$data = json_decode($_POST['data']);
 		$Persona = $data->Persona;
 		$Bnf = new $this->MBeneficiario();
-		
+
 		$this->MBeneficiario->obtenerID($Persona->cedula);
 
 		$Bnf->cedula = $Persona->cedula;
@@ -392,7 +393,7 @@ class Panel extends MY_Controller {
 		$Bnf->usuario_creador = $_SESSION['usuario'];
 		$Bnf->fecha_ultima_modificacion = date("Y-m-d H:i:s");
 		$Bnf->usuario_modificacion = $_SESSION['usuario'];
-		
+
 		$this->MBeneficiario->InsertarHistorial(); //Creando la traza de la modificacion
 		$Bnf->guardar();
 		echo 'Proceso exitoso';
@@ -404,7 +405,7 @@ class Panel extends MY_Controller {
 		$data = json_decode($_POST['data']);
 		$Persona = $data->Persona;
 		$Bnf = new $this->MBeneficiario();
-		
+
 		$this->MBeneficiario->obtenerID($Persona->cedula);
 
 		$Bnf->cedula = $Persona->cedula;
@@ -413,7 +414,7 @@ class Panel extends MY_Controller {
 		$Bnf->usuario_creador = $_SESSION['usuario'];
 		$Bnf->fecha_ultima_modificacion = date("Y-m-d H:i:s");
 		$Bnf->usuario_modificacion = $_SESSION['usuario'];
-		
+
 		$this->MBeneficiario->InsertarHistorial(); //Creando la traza de la modificacion
 		$Bnf->actualizaCuenta();
 		echo 'Proceso exitoso';
@@ -425,10 +426,10 @@ class Panel extends MY_Controller {
 		$Bnf = new $this->MBeneficiario();
 		$data = json_decode($_POST['data']);
 
-		
+
 		$this->MBeneficiario->obtenerID($data->Paralizar->id);
 		$this->MBeneficiario->InsertarHistorial(); //Creando la traza de la modificacion
-		
+
 		$Bnf->cedula = $data->Paralizar->id;
 		$Bnf->estatus_activo = $data->Paralizar->estatus;
 		$Bnf->motivo_paralizacion = $data->Paralizar->motivo;
@@ -436,9 +437,9 @@ class Panel extends MY_Controller {
 		$Bnf->fecha_retiro_efectiva = NULL;
 		$Bnf->observacion = 'PARALIZADO';
 		if($data->Paralizar->estatus == '202')$Bnf->observacion = 'RETIRADO';
-		if($data->Paralizar->estatus == '201')$Bnf->observacion = 'ACTIVO';		
+		if($data->Paralizar->estatus == '201')$Bnf->observacion = 'ACTIVO';
 		$Bnf->ParalizarDesparalizar();
-		
+
 		echo 'Proceso exitoso';
 
 
@@ -471,25 +472,25 @@ class Panel extends MY_Controller {
 	function listarComponente(){
 		echo '<pre>';
 		$this->load->model('beneficiario/MComponente');
-		print_r( $this->MComponente->listar(1) ); 
+		print_r( $this->MComponente->listar(1) );
 	}
-	
+
 	/**
-	* 
+	*
 	*/
 	function procesarComponenteLote(){
 		echo '<pre>';
 		$this->load->model('beneficiario/MBeneficiario');
 		$this->MBeneficiario->listarPorComponente(1);
-		
-		
+
+
 		echo 'listo...';
 	}
 
 
-	function listarMovimientos(){		
+	function listarMovimientos(){
 		$this->load->model('beneficiario/MHistorialMovimiento');
-		$this->MHistorialMovimiento->listarPorComponente(1);		
+		$this->MHistorialMovimiento->listarPorComponente(1);
 	}
 
 	/**
@@ -500,7 +501,7 @@ class Panel extends MY_Controller {
 	function registrarFiniquito(){
 		$this->load->model('beneficiario/MFiniquito');
 		$this->load->model('beneficiario/MPartidaPresupuestaria');
-		$data['Motivo'] = $this->MFiniquito->listarMotivos(); 
+		$data['Motivo'] = $this->MFiniquito->listarMotivos();
 		$data['Partida'] = $this->MPartidaPresupuestaria->listarTodo();
 		$data['Directiva'] = $this->_DIRECTIVA;
 		$this->load->view('menu/beneficiario/registrar_finiquito', $data);
@@ -508,12 +509,12 @@ class Panel extends MY_Controller {
 
 	function listarFiniquito(){
 		echo '<pre>';
-		
-		$this->load->model('beneficiario/MFiniquito');			
+
+		$this->load->model('beneficiario/MFiniquito');
 		$lst = $this->MFiniquito->listarCodigo('11953710', 'fb08e9fc3f3407bff9e6');
 
 		//$this->MHistorialMovimiento->isertarReverso($lst);
-		print_r( $lst ); 
+		print_r( $lst );
 	}
 
 	/**
@@ -522,7 +523,7 @@ class Panel extends MY_Controller {
 	function listarPartidaPresupuestaria(){
 		echo '<pre>';
 		$this->load->model('beneficiario/MPartidaPresupuestaria');
-		print_r( $this->MPartidaPresupuestaria->listarTodo() ); 
+		print_r( $this->MPartidaPresupuestaria->listarTodo() );
 	}
 
 	function obtenerPartidaPresupuestaria($id = ''){
@@ -561,16 +562,16 @@ class Panel extends MY_Controller {
 
 		$json = json_decode($_POST['data']); // 'Hola Mundo'; //Object($_POST);
 		$json->u_s = $_SESSION['usuario'];
-		
+
 		$fecha_aux = isset($json->f_r) ? $json->f_r : '';
 		if($fecha_aux != ''){
-			
+
 			$this->MBeneficiario->obtenerID($json->i_d, '');
 			$nombre = $this->MBeneficiario->nombres . ' ' . $this->MBeneficiario->apellidos;
 
 			if($this->MBeneficiario->fecha_retiro == ''){
-				
-				$f = explode('/', $fecha_aux);			
+
+				$f = explode('/', $fecha_aux);
 				$this->Beneficiario->fecha_retiro = $f[2] . '-' . $f[1] . '-' . $f[0];
 				$json->f_r = $this->Beneficiario->fecha_retiro;
 				$this->Beneficiario->cedula = $json->i_d;
@@ -589,18 +590,18 @@ class Panel extends MY_Controller {
 				echo 'El beneficiario  (' . $nombre . ') ya posee un finiquito...';
 			}
 
-			
+
 		}
-		
+
 	}
 
 	public function reversarFiniquito($ced = '', $codigo = ''){
 		$this->load->model('beneficiario/MBeneficiario', 'Beneficiario');
 		$this->load->model('beneficiario/MBeneficiario');
 		$this->load->model('beneficiario/MHistorialMovimiento');
-		$this->load->model('beneficiario/MFiniquito');	
-		$this->load->model('beneficiario/MMedidaJudicial');	
-		
+		$this->load->model('beneficiario/MFiniquito');
+		$this->load->model('beneficiario/MMedidaJudicial');
+
 		$this->MBeneficiario->obtenerID($ced, '');
 		$this->Beneficiario->fecha_retiro = '';
 		$this->Beneficiario->cedula = $ced;
@@ -615,25 +616,25 @@ class Panel extends MY_Controller {
 		$this->MBeneficiario->InsertarHistorial(); //Creando la traza de la modificacion
 
 		$this->MMedidaJudicial->ejecutarMedidas($ced, 220, $codigo);
-			
+
 		echo 'Se ha procesado exitosamente el reverso';
-		
-		
+
+
 	}
 
 	public function crearOrdenPago(){
-		
+
 		$this->load->model('beneficiario/MOrdenPago');
 
-		
+
 		$data = json_decode($_POST['data']);
 		$this->MOrdenPago->cedula_beneficiario = $data->Anticipo->id;
 		$this->MOrdenPago->cedula_afiliado = $data->Anticipo->id;
-		
+
 		$this->MOrdenPago->nombre = $data->Anticipo->nombre;
 		$this->MOrdenPago->apellido = $data->Anticipo->apellido;
 		$this->MOrdenPago->fecha =  date("Y-m-d");
-		
+
 		$this->MOrdenPago->motivo = $data->Anticipo->motivo;
 		$this->MOrdenPago->estatus = $data->Anticipo->estatus;
 		$this->MOrdenPago->tipo = $data->Anticipo->tipo;
@@ -644,29 +645,29 @@ class Panel extends MY_Controller {
 		$this->MOrdenPago->fecha_modificacion =  date("Y-m-d H:i:s");
 		$this->MOrdenPago->usuario_modificacion = $_SESSION['usuario'];
 
-		
-		$this->MOrdenPago->salvar();	
-		
+
+		$this->MOrdenPago->salvar();
+
 
 		echo "Se registro el nuevo anticipo en estatus de pendiente";
 	}
 
 	public function crearMedidaJudicial(){
-		
+
 		$this->load->model('beneficiario/MMedidaJudicial');
 
-		
+
 		$data = json_decode($_POST['data']);
 		$this->MMedidaJudicial->cedula = $data->MedidaJudicial->cedula;
 		$this->MMedidaJudicial->estatus = '220';
 		$this->MMedidaJudicial->numero_oficio = $data->MedidaJudicial->numero_oficio;
 		$this->MMedidaJudicial->numero_expediente = $data->MedidaJudicial->numero_expediente;
-		
+
 		$this->MMedidaJudicial->tipo = $data->MedidaJudicial->tipo;
 		$this->MMedidaJudicial->fecha = $data->MedidaJudicial->fecha;
 		$this->MMedidaJudicial->observacion =  $data->MedidaJudicial->observacion;
 
-		
+
 		$this->MMedidaJudicial->porcentaje = $data->MedidaJudicial->porcentaje;
 		$this->MMedidaJudicial->salario = $data->MedidaJudicial->salario;
 		$this->MMedidaJudicial->unidad_tributaria = $data->MedidaJudicial->ut;
@@ -696,10 +697,10 @@ class Panel extends MY_Controller {
 		$this->MMedidaJudicial->usuario_modificacion = $_SESSION['usuario'];
 		$this->MMedidaJudicial->ultima_observacion = '';
 
-		
-		$this->MMedidaJudicial->salvar();	
+
+		$this->MMedidaJudicial->salvar();
 		//print_r($this->MMedidaJudicial);
-		
+
 
 		echo "Se registro nueva Medida Judicial en estatus de activo";
 	}
@@ -707,13 +708,13 @@ class Panel extends MY_Controller {
 
 	public function ejecutarAnticipo(){
 		//echo "<pre>";
-		
+
 		$this->load->model('beneficiario/MHistorialMovimiento');
 		$this->load->model('beneficiario/MOrdenPago');
 
 		$json = json_decode($_POST['data']); // 'Hola Mundo'; //Object($_POST);
 		$json->u_s = $_SESSION['usuario'];
-		
+
 		$fecha_aux = isset($json->f_r) ? $json->f_r : '';
 		if($fecha_aux != ''){
 			$this->MOrdenPago->estatus = 100;
@@ -727,14 +728,14 @@ class Panel extends MY_Controller {
 			echo 'Se ha ejecutado exitosamente el anticipo del beneficiario...';
 			//print_r($json);
 		}
-		
+
 
 	}
 
 	public function reversarAnticipo(){
 		$this->load->model('beneficiario/MOrdenPago');
 		$this->load->model('beneficiario/MHistorialMovimiento');
-		$this->load->model('beneficiario/MAnticipo');	
+		$this->load->model('beneficiario/MAnticipo');
 		$json = json_decode($_POST['data']);
 		$ced = $json->cedula;
 		$codigo = $json->certificado;
@@ -746,10 +747,10 @@ class Panel extends MY_Controller {
 		$lst = $this->MAnticipo->listarCodigo($ced, $codigo);
 		//print_r($lst);
 		$this->MHistorialMovimiento->isertarReverso($lst);
-		$this->MOrdenPago->reversar();			
+		$this->MOrdenPago->reversar();
 		echo 'Se ha procesado exitosamente el reverso';
-		
-		
+
+
 	}
 	public function rechazarAnticipo(){
 		$this->load->model('beneficiario/MOrdenPago');
@@ -757,7 +758,7 @@ class Panel extends MY_Controller {
 		//print_r($json);
 		$this->MOrdenPago->estatus = 102;
 		$this->MOrdenPago->id = $json->id;
-		$this->MOrdenPago->rechazar();			
+		$this->MOrdenPago->rechazar();
 		echo 'Se ha procesado exitosamente el reverso';
 	}
 	public function lstAnticipoFecha(){
@@ -783,13 +784,13 @@ class Panel extends MY_Controller {
 
 
 	public function obtenerCiudades($estado_id = 0){
-		$this->load->model('beneficiario/MCiudad');		
+		$this->load->model('beneficiario/MCiudad');
 		$lst = $this->MCiudad->listarID($estado_id);
 		echo json_encode($lst);
 	}
 
 	public function obtenerMunicipios($ciudad_id = 0){
-		$this->load->model('beneficiario/MMunicipio');		
+		$this->load->model('beneficiario/MMunicipio');
 		$lst = $this->MMunicipio->listarID($ciudad_id);
 		echo json_encode($lst);
 	}
