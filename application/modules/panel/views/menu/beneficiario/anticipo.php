@@ -176,14 +176,14 @@
                               </div>
                               <div class="col-xs-4">
                                 <input type="text" class="form-control" placeholder="Garantias" id='garantias' readonly="readonly"/>
-                                <input type="hidden" class="form-control" placeholder="Garantias" id='garantias_aux'/>
+                                <input type="hidden" id='garantias_aux'/>
                               </div>
                               <div class="col-xs-2">
                                 <label>Capital en banco</label>
                               </div>
                               <div class="col-xs-4">
                                 <input type="text" class="form-control" placeholder="Capital en Banco" id='capital_banco' readonly="readonly" />
-                                <input type="hidden" class="form-control" id='capital_banco_aux' />
+                                <input type="hidden" id='capital_banco_aux' />
                               </div>
                                                        
                             </div>

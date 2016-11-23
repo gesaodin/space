@@ -53,48 +53,57 @@
                       </div>                  
                     </div>
                     <br><br>
+                    
+                    
                     <div class="col-md-2">
-                        N° Ceunta:
+                        Nombres:
                     </div>
                     <div class="col-md-4">
-                        <input type="text" class="form-control" placeholder="Número de Cuenta">                
+                        <input type="text" placeholder="Nombre"  id='nombres' class="form-control" readonly="readonly"></input>               
                     </div>
-                    <div class="col-md-12">
-              
-                    </div>
-                    <br><br>
                     <div class="col-md-2">
                         Apellidos:
                     </div>
                     <div class="col-md-4">
-                        <input type="text" class="form-control" placeholder="Apellidos">                
-                    </div>
-                      <div class="col-md-2">
-                        Nombres:
-                    </div>
-                    <div class="col-md-4">
-                        <input type="text" class="form-control" placeholder="Nombres">                
-                    </div>
+                        <input type="text" placeholder="Apellido"  id='apellidos' class="form-control" readonly="readonly"></input>  
+                    </div>           
                     <br><br>
+
                     <div class="col-md-2">
                         Componentes:
                     </div>
                     <div class="col-md-4">
-                        <input type="text" class="form-control" placeholder="Componentes">                
+                        <input type="text" placeholder="Componente"  id='componente' class="form-control" readonly="readonly"></input>                
                     </div>
-                      <div class="col-md-2">
+                    <div class="col-md-2">
                         Grado:
                     </div>
                     <div class="col-md-4">
-                        <input type="text" class="form-control" placeholder="Grado">                
+                        <input type="text" placeholder="Grado"  id='grado' class="form-control" readonly="readonly"></input>               
                     </div>
+                    <hr>
+                    <br><br>
+                    <div class="col-md-2">
+                        N° Cuenta:
+                    </div>
+                    <div class="col-md-4">
+                        <div class="input-group">
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-success"><i class="fa fa-bank"></i></button>
+                        </span> 
+                        <input type="text" class="form-control" placeholder="Número de Cuenta" id="numero_cuenta" maxlength="20"></input>                          
+                      </div>                
+                    </div>
+                    <div class="col-md-6">
+              
+                    </div>
+                    
                    
           </div>
-        <!-- /.box-body
         <div class="box-footer">
-          Footer
-        </div> -->
-        <!-- /.box-footer-->
+              <a href="#!" onclick="actualizar()" 
+              class="btn btn-primary pull-right" target="_top" id='btnActualizar'><i class="fa fa-refresh"></i>&nbsp;&nbsp;Actualizar Cuenta</a>
+            </div><!-- /.box-footer-->
       </div>
       <!-- /.box -->
 
@@ -116,5 +125,6 @@
     </div><!-- ./wrapper -->
 
     <?php $this->load->view('inc/pie.php');?>
+    <script src="<?php echo base_url()?>application/modules/panel/views/js/banco.js"></script>
   </body>
 </html>

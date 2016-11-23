@@ -1,13 +1,12 @@
 $( "#id" ).keypress(function( event ) {
-  if ( event.which == 13 ) {
-    $("#btnActualizar").focus();
+  if ( event.which == 13 ) {    
+    $("#numero_cuenta").focus();
   }
 });
 
 function consultar() {
 
     var val = $("#id").val();
-    $("#lblMedida").text('');
     ruta = sUrlP + "consultarBeneficiario/" + val;
     $.getJSON(ruta, function(data) {
             $("#nombres").val(data.nombres);
@@ -29,13 +28,60 @@ function consultar() {
 
 }
 
-function cargarFecha(fecha){
-    var f = fecha.split('-');
-    return f[2] + '/' + f[1] + '/' + f[0];
-}
-
 
 function continuar(){
     $("#logMensaje").modal('hide');
-    //$("#id").focus();
+}
+
+
+function limpiar(){
+
+    $("#grado").val('');   
+    $("#componente").val('');
+    $("#nombres").val('');
+    $("#apellidos").val('');
+
+    $("#numero_cuenta").val('');
+
+}
+
+
+function actualizar(){
+    var Persona = {};
+    var boton = '<button type="button" class="btn btn-success pull-right" onclick="continuar()">';
+        boton += '<i class="glyphicon glyphicon-ok"></i>&nbsp;&nbsp;Continuar</button>';
+    $("#divContinuar").html(boton);
+
+   
+
+    if($("#id").val() == '' ){
+        $("#txtMensaje").html('Debe ingresar una cédula de identidad');
+        $("#logMensaje").modal('show');
+        
+    }else{
+        Persona['cedula'] = $("#id").val();
+        Persona['numero_cuenta'] = $("#numero_cuenta").val();
+        
+        $.ajax({
+              url: sUrlP + "actualizarCuenta",
+              type: "POST",
+              data: {'data' : JSON.stringify({
+                Persona: Persona      
+              })},
+              success: function (data) {  
+                $("#txtMensaje").html(data);             
+                $("#logMensaje").modal('show');
+                $("#id").val('');
+
+              },
+              error: function(data){ 
+                console.log(data);
+                $("#txtMensaje").html(data); 
+                $("#logMensaje").modal('show');
+                $("#id").val('');
+
+              }
+            });
+        limpiar();
+    }
 }

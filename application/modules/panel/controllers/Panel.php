@@ -399,6 +399,27 @@ class Panel extends MY_Controller {
 
 	}
 
+	public function actualizarCuenta(){
+		$this->load->model('beneficiario/MBeneficiario');
+		$data = json_decode($_POST['data']);
+		$Persona = $data->Persona;
+		$Bnf = new $this->MBeneficiario();
+		
+		$this->MBeneficiario->obtenerID($Persona->cedula);
+
+		$Bnf->cedula = $Persona->cedula;
+		$Bnf->numero_cuenta = $Persona->numero_cuenta;
+		$Bnf->fecha_creacion = date("Y-m-d H:i:s");
+		$Bnf->usuario_creador = $_SESSION['usuario'];
+		$Bnf->fecha_ultima_modificacion = date("Y-m-d H:i:s");
+		$Bnf->usuario_modificacion = $_SESSION['usuario'];
+		
+		$this->MBeneficiario->InsertarHistorial(); //Creando la traza de la modificacion
+		$Bnf->actualizaCuenta();
+		echo 'Proceso exitoso';
+
+	}
+
 	public function paralizarDesparalizar(){
 		$this->load->model('beneficiario/MBeneficiario');
 		$Bnf = new $this->MBeneficiario();

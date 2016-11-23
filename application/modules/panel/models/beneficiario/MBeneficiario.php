@@ -346,10 +346,28 @@ class MBeneficiario extends CI_Model{
 		WHERE cedula = \'' . $this->cedula .  '\'';
 		//echo $sActualizar;
 		return $this->Dbpace->consultar($sActualizar);
-		
 
-		
 	}
+
+	public function actualizaCuenta(){
+
+		$sActualizar = 'UPDATE beneficiario SET 			
+			numero_cuenta = \'' . $this->numero_cuenta .  '\',
+			f_ult_modificacion = \'' . $this->fecha_ultima_modificacion .  '\', 
+			usr_modificacion = \'' . $this->usuario_modificacion .  '\', 
+			observ_ult_modificacion=\'MODIFICACION DE CUENTA\' 
+		WHERE cedula = \'' . $this->cedula .  '\'';
+		//echo $sActualizar;
+		$this->Dbpace->consultar($sActualizar);
+
+		$sActualizar = 'UPDATE beneficiario_calc SET 			
+			numero_cuenta = \'' . $this->numero_cuenta .  '\' 
+		WHERE cedula = \'' . $this->cedula .  '\'';
+		//echo $sActualizar;
+		$this->Dbpace->consultar($sActualizar);
+
+	}
+
 
 	public function eliminar(){
 

@@ -1,5 +1,18 @@
+/**
+*
+*
+*/
 var Anticipo = {};
+
 Anticipo['monto'] = 0;
+
+var fecha = '2016-11-03'; //Establece la fecha antes del y despues del
+var anticipoI = 0; //Define el anticipo menor a la feha
+var anticipoF = 0; //Define el anticipo mayor igual a la fecha
+var porcentajeMaximo = 75; //Establece el porcentaje máximo permitido para un anticipo
+var capital_banco = 0;
+var garantias = 0;
+var monto_disponible = 0;
 
 $('#reporteAnticipo').DataTable({
         "paging":   false,
@@ -8,8 +21,6 @@ $('#reporteAnticipo').DataTable({
         "searching": false
     }
 );
-
-
 
 $( "#id" ).keypress(function( event ) {
   if ( event.which == 13 ) {
@@ -56,9 +67,11 @@ function consultar() {
 
             $("#capital_banco").val(data.Calculo.capital_banco);
             $("#capital_banco_aux").val(data.Calculo.capital_banco_aux);
+            capital_banco = data.Calculo.capital_banco_aux;
             
             $("#garantias").val(data.Calculo.garantias);
             $("#garantias_aux").val(data.Calculo.garantias_aux);
+            garantias = data.Calculo.garantias_aux;
 
             $("#anticipos").val(data.Calculo.anticipos);
             $("#anticipos_aux").val(data.Calculo.anticipos_aux);
@@ -70,8 +83,9 @@ function consultar() {
             $("#medidas_judiciales_aux").val(data.Calculo.embargos_aux);
 
             listar(data.HistorialOrdenPagos);
-            var monto = data.Calculo.saldo_disponible_aux;
-            var saldo =  (Number(monto) * 75)/100;
+
+            
+            var saldo =  (Number(monto_disponible) * porcentajeMaximo)/100;
             var calculo = Number(saldo) - Number(data.Calculo.embargos_aux);
             if(calculo < 0){
                 $("#divBotones").hide();
@@ -101,13 +115,21 @@ function consultar() {
 }
 
 function listar(data){
+    anticipoI = 0; //Define el anticipo menor a la feha
+    anticipoF = 0; //Define el anticipo mayor igual a la fecha
     var t = $('#reporteAnticipo').DataTable();
     t.clear().draw();
     $.each(data, function (clave, valor){
         var monto = Number(valor.monto);
+        
         var sBoton = '<div class="btn-group">';
         var sAcciones = '';
         if(valor.estatus == 100){
+            if(valor.fecha_creacion > fecha){
+                anticipoF += monto;
+            }else{
+                anticipoI += monto;
+            }
             if(valor.movimiento == 0 ){
                 sBoton += '<button type="button" class="btn btn-info" title="Imprimir"><i class="fa fa-print" ></i></button>';                
                 sBoton += '<button aria-expanded="false" type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown">';
@@ -135,6 +157,8 @@ function listar(data){
             monto.formatMoney(2, ',', '.')
         ] ).draw( false );
     });
+    validarPorcentaje();
+
 }
 
 function rechazar(id){
@@ -206,16 +230,29 @@ function continuar(){
     $("#logMensaje").modal('hide');
 }
 
+
+function validarPorcentaje(){
+    var suma = Number(garantias) + Number(capital_banco) - Number(anticipoI);
+    monto_disponible = parseFloat(suma).toFixed(2);
+    var resultado = Number(anticipoF) * 100 / (monto_disponible);
+    var resta = 75 - resultado;
+    porcentajeMaximo = parseFloat(resta).toFixed(2);
+    
+}
+
 function calcularPorcentaje(){
+    
+
+
     if($("#porcentaje").val() == '')return false;
     var porcentaje = Number($("#porcentaje").val());
 
-    if(porcentaje > 75 || porcentaje == 0){
+    if(porcentaje > porcentajeMaximo || porcentaje == 0){
         var boton = '<button type="button" class="btn btn-success pull-right" onclick="continuar()">';
             boton += '<i class="glyphicon glyphicon-ok"></i>&nbsp;&nbsp;Continuar</button>';
         $("#divContinuar").html(boton);
         $("#porcentaje").val('');
-        $("#txtMensaje").html('El porcentaje no puede ser mayor al 75% o estar en cero'); 
+        $("#txtMensaje").html('El porcentaje no puede ser mayor al ' + porcentajeMaximo + ' % o estar en cero'); 
         $("#logMensaje").modal('show');
 
         $("#controles").hide();
@@ -226,7 +263,7 @@ function calcularPorcentaje(){
             boton += '<i class="glyphicon glyphicon-ok"></i>&nbsp;&nbsp;Si</button>';
         $("#divContinuar").html(boton);
 
-        var disponible = Number($("#saldo_disponible_aux").val());
+        var disponible = monto_disponible; //Number($("#saldo_disponible_aux").val());
         var cantidad = ((disponible * porcentaje) / 100) - Number($("#medidas_judiciales_aux").val());
         var msj = 'Está seguro que desea efectuar el anticipo por Bs. ' + cantidad.formatMoney(2, ',', '.');
 
@@ -249,16 +286,16 @@ function calcularPorcentaje(){
 function calcularMonto(){
     if($("#monto").val() == '')return false;
     monto = Number($("#monto").val());
-    var disponible = Number($("#saldo_disponible_aux").val());
+    var disponible = monto_disponible; //Number($("#saldo_disponible_aux").val());
     
     var cantidad = (100 * monto) / disponible;
     Anticipo['monto'] = parseFloat(monto).toFixed(2);
 
-    if(cantidad > 75 || cantidad == 0){
+    if(cantidad > porcentajeMaximo || cantidad == 0){
         var boton = '<button type="button" class="btn btn-success pull-right" onclick="continuar()">';
             boton += '<i class="glyphicon glyphicon-ok"></i>&nbsp;&nbsp;Continuar</button>';
         $("#divContinuar").html(boton);
-        $("#txtMensaje").html('El Monto no puede ser mayor al 75% o estar en cero'); 
+        $("#txtMensaje").html('El Monto no puede ser mayor al ' + porcentajeMaximo + ' % o estar en cero'); 
         $("#logMensaje").modal('show');
         $("#controles").hide();
     }else{

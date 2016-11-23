@@ -127,7 +127,7 @@ class MHistorialMovimiento extends CI_Model{
 	function compararDetalles($arr = array()){
 		$Padre = array();
 		$Auxiliar = array();
-		$valores = array(9,10,12,13,14,15,16,17,27);
+		$valores = array(5, 9,10,12,13,14,15,16,17,27);
 		$cant = count($valores);
 		for ($i=0; $i < $cant; $i++) { 
 			$pos = $valores[$i];
@@ -143,7 +143,7 @@ class MHistorialMovimiento extends CI_Model{
 					$A['motivo'] =  $valor->motivo;
 
 					$A['codigo'] =  $valor->codigo;
-					$A['tipo_texto'] = 'Finiquito';
+					$A['tipo_texto'] = $pos == 5? 'Activo' : 'Finiquito';
 					$A['partida'] = $valor->partida;
 					$A['partida_des'] = $valor->partida_des;
 
