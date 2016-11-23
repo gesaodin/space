@@ -291,7 +291,7 @@ class Panel extends MY_Controller {
 		$this->MBeneficiario->MedidaJudicial = $this->MMedidaJudicial->listarPorCodigo($cedula, $id);
 
 		$data['Beneficiario'] = $this->MBeneficiario;
-		$data['id'] = $i_d;
+		$data['id'] = $id;
 
 
 		$this->load->view('reporte/beneficiario/medida_judicial', $data);
