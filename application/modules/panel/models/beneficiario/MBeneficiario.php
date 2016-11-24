@@ -764,10 +764,15 @@ class MBeneficiario extends CI_Model{
 	}
 
 	function ParalizarDesparalizar(){
+		$fecha_r = 'f_retiro=\'' . $this->fecha_retiro . '\', 
+			f_retiro_efectiva=\'' . $this->fecha_retiro . '\',';
+
+		if ($this->fecha_retiro == ''){
+			$fecha_r = 'f_retiro=null, f_retiro_efectiva=null, ';
+		}
 		$sActualizar = 'UPDATE beneficiario SET  
 			motivo_paralizacion=\'' . $this->motivo_paralizacion . '\', 
-			f_retiro=NULL, 
-			f_retiro_efectiva=NULL,
+			'. $fecha_r.'
 			status_id=\'' . $this->estatus_activo . '\',
 			usr_modificacion=\'' . $_SESSION['usuario'] . '\',
 			observ_ult_modificacion=\'' . $this->observacion . '\',

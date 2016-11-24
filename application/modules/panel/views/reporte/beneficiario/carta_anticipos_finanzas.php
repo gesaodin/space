@@ -112,7 +112,8 @@ th {
     <td>ASUNTO:</td><td><b>REMISION DE SOLICITUDES DE ADELANTOS.</b></td>
   </tr> 
   <tr>
-    <td>REF.:</td><td><b>P.A.V</b></td>
+    <!--<td>REF.:</td><td><b>P.A.V</b></td>-->
+    <td>REF.:</td><td><b>LOSSFAN (LEY NEGRO PRIMERO)</b></td>
   </tr> 
  </table>
  <BR><BR>

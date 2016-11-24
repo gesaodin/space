@@ -183,7 +183,12 @@ class MPrima extends CI_Model{
     return $this->AnoServicio();
   }
   public function AnoServicio( $tiempo_servicio = 0){
-    $valor = (0.5 * $this->unidad_tributaria) * $this->Beneficiario->tiempo_servicio;
+     if($this->Beneficiario->fecha_retiro <= '2014-12-31' && $this->Beneficiario->fecha_retiro != ''){
+        $valor = (50 * $this->Beneficiario->tiempo_servicio);
+     }else{
+       $valor = (0.5 * $this->unidad_tributaria) * $this->Beneficiario->tiempo_servicio;
+     }
+    //$valor = (0.5 * $this->unidad_tributaria) * $this->Beneficiario->tiempo_servicio;
     //$valor = (0.5 * $this->unidad_tributaria) * $this->Beneficiario->tiempo_servicio_aux;
     $this->Beneficiario->prima_tiemposervicio = $valor;
     return $valor;
@@ -228,8 +233,13 @@ class MPrima extends CI_Model{
   }
   public function Descendencia($numero_hijos = 0){
     if(isset($this->Beneficiario)){
-      
-      $valor = round(2 * $this->unidad_tributaria * $this->Beneficiario->numero_hijos, 2);
+      if($this->Beneficiario->fecha_retiro <= '2014-12-31' && $this->Beneficiario->fecha_retiro != ''){
+        $valor = round(250 * $this->Beneficiario->numero_hijos, 2);
+      }else{
+        $valor = round(2 * $this->unidad_tributaria * $this->Beneficiario->numero_hijos, 2);
+      }
+
+      //$valor = round(2 * $this->unidad_tributaria * $this->Beneficiario->numero_hijos, 2);
       //$valor = 2 * $this->unidad_tributaria * $this->Beneficiario->numero_hijos;
       $this->Beneficiario->prima_descendencia = $valor;
       return $valor;

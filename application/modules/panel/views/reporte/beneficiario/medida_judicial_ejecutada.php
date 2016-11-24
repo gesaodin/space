@@ -129,7 +129,8 @@ th {
     <td>ASUNTO:</td><td><b>SOLICITUD DE ELABORACIÓN DE CHEQUE</b></td>
   </tr> 
   <tr>
-    <td>REF:</td><td>P.A.V<b></b></td>
+    <!--<td>REF:</td><td>P.A.V<b></b></td>-->
+    <td>REF.:</td><td><b>LOSSFAN (LEY NEGRO PRIMERO)</b></td>
   </tr> 
   
   <tr>
@@ -142,7 +143,9 @@ th {
  <table style="width: 700px">
   <tr>
    <td style="border: 0px solid #dddddd; text-align: justify; font-size: 16px; line-height: 1.5">
-     &emsp;&emsp;Mediante la presente comunicación me dirijo a Ud., en la oportunidad de solicitar de su valiosa colaboración 
+   
+     <!--&emsp;&emsp;Mediante la presente comunicación me dirijo a Ud., en la oportunidad de solicitar de su valiosa colaboración -->
+     &emsp;&emsp;Tengo el honor de dirigirme a usted, en la oportunidad se estudie la posibilidad de solicitar de su valiosa colaboración
      en sentido de elaborar un cheque por la cantidad de Bs. <?php echo  number_format($monto, 2, ',','.');?>.
      <br><br>
      <textarea style="width: 100%; height: 60px"></textarea>
