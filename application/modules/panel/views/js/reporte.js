@@ -131,7 +131,7 @@ function paralizar(){
 function retirar(){
     var Paralizar = {};
     Paralizar['id'] = $("#id").val();
-    Paralizar['motivo'] = $("#txtObservacion").val();
+    Paralizar['motivo'] = cargarFechaSlash($("#txtObservacion").val());
     Paralizar['estatus'] = '202';
     
     var boton = '<button type="button" class="btn btn-success pull-right" onclick="continuar()">';
@@ -160,6 +160,13 @@ function retirar(){
             });
     limpiar();
  
+}
+
+function cargarFechaSlash(fecha){
+    if(fecha != null){
+      var f = fecha.split('/');
+      return f[2] + '-' + f[1] + '-' + f[0];
+    }
 }
 
 function activar(){

@@ -124,7 +124,9 @@ th {
  <table style="width: 700px">
   <tr>
    <td style="border: 0px solid #dddddd; text-align: justify; font-size: 16px; line-height: 1.5">
-     &emsp;&emsp;Mediante la presente comunicación me dirijo a Ud., en la oportunidad de solicitar su valiosa colaboración a objeto 
+   
+     <!--&emsp;&emsp;Mediante la presente comunicación me dirijo a Ud., en la oportunidad de solicitar su valiosa colaboración a objeto -->
+     &emsp;&emsp;Tengo el honor de dirigirme a usted, en la oportunidad se estudie la posibilidad de solicitar su valiosa colaboración a objeto
      gire sus instruciones con la finalidad sea realizado el pago de la Diferencia de la Asignación de Antiguedad no colocada en fideicomiso
       por el fallecimiento del afiliado  en referencia quien de acuerdo a lo previsto en el artículo 57 de la LOSSFANB y los 
       artículos 822 al 832 del Código Civil Venezolano

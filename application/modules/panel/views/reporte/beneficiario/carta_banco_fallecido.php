@@ -127,13 +127,15 @@ th {
     <td>ASUNTO:</td><td><b>SOLICITUD DE FINIQUITO FALLECIDO</b></td>
   </tr> 
   <tr>
-    <td>REF.:</td><td><b>P.A.V</b></td>
+    <!--<td>REF.:</td><td><b>P.A.V</b></td>-->
+    <td>REF.:</td><td><b>LOSSFAN (LEY NEGRO PRIMERO)</b></td>
   </tr> 
  </table>
  <table style="width: 700px">
   <tr>
    <td style="border: 0px solid #dddddd; text-align: justify; font-size: 16px; line-height: 1.5">
-     &emsp;&emsp;Mediante la presente me dirijo a Ud., en la oportunidad de autorizar al <b><?php echo $Beneficiario->Componente->Grado->nombre; echo $Beneficiario->nombres . ' ' . $Beneficiario->apellidos; ?></b>, titular de la cédula de identidad <b><?php echo $Beneficiario->cedula;?></b> para realizar trámites ante el Banco Venezuela, a fin de obtener el finiquito del monto total de Bs.<b>
+     //&emsp;&emsp;Mediante la presente me dirijo a Ud., en la oportunidad de autorizar al <b><?php echo $Beneficiario->Componente->Grado->nombre; echo $Beneficiario->nombres . ' ' . $Beneficiario->apellidos; ?></b>, titular de la cédula de identidad <b><?php echo $Beneficiario->cedula;?></b> para realizar trámites ante el Banco Venezuela, a fin de obtener el finiquito del monto total de Bs.<b>
+     &emsp;&emsp;Tengo el honor de dirigirme a usted, en la oportunidad se estudie la posibilidad de autorizar al
 
      <?php 
         $monto = $Beneficiario->Calculo['saldo_disponible_aux'];

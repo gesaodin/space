@@ -138,13 +138,15 @@ th {
     <td>ASUNTO:</td><td><b>SOLICITUD DE FINIQUITO</b></td>
   </tr> 
   <tr>
-    <td>REF.:</td><td><b>P.A.V</b></td>
+    <!--<td>REF.:</td><td><b>P.A.V</b></td> -->
+    <td>REF.:</td><td><b>LOSSFAN (LEY NEGRO PRIMERO)</b></td>
   </tr> 
  </table>
  <table style="width: 700px">
   <tr>
    <td style="border: 0px solid #dddddd; text-align: justify; font-size: 16px; line-height: 1.5">
-     &emsp;&emsp;Mediante la presente comunicación me dirijo a Ud., en la oportunidad de autorizar al 
+     <!--&emsp;&emsp;Mediante la presente comunicación me dirijo a Ud., en la oportunidad de autorizar al -->
+      &emsp;&emsp;Tengo el honor de dirigirme a usted, en la oportunidad se estudie la posibilidad de autorizar al
      <b>
      <?php 
       echo $Beneficiario->Componente->Grado->nombre . ' '; 

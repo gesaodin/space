@@ -165,7 +165,7 @@ function cargar(){
     MedidaJudicial['numero_expediente'] = $("#numero_expediente").val();
 
     MedidaJudicial['tipo'] = $("#tipo").val();
-    MedidaJudicial['fecha'] = $("#datepicker").val();
+    MedidaJudicial['fecha'] = cargarFechaSlash($("#datepicker").val());
     MedidaJudicial['observacion'] = $("#observacion").val();
 
     MedidaJudicial['porcentaje'] = $("#porcentaje").val();
@@ -217,6 +217,13 @@ function guardarMedida(){
 
               }
             });
+}
+
+function cargarFechaSlash(fecha){
+    if(fecha != null){
+      var f = fecha.split('/');
+      return f[2] + '-' + f[1] + '-' + f[0];
+    }
 }
 
 function recargar(){
