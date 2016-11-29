@@ -30,12 +30,18 @@ function consultar() {
     iFamiliares = 0;
     $.getJSON(ruta, function(data) {
         
-        if(data.fecha_retiro != null && data.fecha_retiro != '' || data.estatus == 205){
+        //if(data.fecha_retiro != null && data.fecha_retiro != '' || data.estatus == 205){
+        //alert(data.estatus_descripcion);
+        if(data.estatus_descripcion != 'Activo'){
             $("#id").val('');
             var boton = '<button type="button" class="btn btn-success pull-right" onclick="continuar()">';
             boton += '<i class="glyphicon glyphicon-ok"></i>&nbsp;&nbsp;Continuar</button>';
             $("#divContinuar").html(boton);
-            $("#txtMensaje").html('El Beneficiario que intenta consultar ya se encuentra retirado, por favor consultarlo por finiquito'); 
+                if(data.estatus_descripcion == 'Paralizado'){
+                    $("#txtMensaje").html('El Beneficiario que intenta consultar se encuentra paralizado'); 
+                }else{ 
+                      $("#txtMensaje").html('El Beneficiario que intenta consultar se encuentra retirado, por favor consultarlo por finiquito'); 
+                    }
             $("#logMensaje").modal('show');
             $("#controles").hide();
             limpiar();
