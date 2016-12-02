@@ -147,6 +147,11 @@
                       <input type="text" readonly="readonly" placeholder="Fecha de Retiro" id='fecha_retiro' class="form-control"></input>
                     </div> 
                   </div> <!-- /Numero Cuenta -->
+                  
+                  <div class="form-group">
+                    <label id='lblMedida' style='font-size:14px;color:red'></label>                   
+                  </div> 
+
 
 
                 </div>

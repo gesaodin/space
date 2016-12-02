@@ -25,6 +25,7 @@ $('#reporteFiniquitos').DataTable({
 
 function consultar() {
     var val = $("#id").val();
+    $("#lblMedida").text('');
     ruta = sUrlP + "consultarBeneficiario/" + val;
 
     iFamiliares = 0;
@@ -69,6 +70,11 @@ function consultar() {
             fallecimiento_actoservicio = data.Calculo.fallecimiento_actoservicio_aux;
             fallecimiento_fueraservicio = data.Calculo.fallecimiento_fueraservicio_aux;
             $("#controles").show();
+
+            $.each(data.MedidaJudicialActiva, function (clave, valor){
+                $("#lblMedida").text('Beneficiario con Medidas Judiciales');
+
+            });
         }
 
     }).done(function(msg) {
