@@ -231,10 +231,10 @@ th {
       </td>
       <td colspan="3">
         <?php
-          if($Medida->porcentaje != ''){
+          if($Medida->porcentaje != 0){
             echo $Medida->porcentaje . '%';
           }elseif ($Medida->monto > 0){
-            echo $Medida->monto . 'Bs.';
+            echo $Medida->monto . ' Bs.';
           }
         ?>
       </td>

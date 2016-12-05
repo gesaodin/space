@@ -172,7 +172,6 @@ function cargar(){
     MedidaJudicial['salario'] = $("#salario").val();
     MedidaJudicial['ut'] = $("#ut").val();
     MedidaJudicial['monto'] = $("#monto_total").val();
-
     MedidaJudicial['forma_pago'] = $("#forma_pago option:selected").val();
     MedidaJudicial['institucion'] = $("#institucion").val();
     MedidaJudicial['autoridad'] = $("#autoridad").val();
