@@ -587,8 +587,8 @@ class Panel extends MY_Controller {
 				$this->Beneficiario->ActualizarPorMovimiento();
 				$this->MBeneficiario->InsertarHistorial();
 				$this->MBeneficiario->insertarDetalle($json, $codigo);
-				$this->MMedidaJudicial->ejecutarMedidas($json->i_d, 223, $codigo, $json->t_an);
-				//print_r($json);
+				$this->MMedidaJudicial->ejecutarMedidas($json->i_d, 223, $codigo, $json->t_e);
+				print_r($json);
 				echo 'Se ha procesado exitosamente el finiquito del beneficiario (' . $nombre . ')...';
 			}else{
 				echo 'El beneficiario  (' . $nombre . ') ya posee un finiquito...';
@@ -618,6 +618,7 @@ class Panel extends MY_Controller {
 		$this->MHistorialMovimiento->isertarReverso($lst);
 		$this->Beneficiario->ActualizarPorMovimiento();
 		$this->MBeneficiario->InsertarHistorial(); //Creando la traza de la modificacion
+
 
 		$this->MMedidaJudicial->ejecutarMedidas($ced, 220, $codigo);
 
