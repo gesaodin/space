@@ -406,11 +406,13 @@ class MCalculo extends CI_Model{
   public function AlicuotaAguinaldo($sueldo_global = 0){
     if(isset($this->Beneficiario)){
       $sueldo_global = $this->Beneficiario->sueldo_global;
-      $cal =  round(((90 * $sueldo_global)/30)/12, 2);
+      //$cal =  round(((90 * $sueldo_global)/30)/12, 2);
+       $cal =  round(((105 * $sueldo_global)/30)/12, 2);
       $this->Beneficiario->aguinaldos = $cal;
       $this->Beneficiario->aguinaldos_aux = number_format($cal, 2, ',','.');   
     }else{
-      $cal = ((90 * $sueldo_global)/30)/12;
+      //$cal = ((90 * $sueldo_global)/30)/12;
+      $cal = ((105 * $sueldo_global)/30)/12;
       return $cal;
     }
     
