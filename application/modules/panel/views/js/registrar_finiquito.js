@@ -407,7 +407,8 @@ function consultarBeneficiarioFecha(){
     ruta = sUrlP + "consultarBeneficiario/" + val  + "/" + fech;
     $.getJSON(ruta, function(data) {    
         $("#directiva").val(data.Componente.Grado.Directiva.nombre);    
-        $("#asignacion_antiguedad").val(data.Calculo.asignacion_antiguedad);
+        //$("#asignacion_antiguedad").val(data.Calculo.asignacion_antiguedad);
+        $("#asignacion_antiguedad_fin").val(data.Calculo.asignacion_antiguedad_fin); //se cambio con la AA de la rutina AsignacionFiniquito
         $("#asignacion_antiguedad_aux").val(data.Calculo.asignacion_antiguedad_aux);
         
         $("#anticipos").val(data.Calculo.anticipos);

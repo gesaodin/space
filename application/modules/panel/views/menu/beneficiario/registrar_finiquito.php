@@ -228,9 +228,13 @@
             <div class="row">
               <div class="form-group">
                 <label class="col-md-2">A.A Generada</label>
-                <div class="col-md-4">                       
+                <div class="col-md-4">    
+                      <!--  se cambio con la AA de la nueva rutina AsignacionFiniquito                 
                       <input type="text" placeholder="Asingación Generada" readonly="readonly" id='asignacion_antiguedad' class="form-control"></input>
-                      <input type="hidden" readonly="readonly" id='asignacion_antiguedad_aux' class="form-control"></input>
+                      <input type="hidden" readonly="readonly" id='asignacion_antiguedad' class="form-control"></input> -->
+
+                      <input type="text" placeholder="Asingación Generada" readonly="readonly" id='asignacion_antiguedad_fin' class="form-control"></input>
+                      <input type="hidden" readonly="readonly" id='asignacion_antiguedad_fin' class="form-control"></input>
                 </div>
                 <label class="col-md-2">A.A Depositado</label>
                 <div class="col-md-4">                      
