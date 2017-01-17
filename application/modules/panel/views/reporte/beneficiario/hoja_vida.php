@@ -353,7 +353,13 @@ th {
       ?></td>
     </tr>
     <tr>
-     <td>Comisión S.</td>
+     <td>Comisión S.</td> 
+     <td><?php 
+      //se incluyo para que mostrara la comision de servicio en la hoja de vida
+        $comision = isset($Beneficiario->Calculo['comision_servicios']) ? $Beneficiario->Calculo['comision_servicios'] : 0;
+        echo $comision;
+
+      ?></td>
      <td colspan="5">
      </td>
    </tr>
