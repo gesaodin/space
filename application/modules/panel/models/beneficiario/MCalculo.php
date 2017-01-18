@@ -405,25 +405,31 @@ class MCalculo extends CI_Model{
   /**
   *	Alicuota Bono Aguinaldo #00
   * X = ((90 * SG)/30)/12
-  *
+  * 
   * SG = Sueldo Global
   *
   * @access public
   * @return double
   */
   public function AlicuotaAguinaldo($sueldo_global = 0){
-    if(isset($this->Beneficiario)){
-      $sueldo_global = $this->Beneficiario->sueldo_global;
-      //$cal =  round(((90 * $sueldo_global)/30)/12, 2);
-       $cal =  round(((105 * $sueldo_global)/30)/12, 2);
-      $this->Beneficiario->aguinaldos = $cal;
-      $this->Beneficiario->aguinaldos_aux = number_format($cal, 2, ',','.');   
-    }else{
-      //$cal = ((90 * $sueldo_global)/30)/12;
-      $cal = ((105 * $sueldo_global)/30)/12;
-      return $cal;
+    //Se agrego las condiciones para evaluar cuando se debe calcular con 90/105 dias
+    if(isset($this->Beneficiario) && ($this->Beneficiario->fecha_retiro == '')){
+        $sueldo_global = $this->Beneficiario->sueldo_global;
+        $cal =  round(((105 * $sueldo_global)/30)/12, 2);
+        $this->Beneficiario->aguinaldos = $cal;
+        $this->Beneficiario->aguinaldos_aux = number_format($cal, 2, ',','.');
+      }else{ if($this->Beneficiario->fecha_retiro < '2016-10-31'){
+        $sueldo_global = $this->Beneficiario->sueldo_global;
+        $cal =  round(((90 * $sueldo_global)/30)/12, 2);
+        $this->Beneficiario->aguinaldos = $cal;
+        $this->Beneficiario->aguinaldos_aux = number_format($cal, 2, ',','.');
+      }else{
+        $sueldo_global = $this->Beneficiario->sueldo_global;
+        $cal = ((105 * $sueldo_global)/30)/12;
+        $this->Beneficiario->aguinaldos = $cal;
+        $this->Beneficiario->aguinaldos_aux = number_format($cal, 2, ',','.');
+      }
     }
-    
   }
 
   /**
