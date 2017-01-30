@@ -321,8 +321,9 @@ class MOrdenPago extends CI_Model{
   */
   public function listarPorCedula($id = ''){
     $lst = array();
-    $sConsulta = 'SELECT * FROM orden_pago WHERE cedula_beneficiario=\'' . $id . '\';';
+    $sConsulta = 'SELECT * FROM orden_pago WHERE cedula_beneficiario=\'' . $id . '\' ORDER BY fecha;'; //se agrego ORDE BY fecha de anticipo
     
+    //echo $sConsulta;
     $obj = $this->Dbpace->consultar($sConsulta);
     
     if($obj->code == 0 ){

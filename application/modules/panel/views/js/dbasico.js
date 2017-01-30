@@ -16,7 +16,13 @@ function consultar() {
             $("#componente").val(data.Componente.nombre);
             $("#grado").val(data.Componente.Grado.nombre);
             $("#fingreso").val(cargarFecha(data.fecha_ingreso));
-            $("#tservicio").val(data.tiempo_servicio);
+            //$("#tservicio").val(data.tiempo_servicio);
+            // Se cambio para desplegar el tiempo de servicio correcto segun situacion del beneficiario
+            if(data.fecha_retiro != null && data.fecha_retiro != '') {
+                $("#tservicio").val(data.tiempo_servicio_aux);
+            }else{
+                $("#tservicio").val(data.tiempo_servicio);
+            }
             $("#nhijos").val(data.numero_hijos);
             $("#fuascenso").val(cargarFecha(data.fecha_ultimo_ascenso));
             $("#noascenso").val(data.no_ascenso);
@@ -40,7 +46,13 @@ function consultar() {
             $("#P_NOASCENSO").val(data.prima_noascenso_aux);
             $("#P_PROFESIONALIZACION").val(data.prima_profesionalizacion_aux);
 
-            $("#asignacion_antiguedad").val(data.Calculo.asignacion_antiguedad);
+            //$("#asignacion_antiguedad").val(data.Calculo.asignacion_antiguedad);
+            // Se cambio para desplegar la asignacion_antiguedad correcta segun situacion del beneficiario
+            if(data.fecha_retiro != null && data.fecha_retiro != '') {
+                $("#asignacion_antiguedad").val(data.Calculo.asignacion_antiguedad_fin);
+            }else{
+                $("#asignacion_antiguedad").val(data.Calculo.asignacion_antiguedad);
+            }
             $("#capital_banco").val(data.Calculo.capital_banco);
             $("#garantias").val(data.Calculo.garantias);
             $("#dias_adicionales").val(data.Calculo.dias_adicionales);
