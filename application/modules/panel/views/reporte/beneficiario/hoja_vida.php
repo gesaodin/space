@@ -146,7 +146,13 @@ th {
       ?>
       </td>
       <td>Tiempo de Serv.</td>
-      <td><?php echo $Beneficiario->tiempo_servicio; ?></td>
+      <td><?php 
+        if ($Beneficiario->fecha_retiro != ''){
+            echo $Beneficiario->tiempo_servicio_aux; 
+        }else{
+            echo $Beneficiario->tiempo_servicio;
+        }
+      ?></td>
       <td>N° Hijos</td>
       <td><?php echo $Beneficiario->numero_hijos; ?></td>
     </tr>
@@ -248,7 +254,13 @@ th {
   <tbody>
     <tr>
       <td>A. de Antiguedad</td>
-      <td><?php echo number_format($Beneficiario->asignacion_antiguedad, 2, ',','.');?></td>
+      <td><?php 
+        if ($Beneficiario->fecha_retiro != ''){
+            echo number_format($Beneficiario->asignacion_antiguedad_fin, 2, ',','.');
+        }else{
+            echo number_format($Beneficiario->asignacion_antiguedad, 2, ',','.');
+        }
+      ?></td>
       <td>Capital En Banco.</td>
       <td>
       <?php 
