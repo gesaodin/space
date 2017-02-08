@@ -58,7 +58,12 @@ function consultar() {
             $("#dias_adicionales").val(data.Calculo.dias_adicionales);
             $("#total_aportados").val(data.Calculo.total_aportados);
             $("#saldo_disponible").val(data.Calculo.saldo_disponible);
-            $("#diferencia_AA").val(data.Calculo.diferencia_AA);
+            if(data.fecha_retiro != null && data.fecha_retiro != '') {
+                $("#diferencia_AA").val(data.Calculo.asignacion_diferencia);
+            }else{
+                $("#diferencia_AA").val(data.Calculo.diferencia_AA);
+            }
+            //$("#diferencia_AA").val(data.Calculo.diferencia_AA);
             $("#fecha_ultimo_deposito").val(data.Calculo.fecha_ultimo_deposito);
             $("#fecha_ultimo_anticipo").val(data.Calculo.fecha_ultimo_anticipo);
             $("#anticipos").val(data.Calculo.anticipos);
