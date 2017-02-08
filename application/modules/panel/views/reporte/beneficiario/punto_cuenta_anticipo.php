@@ -135,7 +135,8 @@
       <td style="text-align: justify; font-size: 14px; line-height: 1.5" valign="top">
         &emsp;Esta Gerencia somete a la consideración del ciudadano GB. Presidente de la Junta Administradora del IPSFA,
         la solicitud formulada por <b><?php 
-          echo $Beneficiario->Componente->Grado->nombre; echo $Beneficiario->nombres . ' ' . $Beneficiario->apellidos; ?>
+          echo $Beneficiario->Componente->Grado->nombre .' '; 
+          echo $Beneficiario->nombres . ' ' . $Beneficiario->apellidos; ?>
          </b> titular de la cédula de identidad <b><?php echo $Beneficiario->cedula . ' (' . $Beneficiario->Componente->nombre . ')';?>
          </b> de un adelanto de su 
          Asignación de Antiguedad, con la finalidad:<b> <?php echo strtoupper($finalidad);?></b><br><br>
