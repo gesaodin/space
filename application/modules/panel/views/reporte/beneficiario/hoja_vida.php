@@ -313,17 +313,13 @@ th {
       <td>Diferencia A.A.</td>
       <td><?php 
               if ($Beneficiario->fecha_retiro != ''){
-            echo number_format($Beneficiario->asignacion_diferencia, 2, ',','.');
-            }else{
-              $diferencia = $Beneficiario->Calculo['diferencia_AA'];
-              echo $diferencia;  
-            //echo number_format($Beneficiario->asignacion_antiguedad, 2, ',','.');
-            }
-
-              //$diferencia = (($Beneficiario->asignacion_antiguedad - $totalA) -  $diasA) - $garantia;
-             // $diferencia = $Beneficiario->Calculo['diferencia_AA'];
-              //echo $diferencia; //number_format($diferencia, 2, ',','.') ;
-            ?>
+                 $diferencia = $Beneficiario->Calculo['asignacion_diferencia'];
+                 echo $diferencia;
+              }else{
+                 $diferencia = $Beneficiario->Calculo['diferencia_AA'];
+                 echo $diferencia;  
+              }
+          ?>
       </td>
       <td>Fecha Ultimo Dep.</td>
       <td><?php 
