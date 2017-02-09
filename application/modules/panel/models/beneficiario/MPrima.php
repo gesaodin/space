@@ -241,7 +241,7 @@ class MPrima extends CI_Model{
       if($this->Beneficiario->fecha_retiro <= '2014-12-31' && $this->Beneficiario->fecha_retiro != ''){
         $valor = round($monto_nominal * $this->Beneficiario->numero_hijos, 2);
       }else{
-        echo "MN: ", $monto_nominal, "UT: ", $this->unidad_tributaria, "HJ: ", $this->Beneficiario->numero_hijos;
+        //echo "MN: ", $monto_nominal, "UT: ", $this->unidad_tributaria, "HJ: ", $this->Beneficiario->numero_hijos;
         $valor = round($monto_nominal * $this->unidad_tributaria * $this->Beneficiario->numero_hijos, 2);
       }
       //echo  $valor;
