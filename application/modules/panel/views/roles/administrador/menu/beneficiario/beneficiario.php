@@ -301,13 +301,9 @@
                               <div class="col-md-2">                      
                                 <input type="text" placeholder="Días Adicionales" id='dias_adicionales' class="form-control" readonly="readonly"></input>
                               </div> 
-                              <label class="col-md-2" style="display:none">Total Aportado</label>
-                              <div class="col-md-2" style="display:none">                      
-                                <input type="text" placeholder="Total Aportado" id='total_aportados' class="form-control" readonly="readonly"></input>
-                              </div> 
-                              <label class="col-md-2">Depositado en Banco</label>
+                              <label class="col-md-2">Total Aportado</label>
                               <div class="col-md-2">                      
-                                <input type="text" placeholder="Depositado en Banco" id='asignacion_depositada' class="form-control" readonly="readonly"></input>
+                                <input type="text" placeholder="Total Aportado" id='total_aportados' class="form-control" readonly="readonly"></input>
                               </div> 
                               <label class="col-md-2">Saldo Disponible</label>
                               <div class="col-md-2">                      
