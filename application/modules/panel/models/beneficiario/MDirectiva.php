@@ -71,7 +71,8 @@ class MDirectiva extends CI_Model{
   * @param int
   */
   public function iniciar(){
-    $fecha = date("Y-m-d");
+    //$fecha = date("Y-m-d");
+    $fecha = '2016-08-01';
     $sConsulta = 'SELECT 
         A.id, A.nombre, A.numero, A.f_vigencia, 
         A.f_inicio, udad_tributaria, detalle_directiva.grado_id, 
@@ -82,6 +83,7 @@ class MDirectiva extends CI_Model{
         detalle_directiva ON A.id=detalle_directiva.directiva_sueldo_id
       ORDER BY grado_id, anio;';
 
+    
     //$this->load->model('beneficiario/MGrado');
     //$Grado = $this->MGrado->obtenerSegunDirectiva($this->id);
     $obj = $this->Dbpace->consultar($sConsulta);
