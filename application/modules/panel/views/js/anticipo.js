@@ -14,6 +14,7 @@ var capital_banco = 0;
 var garantias = 0;
 var monto_disponible = 0;
 var porcentaje =0;
+var monto_resguardo;
 
 $('#reporteAnticipo').DataTable({
         "paging":   false,
@@ -44,6 +45,7 @@ function consultar() {
             $("#controles").hide();
             limpiar();
         }else{
+            dem = data.Calculo.embargos_aux;
             $("#divBotones").show();
             $("#btnAnticipo").focus();
             $("#nombres").val(data.nombres);
@@ -82,7 +84,7 @@ function consultar() {
             $("#saldo_disponible_aux").val(data.Calculo.saldo_disponible_aux);
 
             $("#medidas_judiciales").val(data.Calculo.embargos);
-            $("#medidas_judiciales_aux").val(data.Calculo.embargos_aux);
+            $("#medidas_judiciales_aux").val(dem);
 
             $("#comision_servicios").val(data.Calculo.comision_servicios);
             $("#comision_servicios_aux").val(data.Calculo.comision_servicios_aux);
@@ -91,8 +93,12 @@ function consultar() {
             listar(data.HistorialOrdenPagos);
             monto_disponible = data.Calculo.asignacion_depositada_aux;
 
+
             var saldo =  (Number(monto_disponible) * porcentajeMaximo)/100;
-            var calculo = Number(saldo) - Number(data.Calculo.embargos_aux);
+            var calculo = Number(saldo) - Number(dem);
+            mt = monto_disponible * 0.25;
+            monto_resguardo = dem>mt?(dem-mt):0;
+            
             if(calculo < 0){
                 $("#divBotones").hide();
                 var boton = '<button type="button" class="btn btn-danger pull-right" onclick="continuar()">';
@@ -249,57 +255,26 @@ function calcularPorcentaje(){
     
     if($("#porcentaje").val() == '')return false;
     porcentaje = Number($("#porcentaje").val());
-    var monto_resguardo = monto_disponible * 0.25;
     var medidas_judiciales_aux = Number($("#medidas_judiciales_aux").val());
-    var disponible = monto_disponible;
+    var tbanco = Number(monto_disponible);
     var msj = '';
     if(porcentaje > porcentajeMaximo || porcentaje == 0){
         var boton = '<button type="button" class="btn btn-success pull-right" onclick="continuar()">';
             boton += '<i class="glyphicon glyphicon-ok"></i>&nbsp;&nbsp;Continuar</button>';
         $("#divContinuar").html(boton);
         $("#porcentaje").val('');
-        var valor_m = Number(monto_disponible);
         $("#txtMensaje").html('El porcentaje no puede ser mayor al ' + porcentajeMaximo + ' % o estar en cero ');
         $("#logMensaje").modal('show');
         $("#controles").hide();
-    }else{ if(Number($("#medidas_judiciales_aux").val()) <= 0){
-            
-        $("#divContinuar").html(crearBoton());
-        var cantidad = ((disponible * porcentaje) / 100)- Number($("#anticipos_aux").val());
-        msj = 'Está seguro que desea efectuar el anticipo por Bs. ' + cantidad.formatMoney(2, ',', '.');
-        var valor_m = Number(monto_disponible);
+    }else{ 
+       var cantidad = ((tbanco * porcentaje) / 100) - Number($("#anticipos_aux").val()) - Number(monto_resguardo);
         
-        msj += ' partiendo del monto disponible ' + valor_m.formatMoney(2, ',', '.');
-        Anticipo['monto'] = parseFloat(cantidad).toFixed(2);
-
-        if(cantidad < 1){
-            var boton = '<button type="button" class="btn btn-danger pull-right" onclick="recargar()">';
-                boton += '<i class="glyphicon glyphicon-ok"></i>&nbsp;&nbsp;Continuar</button>';
-            msj = 'El beneficiario no puede solicitar anticipo porque excede el monto del capital';
-            $("#divContinuar").html(boton);
-        }     
-
-        }else{ if(medidas_judiciales_aux > monto_resguardo){
-            var resta_medida = medidas_judiciales_aux - monto_resguardo;
-            var cantidad1 = ((disponible * porcentaje) / 100) - Number($("#anticipos_aux").val()) - parseFloat(resta_medida).toFixed(2);
-            
-        $("#divContinuar").html(crearBoton());
-        msj = ' if de medida judicial aux > monto resguardo Está seguro que desea efectuar el anticipo por Bs. ' + cantidad1.formatMoney(2, ',', '.');
-        Anticipo['monto'] = parseFloat(cantidad1).toFixed(2);
-        } else{
-             var cantidad1 = ((disponible * porcentaje) / 100) - Number($("#anticipos_aux").val()) - Number($("#medidas_judiciales_aux").val());
-              
-        $("#divContinuar").html(crearBoton());
-            msj = ' else de medida judicial aux > monto resguardo Está seguro que desea efectuar el anticipo por Bs. ' + cantidad1.formatMoney(2, ',', '.');
-         Anticipo['monto'] = parseFloat(cantidad1).toFixed(2);
-        }
-       
-        }
-
-    }
+        msj = cantidad <= 0? 'No posee disponibilidad para otorgar el anticipo':'Está seguro que desea efectuar el anticipo por Bs. ' + cantidad.formatMoney(2, ',', '.'); 
         $("#txtMensaje").html(msj);
-        $("#logMensaje").modal('show');
-        $("#controles").hide();
+        $("#divContinuar").html(crearBoton());
+        Anticipo['monto'] = parseFloat(cantidad).toFixed(2);  
+   
+    }
 
 } 
 
