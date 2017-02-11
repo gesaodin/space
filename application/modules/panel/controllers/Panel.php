@@ -644,6 +644,7 @@ class Panel extends MY_Controller {
 		$this->MOrdenPago->estatus = $data->Anticipo->estatus;
 		$this->MOrdenPago->tipo = $data->Anticipo->tipo;
 		$this->MOrdenPago->monto = $data->Anticipo->monto;
+		$this->MOrdenPago->porcentaje = $data->Anticipo->porcentaje;
 
 		$this->MOrdenPago->fecha_creacion =  date("Y-m-d H:i:s");
 		$this->MOrdenPago->usuario_creacion = $_SESSION['usuario'];

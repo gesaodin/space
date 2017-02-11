@@ -98,7 +98,7 @@
                   <div class="form-group">
                     <label class="col-md-2">Fecha Ingreso</label>
                     <div class="col-md-2">                      
-                      <input type="text" placeholder="Fecha de Ingreso" id='fingreso' class="form-control" readonly="readonly"></input>
+                      <input type="text" placeholder="Fecha de Ingreso" id='fingreso' class="form-control" readonly="readonly" disabled="disabled"></input>
                     </div> 
                     <label class="col-md-2">Tiempo Servicio</label>
                     <div class="col-md-2">                      
@@ -114,7 +114,7 @@
                   <div class="form-group">
                     <label class="col-md-2">Ultimo Ascenso</label>
                     <div class="col-md-2">                      
-                      <input type="text" placeholder="Ultimo Ascenso" id='fuascenso' class="form-control" readonly="readonly"></input>
+                      <input type="text" placeholder="Ultimo Ascenso" id='fuascenso' class="form-control" readonly="readonly" disabled="disabled"></input>
                     </div> 
                     <label class="col-md-2">No. Ascenso</label>
                     <div class="col-md-2">                      
@@ -144,7 +144,7 @@
                   <div class="form-group">
                     <label class="col-md-2">Fecha de Retiro</label>
                     <div class="col-md-2">                      
-                      <input type="text" placeholder="Fecha de Retiro" id='fecha_retiro' class="form-control" readonly="readonly"></input>
+                      <input type="text" placeholder="Fecha de Retiro" id='fecha_retiro' class="form-control" readonly="readonly" disabled="disabled"></input>
                     </div> 
                   </div> <!-- /Numero Cuenta -->
 

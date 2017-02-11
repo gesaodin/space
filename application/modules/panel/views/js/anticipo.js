@@ -103,7 +103,7 @@ function consultar() {
                 $("#divBotones").hide();
                 var boton = '<button type="button" class="btn btn-danger pull-right" onclick="continuar()">';
                     boton += '<i class="glyphicon glyphicon-ok"></i>&nbsp;&nbsp;Continuar</button>';
-                var msj = 'El beneficiaio no puede solicitar anticipo porque excede el monto del capital en banco al aplicarle la Medida Judicial';
+                var msj = 'El beneficiario no puede solicitar anticipo porque excede el monto del capital en banco al aplicarle la Medida Judicial';
                 $("#divContinuar").html(boton);
                 $("#txtMensaje").html(msj);
                 $("#logMensaje").modal('show');
@@ -137,11 +137,6 @@ function listar(data){
         var sBoton = '<div class="btn-group">';
         var sAcciones = '';
         if(valor.estatus == 100){
-           /* if(valor.fecha_creacion > fecha){
-                anticipoF += monto;
-            }else{
-                anticipoI += monto;
-            }*/
             if(valor.movimiento == 0 ){
                 sBoton += '<button type="button" class="btn btn-info" title="Imprimir"><i class="fa fa-print" ></i></button>';
                 sBoton += '<button aria-expanded="false" type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown">';
@@ -255,6 +250,9 @@ function calcularPorcentaje(){
     
     if($("#porcentaje").val() == '')return false;
     porcentaje = Number($("#porcentaje").val());
+    
+    Anticipo['porcentaje'] = porcentaje;
+
     var medidas_judiciales_aux = Number($("#medidas_judiciales_aux").val());
     var tbanco = Number(monto_disponible);
     var msj = '';
@@ -264,17 +262,18 @@ function calcularPorcentaje(){
         $("#divContinuar").html(boton);
         $("#porcentaje").val('');
         $("#txtMensaje").html('El porcentaje no puede ser mayor al ' + porcentajeMaximo + ' % o estar en cero ');
-        $("#logMensaje").modal('show');
-        $("#controles").hide();
+
     }else{ 
        var cantidad = ((tbanco * porcentaje) / 100) - Number($("#anticipos_aux").val()) - Number(monto_resguardo);
         
         msj = cantidad <= 0? 'No posee disponibilidad para otorgar el anticipo':'Está seguro que desea efectuar el anticipo por Bs. ' + cantidad.formatMoney(2, ',', '.'); 
         $("#txtMensaje").html(msj);
         $("#divContinuar").html(crearBoton());
-        Anticipo['monto'] = parseFloat(cantidad).toFixed(2);  
-   
+        Anticipo['monto'] = parseFloat(cantidad).toFixed(2);     
     }
+
+    $("#logMensaje").modal('show');
+    $("#controles").hide();
 
 } 
 
@@ -287,85 +286,33 @@ function crearBoton(){
 }
 
 function calcularMonto(){
+    
     if($("#monto").val() == '')return false;
-    monto = Number($("#monto").val());
-    var monto_resguardo = monto_disponible * 0.25;
-    var medidas_judiciales_aux = Number($("#medidas_judiciales_aux").val());
-
-    
-    var monto2= Number($("#medidas_judiciales_aux").val())+ Number($("#anticipos_aux").val()) + monto;
-    var disponible = Number(monto_disponible); 
-
-    
-    var cantidad = Number(((parseFloat(disponible).toFixed(2) * porcentajeMaximo)/100) - Number($("#medidas_judiciales_aux").val())- Number($("#anticipos_aux").val()));
-    porcentaje = ((monto2 / disponible)*100);
-    
-    
-    if (porcentaje> porcentajeMaximo || porcentaje == 0) {
-        var boton = '<button type="button" class="btn btn-success pull-right" onclick="continuar()">';
-            boton += '<i class="glyphicon glyphicon-ok"></i>&nbsp;&nbsp;Continuar</button>';
-        $("#divContinuar").html(boton);
-        $("#txtMensaje").html('El Monto no puede ser mayor al ' +porcentaje + ' % o estar en cero');
-        $("#logMensaje").modal('show');
-        $("#controles").hide();
-
-    } else{
-        var boton = '<button type="button" class="btn btn-danger pull-right" onclick="continuar()">';
-            boton += '<i class="glyphicon glyphicon-ok"></i>&nbsp;&nbsp;No</button>';
-            boton += '<button type="button" class="btn btn-success" onclick="continuarAnticipo(101)">';
-            boton += '<i class="glyphicon glyphicon-ok"></i>&nbsp;&nbsp;Si</button>';
-        $("#porcentaje").val(parseFloat(porcentaje).toFixed(2));
-         Anticipo['monto'] = parseFloat(monto).toFixed(2); 
-        $("#divContinuar").html(boton);
-        $("#txtMensaje").html('Está seguro que desea efectuar el anticipo por Bs. ' + monto.formatMoney(2, ',', '.')+ ' que representa el '+parseFloat(porcentaje).toFixed(0)+'%');
-        $("#logMensaje").modal('show');
-        $("#controles").hide();
-
-}
-
-}
-
-/*function calcularMonto(){
-    if($("#monto").val() == '')return false;
+    var cantidad = ((Number(monto_disponible) * 75) / 100) - Number($("#anticipos_aux").val()) - Number(monto_resguardo);
     monto = Number($("#monto").val());
 
-    var monto2= Number($("#medidas_judiciales_aux").val())+ Number($("#anticipos_aux").val()) + monto;
-    var disponible = Number(monto_disponible); 
-
-    
-    var cantidad = Number(((parseFloat(disponible).toFixed(2) * porcentajeMaximo)/100) - Number($("#medidas_judiciales_aux").val())- Number($("#anticipos_aux").val()));
-    porcentaje = ((monto2 / disponible)*100);
-    
-    
-    if (porcentaje> porcentajeMaximo || porcentaje == 0) {
-        var boton = '<button type="button" class="btn btn-success pull-right" onclick="continuar()">';
-            boton += '<i class="glyphicon glyphicon-ok"></i>&nbsp;&nbsp;Continuar</button>';
-        $("#divContinuar").html(boton);
-        $("#txtMensaje").html('El Monto no puede ser mayor al ' +porcentaje + ' % o estar en cero');
-        $("#logMensaje").modal('show');
-        $("#controles").hide();
-
-    } else{
-        var boton = '<button type="button" class="btn btn-danger pull-right" onclick="continuar()">';
-            boton += '<i class="glyphicon glyphicon-ok"></i>&nbsp;&nbsp;No</button>';
-            boton += '<button type="button" class="btn btn-success" onclick="continuarAnticipo(101)">';
-            boton += '<i class="glyphicon glyphicon-ok"></i>&nbsp;&nbsp;Si</button>';
-        $("#porcentaje").val(parseFloat(porcentaje).toFixed(2));
-         Anticipo['monto'] = parseFloat(monto).toFixed(2); 
-        $("#divContinuar").html(boton);
-        $("#txtMensaje").html('Está seguro que desea efectuar el anticipo por Bs. ' + monto.formatMoney(2, ',', '.')+ ' que representa el '+parseFloat(porcentaje).toFixed(0)+'%');
-        $("#logMensaje").modal('show');
-        $("#controles").hide();
-
+    if (monto > cantidad){        
+        msj = 'No se puede otorgar mas del 75%';
+        return false;
+    }else{
+        msj = 'Está seguro que desea efectuar el anticipo por Bs. ' + monto.formatMoney(2, ',', '.'); 
+        Anticipo['porcentaje'] = parseFloat((monto * 75)/cantidad).toFixed(2);
+        Anticipo['monto'] = parseFloat(monto).toFixed(2);    
+    }
+    $("#divContinuar").html(crearBoton());
+    $("#txtMensaje").html(msj);
+    $("#logMensaje").modal('show');
+    $("#controles").hide();
+   
 }
 
-}*/
+
 
 function cargar(){
     if (Anticipo['monto'] > 0){
         Anticipo['id'] = $("#id").val();
         Anticipo['motivo'] = 'Anticipo - ' + $("#motivo_medida option:selected").text();
-        Anticipo['porcentaje'] = $('#porcentaje').val();//se agrega para mostrar el porcentaje en el punto de cuenta
+        //Anticipo['porcentaje'] = $('#porcentaje').val();//se agrega para mostrar el porcentaje en el punto de cuenta
 
         Anticipo['tipo'] = 1;
         Anticipo['nombre'] = $('#nombres').val();
@@ -376,29 +323,26 @@ function cargar(){
 }
 function continuarAnticipo(estatus){
     Anticipo['estatus'] = estatus;
-    cargar();
-
+    cargar();    
     $("#myModal").modal('hide');
-    $.ajax({
-              url: sUrlP + "crearOrdenPago",
-              type: "POST",
-              data: {'data' : JSON.stringify({
-                Anticipo: Anticipo
-              })},
-              success: function (data) {
-                var boton = '<button type="button" class="btn btn-success pull-right" onclick="recargar()">';
-                    boton += '<i class="glyphicon glyphicon-ok"></i>&nbsp;&nbsp;Continuar</button>';
-                $("#divContinuar").html(boton);
-                $("#txtMensaje").html(data);
-                $("#logMensaje").modal('show');
+    $.ajax({             
+        url: sUrlP + "crearOrdenPago",  
+        type: "POST",
+        data: {'data' : JSON.stringify({Anticipo: Anticipo})},
+        success: function (data){
+            var boton = '<button type="button" class="btn btn-success pull-right" onclick="recargar()">';
+            boton += '<i class="glyphicon glyphicon-ok"></i>&nbsp;&nbsp;Continuar</button>';
+            $("#divContinuar").html(boton);
+            $("#txtMensaje").html(data);
+            $("#logMensaje").modal('show');
 
-              },
-              error: function(data){
-                $("#txtMensaje").html('Ocurrio un error en la conexion');
-                $("#logMensaje").modal('show');
+        },
+        error: function(data){
+            $("#txtMensaje").html('Ocurrio un error en la conexion');
+            $("#logMensaje").modal('show');
 
-              }
-            });
+        }
+    });
 }
 
 function rechazarAnticipo(id){
