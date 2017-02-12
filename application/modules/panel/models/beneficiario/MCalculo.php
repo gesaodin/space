@@ -781,7 +781,7 @@ class MCalculo extends CI_Model{
     //$resta = $this->AsignacionAntiguedad() - $this->Total_Aportados();
     $resta = $this->AsignacionFiniquito() - $this->Total_Aportados();
     $valor = $resta;
-    if($resta < 0) $valor = 0.00;
+    //if($resta < 0) $valor = 0.00;
 
     return $valor;
   }
