@@ -519,7 +519,7 @@ function consultarFiniquitos(){
         var nombre = data.nombres + ' ' + data.apellidos;
         var componente = data.Componente.descripcion;
         var grado = data.Componente.Grado.nombre;
-        var tiempo_servicio = data.tiempo_servicio;
+        var tiempo_servicio = data.tiempo_servicio_aux;
         
         var arr = data.HistorialDetalleMovimiento;
         console.log(arr);
