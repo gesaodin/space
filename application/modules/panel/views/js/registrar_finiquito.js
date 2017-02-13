@@ -409,7 +409,9 @@ function consultarBeneficiarioFecha(){
     ano = elem[2];
     var fech = ano + '-' + mes + '-' + dia;    
     ruta = sUrlP + "consultarBeneficiario/" + val  + "/" + fech;
-    $.getJSON(ruta, function(data) {    
+    $.getJSON(ruta, function(data) { 
+
+        console.log(data.Calculo);
          $("#tservicio").val(data.tiempo_servicio_aux);
         $("#directiva").val(data.Componente.Grado.Directiva.nombre);    
         //$("#asignacion_antiguedad").val(data.Calculo.asignacion_antiguedad);
@@ -864,9 +866,10 @@ function EjecutarReverso(ced, cod){
     $("#logMensaje").modal('hide');
     
     ruta = sUrlP + "reversarFiniquito/" + ced + "/" + cod; 
-    $.get(ruta, function(data) {        
+    $.get(ruta, function(data) { 
+        console.log(data);
         URL = sUrlP + "finiquitos";
-        $(location).attr('href', URL);
+        //$(location).attr('href', URL);
         
     }
 

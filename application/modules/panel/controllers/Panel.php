@@ -606,21 +606,23 @@ class Panel extends MY_Controller {
 		$this->load->model('beneficiario/MFiniquito');
 		$this->load->model('beneficiario/MMedidaJudicial');
 
+
+
+		//$this->MHistorialMovimiento->InsertarDetalle($json);
 		$this->MBeneficiario->obtenerID($ced, '');
 		$this->Beneficiario->fecha_retiro = '';
 		$this->Beneficiario->cedula = $ced;
 		$this->Beneficiario->estatus_activo = 201;
 		$this->Beneficiario->observacion = 'REVERSO DE FINIQUITO';
-
-		//$this->MHistorialMovimiento->InsertarDetalle($json);
+		
 
 		$lst = $this->MFiniquito->listarCodigo($ced, $codigo);
 		$this->MHistorialMovimiento->isertarReverso($lst);
-		$this->Beneficiario->ActualizarPorMovimiento();
+		
 		$this->MBeneficiario->InsertarHistorial(); //Creando la traza de la modificacion
 
-
 		$this->MMedidaJudicial->ejecutarMedidas($ced, 220, $codigo);
+		$this->Beneficiario->ActualizarPorMovimiento();
 
 		echo 'Se ha procesado exitosamente el reverso';
 

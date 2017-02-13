@@ -301,8 +301,7 @@ class MHistorialMovimiento extends CI_Model{
 	}
 
 	function isertarReverso($listado){
-		$sInsert = '';
-        echo $listado; 
+		$sInsert = '';      
 		$sInsert_aux = 'INSERT INTO public.movimiento 
 			(
 				tipo_movimiento_id,
@@ -340,6 +339,7 @@ class MHistorialMovimiento extends CI_Model{
 			}
 
 		echo $sInsert;
+		
 		$obj = $this->Dbpace->consultar($sInsert);
 
 	}
