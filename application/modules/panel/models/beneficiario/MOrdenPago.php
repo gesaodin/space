@@ -59,6 +59,11 @@ class MOrdenPago extends CI_Model{
   var $motivo = '';
 
   /**
+  * @var double
+  */
+  var $porcentaje = 0;//se agrega para mostrar el porcentaje otorgado en el punto de cuenta
+
+  /**
   * 100: EJECUTADA | 101: PENDIENTE | 102: RECHAZADA | 103: REVERSADA
   * @var integer
   */
@@ -182,6 +187,7 @@ class MOrdenPago extends CI_Model{
         $this->revision = $val->revision;
         $this->autoriza = $val->autoriza;
         $this->motivo = $val->motivo;
+        $this->porcentaje = $val->porcentaje;//se agrega para mostrar el porcentaje otorgado en el punto de cuenta
         $this->estatus = $val->status_id;
         $this->movimiento = $val->movimiento_id;
         $this->monto = $val->monto;
@@ -208,6 +214,7 @@ class MOrdenPago extends CI_Model{
       revision,
       autoriza,
       motivo,
+      porcentaje,
       status_id,
       movimiento_id,
       monto,
@@ -230,6 +237,7 @@ class MOrdenPago extends CI_Model{
       \'' . $this->revision . '\',
       \'' . $this->autoriza . '\',
       \'' . $this->motivo . '\',
+      \'' . $this->porcentaje . '\',
       \'' . $this->estatus . '\',
       \'' . $this->movimiento . '\',
       \'' . $this->monto . '\',
@@ -259,6 +267,7 @@ class MOrdenPago extends CI_Model{
         revision = \'' . $this->revision . '\',
         autoriza = \'' . $this->autoriza . '\',
         motivo = \'' . $this->motivo . '\',
+        porcentaje = \'' . $this->porcentaje . '\',
         status_id = \'' . $this->estatus . '\',
         movimiento_id = \'' . $this->movimiento . '\',
         monto = \'' . $this->monto . '\',
@@ -321,9 +330,8 @@ class MOrdenPago extends CI_Model{
   */
   public function listarPorCedula($id = ''){
     $lst = array();
-    $sConsulta = 'SELECT * FROM orden_pago WHERE cedula_beneficiario=\'' . $id . '\' ORDER BY fecha;'; //se agrego ORDE BY fecha de anticipo
+    $sConsulta = 'SELECT * FROM orden_pago WHERE cedula_beneficiario=\'' . $id . '\';';
     
-    //echo $sConsulta;
     $obj = $this->Dbpace->consultar($sConsulta);
     
     if($obj->code == 0 ){
@@ -338,6 +346,7 @@ class MOrdenPago extends CI_Model{
         $Orden->revision = $val->revision;
         $Orden->autoriza = $val->autoriza;
         $Orden->motivo = $val->motivo;
+        $Orden->porcentaje = $val->porcentaje;
         $Orden->estatus = $val->status_id;
         $Orden->movimiento = $val->movimiento_id;
         $Orden->monto = $val->monto;
@@ -371,6 +380,7 @@ class MOrdenPago extends CI_Model{
 
     $sConsulta = 'select orden_pago.id, orden_pago.cedula_beneficiario, 
     orden_pago.motivo,
+    orden_pago.porcentaje,
     orden_pago.status_id,
     orden_pago.movimiento_id,
     orden_pago.monto,
@@ -407,6 +417,7 @@ class MOrdenPago extends CI_Model{
         //$Orden->revision = $val->revision;
         //$Orden->autoriza = $val->autoriza;
         $Orden->motivo = $val->motivo;
+        $Orden->porcentaje = $val->porcentaje;
         $Orden->estatus = $val->status_id;
         $Orden->movimiento = $val->movimiento_id;
         $Orden->monto = $val->monto;

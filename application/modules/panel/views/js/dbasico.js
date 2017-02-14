@@ -57,6 +57,7 @@ function consultar() {
             $("#garantias").val(data.Calculo.garantias);
             $("#dias_adicionales").val(data.Calculo.dias_adicionales);
             $("#total_aportados").val(data.Calculo.total_aportados);
+            $("#asignacion_depositada").val(data.Calculo.asignacion_depositada);
             $("#saldo_disponible").val(data.Calculo.saldo_disponible);
             if(data.fecha_retiro != null && data.fecha_retiro != '') {
                 $("#diferencia_AA").val(data.Calculo.asignacion_diferencia);

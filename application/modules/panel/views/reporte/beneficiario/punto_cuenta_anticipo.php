@@ -7,6 +7,7 @@
       $f = explode('-', substr($v->fecha_creacion, 0, 10));
       $finalidad = $v->motivo;
       $monto = $v->monto;
+      $porcentaje = $v->porcentaje;//se agrega para mostrar el porcentaje otorgado en el punto de cuenta
       $usuario = $v->usuario_modificacion;
     }  
     
@@ -135,8 +136,7 @@
       <td style="text-align: justify; font-size: 14px; line-height: 1.5" valign="top">
         &emsp;Esta Gerencia somete a la consideración del ciudadano GB. Presidente de la Junta Administradora del IPSFA,
         la solicitud formulada por <b><?php 
-          echo $Beneficiario->Componente->Grado->nombre .' '; 
-          echo $Beneficiario->nombres . ' ' . $Beneficiario->apellidos; ?>
+          echo $Beneficiario->Componente->Grado->nombre; echo $Beneficiario->nombres . ' ' . $Beneficiario->apellidos; ?>
          </b> titular de la cédula de identidad <b><?php echo $Beneficiario->cedula . ' (' . $Beneficiario->Componente->nombre . ')';?>
          </b> de un adelanto de su 
          Asignación de Antiguedad, con la finalidad:<b> <?php echo strtoupper($finalidad);?></b><br><br>
@@ -145,10 +145,11 @@
          
          &emsp;Al profesional le corresponde por concepto de Asignación de Antiguedad (Años de Servicios cumplidos), 
          la cantidad de Bs. <b><?php echo $Beneficiario->Calculo['asignacion_antiguedad'];?></b> Actualmente se le ha depositado un monto         
-         total de Bs.<b><?php echo $Beneficiario->Calculo['total_aportados'];?></b> lo que representa el 
+         total de Bs.<b><?php echo $Beneficiario->Calculo['asignacion_depositada'];?></b> lo que representa el 
          <b><?php echo $Beneficiario->Calculo['porcentaje_cancelado'];?>%</b> de la Asignación de Antiguedad y se han 
          otorgado adelantos que totalizan la cantidad de Bs. <b><?php echo $Beneficiario->Calculo['anticipos'];?>.</b>
-         El monto a otorgar es de Bs. <b><?php echo number_format($monto, 2, ',','.');?></b> del Saldo disponible en banco.
+         El monto a otorgar es de Bs. <b><?php echo number_format($monto, 2, ',','.');?></b> lo que representa el 
+         <b><?php echo number_format($porcentaje, 0, ',','.');?>%</b> del total depositado en banco.
          <br><br>
          &emsp;Por lo que me permito realizar esta tramitación con opinión favorable.<br><br>
 

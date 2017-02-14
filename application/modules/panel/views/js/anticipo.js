@@ -6,13 +6,15 @@ var Anticipo = {};
 
 Anticipo['monto'] = 0;
 
-var fecha = '2016-11-03'; //Establece la fecha antes del y despues del
-var anticipoI = 0; //Define el anticipo menor a la feha
-var anticipoF = 0; //Define el anticipo mayor igual a la fecha
+//var fecha = '2016-11-03'; //Establece la fecha antes del y despues del
+var porcentaje = 0; //Define el anticipo menor a la feha
+//var anticipoF = 0; //Define el anticipo mayor igual a la fecha
 var porcentajeMaximo = 75; //Establece el porcentaje máximo permitido para un anticipo
 var capital_banco = 0;
 var garantias = 0;
 var monto_disponible = 0;
+var porcentaje =0;
+var monto_resguardo;
 
 $('#reporteAnticipo').DataTable({
         "paging":   false,
@@ -43,6 +45,7 @@ function consultar() {
             $("#controles").hide();
             limpiar();
         }else{
+            dem = data.Calculo.embargos_aux;
             $("#divBotones").show();
             $("#btnAnticipo").focus();
             $("#nombres").val(data.nombres);
@@ -75,23 +78,32 @@ function consultar() {
 
             $("#anticipos").val(data.Calculo.anticipos);
             $("#anticipos_aux").val(data.Calculo.anticipos_aux);
+            anticipos = data.Calculo.anticipos_aux;
 
             $("#saldo_disponible").val(data.Calculo.saldo_disponible);
             $("#saldo_disponible_aux").val(data.Calculo.saldo_disponible_aux);
 
             $("#medidas_judiciales").val(data.Calculo.embargos);
-            $("#medidas_judiciales_aux").val(data.Calculo.embargos_aux);
+            $("#medidas_judiciales_aux").val(dem);
+
+            $("#comision_servicios").val(data.Calculo.comision_servicios);
+            $("#comision_servicios_aux").val(data.Calculo.comision_servicios_aux);
+            comision_servicios = data.Calculo.comision_servicios_aux;
 
             listar(data.HistorialOrdenPagos);
+            monto_disponible = data.Calculo.asignacion_depositada_aux;
 
 
             var saldo =  (Number(monto_disponible) * porcentajeMaximo)/100;
-            var calculo = Number(saldo) - Number(data.Calculo.embargos_aux);
+            var calculo = Number(saldo) - Number(dem);
+            mt = monto_disponible * 0.25;
+            monto_resguardo = dem>mt?(dem-mt):0;
+            
             if(calculo < 0){
                 $("#divBotones").hide();
                 var boton = '<button type="button" class="btn btn-danger pull-right" onclick="continuar()">';
                     boton += '<i class="glyphicon glyphicon-ok"></i>&nbsp;&nbsp;Continuar</button>';
-                var msj = 'El beneficiaio no puede solicitar anticipo porque excede el monto del capital en banco al aplicarle la Medida Judicial';
+                var msj = 'El beneficiario no puede solicitar anticipo porque excede el monto del capital en banco al aplicarle la Medida Judicial';
                 $("#divContinuar").html(boton);
                 $("#txtMensaje").html(msj);
                 $("#logMensaje").modal('show');
@@ -125,11 +137,6 @@ function listar(data){
         var sBoton = '<div class="btn-group">';
         var sAcciones = '';
         if(valor.estatus == 100){
-            if(valor.fecha_creacion > fecha){
-                anticipoF += monto;
-            }else{
-                anticipoI += monto;
-            }
             if(valor.movimiento == 0 ){
                 sBoton += '<button type="button" class="btn btn-info" title="Imprimir"><i class="fa fa-print" ></i></button>';
                 sBoton += '<button aria-expanded="false" type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown">';
@@ -154,10 +161,11 @@ function listar(data){
             estatus(valor.estatus),
             valor.fecha_creacion,
             valor.motivo,
+
             monto.formatMoney(2, ',', '.')
         ] ).draw( false );
     });
-    validarPorcentaje();
+    //validarPorcentaje();
 
 }
 
@@ -232,96 +240,79 @@ function continuar(){
 
 
 function validarPorcentaje(){
-    var suma = Number(garantias) + Number(capital_banco) - Number(anticipoI);
+    var suma = Number(capital_banco) + Number(garantias);
     monto_disponible = parseFloat(suma).toFixed(2);
-    var resultado = Number(anticipoF) * 100 / (monto_disponible);
-    var resta = 75 - resultado;
-    porcentajeMaximo = parseFloat(resta).toFixed(2);
+
 
 }
 
 function calcularPorcentaje(){
-
-
-
+    
     if($("#porcentaje").val() == '')return false;
-    var porcentaje = Number($("#porcentaje").val());
+    porcentaje = Number($("#porcentaje").val());
+    
+    Anticipo['porcentaje'] = porcentaje;
 
+    var medidas_judiciales_aux = Number($("#medidas_judiciales_aux").val());
+    var tbanco = Number(monto_disponible);
+    var msj = '';
     if(porcentaje > porcentajeMaximo || porcentaje == 0){
         var boton = '<button type="button" class="btn btn-success pull-right" onclick="continuar()">';
             boton += '<i class="glyphicon glyphicon-ok"></i>&nbsp;&nbsp;Continuar</button>';
         $("#divContinuar").html(boton);
         $("#porcentaje").val('');
-        var valor_m = Number(monto_disponible);
-        var msj = ' partiendo del monto disponible ' + valor_m.formatMoney(2, ',', '.') + ' antes de la fecha del 03/11/2016';
-        $("#txtMensaje").html('El porcentaje no puede ser mayor al ' + porcentajeMaximo + ' % o estar en cero ' + msj);
-        $("#logMensaje").modal('show');
+        $("#txtMensaje").html('El porcentaje no puede ser mayor al ' + porcentajeMaximo + ' % o estar en cero ');
 
-        $("#controles").hide();
-    }else{
-        var boton = '<button type="button" class="btn btn-danger pull-right" onclick="continuar()">';
-            boton += '<i class="glyphicon glyphicon-ok"></i>&nbsp;&nbsp;No</button>';
-            boton += '<button type="button" class="btn btn-success" onclick="continuarAnticipo(101)">';
-            boton += '<i class="glyphicon glyphicon-ok"></i>&nbsp;&nbsp;Si</button>';
-        $("#divContinuar").html(boton);
-
-        var disponible = monto_disponible; //Number($("#saldo_disponible_aux").val());
-        var cantidad = ((disponible * porcentaje) / 100) - Number($("#medidas_judiciales_aux").val());
-        var msj = 'Está seguro que desea efectuar el anticipo por Bs. ' + cantidad.formatMoney(2, ',', '.');
-        var valor_m = Number(monto_disponible);
-        msj += ' partiendo del monto disponible ' + valor_m.formatMoney(2, ',', '.') + ' antes de la fecha del 03/11/2016';
-
-        Anticipo['monto'] = parseFloat(cantidad).toFixed(2);
-        if(cantidad < 0){
-            var boton = '<button type="button" class="btn btn-danger pull-right" onclick="recargar()">';
-                boton += '<i class="glyphicon glyphicon-ok"></i>&nbsp;&nbsp;Continuar</button>';
-            msj = 'El beneficiaio no puede solicitar anticipo porque excede el monto del capital en banco al aplicarle la Medida Judicial';
-            $("#divContinuar").html(boton);
-        }
-
-
+    }else{ 
+       var cantidad = ((tbanco * porcentaje) / 100) - Number($("#anticipos_aux").val()) - Number(monto_resguardo);
+        
+        msj = cantidad <= 0? 'No posee disponibilidad para otorgar el anticipo':'Está seguro que desea efectuar el anticipo por Bs. ' + cantidad.formatMoney(2, ',', '.'); 
         $("#txtMensaje").html(msj);
-        $("#logMensaje").modal('show');
-        $("#controles").hide();
-
+        $("#divContinuar").html(crearBoton());
+        Anticipo['monto'] = parseFloat(cantidad).toFixed(2);     
     }
+
+    $("#logMensaje").modal('show');
+    $("#controles").hide();
+
+} 
+
+function crearBoton(){
+     var boton = '<button type="button" class="btn btn-danger pull-right" onclick="continuar()">\
+        <i class="glyphicon glyphicon-ok"></i>&nbsp;&nbsp;No</button>\
+        <button type="button" class="btn btn-success" onclick="continuarAnticipo(101)">\
+        <i class="glyphicon glyphicon-ok"></i>&nbsp;&nbsp;Si</button>';
+    return boton;
 }
 
 function calcularMonto(){
+    
     if($("#monto").val() == '')return false;
+    var cantidad = ((Number(monto_disponible) * 75) / 100) - Number($("#anticipos_aux").val()) - Number(monto_resguardo);
     monto = Number($("#monto").val());
-    var disponible = monto_disponible; //Number($("#saldo_disponible_aux").val());
 
-    var cantidad = (100 * monto) / disponible;
-    Anticipo['monto'] = parseFloat(monto).toFixed(2);
-
-    if(cantidad > porcentajeMaximo || cantidad == 0){
-        var boton = '<button type="button" class="btn btn-success pull-right" onclick="continuar()">';
-            boton += '<i class="glyphicon glyphicon-ok"></i>&nbsp;&nbsp;Continuar</button>';
-        $("#divContinuar").html(boton);
-        $("#txtMensaje").html('El Monto no puede ser mayor al ' + porcentajeMaximo + ' % o estar en cero');
-        $("#logMensaje").modal('show');
-        $("#controles").hide();
+    if (monto > cantidad){        
+        msj = 'No se puede otorgar mas del 75%';
+        return false;
     }else{
-       var boton = '<button type="button" class="btn btn-danger pull-right" onclick="continuar()">';
-            boton += '<i class="glyphicon glyphicon-ok"></i>&nbsp;&nbsp;No</button>';
-            boton += '<button type="button" class="btn btn-success" onclick="continuarAnticipo(101)">';
-            boton += '<i class="glyphicon glyphicon-ok"></i>&nbsp;&nbsp;Si</button>';
-        $("#divContinuar").html(boton);
-
-        var valor_m = Number(monto_disponible);
-        msj += ' partiendo del monto disponible ' + valor_m.formatMoney(2, ',', '.') + ' antes de la fecha del 03/11/2016';
-        $("#txtMensaje").html('Está seguro que desea efectuar el anticipo por Bs. ' + monto.formatMoney(2, ',', '.'));
-        $("#logMensaje").modal('show');
-        $("#controles").hide();
+        msj = 'Está seguro que desea efectuar el anticipo por Bs. ' + monto.formatMoney(2, ',', '.'); 
+        Anticipo['porcentaje'] = parseFloat((monto * 75)/cantidad).toFixed(2);
+        Anticipo['monto'] = parseFloat(monto).toFixed(2);    
     }
+    $("#divContinuar").html(crearBoton());
+    $("#txtMensaje").html(msj);
+    $("#logMensaje").modal('show');
+    $("#controles").hide();
+   
 }
+
 
 
 function cargar(){
     if (Anticipo['monto'] > 0){
         Anticipo['id'] = $("#id").val();
         Anticipo['motivo'] = 'Anticipo - ' + $("#motivo_medida option:selected").text();
+        //Anticipo['porcentaje'] = $('#porcentaje').val();//se agrega para mostrar el porcentaje en el punto de cuenta
 
         Anticipo['tipo'] = 1;
         Anticipo['nombre'] = $('#nombres').val();
@@ -332,29 +323,26 @@ function cargar(){
 }
 function continuarAnticipo(estatus){
     Anticipo['estatus'] = estatus;
-    cargar();
-
+    cargar();    
     $("#myModal").modal('hide');
-    $.ajax({
-              url: sUrlP + "crearOrdenPago",
-              type: "POST",
-              data: {'data' : JSON.stringify({
-                Anticipo: Anticipo
-              })},
-              success: function (data) {
-                var boton = '<button type="button" class="btn btn-success pull-right" onclick="recargar()">';
-                    boton += '<i class="glyphicon glyphicon-ok"></i>&nbsp;&nbsp;Continuar</button>';
-                $("#divContinuar").html(boton);
-                $("#txtMensaje").html(data);
-                $("#logMensaje").modal('show');
+    $.ajax({             
+        url: sUrlP + "crearOrdenPago",  
+        type: "POST",
+        data: {'data' : JSON.stringify({Anticipo: Anticipo})},
+        success: function (data){
+            var boton = '<button type="button" class="btn btn-success pull-right" onclick="recargar()">';
+            boton += '<i class="glyphicon glyphicon-ok"></i>&nbsp;&nbsp;Continuar</button>';
+            $("#divContinuar").html(boton);
+            $("#txtMensaje").html(data);
+            $("#logMensaje").modal('show');
 
-              },
-              error: function(data){
-                $("#txtMensaje").html('Ocurrio un error en la conexion');
-                $("#logMensaje").modal('show');
+        },
+        error: function(data){
+            $("#txtMensaje").html('Ocurrio un error en la conexion');
+            $("#logMensaje").modal('show');
 
-              }
-            });
+        }
+    });
 }
 
 function rechazarAnticipo(id){

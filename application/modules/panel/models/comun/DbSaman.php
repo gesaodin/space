@@ -13,7 +13,7 @@ if (!defined('BASEPATH'))
  * @since version 1.0
  *
  */
-class DbSaman extends CI_Model {
+class Dbsaman extends CI_Model {
 	
 	var $__DB;
 	
