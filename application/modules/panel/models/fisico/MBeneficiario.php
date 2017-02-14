@@ -306,14 +306,14 @@ class MBeneficiario extends CI_Model{
 	*/
 	public function __construct(){
 		parent::__construct();
-		if(!isset($this->Dbpace)) $this->load->model('comun/Dbpace');
-		$this->load->model('beneficiario/MComponente');
-		$this->load->model('beneficiario/MHistorialSueldo');
-		$this->load->model('beneficiario/MHistorialAnticipo');
-		$this->load->model('beneficiario/MHistorialMovimiento');
-		$this->load->model('beneficiario/MMedidaJudicial');
-		$this->load->model('beneficiario/MDirectiva');
-		$this->load->model('beneficiario/MCalculo');
+		if(!isset($this->DBSpace)) $this->load->model('comun/DBSpace');
+		$this->load->model('fisico/MComponente');
+		$this->load->model('fisico/MHistorialSueldo');
+		$this->load->model('fisico/MHistorialAnticipo');
+		$this->load->model('fisico/MHistorialMovimiento');
+		$this->load->model('fisico/MMedidaJudicial');
+		$this->load->model('kernel/KDirectiva');
+		
 
 		$this->Componente = new $this->MComponente();
 
@@ -345,7 +345,7 @@ class MBeneficiario extends CI_Model{
 			observ_ult_modificacion=\'MODIFICACION DATOS BASICOS\'
 		WHERE cedula = \'' . $this->cedula .  '\'';
 		//echo $sActualizar;
-		return $this->Dbpace->consultar($sActualizar);
+		return $this->DBSpace->consultar($sActualizar);
 
 	}
 
@@ -358,13 +358,13 @@ class MBeneficiario extends CI_Model{
 			observ_ult_modificacion=\'MODIFICACION DE CUENTA\'
 		WHERE cedula = \'' . $this->cedula .  '\'';
 		//echo $sActualizar;
-		$this->Dbpace->consultar($sActualizar);
+		$this->DBSpace->consultar($sActualizar);
 
 		$sActualizar = 'UPDATE beneficiario_calc SET
 			numero_cuenta = \'' . $this->numero_cuenta .  '\'
 		WHERE cedula = \'' . $this->cedula .  '\'';
 		//echo $sActualizar;
-		$this->Dbpace->consultar($sActualizar);
+		$this->DBSpace->consultar($sActualizar);
 
 	}
 
@@ -373,7 +373,7 @@ class MBeneficiario extends CI_Model{
 
 	}
 
-	public function obtenerID($id, $fecha = ''){
+	public function ObtenerID($id, $fecha = ''){
 		$obj = $this->_consultar($id);
 		if($obj->code == 0 ){
 			foreach ($obj->rs as $clv => $val) {
@@ -421,9 +421,8 @@ class MBeneficiario extends CI_Model{
 			$this->HistorialAnticipo = $this->MHistorialAnticipo->listar($id);
 
 			if($fecha != '') $this->fecha_retiro = $fecha; //En el caso de calcular finiquitos
-			$this->MCalculo->iniciarCalculosBeneficiario($this->MBeneficiario);
-			//$this->Calculo =
 		}
+		return $this;
 	}
 
 	/**
@@ -431,7 +430,7 @@ class MBeneficiario extends CI_Model{
 	*
 	* @access private
 	* @param string
-	* @return Dbpace
+	* @return DBSpace
 	*/
 	private function _consultar($cedula = '', $tabla = ''){
 
@@ -486,7 +485,10 @@ class MBeneficiario extends CI_Model{
 			WHERE
 				beneficiario.cedula=\'' . $cedula . '\'';
 
-		$obj = $this->Dbpace->consultar($sConsulta);
+
+		//echo $sConsulta;
+
+		$obj = $this->DBSpace->consultar($sConsulta);
 
 		return $obj;
 
@@ -498,7 +500,7 @@ class MBeneficiario extends CI_Model{
 	*
 	* @access public
 	* @param string
-	* @return Dbpace
+	* @return DBSpace
 	*/
 	public function listarPorComponente($idComponente = 0){
 		$this->load->model('beneficiario/MCalculo');
@@ -522,7 +524,7 @@ class MBeneficiario extends CI_Model{
 				WHERE beneficiario.status_id=201
 				AND beneficiario.componente_id = ' . $idComponente . '  LIMIT 10';
 
-	  	$obj = $this->Dbpace->consultar($sConsulta);
+	  	$obj = $this->DBSpace->consultar($sConsulta);
 		$i = 0;
 		foreach ($obj->rs as $clv => $val) {
 				$Beneficiario = new $this->MBeneficiario();
@@ -737,7 +739,7 @@ class MBeneficiario extends CI_Model{
 		)';
 		//echo $sInsertar;
 
-		$obj = $this->Dbpace->consultar($sInsertar);
+		$obj = $this->DBSpace->consultar($sInsertar);
 
 	}
 
@@ -757,7 +759,7 @@ class MBeneficiario extends CI_Model{
 			f_ult_modificacion=\'' . date("Y-m-d H:i:s") . '\'
 		WHERE cedula=\'' . $this->Beneficiario->cedula . '\'';
 		//echo $sActualizar;
-		$obj = $this->Dbpace->consultar($sActualizar);
+		$obj = $this->DBSpace->consultar($sActualizar);
 	}
 
 	function ParalizarDesparalizar(){
@@ -776,7 +778,7 @@ class MBeneficiario extends CI_Model{
 			f_ult_modificacion=\'' . date("Y-m-d H:i:s") . '\'
 		WHERE cedula=\'' . $this->cedula . '\'';
 		//echo $sActualizar;
-		$obj = $this->Dbpace->consultar($sActualizar);
+		$obj = $this->DBSpace->consultar($sActualizar);
 	}
 
 
@@ -846,7 +848,7 @@ class MBeneficiario extends CI_Model{
 		)';
 		//echo $sInsertar;
 
-		$obj = $this->Dbpace->consultar($sInsertar);
+		$obj = $this->DBSpace->consultar($sInsertar);
 
 
 	}
@@ -895,7 +897,7 @@ class MBeneficiario extends CI_Model{
 		}
 
 		//echo $sInsertar;
-		$obj = $this->Dbpace->consultar($sInsertar);
+		$obj = $this->DBSpace->consultar($sInsertar);
 
 	}
 
@@ -948,7 +950,7 @@ class MBeneficiario extends CI_Model{
 	function detalleMovimientoFamiliar($ced = '', $cod){
 		$lst = array();
 		$sConsulta = 'SELECT * FROM space.mov_familia where cedu=\'' . $ced . '\' AND codi =\'' . $cod . '\'';
-		$obj = $this->Dbpace->consultar($sConsulta);
+		$obj = $this->DBSpace->consultar($sConsulta);
 		foreach ($obj->rs as $clv => $val) {
 			$lst[] = array(
 				'codigo' => $val->posi,

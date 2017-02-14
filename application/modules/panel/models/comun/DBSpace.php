@@ -13,26 +13,26 @@ if (!defined('BASEPATH'))
  * @since version 1.0
  *
  */
-class Dbsaman extends CI_Model {
+class DBSpace extends CI_Model {
 	
-	var $__DB;
+	var $__DB = NULL;
 	
-	var $err;
+	var $err = NULL;
 	/**
 	*	Constructor de la Calse
 	*
 	*/
 	function __construct(){
 		parent::__construct();
-		$this->__iniciarSaman();
+		$this->__iniciarPace();
 	}
 
 	/**
 	*	Establecer Conexión a la Base de datos SAMAN
 	*/
-	private function __iniciarSaman(){
+	private function __iniciarPace(){
 		if (! isset ( $this->__DB )) {
-			$this->__DB = $this->load->database('saman', true);
+			$this->__DB = $this->load->database('default', true);
 		}
 		return $this->__DB;
 	}
@@ -52,7 +52,7 @@ class Dbsaman extends CI_Model {
 				);
 		if ( ! (@$rs = $this->__DB->query($consulta))){
 			$this->err = $this->__DB->error();
-			$this->err['query'] = $consulta;		
+			//$this->err['query'] = $consulta;		
 			$this->err['code'] = 1;
 			$this->err['cant'] = 0;
 			//En el caso de un error se genera $err['message']
@@ -63,9 +63,10 @@ class Dbsaman extends CI_Model {
 
 			if(is_object($rs)){
 				$this->err['rs'] =  $rs->result();
-				$this->err['cant'] =  $rs->num_rows();
+				$this->err['cant'] =  $rs->num_rows(); //$rs->num_rows(true); //Pendiente por evaluar para postgres
 			}
 		}
+		
 		return (object)$this->err;
 	}
 	

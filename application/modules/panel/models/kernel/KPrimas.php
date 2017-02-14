@@ -15,7 +15,7 @@ if (!defined('BASEPATH'))
  * @since version 1.0
  */
 
-class MPrima extends CI_Model{
+class KPrimas extends CI_Model{
 
 
   /**
@@ -62,9 +62,9 @@ class MPrima extends CI_Model{
   * @return void
   */
   public function __construct(){
-    parent::__construct();
-    $this->load->model('beneficiario/MPrimaDetalle');
-    if(!isset($this->Dbpace)) $this->load->model('comun/Dbpace');
+    parent::__construct();    
+    if(!isset($this->DBSpace)) $this->load->model('comun/DBSpace');
+    $this->load->model('kernel/KPrimasDetalle');
   }
 
 
@@ -81,7 +81,7 @@ class MPrima extends CI_Model{
                   FROM prima_directiva
                   JOIN prima ON prima.id=prima_directiva.prima_id
                   WHERE directiva_id =\'' . $id . '\' order by grado_id ';
-	  $obj = $this->Dbpace->consultar($sConsulta);
+	  $obj = $this->DBSpace->consultar($sConsulta);
 		$lstH = array();
 		$gra = 0;
 		$i = 0;
@@ -125,19 +125,18 @@ class MPrima extends CI_Model{
       JOIN space.fnformula AS fx ON fn.func=fx.oid
     ) fn ON prima.oidd=fn.oidd AND prima.prima_id=fn.refe;';
 
-    $obj = $this->Dbpace->consultar($sConsulta);
+    $obj = $this->DBSpace->consultar($sConsulta);
     $listaPrima = array();
 		if($obj->code == 0 ){ 
 			foreach ($obj->rs as $clv => $val) {
-        $Prima = new $this->MPrima();   
-        $Detalle = new $this->MPrimaDetalle();
+        $Prima = new $this->KPrimas();   
+        $Detalle = new $this->KPrimasDetalle();
         $Prima->id = $val->prima_id;
         $Prima->nombre = $val->nombre;
         $NM = $val->nombre;
 
-        $valor = $this->ejecutarfnx($val->fnx, $val->monto_nominal);
+        $valor = $this->ejecutarFnx($val->fnx, $val->monto_nominal);
 
-        //$this->Beneficiario->Prima[$val->prima_id] = array($NM => $this->$NM($val->monto_nominal));
         $this->Beneficiario->Prima[$val->prima_id] = array($NM => $valor);
         $Prima->descripcion = $val->descripcion;
         $Detalle->id = $val->id;
@@ -160,7 +159,7 @@ class MPrima extends CI_Model{
     return $listaPrima;
   }
 
-  private function ejecutarfnx($fnx, $monto_nominal){
+  private function ejecutarFnx($fnx, $monto_nominal){
     $tiempo_servicio = $this->Beneficiario->tiempo_servicio;
     $unidad_tributaria = $this->unidad_tributaria;
     $sueldo_base = $this->Beneficiario->sueldo_base;

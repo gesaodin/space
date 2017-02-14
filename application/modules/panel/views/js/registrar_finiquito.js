@@ -406,6 +406,10 @@ function consultarBeneficiarioFecha(){
     var fech = ano + '-' + mes + '-' + dia;    
     ruta = sUrlP + "consultarBeneficiario/" + val  + "/" + fech;
     $.getJSON(ruta, function(data) {    
+        var porcentaje = Number(data.MedidaJudicialActiva[1].porcentaje);
+        var monto = Number(data.MedidaJudicialActiva[1].monto);
+
+        embargos = monto + Number(data.Calculo.asignacion_antiguedad_fin_aux*porcentaje /100);
         $("#directiva").val(data.Componente.Grado.Directiva.nombre);    
         //$("#asignacion_antiguedad").val(data.Calculo.asignacion_antiguedad);
         $("#asignacion_antiguedad_fin").val(data.Calculo.asignacion_antiguedad_fin); //se cambio con la AA de la rutina AsignacionFiniquito
@@ -413,8 +417,8 @@ function consultarBeneficiarioFecha(){
         $("#asignacion_antiguedad_aux").val(data.Calculo.asignacion_antiguedad_aux);
         
         $("#anticipos").val(data.Calculo.anticipos);
-        $("#embargos").val(data.Calculo.embargos);
-        $("#embargos_aux").val(data.Calculo.embargos_aux);
+        $("#embargos").val(embargos.formatMoney(2, ',', '.'));
+        $("#embargos_aux").val(parseFloat(embargos).toFixed(2));
         $("#asignacion_depositada").val(data.Calculo.capital_banco);
         $("#monto_recuperar").val(data.Calculo.monto_recuperar);
         $("#asignacion_diferencia").val(data.Calculo.asignacion_diferencia);
@@ -425,6 +429,7 @@ function consultarBeneficiarioFecha(){
 
         $("#comision_servicios").val(data.Calculo.comision_servicios);
         
+
         var total_banco = Number(data.Calculo.saldo_disponible_fini_aux); //+ Number(data.Calculo.dias_adicionales_aux);
         $("#total_banco").val(data.Calculo.saldo_disponible_fini);
         $("#total_banco_calc").val(total_banco);

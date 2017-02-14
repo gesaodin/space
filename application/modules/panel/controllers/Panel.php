@@ -317,6 +317,7 @@ class Panel extends MY_Controller {
 		header('Content-Type: application/json');
 		$this->load->model('beneficiario/MBeneficiario');
 		$this->MBeneficiario->obtenerID($cedula, $fecha);
+		//print_r($this->MBeneficiario);
 		$this->load->model('beneficiario/MOrdenPago');
 		$this->MBeneficiario->HistorialOrdenPagos = $this->MOrdenPago->listarPorCedula($cedula);
 		echo json_encode($this->MBeneficiario);
