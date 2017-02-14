@@ -61,7 +61,7 @@ class MOrdenPago extends CI_Model{
   /**
   * @var double
   */
-  var $porcentaje = '';//se agrega para mostrar el porcentaje otorgado en el punto de cuenta
+  var $porcentaje = 0;//se agrega para mostrar el porcentaje otorgado en el punto de cuenta
 
   /**
   * 100: EJECUTADA | 101: PENDIENTE | 102: RECHAZADA | 103: REVERSADA
