@@ -53,7 +53,11 @@ function consultar() {
             $("#componente").val(data.Componente.nombre);
             $("#grado").val(data.Componente.Grado.nombre);
             $("#fingreso").val(data.fecha_ingreso);
-            $("#tservicio").val(data.tiempo_servicio);
+            if(data.fecha_retiro != null && data.fecha_retiro != '') {
+                   $("#tservicio").val(data.tiempo_servicio_aux);
+            }else{
+                    $("#tservicio").val(data.tiempo_servicio);
+            }
             $("#nhijos").val(data.numero_hijos);
             $("#fuascenso").val(data.fecha_ultimo_ascenso);
             $("#noascenso").val(data.no_ascenso);
@@ -406,9 +410,10 @@ function consultarBeneficiarioFecha(){
     var fech = ano + '-' + mes + '-' + dia;    
     ruta = sUrlP + "consultarBeneficiario/" + val  + "/" + fech;
     $.getJSON(ruta, function(data) {    
+        $("#tservicio").val(data.tiempo_servicio_aux);
+
         var porcentaje = Number(data.MedidaJudicialActiva[1].porcentaje);
         var monto = Number(data.MedidaJudicialActiva[1].monto);
-
         embargos = monto + Number(data.Calculo.asignacion_antiguedad_fin_aux*porcentaje /100);
         $("#directiva").val(data.Componente.Grado.Directiva.nombre);    
         //$("#asignacion_antiguedad").val(data.Calculo.asignacion_antiguedad);
@@ -426,6 +431,7 @@ function consultarBeneficiarioFecha(){
 
         $("#dias_adicionales").val(data.Calculo.dias_adicionales);
         $("#garantias").val(data.Calculo.garantias);
+
 
         $("#comision_servicios").val(data.Calculo.comision_servicios);
         
