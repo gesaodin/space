@@ -15,12 +15,14 @@ if (!defined('BASEPATH'))
  * @since version 1.0
  */
 
-class KCalculo extends CI_Model{
+class KCalculoLote extends CI_Model{
   
   /**
   * @var MBeneficiario
   */
   var $Beneficiario = null;
+
+  var $Directiva = null;
 
 
   /**
@@ -33,16 +35,36 @@ class KCalculo extends CI_Model{
   * @access public
   * @return void
   */
-  public function __construct(){
+  public function __construct( ){
     parent::__construct();
-    $this->load->model('kernel/KDirectiva');
-    $this->load->model('kernel/KPrimas');
+    
   }
 
-  function Ejecutar(MBeneficiario & $Beneficiario){
-    $this->Beneficiario = $Beneficiario;
+
+  /**
+  * Consultar los beneficiario por componente, cargar diirectivas, instanciar las primas y ejeutar calculos
+  *
+  * @access public
+  * @param string
+  * @return DBSpace
+  */
+  function Ejecutar(MBeneficiario & $Bnf, $Dir){
+    $this->Directiva = $Dir;
+    $this->Beneficiario = $Bnf;
+    
     $this->AntiguedadGrado();
     $this->TiempoServicios();
+
+    $cod = $Bnf->grado_codigo . $this->Beneficiario->antiguedad_grado;
+    
+    $sueldo = $Dir['sb'];
+    
+    
+    $Bnf->sueldo_base = isset($sueldo[$cod])? $sueldo[$cod]['sb']: $sueldo[$Bnf->grado_codigo.'M']['sb'];  
+    //echo "SB: " . $Bnf->sueldo_base . "<br>";
+    $this->SumarPrimas();
+
+    /**
     $codigo_grado = $this->Beneficiario->Componente->Grado->codigo;
     $this->Beneficiario->Componente->Grado->Directiva = $this->KDirectiva->obtener($this->Beneficiario);
     $directiva_id = $this->Beneficiario->Componente->Grado->Directiva->id;
@@ -56,9 +78,33 @@ class KCalculo extends CI_Model{
     $this->SueldoIntegral();
     $this->AsignacionAntiguedad();
     $this->AsignacionFiniquito(); //se agrego rutina para calcular AA para finiquito
-    
+    **/
   }
 
+  function SumarPrimas(){
+    //Que grado tiene
+    $lst =  $this->Directiva['sb'][$this->Beneficiario->grado_codigo.'M']['mt'];
+    $valor = 0;
+    $tiempo_servicio = $this->Beneficiario->tiempo_servicio;
+    $unidad_tributaria =  $this->Directiva['ut'];
+    $sueldo_base = $this->Beneficiario->sueldo_base;
+    $no_ascenso = $this->Beneficiario->no_ascenso;
+    $numero_hijos = $this->Beneficiario->numero_hijos;
+
+    foreach ($lst as $c => $v) {
+      $monto_nominal = $v;
+      $rs =  $this->Directiva['fnx'][$c]['rs'];
+      $rs_mt =  $this->Directiva['fnx'][$c]['rs'] . '_mt';
+      $fnx =  $this->Directiva['fnx'][$c]['fn'];
+      eval('$valor = ' . $fnx);
+      $this->Beneficiario->$rs = $valor;
+      $this->Beneficiario->$rs_mt = $monto_nominal;
+
+        
+      
+
+    }
+  }
 
 
   /**

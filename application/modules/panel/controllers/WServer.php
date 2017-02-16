@@ -48,13 +48,19 @@ class WServer extends REST_Controller{
 	**/
 
 	public function index_get(){
-		$this->load->model('comun/DBSpace');
-		$this->load->model('kernel/KCargador');
-		$Beneficiario = $this->KCargador->ConsultarBeneficiario($this->get('id'));
+		//$this->load->model('comun/DBSpace');
+		$this->load->model("comun/DbSaman");
+		//$this->load->model('kernel/KCargador');
+		//$Beneficiario = $this->KCargador->ConsultarBeneficiario($this->get('id'));
 		
-		$rs = $this->DBSpace->consultar($sCon);
-	
+		$con = $this->DbSaman->consultar('SELECT codnip AS cedula FROM personas  LIMIT 10');
+		
+		$lst = array();
+		foreach ($con->rs as $c => $v) {
+			$lst[] = (array)$v;
+		}
 		$this->response($lst);
+		//$this->response($Beneficiario);
 	}
 
 	public function index_post(){

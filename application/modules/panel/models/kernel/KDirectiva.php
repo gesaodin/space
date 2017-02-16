@@ -69,49 +69,49 @@ class KDirectiva extends CI_Model{
   *
   * @param int
   */
-  public function iniciar(){
-    //$fecha = date("Y-m-d");
-    $fecha = '2016-08-01';
-    $sConsulta = 'SELECT 
-        A.id, A.nombre, A.numero, A.f_vigencia, 
-        A.f_inicio, udad_tributaria, detalle_directiva.grado_id, 
+  public function Cargar($id){
+    $this->load->model('kernel/KPrimas');
+    $this->load->model('kernel/KFunciones');
+    
+    $lst = array();
+    $sConsulta = 'SELECT A.id, A.nombre, A.numero, A.f_vigencia, A.f_inicio, 
+    udad_tributaria, detalle_directiva.grado_id, 
         detalle_directiva.anio, detalle_directiva.sueldo_base 
         FROM (SELECT * FROM directiva_sueldo 
-          WHERE f_inicio < \'' . $fecha . '\'  AND f_vigencia > \'' . $fecha . '\' ORDER BY f_inicio desc LIMIT 1) AS A 
+          WHERE id=' . $id . ' ORDER BY f_inicio desc LIMIT 1) AS A 
       JOIN 
         detalle_directiva ON A.id=detalle_directiva.directiva_sueldo_id
       ORDER BY grado_id, anio;';
 
-    
-    $obj = $this->DBSpace->consultar($sConsulta);
-		if($obj->code == 0 ){
+    $obj = $this->Dbpace->consultar($sConsulta);
+    if($obj->code == 0 ){
       
-      $this->id = $obj->rs[0]->id;
-      $this->nombre = $obj->rs[0]->nombre;
-      $this->numero = $obj->rs[0]->numero;      
       $this->fecha_inicio = $obj->rs[0]->f_inicio;
       $this->fecha_vigencia = $obj->rs[0]->f_vigencia;
       $this->unidad_tributaria = $obj->rs[0]->udad_tributaria;
       $grado = $obj->rs[0]->grado_id;
+      $list = array(
+        'oid'=>$obj->rs[0]->id,
+        'ut' => $obj->rs[0]->udad_tributaria,
+        'fnx' => array()
+        ); 
+
       $rs = $obj->rs;
-			foreach ($rs as $clv => $val) {        
+      foreach ($rs as $clv => $val) {       
         if($grado != $val->grado_id){
-          $this->Detalle[$grado . 'M'] = $Detalle;
-          $grado = $val->grado_id;
+          $lst[$grado . 'M'] = array('sb' => $sueldo,'mt' => array());
+          $grado = $val->grado_id;          
         }
-        $Detalle = new $this->KDirectivaDetalle();
-        $Detalle->grado_id = $val->grado_id;
-        $Detalle->ano_servicio = $val->anio;
-        $Detalle->sueldo_base = $val->sueldo_base;
-
-        $codigo = $val->grado_id . $val->anio;
-        $this->Detalle[$codigo] = $Detalle;
-        
+        $codigo = $val->grado_id . $val->anio; 
+        $sueldo = $val->sueldo_base;
+        $lst[$codigo] = array('sb' => $sueldo);        
       }
-      $this->Detalle[$grado . 'M'] = $Detalle;
-
+      $lst[$grado . 'M'] = array('sb' => $sueldo,'mt' => array());
+      $list['sb'] = $lst;
     }
-    return $this;
+    $this->KFunciones->Cargar($list);
+    $this->KPrimas->Cargar($list);
+    return $list;
    
   }
 

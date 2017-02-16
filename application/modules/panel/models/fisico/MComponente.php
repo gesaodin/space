@@ -50,7 +50,7 @@ class MComponente extends CI_Model{
   */
   public function __construct(){
     parent::__construct();
-    $this->load->model('beneficiario/MGrado');
+    $this->load->model('fisico/MGrado');
     $this->Grado = new $this->MGrado();
     if(!isset($this->DBSpace)) $this->load->model('comun/DBSpace');
   }

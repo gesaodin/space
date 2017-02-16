@@ -76,23 +76,24 @@ class KPrimas extends CI_Model{
   * @param int
   * @return array
   */
-  public function obtenerSegunDirectiva($id){
-    $sConsulta = 'SELECT directiva_id, grado_id, prima_id, prima.nombre, monto_nominal, monto_ut 
-                  FROM prima_directiva
-                  JOIN prima ON prima.id=prima_directiva.prima_id
-                  WHERE directiva_id =\'' . $id . '\' order by grado_id ';
+  public function Cargar(&$Dir){
+    $sConsulta = '
+      SELECT prima_directiva.id, prima_directiva.prima_id, prima.nombre, 
+      prima.descripcion, monto_nominal, monto_ut,directiva_id AS oidd,
+      grado_id
+      FROM prima_directiva 
+      JOIN prima ON prima_directiva.prima_id=prima.id 
+      WHERE directiva_id= ' . $Dir['oid'] . ' 
+      ORDER BY grado_id, prima_id ';
+    
 	  $obj = $this->DBSpace->consultar($sConsulta);
+    $sb = &$Dir['sb'];
 		$lstH = array();
 		$gra = 0;
 		$i = 0;
-		foreach ($obj->rs as $clv => $val) {		
-			if($gra != $val->grado_id){
-				$lstH = array();
-				$gra = $val->grado_id;
-			}
-			$lstH[] = array($val->nombre => $val->monto_nominal);
-			$this->Detalle[$gra] = $lstH;
-			$i++;				
+		foreach ($obj->rs as $clv => $v) {		
+		  	$sb[$v->grado_id . 'M']['mt'][$v->prima_id ] =$v->monto_nominal; 
+
 		}
 		return $this;
 

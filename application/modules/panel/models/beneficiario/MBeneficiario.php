@@ -501,10 +501,14 @@ class MBeneficiario extends CI_Model{
 	* @return Dbpace
 	*/
 	public function listarPorComponente($idComponente = 0){
+		
 		$this->load->model('beneficiario/MCalculo');
 		$this->load->model('beneficiario/MDirectiva');
 	    $Directiva = $this->MDirectiva->iniciar();
 	    $this->load->model('beneficiario/MPrima');
+	    
+	    
+/**
 	    $Prima = $this->MPrima->obtenerSegunDirectiva($Directiva->id);
 	    $Prima->unidad_tributaria = $Directiva->unidad_tributaria;
 		$this->load->model('beneficiario/MCalculo');
@@ -520,11 +524,14 @@ class MBeneficiario extends CI_Model{
 				FROM beneficiario
 				JOIN grado ON grado.id=grado_id
 				WHERE beneficiario.status_id=201
-				AND beneficiario.componente_id = ' . $idComponente . '  LIMIT 10';
+				AND beneficiario.componente_id1 = ' . $idComponente . '  LIMIT 10';
+		echo $sConsulta;
+
 
 	  	$obj = $this->Dbpace->consultar($sConsulta);
 		$i = 0;
-		foreach ($obj->rs as $clv => $val) {
+		if($obj->code >0){
+			foreach ($obj->rs as $clv => $val) {
 				$Beneficiario = new $this->MBeneficiario();
 				$Beneficiario->cedula = $val->cedula;
 				$Beneficiario->nombres = $val->nombres;
@@ -548,12 +555,14 @@ class MBeneficiario extends CI_Model{
 				$lst[] = $Beneficiario;
 				$i++;
 		}
+		}
+		
 
 		echo '<pre>';
 		print_r($lst);
 		echo 'Registros Consultados: ' . $i . '<br><br>';
 
-		return $lst;
+		return $lst;**/
 	}
 
 	function CargarFamiliares($id = ''){

@@ -203,6 +203,26 @@ class MBeneficiario extends CI_Model{
 	*/
 	var $asignacion_antiguedad = 0.00;
 
+
+	/**
+	* @var double
+	*/
+	var $garantias = 0.00;
+
+
+	/**
+	* @var double
+	*/
+	var $dias_adicionales = 0.00;
+
+
+	/**
+	* @var double
+	*/
+	var $deposito_banco = 0.00;
+
+
+
 	/**
 	* @var double
 	*/
@@ -312,8 +332,8 @@ class MBeneficiario extends CI_Model{
 		$this->load->model('fisico/MHistorialAnticipo');
 		$this->load->model('fisico/MHistorialMovimiento');
 		$this->load->model('fisico/MMedidaJudicial');
-		$this->load->model('kernel/KDirectiva');
-		
+		$this->load->model('fisico/MDirectiva');
+		$this->load->model('kernel/KCalculo');
 
 		$this->Componente = new $this->MComponente();
 
@@ -369,11 +389,7 @@ class MBeneficiario extends CI_Model{
 	}
 
 
-	public function eliminar(){
-
-	}
-
-	public function ObtenerID($id, $fecha = ''){
+	public function obtenerID($id, $fecha = ''){
 		$obj = $this->_consultar($id);
 		if($obj->code == 0 ){
 			foreach ($obj->rs as $clv => $val) {
@@ -421,8 +437,9 @@ class MBeneficiario extends CI_Model{
 			$this->HistorialAnticipo = $this->MHistorialAnticipo->listar($id);
 
 			if($fecha != '') $this->fecha_retiro = $fecha; //En el caso de calcular finiquitos
+			$this->MCalculo->iniciarCalculosBeneficiario($this->MBeneficiario);
+			//$this->Calculo =
 		}
-		return $this;
 	}
 
 	/**
@@ -434,14 +451,6 @@ class MBeneficiario extends CI_Model{
 	*/
 	private function _consultar($cedula = '', $tabla = ''){
 
-		/** SIN BENEFICIARIO CALC
-		$sConsulta = 'SELECT
-		  cedula, nombres, apellidos, grado_id,componente_id, tiempo_servicio, fecha_ingreso,
-		  edo_civil, n_hijos, f_ult_ascenso, anio_reconocido, mes_reconocido,
-		  dia_reconocido, f_ingreso_sistema, f_retiro, f_retiro_efectiva,
-		  status_id, st_no_ascenso, numero_cuenta, st_profesion, sexo, status.descripcion AS estatus_descripcion
-		FROM beneficiario JOIN status ON beneficiario.status_id=status.id WHERE cedula=\'' . $cedula . '\'';
-		**/
 		$tbl = $tabla == ''? 'beneficiario' : $tabla;
 
 		$sConsulta = '
@@ -485,9 +494,6 @@ class MBeneficiario extends CI_Model{
 			WHERE
 				beneficiario.cedula=\'' . $cedula . '\'';
 
-
-		//echo $sConsulta;
-
 		$obj = $this->DBSpace->consultar($sConsulta);
 
 		return $obj;
@@ -495,68 +501,7 @@ class MBeneficiario extends CI_Model{
 	}
 
 
-	/**
-	* Consultar los beneficiario por componente, cargar diirectivas, instanciar las primas y ejeutar calculos
-	*
-	* @access public
-	* @param string
-	* @return DBSpace
-	*/
-	public function listarPorComponente($idComponente = 0){
-		$this->load->model('beneficiario/MCalculo');
-		$this->load->model('beneficiario/MDirectiva');
-	    $Directiva = $this->MDirectiva->iniciar();
-	    $this->load->model('beneficiario/MPrima');
-	    $Prima = $this->MPrima->obtenerSegunDirectiva($Directiva->id);
-	    $Prima->unidad_tributaria = $Directiva->unidad_tributaria;
-		$this->load->model('beneficiario/MCalculo');
-
-		$this->load->model('beneficiario/MHistorialMovimiento');
-		$HistorialMovimiento = $this->MHistorialMovimiento->listarPorComponente($idComponente);
-
-		$sConsulta = 'SELECT
-				cedula, nombres, apellidos, grado_id, beneficiario.componente_id, tiempo_servicio, fecha_ingreso,
-				edo_civil, n_hijos, f_ult_ascenso, anio_reconocido, mes_reconocido,
-				dia_reconocido, f_ingreso_sistema, f_retiro, f_retiro_efectiva,
-				beneficiario.status_id, st_no_ascenso, numero_cuenta, st_profesion, sexo,grado.codigo AS grado_codigo, grado.nombre
-				FROM beneficiario
-				JOIN grado ON grado.id=grado_id
-				WHERE beneficiario.status_id=201
-				AND beneficiario.componente_id = ' . $idComponente . '  LIMIT 10';
-
-	  	$obj = $this->DBSpace->consultar($sConsulta);
-		$i = 0;
-		foreach ($obj->rs as $clv => $val) {
-				$Beneficiario = new $this->MBeneficiario();
-				$Beneficiario->cedula = $val->cedula;
-				$Beneficiario->nombres = $val->nombres;
-				$Beneficiario->apellidos = $val->apellidos;
-				$Beneficiario->estado_civil = $val->edo_civil;
-				$Beneficiario->estus_activo = $val->status_id;
-				$Beneficiario->numero_hijos = $val->n_hijos;
-				$Beneficiario->fecha_ingreso = $val->fecha_ingreso;
-				$Beneficiario->ano_reconocido = $val->anio_reconocido;
-				$Beneficiario->mes_reconocido = $val->mes_reconocido;
-				$Beneficiario->dia_reconocido = $val->dia_reconocido;
-				$Beneficiario->sexo = $val->sexo;
-				$Beneficiario->fecha_ultimo_ascenso = $val->f_ult_ascenso;
-				$Beneficiario->no_ascenso = $val->st_no_ascenso;
-				$Beneficiario->profesionalizacion = $val->st_profesion;
-				$Beneficiario->fecha_retiro = $val->f_retiro;
-				$Beneficiario->fecha_retiro_efectiva = $val->f_retiro_efectiva;
-				$Beneficiario->grado_codigo = $val->grado_codigo;
-
-				$this->MCalculo->iniciarCalculosLote($Beneficiario, $HistorialMovimiento, $Directiva, $Prima);
-				$lst[] = $Beneficiario;
-				$i++;
-		}
-
-		echo '<pre>';
-		print_r($lst);
-		echo 'Registros Consultados: ' . $i . '<br><br>';
-
-		return $lst;
-	}
+	
 
 	function CargarFamiliares($id = ''){
 		$this->load->model('comun/DbSaman');
