@@ -93,7 +93,6 @@ class KPrimas extends CI_Model{
 		$i = 0;
 		foreach ($obj->rs as $clv => $v) {		
 		  	$sb[$v->grado_id . 'M']['mt'][$v->prima_id ] =$v->monto_nominal; 
-
 		}
 		return $this;
 

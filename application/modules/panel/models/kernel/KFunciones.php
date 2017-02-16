@@ -54,8 +54,5 @@ class KFunciones extends CI_Model{
 
   }
 
-  function EjecutarFnx(){
-
-  }
 
 }

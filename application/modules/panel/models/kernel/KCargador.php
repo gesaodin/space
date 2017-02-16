@@ -73,7 +73,7 @@ class KCargador extends CI_Model{
         grado ON beneficiario.grado_id=grado.id
       LEFT JOIN space.tablacruce ON beneficiario.cedula=space.tablacruce.cedula
 
-      WHERE beneficiario.status_id=201 
+      WHERE beneficiario.status_id=201 LIMIT 1
     ");
 
     
@@ -83,11 +83,10 @@ class KCargador extends CI_Model{
     foreach ($con->rs as $k => $v) {
       $Bnf = new $this->MBeneficiario;
       $Bnf->cedula = $v->cedula;
-      $Bnf->fecha_ingreso = $v->fecha_ingreso;
-      //$Bnf->grado_id = $v->grado_id;
-      $Bnf->asignacion_antiguedad = $v->asig_antiguedad;
+      $Bnf->fecha_ingreso = $v->fecha_ingreso;      
+      $Bnf->deposito_banco = $v->asig_antiguedad;
       $Bnf->garantias = $v->dep_garantia;
-      $Bnf->dia_adicional = $v->dep_adicional;
+      $Bnf->dias_adicionales = $v->dep_adicional;
       $Bnf->numero_hijos = $v->n_hijos;
       $Bnf->no_ascenso = $v->st_no_ascenso;
 
@@ -100,12 +99,13 @@ class KCargador extends CI_Model{
 
       $linea = $v->cedula . ';' . $v->fecha_ingreso . ';' . $Bnf->fecha_ultimo_ascenso . ';' . 
       $Bnf->grado_codigo. ';' . $Bnf->sueldo_base . ';' . 
-      $Bnf->asignacion_antiguedad . ';' . $Bnf->garantias . ';' . $Bnf->dia_adicional;
+      $Bnf->deposito_banco . ';' . $Bnf->garantias . ';' . $Bnf->dias_adicionales;
 
-      //print_r($Bnf);
-      //fputs($file,"\n");
+      print_r($Bnf);
+
       //fputs($file,$linea);
-      
+      //fputs($file,"\n");      
+      unset($Bnf);
     }
     //fclose($file);
   

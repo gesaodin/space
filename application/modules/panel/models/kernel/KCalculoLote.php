@@ -63,6 +63,12 @@ class KCalculoLote extends CI_Model{
     $Bnf->sueldo_base = isset($sueldo[$cod])? $sueldo[$cod]['sb']: $sueldo[$Bnf->grado_codigo.'M']['sb'];  
     //echo "SB: " . $Bnf->sueldo_base . "<br>";
     $this->SumarPrimas();
+    $this->SueldoMensual();
+    $this->GenerarAlicuotaAguinaldo();
+    $this->GenerarAlicuotaVacaciones();
+    $this->GenerarSueldoIntegral();
+    $this->GenerarAsignacionAntiguedad();
+    $this->GenerarNoDepositadoBanco();
 
     /**
     $codigo_grado = $this->Beneficiario->Componente->Grado->codigo;
@@ -85,6 +91,7 @@ class KCalculoLote extends CI_Model{
     //Que grado tiene
     $lst =  $this->Directiva['sb'][$this->Beneficiario->grado_codigo.'M']['mt'];
     $valor = 0;
+    $this->Beneficiario->monto_total_prima = 0;
     $tiempo_servicio = $this->Beneficiario->tiempo_servicio;
     $unidad_tributaria =  $this->Directiva['ut'];
     $sueldo_base = $this->Beneficiario->sueldo_base;
@@ -97,14 +104,16 @@ class KCalculoLote extends CI_Model{
       $rs_mt =  $this->Directiva['fnx'][$c]['rs'] . '_mt';
       $fnx =  $this->Directiva['fnx'][$c]['fn'];
       eval('$valor = ' . $fnx);
-      $this->Beneficiario->$rs = $valor;
+      $this->Beneficiario->$rs = round($valor,2);
       $this->Beneficiario->$rs_mt = $monto_nominal;
-
-        
-      
-
+      $this->Beneficiario->monto_total_prima += $this->Beneficiario->$rs;
     }
   }
+
+  function SueldoMensual(){
+    $this->Beneficiario->sueldo_mensual = $this->Beneficiario->sueldo_base + $this->Beneficiario->monto_total_prima;
+  }
+
 
 
   /**
@@ -272,18 +281,27 @@ class KCalculoLote extends CI_Model{
         $cal =  round(((105 * $sueldo_global)/30)/12, 2);
         $this->Beneficiario->aguinaldos = $cal;
         $this->Beneficiario->aguinaldos_aux = number_format($cal, 2, ',','.');
-      }else{ if($this->Beneficiario->fecha_retiro < '2016-10-31'){
-        $sueldo_global = $this->Beneficiario->sueldo_global;
-        $cal =  round(((90 * $sueldo_global)/30)/12, 2);
-        $this->Beneficiario->aguinaldos = $cal;
-        $this->Beneficiario->aguinaldos_aux = number_format($cal, 2, ',','.');
-      }else{
-        $sueldo_global = $this->Beneficiario->sueldo_global;
-        $cal = ((105 * $sueldo_global)/30)/12;
-        $this->Beneficiario->aguinaldos = $cal;
-        $this->Beneficiario->aguinaldos_aux = number_format($cal, 2, ',','.');
-      }
+      }else{ 
+        if($this->Beneficiario->fecha_retiro < '2016-10-31'){
+          $sueldo_global = $this->Beneficiario->sueldo_global;
+          $cal =  round(((90 * $sueldo_global)/30)/12, 2);
+          $this->Beneficiario->aguinaldos = $cal;
+          $this->Beneficiario->aguinaldos_aux = number_format($cal, 2, ',','.');
+        }else{
+          $sueldo_global = $this->Beneficiario->sueldo_global;
+          $cal = ((105 * $sueldo_global)/30)/12;
+          $this->Beneficiario->aguinaldos = $cal;
+          $this->Beneficiario->aguinaldos_aux = number_format($cal, 2, ',','.');
+        }
     }
+  }
+  /**
+  * SE USA PARA LOS PROCESOS POR LOTES
+  */
+  public function GenerarAlicuotaAguinaldo(){
+    $sm = $this->Beneficiario->sueldo_mensual;
+    $cal = $this->Beneficiario->fecha_retiro < '2016-10-31'? ((90 * $sm)/30)/12:((105 * $sm)/30)/12;
+    $this->Beneficiario->aguinaldos = round($cal,2);
   }
 
   /**
@@ -316,6 +334,20 @@ class KCalculoLote extends CI_Model{
    
   }
 
+  function GenerarAlicuotaVacaciones(){
+    
+    $TM = $this->Beneficiario->tiempo_servicio;
+    if ($TM > 0 && $TM <= 14) {
+      $dia = 40;
+    }else if($TM > 14 && $TM <= 24){
+      $dia = 45;
+    }else if($TM > 24){
+      $dia = 50;
+    }    
+    $this->Beneficiario->vacaciones = round((($dia * $this->Beneficiario->sueldo_mensual)/30)/12, 2);   
+   
+  }
+
   /**
   * Sueldo Integral #007
   * X = SUM(SG + AV + AA)
@@ -336,6 +368,11 @@ class KCalculoLote extends CI_Model{
 
   }
 
+  public function GenerarSueldoIntegral(){
+       $this->Beneficiario->sueldo_integral = $this->Beneficiario->sueldo_mensual + $this->Beneficiario->vacaciones + $this->Beneficiario->aguinaldos;
+  }
+
+
   /**
   * Asignacion de Antiguedad #007
   * X = SI * TS
@@ -350,6 +387,11 @@ class KCalculoLote extends CI_Model{
     $this->Beneficiario->asignacion_antiguedad = $this->Beneficiario->sueldo_integral * $this->Beneficiario->tiempo_servicio;
     $this->Beneficiario->asignacion_antiguedad_aux = number_format($this->Beneficiario->asignacion_antiguedad, 2, ',','.');
     return $this->Beneficiario->asignacion_antiguedad;
+  }
+
+
+  public function GenerarAsignacionAntiguedad(){
+    $this->Beneficiario->asignacion_antiguedad = $this->Beneficiario->sueldo_integral * $this->Beneficiario->tiempo_servicio;
   }
 
  /**
@@ -431,6 +473,11 @@ class KCalculoLote extends CI_Model{
   public function NoDepositadoBanco(){
     return $this->Beneficiario->asignacion_antiguedad - $this->Beneficiario->Calculos['deposito_banco'];
   }
+
+  public function GenerarNoDepositadoBanco(){
+    $this->Beneficiario->no_depositado_banco = $this->Beneficiario->asignacion_antiguedad - $this->Beneficiario->deposito_banco;
+  }
+
 
   /**
   * Garantias 

@@ -67,21 +67,7 @@ class MBeneficiario extends CI_Model{
 	*/
 	var $fecha_ingreso_reconocida = '';
 
-	/**
-	* @var string
-	*/
-	var $tiempo_servicio = 0;
-
-	/**
-	* @var string
-	*/
-	var $tiempo_servicio_aux = 0;
-
-	/**
-	* @var string
-	*/
-	var $tiempo_servicio_db = 0;
-
+	
 
 	/**
 	* @var date
@@ -174,6 +160,11 @@ class MBeneficiario extends CI_Model{
 	var $motivo_paralizacion = '';
 
 	/**
+	* @var double
+	*/
+	var $ano_antiguedad = 0.00;
+
+	/**
 	* @var string
 	*/
 	var $observacion = '';
@@ -186,12 +177,63 @@ class MBeneficiario extends CI_Model{
 	/**
 	* @var double
 	*/
-	var $sueldo_global = 0.00;
+	var $prima_descendencia = 0.00;
+	var $prima_descendencia_mt = 0;
+
+	/**
+	* @var double
+	*/
+	var $prima_transporte = 0.00;
+	var $prima_transporte_mt = 0;
+
+	/**
+	* @var double
+	*/
+	var $prima_especial = 0.00;
+	var $prima_especial_mt = 0;
+
+	/**
+	* @var double
+	*/
+	var $prima_noascenso = 0.00;
+	var $prima_noascenso_mt = 0;
+
+	/**
+	* @var double
+	*/
+	var $prima_tiemposervicio = 0.00;
+	var $prima_tiemposervicio_mt = 0;
+
+	/**
+	* @var double
+	*/
+	var $prima_profesionalizacion = 0.00;
+	var $prima_profesionalizacion_mt = 0;
+	
+
+	/**
+	* @var double
+	*/
+	var $monto_total_prima = 0.00;
+
+	/**
+	* @var double
+	*/
+	var $sueldo_mensual = 0.00;
+
+
 
 	/**
 	* @var double
 	*/
 	var $aguinaldos = 0.00;
+
+
+	/**
+	* @var double
+	*/
+	var $vacaciones = 0.00;
+
 
 	/**
 	* @var double
@@ -199,10 +241,43 @@ class MBeneficiario extends CI_Model{
 	var $sueldo_integral = 0.00;
 
 	/**
+	* @var string
+	*/
+	var $tiempo_servicio = 0;
+
+	/**
+	* @var string
+	*/
+	var $tiempo_servicio_aux = 0;
+
+	/**
+	* @var string
+	*/
+	var $tiempo_servicio_db = 0;
+
+
+	/**
 	* @var double
 	*/
 	var $asignacion_antiguedad = 0.00;
 
+
+	/**
+	* @var double
+	*/
+	var $sueldo_global = 0.00;
+
+	
+
+	/**
+	* @var double
+	*/
+	var $deposito_banco = 0.00;
+
+	/**
+	* @var double
+	*/
+	var $no_depositado_banco = 0.00;
 
 	/**
 	* @var double
@@ -215,58 +290,7 @@ class MBeneficiario extends CI_Model{
 	*/
 	var $dias_adicionales = 0.00;
 
-
-	/**
-	* @var double
-	*/
-	var $deposito_banco = 0.00;
-
-
-
-	/**
-	* @var double
-	*/
-	var $vacaciones = 0.00;
-
-	/**
-	* @var double
-	*/
-	var $ano_antiguedad = 0.00;
-
-	/**
-	* @var double
-	*/
-	var $no_depositado_banco = 0.00;
-
-	/**
-	* @var double
-	*/
-	var $prima_descendencia = 0.00;
-
-	/**
-	* @var double
-	*/
-	var $prima_transporte = 0.00;
-
-	/**
-	* @var double
-	*/
-	var $prima_especial = 0.00;
-
-	/**
-	* @var double
-	*/
-	var $prima_noascenso = 0.00;
-
-	/**
-	* @var double
-	*/
-	var $prima_tiemposervicio = 0.00;
-
-	/**
-	* @var double
-	*/
-	var $prima_profesionalizacion = 0.00;
+	
 
 	/**
 	* @var MPrima
