@@ -73,7 +73,7 @@ class KCargador extends CI_Model{
         grado ON beneficiario.grado_id=grado.id
       LEFT JOIN space.tablacruce ON beneficiario.cedula=space.tablacruce.cedula
 
-      WHERE beneficiario.status_id=201 LIMIT 1
+      WHERE beneficiario.status_id=201 limit 1
     ");
 
     
@@ -85,8 +85,8 @@ class KCargador extends CI_Model{
       $Bnf->cedula = $v->cedula;
       $Bnf->fecha_ingreso = $v->fecha_ingreso;      
       $Bnf->deposito_banco = $v->asig_antiguedad;
-      $Bnf->garantias = $v->dep_garantia;
-      $Bnf->dias_adicionales = $v->dep_adicional;
+      $Bnf->garantias_acumuladas = $v->dep_garantia;
+      $Bnf->dias_adicionales_acumulados = $v->dep_adicional;
       $Bnf->numero_hijos = $v->n_hijos;
       $Bnf->no_ascenso = $v->st_no_ascenso;
 

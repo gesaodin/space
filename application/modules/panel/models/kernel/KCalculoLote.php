@@ -50,18 +50,14 @@ class KCalculoLote extends CI_Model{
   */
   function Ejecutar(MBeneficiario & $Bnf, $Dir){
     $this->Directiva = $Dir;
-    $this->Beneficiario = $Bnf;
-    
+    $this->Beneficiario = $Bnf;    
     $this->AntiguedadGrado();
     $this->TiempoServicios();
-
     $cod = $Bnf->grado_codigo . $this->Beneficiario->antiguedad_grado;
     
-    $sueldo = $Dir['sb'];
-    
-    
+    $sueldo = $Dir['sb'];     
     $Bnf->sueldo_base = isset($sueldo[$cod])? $sueldo[$cod]['sb']: $sueldo[$Bnf->grado_codigo.'M']['sb'];  
-    //echo "SB: " . $Bnf->sueldo_base . "<br>";
+
     $this->SumarPrimas();
     $this->SueldoMensual();
     $this->GenerarAlicuotaAguinaldo();
@@ -69,22 +65,9 @@ class KCalculoLote extends CI_Model{
     $this->GenerarSueldoIntegral();
     $this->GenerarAsignacionAntiguedad();
     $this->GenerarNoDepositadoBanco();
+    $this->GenerarGrarantias();
+    $this->GenerarDiasAdicionales();
 
-    /**
-    $codigo_grado = $this->Beneficiario->Componente->Grado->codigo;
-    $this->Beneficiario->Componente->Grado->Directiva = $this->KDirectiva->obtener($this->Beneficiario);
-    $directiva_id = $this->Beneficiario->Componente->Grado->Directiva->id;
-    $this->Beneficiario->Componente->Grado->Prima = $this->KPrimas->obtener($codigo_grado, $directiva_id,  $this->Beneficiario);
-
-
-    $this->Beneficiario->sueldo_global = $this->SueldoGlobal();
-    $this->Beneficiario->sueldo_global_aux = number_format($this->SueldoGlobal(), 2, ',','.');
-    $this->AlicuotaAguinaldo();
-    $this->AlicuotaVacaciones();
-    $this->SueldoIntegral();
-    $this->AsignacionAntiguedad();
-    $this->AsignacionFiniquito(); //se agrego rutina para calcular AA para finiquito
-    **/
   }
 
   function SumarPrimas(){
@@ -480,7 +463,7 @@ class KCalculoLote extends CI_Model{
 
 
   /**
-  * Garantias 
+  * Garantias (Acumuladas en tabla Movimiento)
   * CODIGO MOVIMIENTO: 32
   *
   * @access public
@@ -492,7 +475,20 @@ class KCalculoLote extends CI_Model{
   }
 
   /**
-  * Dias Adiciaonales
+  * Calculo de Garantias 
+  * (SI/30) * 15D
+  * SI : Sueldo Integral
+  * D: DIAS
+  *
+  * @access public
+  * @return double
+  */
+  public function GenerarGrarantias(){
+    $this->Beneficiario->garantias = round(($this->Beneficiario->sueldo_integral /30) * 15,2);    
+  }  
+
+  /**
+  * Dias Adiciaonales (Acumuladas en la tabla Movimiento)
   * CODIGO MOVIMIENTO: 31
   *
   * @access public
@@ -502,6 +498,23 @@ class KCalculoLote extends CI_Model{
     $diasA = isset($this->Beneficiario->HistorialMovimiento[31]) ? $this->Beneficiario->HistorialMovimiento[31]->monto : 0;
     return $diasA;
   }
+
+
+/**
+  * Calculo de Dias Adicionales 
+  * (SM / 30 * 2) * TS
+  * SM : Sueldo Mensual
+  * TS: Tiempo de Servicio
+  *
+  * @access public
+  * @return double
+  */
+  public function GenerarDiasAdicionales(){
+    $ts = $this->Beneficiario->tiempo_servicio;
+    $factor = 15;
+    if ( $ts > 0 && $ts < 16 )$factor = $ts;
+    $this->Beneficiario->dias_adicionales = round(($this->Beneficiario->sueldo_mensual / 30 * 2) * $factor,2);
+  } 
 
   /**
   * Total Aportados
@@ -674,11 +687,23 @@ class KCalculoLote extends CI_Model{
   }
 
 
+  /**
+  * Intereses Capitalizados
+  * X = SG * 24
+  *
+  * @access public
+  * @return double
+  */
   public function Interes_Capitalizado_Banco(){
     $monto = isset($this->Beneficiario->HistorialMovimiento[10]) ? $this->Beneficiario->HistorialMovimiento[10]->monto : '0';
   
     return $monto;
   }
+
+  
+
+
+
 
   
 }

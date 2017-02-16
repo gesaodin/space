@@ -282,15 +282,22 @@ class MBeneficiario extends CI_Model{
 	/**
 	* @var double
 	*/
-	var $garantias = 0.00;
-
+	var $garantias_acumuladas = 0.00;
 
 	/**
 	* @var double
 	*/
-	var $dias_adicionales = 0.00;
+	var $garantias = 0.00;
 
-	
+	/**
+	* @var double
+	*/
+	var $dias_adicionales_acumulados = 0.00;
+
+		/**
+	* @var double
+	*/
+	var $dias_adicionales = 0.00;
 
 	/**
 	* @var MPrima
