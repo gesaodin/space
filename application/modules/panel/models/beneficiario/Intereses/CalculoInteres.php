@@ -1,9 +1,9 @@
-<?php 
+<?php
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
 /**
- * MamonSoft 
+ * MamonSoft
  *
  * Calculo de Intereses Compuesto
  *
@@ -16,7 +16,7 @@ if (!defined('BASEPATH'))
  */
 
 class CalculoInteres extends CI_Model{
-
-
+  public function __construct(){
+    
+  }
 }
-
