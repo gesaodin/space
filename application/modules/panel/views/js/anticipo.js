@@ -33,9 +33,9 @@ $( "#id" ).keypress(function( event ) {
 function consultar() {
     var val = $("#id").val();
     ruta = sUrlP + "consultarBeneficiario/" + val;
-    $.getJSON(ruta, function(data) {
 
-        if(data.fecha_retiro != null && data.fecha_retiro != ''){
+    $.getJSON(ruta, function(data) {
+       if(data.fecha_retiro != null && data.fecha_retiro != '' ){
             $("#id").val('');
             var boton = '<button type="button" class="btn btn-success pull-right" onclick="continuar()">';
             boton += '<i class="glyphicon glyphicon-ok"></i>&nbsp;&nbsp;Continuar</button>';
@@ -44,7 +44,12 @@ function consultar() {
             $("#logMensaje").modal('show');
             $("#controles").hide();
             limpiar();
+
         }else{
+            if (data.numero_cuenta == '' || data.numero_cuenta == '0'){
+                
+                 msjNo("El Numero de Cuenta no puede estar en cero");return false;
+              }
             dem = data.Calculo.embargos_aux;
             $("#divBotones").show();
             $("#btnAnticipo").focus();
@@ -89,6 +94,10 @@ function consultar() {
             $("#comision_servicios").val(data.Calculo.comision_servicios);
             $("#comision_servicios_aux").val(data.Calculo.comision_servicios_aux);
             comision_servicios = data.Calculo.comision_servicios_aux;
+
+            $("#asignacion_depositada").val(data.Calculo.asignacion_depositada);
+            $("#asignacion_depositada_aux").val(data.Calculo.asignacion_depositada_aux);
+            asignacion_depositada = data.Calculo.asignacion_depositada_aux;
 
             listar(data.HistorialOrdenPagos);
             monto_disponible = data.Calculo.asignacion_depositada_aux;
@@ -287,12 +296,12 @@ function crearBoton(){
 
 function calcularMonto(){
     
-    if($("#monto").val() == '')return false;
+    if($("#monto").val() == ''  || $("#monto").val()  == "0"){msjNo("El monto no puede estar en cero");return false}
     var cantidad = ((Number(monto_disponible) * 75) / 100) - Number($("#anticipos_aux").val()) - Number(monto_resguardo);
     monto = Number($("#monto").val());
 
     if (monto > cantidad){        
-        msj = 'No se puede otorgar mas del 75%';
+        msj = 'No se puede otorgar mas del 75% o estar en cero';
         return false;
     }else{
         msj = 'Está seguro que desea efectuar el anticipo por Bs. ' + monto.formatMoney(2, ',', '.'); 
@@ -305,6 +314,14 @@ function calcularMonto(){
     $("#controles").hide();
    
 }
+
+function msjNo(msj,botones){
+    $("#divContinuar").html(botones);
+    $("#txtMensaje").html(msj);
+    $("#logMensaje").modal('show');
+    $("#controles").hide();
+}
+
 
 
 

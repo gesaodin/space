@@ -198,11 +198,11 @@
                                 <input type="hidden" class="form-control"  id='anticipos_aux' />
                               </div>
                               <div class="col-xs-2">
-                                <label>Saldo Disponible</label>
+                                <label>Depositado en Banco</label>
                               </div>
                               <div class="col-xs-4">
-                                <input type="text" class="form-control" placeholder="Saldo Disponible" id='saldo_disponible' readonly="readonly" />
-                                <input type="hidden" class="form-control"  id='saldo_disponible_aux' />
+                                <input type="text" class="form-control" placeholder="asignacion_depositada" id='asignacion_depositada' readonly="readonly" />
+                                <input type="hidden" class="form-control"  id='asignacion_depositada_aux' />
                               </div>
 
                             </div>

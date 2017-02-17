@@ -750,7 +750,7 @@ class MCalculo extends CI_Model{
   * @return double
   */
   public function Asignacion_Depositada(){   
-    return $this->DepositoBanco() + $this->Garantias();
+    return $this->DepositoBanco() + $this->Garantias()+$this->ComisionServicio();
   }
 
 
