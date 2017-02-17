@@ -317,6 +317,7 @@ class Panel extends MY_Controller {
 		header('Content-Type: application/json');
 		$this->load->model('beneficiario/MBeneficiario');
 		$this->MBeneficiario->obtenerID($cedula, $fecha);
+		//print_r($this->MBeneficiario);
 		$this->load->model('beneficiario/MOrdenPago');
 		$this->MBeneficiario->HistorialOrdenPagos = $this->MOrdenPago->listarPorCedula($cedula);
 		echo json_encode($this->MBeneficiario);
@@ -331,6 +332,53 @@ class Panel extends MY_Controller {
 		//print_r($this->MBeneficiario->MedidaJudicial);
 
 		echo json_encode($this->MBeneficiario);
+	}
+
+
+	function microtime_float() {
+	    list($useg, $seg) = explode(" ", microtime());
+	    return ((float)$useg + (float)$seg);
+	}
+ 
+
+	public function lote(){
+		//header('Content-Type: application/json');
+		$tiempo_inicio = microtime(true);
+		$this->load->model('kernel/KCargador');
+		//ini_set('memory_limit', '1024M');
+	
+	/**
+		$this->load->model('comun/DBSpace');
+		
+ 		$rs = $this->DBSpace->consultar(
+ 			"SELECT * FROM space.crosstab(
+'select b.cedula, m.tipo_movimiento_id, SUM(monto) AS monto 
+from beneficiario b, movimiento m
+WHERE 
+b.cedula=m.cedula AND
+b.status_id=201 AND
+m.tipo_movimiento_id IN (3,31,32)
+GROUP BY b.cedula, m.tipo_movimiento_id
+ORDER BY b.cedula,tipo_movimiento_id' ) AS rs 
+(cedula character varying(12), asig_antiguedad numeric, dep_adicional numeric, dep_garantia numeric);"
+ 			);
+
+**/
+		
+ 		$this->KCargador->IniciarLote();
+
+
+		
+ 
+		$tiempo_fin = microtime(true);
+		$tiempo = bcsub($tiempo_fin, $tiempo_inicio, 4);
+		 
+		echo "<br>Tiempo empleado: " . $tiempo . " seg<br>" ;
+
+		
+		//print_r($lst);
+		
+		
 	}
 
 	public function cargarMilitarSAMAN($id = '', $valor = 0){

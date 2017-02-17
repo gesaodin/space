@@ -67,21 +67,7 @@ class MBeneficiario extends CI_Model{
 	*/
 	var $fecha_ingreso_reconocida = '';
 
-	/**
-	* @var string
-	*/
-	var $tiempo_servicio = 0;
-
-	/**
-	* @var string
-	*/
-	var $tiempo_servicio_aux = 0;
-
-	/**
-	* @var string
-	*/
-	var $tiempo_servicio_db = 0;
-
+	
 
 	/**
 	* @var date
@@ -174,6 +160,11 @@ class MBeneficiario extends CI_Model{
 	var $motivo_paralizacion = '';
 
 	/**
+	* @var double
+	*/
+	var $ano_antiguedad = 0.00;
+
+	/**
 	* @var string
 	*/
 	var $observacion = '';
@@ -186,12 +177,63 @@ class MBeneficiario extends CI_Model{
 	/**
 	* @var double
 	*/
-	var $sueldo_global = 0.00;
+	var $prima_descendencia = 0.00;
+	var $prima_descendencia_mt = 0;
+
+	/**
+	* @var double
+	*/
+	var $prima_transporte = 0.00;
+	var $prima_transporte_mt = 0;
+
+	/**
+	* @var double
+	*/
+	var $prima_especial = 0.00;
+	var $prima_especial_mt = 0;
+
+	/**
+	* @var double
+	*/
+	var $prima_noascenso = 0.00;
+	var $prima_noascenso_mt = 0;
+
+	/**
+	* @var double
+	*/
+	var $prima_tiemposervicio = 0.00;
+	var $prima_tiemposervicio_mt = 0;
+
+	/**
+	* @var double
+	*/
+	var $prima_profesionalizacion = 0.00;
+	var $prima_profesionalizacion_mt = 0;
+	
+
+	/**
+	* @var double
+	*/
+	var $monto_total_prima = 0.00;
+
+	/**
+	* @var double
+	*/
+	var $sueldo_mensual = 0.00;
+
+
 
 	/**
 	* @var double
 	*/
 	var $aguinaldos = 0.00;
+
+
+	/**
+	* @var double
+	*/
+	var $vacaciones = 0.00;
+
 
 	/**
 	* @var double
@@ -199,19 +241,38 @@ class MBeneficiario extends CI_Model{
 	var $sueldo_integral = 0.00;
 
 	/**
+	* @var string
+	*/
+	var $tiempo_servicio = 0;
+
+	/**
+	* @var string
+	*/
+	var $tiempo_servicio_aux = 0;
+
+	/**
+	* @var string
+	*/
+	var $tiempo_servicio_db = 0;
+
+
+	/**
 	* @var double
 	*/
 	var $asignacion_antiguedad = 0.00;
 
-	/**
-	* @var double
-	*/
-	var $vacaciones = 0.00;
 
 	/**
 	* @var double
 	*/
-	var $ano_antiguedad = 0.00;
+	var $sueldo_global = 0.00;
+
+	
+
+	/**
+	* @var double
+	*/
+	var $deposito_banco = 0.00;
 
 	/**
 	* @var double
@@ -221,32 +282,22 @@ class MBeneficiario extends CI_Model{
 	/**
 	* @var double
 	*/
-	var $prima_descendencia = 0.00;
+	var $garantias_acumuladas = 0.00;
 
 	/**
 	* @var double
 	*/
-	var $prima_transporte = 0.00;
+	var $garantias = 0.00;
 
 	/**
 	* @var double
 	*/
-	var $prima_especial = 0.00;
+	var $dias_adicionales_acumulados = 0.00;
 
-	/**
+		/**
 	* @var double
 	*/
-	var $prima_noascenso = 0.00;
-
-	/**
-	* @var double
-	*/
-	var $prima_tiemposervicio = 0.00;
-
-	/**
-	* @var double
-	*/
-	var $prima_profesionalizacion = 0.00;
+	var $dias_adicionales = 0.00;
 
 	/**
 	* @var MPrima
@@ -306,14 +357,14 @@ class MBeneficiario extends CI_Model{
 	*/
 	public function __construct(){
 		parent::__construct();
-		if(!isset($this->Dbpace)) $this->load->model('comun/Dbpace');
-		$this->load->model('beneficiario/MComponente');
-		$this->load->model('beneficiario/MHistorialSueldo');
-		$this->load->model('beneficiario/MHistorialAnticipo');
-		$this->load->model('beneficiario/MHistorialMovimiento');
-		$this->load->model('beneficiario/MMedidaJudicial');
-		$this->load->model('beneficiario/MDirectiva');
-		$this->load->model('beneficiario/MCalculo');
+		if(!isset($this->DBSpace)) $this->load->model('comun/DBSpace');
+		$this->load->model('fisico/MComponente');
+		$this->load->model('fisico/MHistorialSueldo');
+		$this->load->model('fisico/MHistorialAnticipo');
+		$this->load->model('fisico/MHistorialMovimiento');
+		$this->load->model('fisico/MMedidaJudicial');
+		$this->load->model('fisico/MDirectiva');
+		$this->load->model('kernel/KCalculo');
 
 		$this->Componente = new $this->MComponente();
 
@@ -345,7 +396,7 @@ class MBeneficiario extends CI_Model{
 			observ_ult_modificacion=\'MODIFICACION DATOS BASICOS\'
 		WHERE cedula = \'' . $this->cedula .  '\'';
 		//echo $sActualizar;
-		return $this->Dbpace->consultar($sActualizar);
+		return $this->DBSpace->consultar($sActualizar);
 
 	}
 
@@ -358,20 +409,16 @@ class MBeneficiario extends CI_Model{
 			observ_ult_modificacion=\'MODIFICACION DE CUENTA\'
 		WHERE cedula = \'' . $this->cedula .  '\'';
 		//echo $sActualizar;
-		$this->Dbpace->consultar($sActualizar);
+		$this->DBSpace->consultar($sActualizar);
 
 		$sActualizar = 'UPDATE beneficiario_calc SET
 			numero_cuenta = \'' . $this->numero_cuenta .  '\'
 		WHERE cedula = \'' . $this->cedula .  '\'';
 		//echo $sActualizar;
-		$this->Dbpace->consultar($sActualizar);
+		$this->DBSpace->consultar($sActualizar);
 
 	}
 
-
-	public function eliminar(){
-
-	}
 
 	public function obtenerID($id, $fecha = ''){
 		$obj = $this->_consultar($id);
@@ -431,18 +478,10 @@ class MBeneficiario extends CI_Model{
 	*
 	* @access private
 	* @param string
-	* @return Dbpace
+	* @return DBSpace
 	*/
 	private function _consultar($cedula = '', $tabla = ''){
 
-		/** SIN BENEFICIARIO CALC
-		$sConsulta = 'SELECT
-		  cedula, nombres, apellidos, grado_id,componente_id, tiempo_servicio, fecha_ingreso,
-		  edo_civil, n_hijos, f_ult_ascenso, anio_reconocido, mes_reconocido,
-		  dia_reconocido, f_ingreso_sistema, f_retiro, f_retiro_efectiva,
-		  status_id, st_no_ascenso, numero_cuenta, st_profesion, sexo, status.descripcion AS estatus_descripcion
-		FROM beneficiario JOIN status ON beneficiario.status_id=status.id WHERE cedula=\'' . $cedula . '\'';
-		**/
 		$tbl = $tabla == ''? 'beneficiario' : $tabla;
 
 		$sConsulta = '
@@ -486,84 +525,14 @@ class MBeneficiario extends CI_Model{
 			WHERE
 				beneficiario.cedula=\'' . $cedula . '\'';
 
-		$obj = $this->Dbpace->consultar($sConsulta);
+		$obj = $this->DBSpace->consultar($sConsulta);
 
 		return $obj;
 
 	}
 
 
-	/**
-	* Consultar los beneficiario por componente, cargar diirectivas, instanciar las primas y ejeutar calculos
-	*
-	* @access public
-	* @param string
-	* @return Dbpace
-	*/
-	public function listarPorComponente($idComponente = 0){
-		
-		$this->load->model('beneficiario/MCalculo');
-		$this->load->model('beneficiario/MDirectiva');
-	    $Directiva = $this->MDirectiva->iniciar();
-	    $this->load->model('beneficiario/MPrima');
-	    
-	    
-/**
-	    $Prima = $this->MPrima->obtenerSegunDirectiva($Directiva->id);
-	    $Prima->unidad_tributaria = $Directiva->unidad_tributaria;
-		$this->load->model('beneficiario/MCalculo');
-
-		$this->load->model('beneficiario/MHistorialMovimiento');
-		$HistorialMovimiento = $this->MHistorialMovimiento->listarPorComponente($idComponente);
-
-		$sConsulta = 'SELECT
-				cedula, nombres, apellidos, grado_id, beneficiario.componente_id, tiempo_servicio, fecha_ingreso,
-				edo_civil, n_hijos, f_ult_ascenso, anio_reconocido, mes_reconocido,
-				dia_reconocido, f_ingreso_sistema, f_retiro, f_retiro_efectiva,
-				beneficiario.status_id, st_no_ascenso, numero_cuenta, st_profesion, sexo,grado.codigo AS grado_codigo, grado.nombre
-				FROM beneficiario
-				JOIN grado ON grado.id=grado_id
-				WHERE beneficiario.status_id=201
-				AND beneficiario.componente_id1 = ' . $idComponente . '  LIMIT 10';
-		echo $sConsulta;
-
-
-	  	$obj = $this->Dbpace->consultar($sConsulta);
-		$i = 0;
-		if($obj->code >0){
-			foreach ($obj->rs as $clv => $val) {
-				$Beneficiario = new $this->MBeneficiario();
-				$Beneficiario->cedula = $val->cedula;
-				$Beneficiario->nombres = $val->nombres;
-				$Beneficiario->apellidos = $val->apellidos;
-				$Beneficiario->estado_civil = $val->edo_civil;
-				$Beneficiario->estus_activo = $val->status_id;
-				$Beneficiario->numero_hijos = $val->n_hijos;
-				$Beneficiario->fecha_ingreso = $val->fecha_ingreso;
-				$Beneficiario->ano_reconocido = $val->anio_reconocido;
-				$Beneficiario->mes_reconocido = $val->mes_reconocido;
-				$Beneficiario->dia_reconocido = $val->dia_reconocido;
-				$Beneficiario->sexo = $val->sexo;
-				$Beneficiario->fecha_ultimo_ascenso = $val->f_ult_ascenso;
-				$Beneficiario->no_ascenso = $val->st_no_ascenso;
-				$Beneficiario->profesionalizacion = $val->st_profesion;
-				$Beneficiario->fecha_retiro = $val->f_retiro;
-				$Beneficiario->fecha_retiro_efectiva = $val->f_retiro_efectiva;
-				$Beneficiario->grado_codigo = $val->grado_codigo;
-
-				$this->MCalculo->iniciarCalculosLote($Beneficiario, $HistorialMovimiento, $Directiva, $Prima);
-				$lst[] = $Beneficiario;
-				$i++;
-		}
-		}
-		
-
-		echo '<pre>';
-		print_r($lst);
-		echo 'Registros Consultados: ' . $i . '<br><br>';
-
-		return $lst;**/
-	}
+	
 
 	function CargarFamiliares($id = ''){
 		$this->load->model('comun/DbSaman');
@@ -746,7 +715,7 @@ class MBeneficiario extends CI_Model{
 		)';
 		//echo $sInsertar;
 
-		$obj = $this->Dbpace->consultar($sInsertar);
+		$obj = $this->DBSpace->consultar($sInsertar);
 
 	}
 
@@ -766,7 +735,7 @@ class MBeneficiario extends CI_Model{
 			f_ult_modificacion=\'' . date("Y-m-d H:i:s") . '\'
 		WHERE cedula=\'' . $this->Beneficiario->cedula . '\'';
 		//echo $sActualizar;
-		$obj = $this->Dbpace->consultar($sActualizar);
+		$obj = $this->DBSpace->consultar($sActualizar);
 	}
 
 	function ParalizarDesparalizar(){
@@ -785,7 +754,7 @@ class MBeneficiario extends CI_Model{
 			f_ult_modificacion=\'' . date("Y-m-d H:i:s") . '\'
 		WHERE cedula=\'' . $this->cedula . '\'';
 		//echo $sActualizar;
-		$obj = $this->Dbpace->consultar($sActualizar);
+		$obj = $this->DBSpace->consultar($sActualizar);
 	}
 
 
@@ -855,7 +824,7 @@ class MBeneficiario extends CI_Model{
 		)';
 		//echo $sInsertar;
 
-		$obj = $this->Dbpace->consultar($sInsertar);
+		$obj = $this->DBSpace->consultar($sInsertar);
 
 
 	}
@@ -904,7 +873,7 @@ class MBeneficiario extends CI_Model{
 		}
 
 		//echo $sInsertar;
-		$obj = $this->Dbpace->consultar($sInsertar);
+		$obj = $this->DBSpace->consultar($sInsertar);
 
 	}
 
@@ -957,7 +926,7 @@ class MBeneficiario extends CI_Model{
 	function detalleMovimientoFamiliar($ced = '', $cod){
 		$lst = array();
 		$sConsulta = 'SELECT * FROM space.mov_familia where cedu=\'' . $ced . '\' AND codi =\'' . $cod . '\'';
-		$obj = $this->Dbpace->consultar($sConsulta);
+		$obj = $this->DBSpace->consultar($sConsulta);
 		foreach ($obj->rs as $clv => $val) {
 			$lst[] = array(
 				'codigo' => $val->posi,
