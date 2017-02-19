@@ -27,7 +27,7 @@
                 <section class="content">
 
                   <!-- Default box -->
-                  <div class="box">
+                  <div class="box box-solid box-primary">
                     <div class="box-header with-border">
                       <h3 class="box-title">Aporte de capital</h3>
 
@@ -40,69 +40,72 @@
                         </div>
                         <div class="box-body">
                      
-                          <div class="col-md-2">
-                            Grupo:
-                          </div>
-                          <div class="col-md-4">
-                            <select class="form-control select2" style="width: 100%;">
-                              <option selected="selected">Todos</option>
-                              <option>1</option>
-                            </select>
-                          </div>
-                        
-                   
-
-                          <div class="col-md-2">
-                            Grupo Excluidos:
-                          </div>
-                          <div class="col-md-4">
-                            <select class="form-control select2" style="width: 100%;">
-                              <option selected="selected">Todos</option>
-                              <option>1</option>
-                            </select>
-                          </div>
-                          <br><br>
-                          <div class="form-group">
-                            <div class="col-md-2">
-                              Fecha:
-                            </div>
+                          
+                            
+                          
                             <div class="col-md-4">
+                              <label>Fecha:</label>
                               <div class="input-group date">
                                 <div class="input-group-addon">
                                   <i class="fa fa-calendar"></i>
                                 </div>
                                 <input type="text" class="form-control" id="datepicker1">
                               </div>
-                
-                            <!-- /.input group -->
                           </div>
+                   
+
+                          
+                          <div class="col-md-8">
+                            <label>Seleccionar Directivas:</label>
+                                <select class="form-control select2" style="width: 100%;" id="directiva">
+                                  <option value="0" selected>SELECCIONAR UNA DIRECTIVA PARA INICIAR PROCESO</option>
+                                  <?php
+
+                                    foreach ($lst as $c => $v) {
+                                      echo '<option value="' . $v->id . '">' . $v->nombre . '</option>';
+                                    }
+                                  ?>
+
+                                </select>
+                            
+                          </div> <br>                          
                           <!-- /.input group -->
                           <br><br>
-                          <div class="form-group">
+                          <div class="form-group"  style="display:none" id="detalle"><br>
                             <div class="col-md-12">
-                              <b>Observaciones:</b>
-                              <textarea class="form-control" placeholder="Observacione" style="width: 100%"></textarea>
+                              <b>Registros de Log:</b>
+                              <textarea class="form-control" placeholder="Observacione" id="obse" style="width: 100%; height: 120px"  readonly></textarea>
                             </div>
                             <!-- /.input group -->
                           </div>
                           <!-- /.input group -->
+
                         </div>
                         <!-- /.form group -->
+                        <div class="overlay"  id="cargando" style="display:none">
+                            <i class="fa fa-refresh fa-spin"></i>
 
+                        </div>
 
-                      </div>
                       <!-- /.box-body -->
                       <div class="box-footer">
+                        
                        <div class="row no-print">
-                        <div class="col-xs-6">
+                        <div class="col-md-12">
 
-                          <button type="button" class="btn btn-success pull-right"><i class="fa fa-check"></i> Aceptar
+                          <button type="button" class="btn btn-primary pull-right" id="preparar" onclick="PrepararIndices()" id="btnGenerarIndices">
+                            <i class="fa fa-cog"></i>&nbsp;&nbsp;Preparar Indices
                           </button>
-                        </div>
-                        <div class="col-xs-6">
-                          <button type="button" class="btn btn-danger" style="margin-right: 5px;">
-                            <i class="fa fa-remove"></i> Cancelar
+                          <button type="button" class="btn btn-warning pull-right"  id="generar" onclick="GenerarAporte()" id="btnGenerarAporte" style="display:none">
+                            <i class="fa fa-subscript"></i>&nbsp;&nbsp;Genear Calculos de Aporte
                           </button>
+                          <button type="button" class="btn btn-success pull-right" id="descargar" onclick="DescargarAportes()" id="btnDescargarAportes" style="display:none">
+                            <i class="fa fa-cloud-download"></i>&nbsp;&nbsp;Descargar Archivo
+                          </button>
+                          <button type="button" class="btn btn-danger" id="salir" onclick="principal()" id="btnSalir">
+                            <i class="fa fa-close"></i>&nbsp;&nbsp;Salir de Aportes
+                          </button>
+
                         </div>
                       </div>
                     </div>
@@ -115,11 +118,7 @@
                 </div>
               </div>
 
-            </section>
-            <!-- /.content -->
-
-        <!-- Main content -->
-
+       </section><!-- /.content -->
       </div><!-- /.content-wrapper -->
 
       <footer class="main-footer">
@@ -129,8 +128,10 @@
         <strong>Copyright &copy; 2015-2016 Instituto de Previsión Social.</strong> Todos los derechos.
       </footer>
 
+     
     </div><!-- ./wrapper -->
 
     <?php $this->load->view('inc/pie.php');?>
+    <script src="<?php echo base_url()?>application/modules/panel/views/js/aporte_capital.js"></script>
   </body>
 </html>

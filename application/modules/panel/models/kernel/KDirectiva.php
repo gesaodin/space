@@ -83,7 +83,7 @@ class KDirectiva extends CI_Model{
         detalle_directiva ON A.id=detalle_directiva.directiva_sueldo_id
       ORDER BY grado_id, anio;';
 
-    $obj = $this->Dbpace->consultar($sConsulta);
+    $obj = $this->DBSpace->consultar($sConsulta);
     if($obj->code == 0 ){
       
       $this->fecha_inicio = $obj->rs[0]->f_inicio;
@@ -201,6 +201,16 @@ class KDirectiva extends CI_Model{
     }
     return $antiguedad;
 
+  }
+
+  /**
+  * Listar para el FrameWork
+  **/
+  function listarTodo(){
+    $sConsulta = 'SELECT id,nombre,numero FROM directiva_sueldo ORDER BY id DESC;';
+    $obj = $this->DBSpace->consultar($sConsulta);
+    
+    return $obj->rs;
   }
 
 }

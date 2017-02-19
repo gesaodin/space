@@ -41,6 +41,10 @@ class KCalculoLote extends CI_Model{
   }
 
 
+  function Instanciar(MBeneficiario & $Bnf, $Dir){    
+    $this->Directiva = $Dir;
+    $this->Beneficiario = $Bnf;    
+  }
   /**
   * Consultar los beneficiario por componente, cargar diirectivas, instanciar las primas y ejeutar calculos
   *
@@ -48,15 +52,13 @@ class KCalculoLote extends CI_Model{
   * @param string
   * @return DBSpace
   */
-  function Ejecutar(MBeneficiario & $Bnf, $Dir){
-    $this->Directiva = $Dir;
-    $this->Beneficiario = $Bnf;    
+  function Ejecutar(){
     $this->AntiguedadGrado();
     $this->TiempoServicios();
-    $cod = $Bnf->grado_codigo . $this->Beneficiario->antiguedad_grado;
+    $cod = $this->Beneficiario->grado_codigo . $this->Beneficiario->antiguedad_grado;
     
-    $sueldo = $Dir['sb'];     
-    $Bnf->sueldo_base = isset($sueldo[$cod])? $sueldo[$cod]['sb']: $sueldo[$Bnf->grado_codigo.'M']['sb'];  
+    $sueldo = $this->Directiva['sb'];     
+    $this->Beneficiario->sueldo_base = isset($sueldo[$cod])? $sueldo[$cod]['sb']: $sueldo[$this->Beneficiario->grado_codigo.'M']['sb'];  
 
     $this->SumarPrimas();
     $this->SueldoMensual();
@@ -68,6 +70,10 @@ class KCalculoLote extends CI_Model{
     $this->GenerarGrarantias();
     $this->GenerarDiasAdicionales();
 
+  }
+
+  function GenerarProfesionalizacion(){
+    $sueldo = ($sueldo_base * 12) / 100;
   }
 
   function SumarPrimas(){
@@ -91,7 +97,15 @@ class KCalculoLote extends CI_Model{
       $this->Beneficiario->$rs_mt = $monto_nominal;
       $this->Beneficiario->monto_total_prima += $this->Beneficiario->$rs;
     }
+    if ($this->Beneficiario->prima_profesionalizacion_mt > 0 ){
+      $prima = round(($sueldo_base * 12) / 100 ,2);
+      $this->Beneficiario->monto_total_prima += $prima;
+      $this->Beneficiario->prima_profesionalizacion = $prima;
+
+    }
+
   }
+
 
   function SueldoMensual(){
     $this->Beneficiario->sueldo_mensual = $this->Beneficiario->sueldo_base + $this->Beneficiario->monto_total_prima;
@@ -458,7 +472,7 @@ class KCalculoLote extends CI_Model{
   }
 
   public function GenerarNoDepositadoBanco(){
-    $this->Beneficiario->no_depositado_banco = $this->Beneficiario->asignacion_antiguedad - $this->Beneficiario->deposito_banco;
+    $this->Beneficiario->no_depositado_banco = $this->Beneficiario->asignacion_antiguedad - $this->Beneficiario->deposito_banco - $this->Beneficiario->garantias_acumuladas  - $this->Beneficiario->dias_adicionales_acumulados;
   }
 
 
@@ -701,7 +715,17 @@ class KCalculoLote extends CI_Model{
   }
 
   
-
+  /**
+  * Calcular dias del Mes
+  *
+  * @param int
+  * @param int
+  * @access public
+  * @return double
+  */
+  public function ObtenerDiasDelMes($mes, $anio){    
+    return is_callable("cal_days_in_month")?cal_days_in_month(CAL_GREGORIAN, $mes, $anio):date("d",mktime(0,0,0,$mes+1,0,$anio));  
+  }
 
 
 

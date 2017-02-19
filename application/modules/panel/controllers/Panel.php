@@ -14,11 +14,8 @@ class Panel extends MY_Controller {
 	function __construct(){
 		parent::__construct();
 		$this->load->helper('url');
-		$this->load->library('session');
-		$this->load->model('beneficiario/MDirectiva');
-		$this->_DIRECTIVA = $this->MDirectiva->iniciar();
+		$this->load->library('session');		
 		if(!isset($_SESSION['usuario']))$this->salir();
-
 	}
 
 	public function verificar(){
@@ -31,61 +28,49 @@ class Panel extends MY_Controller {
 	* 	----------------------------------
 	*/
 	public function index(){
-		$data['Directiva'] = $this->_DIRECTIVA;
-		$this->load->view("view_home", $data);
+		$this->load->view("view_home");
 	}
 
 	public function fideicomitente(){
-		$data['Directiva'] = $this->_DIRECTIVA;
-		$this->load->view("fideicomitente", $data);
+		$this->load->view("fideicomitente");
 	}
 
 	public function beneficiario(){
-		$data['Directiva'] = $this->_DIRECTIVA;
-		$this->load->view("menu/beneficiario/beneficiario", $data);
+		$this->load->view("menu/beneficiario/beneficiario");
 	}
 
 	public function asociarcuenta(){
-		$data['Directiva'] = $this->_DIRECTIVA;
-		$this->load->view("menu/beneficiario/cuentabancaria", $data);
+		$this->load->view("menu/beneficiario/cuentabancaria");
 	}
 
 	public function reporte(){
-		$data['Directiva'] = $this->_DIRECTIVA;
-		$this->load->view("menu/beneficiario/reporte", $data);
+		$this->load->view("menu/beneficiario/reporte");
 	}
 
 	public function actualizar(){
-		$data['Directiva'] = $this->_DIRECTIVA;
-		$this->load->view("menu/beneficiario/actualizarbeneficiario", $data);
+		$this->load->view("menu/beneficiario/actualizarbeneficiario");
 	}
 
 	public function finiquitos(){
-		$data['Directiva'] = $this->_DIRECTIVA;
-		$this->load->view("menu/beneficiario/finiquito", $data);
+		$this->load->view("menu/beneficiario/finiquito");
 	}
 	public function historialsueldo(){
-		$data['Directiva'] = $this->_DIRECTIVA;
-		$this->load->view("relaciondesueldo", $data);
+		$this->load->view("relaciondesueldo");
 	}
 
 	public function sueldolote(){
-		$data['Directiva'] = $this->_DIRECTIVA;
-		$this->load->view('sueldolote', $data);
+		$this->load->view('sueldolote');
 	}
 
 	public function ordenpago(){
-		$data['Directiva'] = $this->_DIRECTIVA;
-		$this->load->view("menu/orden_pago/orden", $data);
+		$this->load->view("menu/orden_pago/orden");
 	}
 	public function ordenpagoejecutada(){
-		$data['Directiva'] = $this->_DIRECTIVA;
-		$this->load->view("menu/orden_pago/ejecutada", $data);
+		$this->load->view("menu/orden_pago/ejecutada");
 	}
 
 	public function consultarmovimiento(){
-		$data['Directiva'] = $this->_DIRECTIVA;
-		$this->load->view("menu/beneficiario/consultarmovimiento", $data);
+		$this->load->view("menu/beneficiario/consultarmovimiento");
 	}
 
 	public function medidajudicial(){
@@ -93,15 +78,12 @@ class Panel extends MY_Controller {
 		$this->load->model('beneficiario/MParentesco');
 		$this->load->model('beneficiario/MFormaPago');
 
-		$data['Directiva'] = $this->_DIRECTIVA;
-
 		$data['Estado'] = $this->MEstado->listar();
 		$data['Parentesco'] = $this->MParentesco->listar();
 		$data['FormaPago'] = $this->MFormaPago->listar();
 		$this->load->view("menu/beneficiario/medidajudicial", $data);
 	}
 	public function anticipo(){
-		$data['Directiva'] = $this->_DIRECTIVA;
 		$this->load->model('beneficiario/MAnticipo');
 		$data['lst'] = $this->MAnticipo->listarTodo();
 		$this->load->view("menu/beneficiario/anticipo", $data);
@@ -109,53 +91,49 @@ class Panel extends MY_Controller {
 
 
 	public function directiva(){
-		$data['Directiva'] = $this->_DIRECTIVA;
-		$this->load->view("menu/calculos/directiva", $data);
+		$this->load->view("menu/calculos/directiva");
 	}
 
 
 	public function aportecapital(){
-		$data['Directiva'] = $this->_DIRECTIVA;
+		$this->load->model('kernel/KDirectiva');
+		$data['lst'] = $this->KDirectiva->listarTodo();
 		$this->load->view("menu/calculos/aportecapital", $data);
 	}
 
 	public function asignacionantiguedad(){
-		$data['Directiva'] = $this->_DIRECTIVA;
-		$this->load->view("menu/calculos/asignacionantiguedad", $data);
+		$this->load->view("menu/calculos/asignacionantiguedad");
 	}
 
 	public function interesescaidos(){
-		$data['Directiva'] = $this->_DIRECTIVA;
-		$this->load->view("menu/calculos/interesescaidos", $data);
+		$this->load->view("menu/calculos/interesescaidos");
 	}
 
 	public function interessemestral(){
-		$data['Directiva'] = $this->_DIRECTIVA;
-		$this->load->view("menu/calculos/interessemestral", $data);
+		$this->load->view("menu/calculos/interessemestral");
 	}
 
 	public function calcinitereses(){
-		$data['Directiva'] = $this->_DIRECTIVA;
-		$this->load->view("menu/calculos/calcinitereses", $data);
+		$this->load->view("menu/calculos/calcinitereses");
 	}
 	public function reclamos(){
-		$data['Directiva'] = $this->_DIRECTIVA;
-		$this->load->view("menu/reclamos/reclamos", $data);
+		$this->load->view("menu/reclamos/reclamos");
 	}
 	public function administrar(){
-		$data['Directiva'] = $this->_DIRECTIVA;
-		$this->load->view("menu/administracion/administrar", $data);
+		$this->load->view("menu/administracion/administrar");
 	}
 	public function auditoria(){
-		$data['Directiva'] = $this->_DIRECTIVA;
-		$this->load->view("menu/administracion/reporteauditoria", $data);
+		$this->load->view("menu/administracion/reporteauditoria");
 	}
 
-	//----------------------------------------
+	/**
+	*	
+	*/
 	public function calculadoraspace(){
-		$data['Directiva'] = $this->_DIRECTIVA;
-		$this->load->view("menu/otros/calculadoraspace", $data);
+		$this->load->view("menu/otros/calculadoraspace");
 	}
+
+
 
 
 	/**
@@ -170,7 +148,6 @@ class Panel extends MY_Controller {
 		$this->MBeneficiario->HistorialOrdenPagos = $this->MOrdenPago->listarPorCedula($cedula);
 
 		$data['Beneficiario'] = $this->MBeneficiario;
-
 		$this->load->view('reporte/beneficiario/hoja_vida', $data);
 	}
 
@@ -329,57 +306,68 @@ class Panel extends MY_Controller {
 
 		$this->MBeneficiario->obtenerID($cedula, $fecha);
 		$this->MBeneficiario->MedidaJudicial = $this->MMedidaJudicial->listarTodo($cedula);
-		//print_r($this->MBeneficiario->MedidaJudicial);
-
 		echo json_encode($this->MBeneficiario);
 	}
 
 
-	function microtime_float() {
-	    list($useg, $seg) = explode(" ", microtime());
-	    return ((float)$useg + (float)$seg);
-	}
- 
 
-	public function lote(){
-		//header('Content-Type: application/json');
-		$tiempo_inicio = microtime(true);
-		$this->load->model('kernel/KCargador');
-		//ini_set('memory_limit', '1024M');
-	
+
 	/**
-		$this->load->model('comun/DBSpace');
-		
- 		$rs = $this->DBSpace->consultar(
- 			"SELECT * FROM space.crosstab(
-'select b.cedula, m.tipo_movimiento_id, SUM(monto) AS monto 
-from beneficiario b, movimiento m
-WHERE 
-b.cedula=m.cedula AND
-b.status_id=201 AND
-m.tipo_movimiento_id IN (3,31,32)
-GROUP BY b.cedula, m.tipo_movimiento_id
-ORDER BY b.cedula,tipo_movimiento_id' ) AS rs 
-(cedula character varying(12), asig_antiguedad numeric, dep_adicional numeric, dep_garantia numeric);"
- 			);
-
-**/
-		
- 		$this->KCargador->IniciarLote();
-
-
-		
+	 * Generar Indices para procesos de lotes (Activos)
+	 *
+	 * Creación de tablas para los cruce en el esquema space como
+	 * tablacruce permite ser indexada para evaluar la tabla movimiento
+	 * tipos de movimiento [3,31,32] dando como resultado del crosstab
+	 * cedula | Deposito AA | Deposito Dia Adicionales | Deposito Garantias
+	 *
+	 *	---------------------------------------------
+	 *	INICIANDO PROCESOS POR LOTES
+	 *	---------------------------------------------
+	 *
+	 * @return	void
+	 */
  
-		$tiempo_fin = microtime(true);
-		$tiempo = bcsub($tiempo_fin, $tiempo_inicio, 4);
-		 
-		echo "<br>Tiempo empleado: " . $tiempo . " seg<br>" ;
+	public function PrepararIndices(){
+		header('Content-Type: application/json');
+		$this->load->model('kernel/KSensor');
+		$this->load->model('kernel/KCargador');
+		$fecha = date('d/m/Y H:i:s');
+		//$this->KCargador->PrepararIndices();
+		$json = array('m' => "Fecha y Hora del Servidor: " . $fecha . " \n" . $this->KSensor->Duracion() . "... \n");
+		echo json_encode($json);
 
-		
-		//print_r($lst);
-		
+	}
+
+	public function GenerarCalculoAporteCapital(){
+		//ini_set('memory_limit', '1024M');
+		header('Content-Type: application/json');
+		$this->load->model('kernel/KSensor');
+		$fecha = date('d/m/Y H:i:s');
+		$firma = md5($fecha);
+
+		$this->load->model('kernel/KCargador');			
+ 		//$this->KCargador->IniciarLote($_POST['id'], $_POST['fe'], $firma, $_SESSION['usuario']);	
+ 		$this->KCargador->IniciarLote(48, '2017-03-01', $firma, $_SESSION['usuario']);	
+ 		$mnt = $this->KCargador->Resultado['l'] - 1;
+		$json = array(
+			'm' => "Fecha y Hora del Servidor: " . $fecha . 
+					"\nFirma del Archivo: " . 	$firma .  
+					"\nCantidad de Registros: " . $mnt  .
+					"\nPeso del Archivo: " . $this->KCargador->Resultado['f'] . "\n" .
+					$this->KSensor->Duracion() . "... ",
+			'z' => $firma .".zip"
+			);
+
+		echo json_encode($json);
 		
 	}
+
+
+	/*
+	 *	---------------------------------------------
+	 *	FIN DE PROCESOS POR LOTES
+	 *	---------------------------------------------
+	 */
 
 	public function cargarMilitarSAMAN($id = '', $valor = 0){
 		$this->load->model('beneficiario/MBeneficiario');
