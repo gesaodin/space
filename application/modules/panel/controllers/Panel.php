@@ -327,7 +327,7 @@ class Panel extends MY_Controller {
 		$this->load->model('kernel/KSensor');
 		$this->load->model('kernel/KCargador');
 		$fecha = date('d/m/Y H:i:s');
-		//$this->KCargador->PrepararIndices();
+		$this->KCargador->PrepararIndices();
 		$json = array('m' => "Fecha y Hora del Servidor: " . $fecha . " \n" . $this->KSensor->Duracion() . "... \n");
 		echo json_encode($json);
 
