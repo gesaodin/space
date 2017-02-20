@@ -15,7 +15,7 @@ if (!defined('BASEPATH'))
  * @since version 1.0
  */
 
-class MCalculo extends CI_Model{
+class KCalculo extends CI_Model{
   
   /**
   * @var MBeneficiario
@@ -37,15 +37,15 @@ class MCalculo extends CI_Model{
 
 
   function iniciarCalculosBeneficiario(MBeneficiario & $Beneficiario){
-    $this->load->model('beneficiario/MDirectiva');
-    $this->load->model('beneficiario/MPrima');
+    $this->load->model('kernel/KDirectiva');
+    $this->load->model('kernel/KPrimas');
     $this->Beneficiario = $Beneficiario;   
     $this->AntiguedadGrado();
     $this->TiempoServicios();
     $codigo_grado = $this->Beneficiario->Componente->Grado->codigo;
-    $this->Beneficiario->Componente->Grado->Directiva = $this->MDirectiva->obtener($this->Beneficiario);
+    $this->Beneficiario->Componente->Grado->Directiva = $this->KDirectiva->obtener($this->Beneficiario);
     $directiva_id = $this->Beneficiario->Componente->Grado->Directiva->id;
-    $this->Beneficiario->Componente->Grado->Prima = $this->MPrima->obtener($codigo_grado, $directiva_id,  $this->Beneficiario);
+    $this->Beneficiario->Componente->Grado->Prima = $this->KPrimas->obtener($codigo_grado, $directiva_id,  $this->Beneficiario);
 
 
     $this->Beneficiario->sueldo_global = $this->SueldoGlobal();
@@ -198,7 +198,7 @@ class MCalculo extends CI_Model{
     //$diaR = $dia; // - $this->Beneficiario->dia_reconocido; 
     
 
-	  if($diaR < 0) {
+    if($diaR < 0) {
       $mesR--;
       $diaR = 30 + $diaR;
     }
@@ -296,7 +296,7 @@ class MCalculo extends CI_Model{
     $arr['e'] = $ano_dif;
     **/
 
-	  return $arr;
+    return $arr;
 
   }
 
@@ -346,7 +346,7 @@ class MCalculo extends CI_Model{
   }
 
   /**
-  *	Sueldo Global #007
+  * Sueldo Global #007
   * X = PTR + PAS + PDE + PNA + PES + PPR
   *
   * PTR = Prima Transporte
@@ -376,7 +376,7 @@ class MCalculo extends CI_Model{
   }
 
   /**
-  *	Alicuota Bono Aguinaldo #00
+  * Alicuota Bono Aguinaldo #00
   * X = ((90 * SG)/30)/12
   * 
   * SG = Sueldo Global
@@ -406,7 +406,7 @@ class MCalculo extends CI_Model{
   }
 
   /**
-  *	Alicuota Bono Vacaciones #00
+  * Alicuota Bono Vacaciones #00
   * X =  ((NDV * SG)/30)/12
   *
   * NDV = Numero de Dias de Vaciones que goza el Millitar
@@ -444,7 +444,7 @@ class MCalculo extends CI_Model{
   }
 
   /**
-  *	Sueldo Integral #007
+  * Sueldo Integral #007
   * X = SUM(SG + AV + AA)
   *
   * SUM = Sumatoria Total
@@ -464,7 +464,7 @@ class MCalculo extends CI_Model{
   }
 
   /**
-  *	Asignacion de Antiguedad #007
+  * Asignacion de Antiguedad #007
   * X = SI * TS
   *
   * SI = Sueldo Integral
@@ -723,7 +723,7 @@ class MCalculo extends CI_Model{
   * @return double
   */
   public function Asignacion_Depositada(){   
-    return $this->DepositoBanco() + $this->Garantias()+$this->ComisionServicio();
+    return $this->DepositoBanco() + $this->Garantias();
   }
 
 
