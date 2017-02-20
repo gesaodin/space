@@ -70,7 +70,7 @@ function listar(data){
         sBoton += '<button type="button" class="btn btn-success" title="Ver Detalles"><i class="fa fa-search" ></i></button>'; 
         switch (valor.estatus){
             case '220':
-                sBoton += '<button type="button" class="btn btn-warning" title="Inactivar"><i class="fa fa-mail-reply-all" ></i></button>';
+                sBoton += '<button onclick="SuspenderMedidaEjecutada(\'' + valor.id + '\')" type="button" class="btn btn-warning" title="Inactivar"><i class="fa fa-mail-reply-all" ></i></button>';
                 //sBoton += '<button type="button" class="btn btn-info" title="Ejecutar"><i class="fa fa-cogs" ></i></button>'; 
                 sBoton += '<button type="button" class="btn btn-info" title="Imprimir" onclick="imprimir(\'' + valor.id + '\')"><i class="fa fa-print" ></i></button>'; 
                 break;
@@ -113,6 +113,38 @@ function imprimir(id){
     URL = sUrlP + "medida_judicial/" + val +  '/' + id;
     window.open(URL,"Hoja de Vida","toolbar=0,location=1,menubar=0,scrollbars=1,resizable=1,width=900,height=800")
 }
+
+function SuspenderMedidaEjecutada(id){     
+    var boton = '<button type="button" class="btn btn-danger pull-right" onclick="continuar()">';
+        boton += '<i class="glyphicon glyphicon-ok"></i>&nbsp;&nbsp;No</button>';
+        boton += '<button type="button" class="btn btn-success" onclick="Suspender(\'' + id + '\')">';
+        boton += '<i class="glyphicon glyphicon-ok"></i>&nbsp;&nbsp;Si</button>';
+    var msj = '¿Está seguro que desea suspender está medida?';
+    $("#divContinuar").html(boton);
+    $("#txtMensaje").html(msj);
+    $("#logMensaje").modal('show');
+    $("#controles").hide();
+}
+
+function Suspender(id){
+    URL = sUrlP + "SuspenderMedidaJudicial/" + id 
+    $.get(URL, function (data){
+        var boton = '<button type="button" class="btn btn-danger pull-right" onclick="recargar()">';
+            boton += '<i class="glyphicon glyphicon-ok"></i>&nbsp;&nbsp;Continuar</button>';
+        $("#divContinuar").html(boton);
+        $("#txtMensaje").html(data);
+        $("#logMensaje").modal('show');
+        $("#controles").hide();
+        
+    }).done(function (data){
+
+    });
+}
+
+function continuar(){
+    $("#logMensaje").modal('hide');
+}
+
 
 function MedidaEjecutada(ced,  cod, id){    
     URL = sUrlP + "medidaejecutada/" + ced + '/' + id + '/' + cod;
