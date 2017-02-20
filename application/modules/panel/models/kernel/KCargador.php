@@ -105,7 +105,7 @@ class KCargador extends CI_Model{
         JOIN 
           grado ON beneficiario.grado_id=grado.id
         LEFT JOIN space.tablacruce ON beneficiario.cedula=space.tablacruce.cedula
-        WHERE beneficiario.status_id=201 LIMIT 50
+        WHERE beneficiario.status_id=201
       ");
   
       $this->asignarBeneficiario($con->rs, $directiva, $fecha, $archivo, $autor);
