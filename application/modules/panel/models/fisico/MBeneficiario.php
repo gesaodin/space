@@ -363,7 +363,7 @@ class MBeneficiario extends CI_Model{
 		$this->load->model('fisico/MHistorialAnticipo');
 		$this->load->model('fisico/MHistorialMovimiento');
 		$this->load->model('fisico/MMedidaJudicial');
-		$this->load->model('fisico/MDirectiva');
+		$this->load->model('kernel/KDirectiva');
 		$this->load->model('kernel/KCalculo');
 
 		$this->Componente = new $this->MComponente();
@@ -468,7 +468,7 @@ class MBeneficiario extends CI_Model{
 			$this->HistorialAnticipo = $this->MHistorialAnticipo->listar($id);
 
 			if($fecha != '') $this->fecha_retiro = $fecha; //En el caso de calcular finiquitos
-			$this->MCalculo->iniciarCalculosBeneficiario($this->MBeneficiario);
+			$this->KCalculo->iniciarCalculosBeneficiario($this->MBeneficiario);
 			//$this->Calculo =
 		}
 	}

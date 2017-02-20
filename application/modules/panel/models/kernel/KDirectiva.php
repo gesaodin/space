@@ -74,43 +74,59 @@ class KDirectiva extends CI_Model{
     $this->load->model('kernel/KFunciones');
     
     $lst = array();
-    $sConsulta = 'SELECT A.id, A.nombre, A.numero, A.f_vigencia, A.f_inicio, 
-    udad_tributaria, detalle_directiva.grado_id, 
-        detalle_directiva.anio, detalle_directiva.sueldo_base 
+    $sConsulta = '
+        SELECT A.id, A.nombre, A.numero, A.f_vigencia, A.f_inicio, 
+          udad_tributaria, detalle_directiva.grado_id, 
+                detalle_directiva.anio, detalle_directiva.sueldo_base,
+                grado.nombre AS gnombre,componente.id AS compid,
+                componente.descripcion AS cnombre
         FROM (SELECT * FROM directiva_sueldo 
-          WHERE id=' . $id . ' ORDER BY f_inicio desc LIMIT 1) AS A 
-      JOIN 
-        detalle_directiva ON A.id=detalle_directiva.directiva_sueldo_id
-      ORDER BY grado_id, anio;';
+          WHERE id=' . $id . ' ORDER BY f_inicio desc LIMIT 1) 
+              AS A 
+        JOIN 
+          detalle_directiva ON A.id=detalle_directiva.directiva_sueldo_id
 
-    $obj = $this->Dbpace->consultar($sConsulta);
+        JOIN
+          grado ON detalle_directiva.grado_id=grado.codigo
+        JOIN 
+          componente ON grado.componente_id=componente.id
+        ORDER BY grado_id, anio;';
+
+    $obj = $this->DBSpace->consultar($sConsulta);
     if($obj->code == 0 ){
       
       $this->fecha_inicio = $obj->rs[0]->f_inicio;
       $this->fecha_vigencia = $obj->rs[0]->f_vigencia;
       $this->unidad_tributaria = $obj->rs[0]->udad_tributaria;
       $grado = $obj->rs[0]->grado_id;
+      $gnombre = $obj->rs[0]->gnombre;
+      $componente = array();
       $list = array(
         'oid'=>$obj->rs[0]->id,
         'ut' => $obj->rs[0]->udad_tributaria,
-        'fnx' => array()
+        'fnx' => array(),
+        'com' => array()
         ); 
 
       $rs = $obj->rs;
       foreach ($rs as $clv => $val) {       
         if($grado != $val->grado_id){
-          $lst[$grado . 'M'] = array('sb' => $sueldo,'mt' => array());
-          $grado = $val->grado_id;          
+          $lst[$grado . 'M'] = array('sb' => $sueldo,'mt' => array(), 'gr' => $gnombre);
+          $grado = $val->grado_id; 
+          $gnombre = $val->gnombre;
         }
         $codigo = $val->grado_id . $val->anio; 
         $sueldo = $val->sueldo_base;
-        $lst[$codigo] = array('sb' => $sueldo);        
+        $lst[$codigo] = array('sb' => $sueldo);
+        $componente[$val->compid] = $val->cnombre;       
       }
-      $lst[$grado . 'M'] = array('sb' => $sueldo,'mt' => array());
+      $lst[$grado . 'M'] = array('sb' => $sueldo,'mt' => array(), 'gr' =>  $gnombre);
       $list['sb'] = $lst;
     }
+    $list['com'] = $componente;
     $this->KFunciones->Cargar($list);
     $this->KPrimas->Cargar($list);
+    //print_r($list);
     return $list;
    
   }
@@ -201,6 +217,16 @@ class KDirectiva extends CI_Model{
     }
     return $antiguedad;
 
+  }
+
+  /**
+  * Listar para el FrameWork
+  **/
+  function listarTodo(){
+    $sConsulta = 'SELECT id,nombre,numero FROM directiva_sueldo ORDER BY id DESC;';
+    $obj = $this->DBSpace->consultar($sConsulta);
+    
+    return $obj->rs;
   }
 
 }

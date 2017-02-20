@@ -411,9 +411,13 @@ function consultarBeneficiarioFecha(){
     ruta = sUrlP + "consultarBeneficiario/" + val  + "/" + fech;
     $.getJSON(ruta, function(data) {    
         $("#tservicio").val(data.tiempo_servicio_aux);
-
-        var porcentaje = Number(data.MedidaJudicialActiva[1].porcentaje);
-        var monto = Number(data.MedidaJudicialActiva[1].monto);
+        var porcentaje = 0;
+        var monto = 0;
+        if(data.MedidaJudicialActiva[1] != null){
+            porcentaje = Number(data.MedidaJudicialActiva[1].porcentaje);        
+            monto = Number(data.MedidaJudicialActiva[1].monto);
+        }
+            
         embargos = monto + Number(data.Calculo.asignacion_antiguedad_fin_aux*porcentaje /100);
         $("#directiva").val(data.Componente.Grado.Directiva.nombre);    
         //$("#asignacion_antiguedad").val(data.Calculo.asignacion_antiguedad);
