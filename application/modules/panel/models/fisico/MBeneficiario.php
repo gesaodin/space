@@ -228,7 +228,10 @@ class MBeneficiario extends CI_Model{
 	*/
 	var $aguinaldos = 0.00;
 
-
+	/**
+	* @var integer
+	*/
+	var $dia_vacaciones = 0;
 	/**
 	* @var double
 	*/

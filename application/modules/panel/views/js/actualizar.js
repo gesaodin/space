@@ -115,7 +115,6 @@ function cargarGrado(cod, nom, id){
             if(v.id == cod) opt.setAttribute("selected","selected");
         });
 
-
     }).done(function(msg) {}).fail(function(jqXHR, textStatus) {
        $("#txtMensaje").html('No se encontro cédula de beneficiario');
        $("#logMensaje").modal('show');
@@ -128,7 +127,6 @@ function cargarGrado(cod, nom, id){
 
 
 function limpiar(){
-
     $("#sexo option").remove();
     $("#grado option").remove();
     $("#nombres").val('');
@@ -151,9 +149,7 @@ function limpiar(){
 }
 
 function cargarBeneficiario(){
-
     Persona['cedula'] = $("#id").val();
-
     Persona['sexo'] = $("#sexo option:selected").val();
     Persona['grado'] = $("#grado option:selected").val();
     Persona['nombres'] = $("#nombres").val();

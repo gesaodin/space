@@ -76,6 +76,28 @@ function Consultar(){
     });
 }
 
+function cargarGrado(){
+    $("#grado").html('');
+    $("#grado").append('<option value=99>Todos los grados</option>');
+
+    id = $("#componente option:selected").val();
+    
+    ruta = sUrlP + "cargarGradoComponente/" + id;
+    $.getJSON(ruta, function(data) {
+        
+        $.each(data, function(d, v){
+            var opt = new Option(v.nombre, v.id);
+            $("#grado").append(opt);
+        });
+
+    }).done(function(msg) {}).fail(function(jqXHR, textStatus) {
+       $("#txtMensaje").html('No se encontro cédula de beneficiario');
+       $("#logMensaje").modal('show');
+       limpiar();
+    });
+}
+
+
 function ventana(fn){
     
     var boton = '<button type="button" class="btn btn-danger pull-right" onclick="continuar()">';

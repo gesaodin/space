@@ -27,7 +27,7 @@
         <section class="content">
 
             <!-- Default box -->
-            <div class="box">
+            <div class="box box-solid box-primary">
                 <div class="box-header with-border">
                     <h3 class="box-title">Lista de Beneficiarios</h3>
 
@@ -52,44 +52,50 @@
                           </div> 
                         </div>
                     <div class="col-md-2">
-                        Apellido:
-                    </div>
-                    <div class="col-md-4">
-                        <input type="text" class="form-control" placeholder="Apellido" readonly="readonly">
-                    </div>
-                    <br><br>
-                    <div class="col-md-2">
-                        Nombre
-                    </div>
-                    <div class="col-md-4">
-                        <input type="text" class="form-control" placeholder="Nombre" readonly="readonly">
-                    </div>
-                    <div class="col-md-2">
                         Situación:
+                        
                     </div>
                     <div class="col-md-4">
-                        <select class="form-control select2" style="width: 100%;" disabled>
-                            <option selected="selected">Todos</option>
-                            <option>1</option>
+                        <select class="form-control select2" style="width: 100%;">
+                            <option value='201'>Activo</option>
+                            <option value='202'>Retirado</option>
+                            <option value='203'>Finiquito</option>
+                            <option value='204'>Finiquito Parcial</option>
+                            <option value='205'>Paralizado</option>
+                            <option value='206'>Inactivo</option>
+                            
                         </select>
                     </div>
+
+
+                    <br><br>
+                    <div class="col-md-2">
+                        Nombre y Apellidos
+                    </div>
+                    <div class="col-md-10">
+                        <input type="text" class="form-control" placeholder="Busqueda por nombres y apellidos">
+                    </div>
+                    
                     <br><br>
                     <div class="col-md-2">
                         Componentes:
                     </div>
                     <div class="col-md-4">
-                        <select class="form-control select2" style="width: 100%;" disabled>
-                            <option selected="selected">Todos</option>
-                            <option>1</option>
+                        <select class="form-control select2" style="width: 100%;" onchange="cargarGrado()" id="componente">
+                            <option value='99'>Todos los componentes</option>
+                            <?php
+                            foreach ($componente as $k => $v) {
+                                echo '<option value=' . $v['id'] . '>' . $v['nomb'] . '</option>';                            
+                            }
+                            ?>
                         </select>
                     </div>
                     <div class="col-md-2">
                         Grado:
                     </div>
                     <div class="col-md-4">
-                        <select class="form-control select2" style="width: 100%;" disabled>
-                            <option selected="selected">Todos</option>
-                            <option>1</option>
+                        <select class="form-control select2" style="width: 100%;" id="grado">
+                            <option  value=99>Todos los grados</option>
                         </select>
                     </div>
                     <br><br>
@@ -125,16 +131,7 @@
                         <!-- /.input group -->
                     </div>
                     <!-- /.form group -->
-                    <br><br>
-                    <div class="col-md-2">
-                     Ordenado por:
-                    </div>
-                    <div class="col-md-4">
-                        <select class="form-control select2" style="width: 100%;" disabled>
-                            <option selected="selected">Todos</option>
-                            <option>1</option>
-                        </select>
-                    </div>
+                    
                 </div>
                 <!-- /.box-body -->
                 <div class="box-footer">
@@ -157,7 +154,7 @@
 
             <div class="row">
                 <div class="col-xs-12">
-                    <div class="box">
+                    <div class="box box-solid box-info">
                         <div class="box-header">
                             <h3 class="box-title">Resultados</h3>
                             <div class="box-tools pull-right">

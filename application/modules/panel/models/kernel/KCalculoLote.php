@@ -340,7 +340,8 @@ class KCalculoLote extends CI_Model{
       $dia = 45;
     }else if($TM > 24){
       $dia = 50;
-    }    
+    }   
+    $this->Beneficiario->dia_vacaciones = $dia;
     $this->Beneficiario->vacaciones = round((($dia * $this->Beneficiario->sueldo_mensual)/30)/12, 2);   
    
   }
