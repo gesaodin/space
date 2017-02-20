@@ -32,9 +32,8 @@
                       <h3 class="box-title">Aporte de capital</h3>
 
                       <div class="box-tools pull-right">
-                        <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
-                          <i class="fa fa-minus"></i></button>
-                          <button type="button" class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove">
+                        
+                          <button type="button" onclick="principal()" class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Salir">
                             <i class="fa fa-times"></i></button>
                           </div>
                         </div>
@@ -74,7 +73,7 @@
                           <div class="form-group"  style="display:none" id="detalle"><br>
                             <div class="col-md-12">
                               <b>Registros de Log:</b>
-                              <textarea class="form-control" placeholder="Observacione" id="obse" style="width: 100%; height: 120px"  readonly></textarea>
+                              <textarea class="form-control" placeholder="Observacione" id="obse" style="width: 100%; height: 180px"  readonly></textarea>
                             </div>
                             <!-- /.input group -->
                           </div>
@@ -105,7 +104,7 @@
                           <button type="button" class="btn btn-danger" id="salir" onclick="principal()" id="btnSalir">
                             <i class="fa fa-close"></i>&nbsp;&nbsp;Salir de Aportes
                           </button>
-
+                         
                         </div>
                       </div>
                     </div>
@@ -114,9 +113,40 @@
                   <!-- /.box -->
 
 
+                  <div class="box  box-solid box-info">
+                    <div class="box-header with-border">
+                      <h3 class="box-title">Pendientes por procesar</h3>
+                      <div class="box-tools pull-right">
+                      </div><!-- /.box-tools -->
+                    </div><!-- /.box-header -->
+                    <div class="box-body">
+                      <table id="reportearchivos" class="table table-bordered table-hover">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th style="width: 120px;">Llave del Archivo</th>                            
+                            <th style="width: 60px;">Registros</th>
+                            
+                            <th style="width: 120px;">Fecha</th>
+                            <th>Garantias</th> 
+                            <th>Dias Adic.</th> 
+                        </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                    </div><!-- /.box-body -->
+                    <div class="box-footer">
+                      Los archivos generados por el sistema poseen firmas de autentificación que los hacen únicos e irremplazables
+                    </div><!-- box-footer -->
+                  </div><!-- /.box -->
+
+
+                  </section>
+
                   <!-- /.box -->
                 </div>
-              </div>
+              
 
        </section><!-- /.content -->
       </div><!-- /.content-wrapper -->

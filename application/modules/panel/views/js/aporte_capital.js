@@ -1,4 +1,4 @@
-$('#reporte').DataTable({
+$('#reportearchivos').DataTable({
         "paging":   false,
         "ordering": false,
         "info":     false,
@@ -41,6 +41,8 @@ function GenerarAporte(){
 	id = Number($('#directiva option:selected').val());
 	fe = $('#datepicker1').val();
 	f  = fe.split("/");
+	var t = $('#reportearchivos').DataTable();
+    t.clear().draw();
 	$('#cargando').show();
 	if (id != 0){
 		data = {
@@ -55,15 +57,32 @@ function GenerarAporte(){
 			$('#descargar').show();
 			$('#cargando').hide();
 			_ZIP = data.z;
-		}).done(function (data){
-
+			acc = 0;
+			j = data.json;
+			console.log(j.f + ' ' + j.l);
+			
+			t.row.add([
+					acc,
+					j.p + ' ' + j.f.substring(0,10) + '...',
+					j.l,
+					j.t,
+					j.g + 'Bs.',
+					j.d + 'Bs.'
+				]
+			).draw(false);
+			
 		});
+		
+
+		
 	}
 }
 
 function DescargarAportes(){
 	location.href = sUrl + 'tmp/' + _ZIP;
 }
+
+
 
 function continuar(){
     $("#logMensaje").modal('hide');

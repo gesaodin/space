@@ -15,9 +15,17 @@ if (!defined('BASEPATH'))
  * @since version 1.0
  */
 
-class KPerceptron extends CI_Model{
+class RInferencia extends CI_Model{
+
+	var $Patrones;
 
 	var $Neurona = array();
+
+	var $Conocimiento;
+
+	var $Estado = false;
+
+	var $Recuerdo;
   
   	/**
 	* Iniciando la clase, Cargando Elementos Pace

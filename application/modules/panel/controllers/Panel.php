@@ -286,10 +286,6 @@ class Panel extends MY_Controller {
 	*	---------------------------------------------
 	*/
 
-	public function salir(){
-		redirect('panel/Login/salir');
-	}
-
 	public function consultarBeneficiario($cedula = '', $fecha = ''){
 		header('Content-Type: application/json');
 		$this->load->model('beneficiario/MBeneficiario');
@@ -320,13 +316,12 @@ class Panel extends MY_Controller {
 	 * tipos de movimiento [3,31,32] dando como resultado del crosstab
 	 * cedula | Deposito AA | Deposito Dia Adicionales | Deposito Garantias
 	 *
-	 *	---------------------------------------------
-	 *	INICIANDO PROCESOS POR LOTES
-	 *	---------------------------------------------
+	 * -------------------------------------------------------------------
+	 *	INICIANDO PROCESOS APORTE DE CAPITAL
+	 * -------------------------------------------------------------------
 	 *
 	 * @return	void
-	 */
- 
+	 */ 
 	public function PrepararIndices(){
 		header('Content-Type: application/json');
 		$this->load->model('kernel/KSensor');
@@ -341,26 +336,42 @@ class Panel extends MY_Controller {
 	public function GenerarCalculoAporteCapital(){
 		//ini_set('memory_limit', '1024M');
 		header('Content-Type: application/json');
+		//echo "<pre>";
 		$this->load->model('kernel/KSensor');
 		$fecha = date('d/m/Y H:i:s');
 		$firma = md5($fecha);
 
 		$this->load->model('kernel/KCargador');			
- 		//$this->KCargador->IniciarLote($_POST['id'], $_POST['fe'], $firma, $_SESSION['usuario']);	
- 		$this->KCargador->IniciarLote(48, '2017-03-01', $firma, $_SESSION['usuario']);	
+ 		$this->KCargador->IniciarLote($_POST['id'], $_POST['fe'], $firma, $_SESSION['usuario']);	
+ 		//$this->KCargador->IniciarLote(48, '2017-03-01', $firma, $_SESSION['usuario']);	
  		$mnt = $this->KCargador->Resultado['l'] - 1;
 		$json = array(
 			'm' => "Fecha y Hora del Servidor: " . $fecha . 
 					"\nFirma del Archivo: " . 	$firma .  
 					"\nCantidad de Registros: " . $mnt  .
-					"\nPeso del Archivo: " . $this->KCargador->Resultado['f'] . "\n" .
+					"\nMonto Total de las Garantias: " . $this->KCargador->Resultado['g'] .
+					"\nMonto Total de Dias Adicionales: " . $this->KCargador->Resultado['d'] .
+					"\nPeso del Archivo: " . $this->KCargador->Resultado['p'] . " " . $this->KCargador->Resultado['f'] . "\n" .
 					$this->KSensor->Duracion() . "... ",
-			'z' => $firma .".zip"
+			'z' => $firma .".zip",
+			'json' => $this->KCargador->Resultado
 			);
 
 		echo json_encode($json);
 		
 	}
+
+	/**
+	 *	---------------------------------------------
+	 *	INICIANDO PROCESOS APORTE DE INTERESES
+	 *	---------------------------------------------
+	 *
+	 * @return	void
+	 */
+	public function PreparaIntereses($mes,$anio){
+
+	}
+
 
 
 	/*
@@ -495,17 +506,7 @@ class Panel extends MY_Controller {
 		//print_r($this->MBeneficiario);
 	}
 
-	public function MDirectiva(){
-		$this->load->model('beneficiario/MDirectiva');
-		echo '<pre>';
-		print_r($this->MDirectiva->iniciar());
 
-	}
-
-	public function calculo(){
-			$this->load->model('beneficiario/MCalculo');
-			print_r($this->MCalculo->AntiguedadCargo('2014-06-16'));
-	}
 
 
 
@@ -515,17 +516,6 @@ class Panel extends MY_Controller {
 		print_r( $this->MComponente->listar(1) );
 	}
 
-	/**
-	*
-	*/
-	function procesarComponenteLote(){
-		echo '<pre>';
-		$this->load->model('beneficiario/MBeneficiario');
-		$this->MBeneficiario->listarPorComponente(1);
-
-
-		echo 'listo...';
-	}
 
 
 	function listarMovimientos(){
@@ -838,14 +828,9 @@ class Panel extends MY_Controller {
 	}
 
 
-
-	function roles(){
-		echo "<pre>";
-		print_r($_SESSION);
+	public function salir(){
+		redirect('panel/Login/salir');
 	}
 
-	function init(){
-		phpinfo();
-	}
 
 }
