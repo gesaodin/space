@@ -132,7 +132,7 @@ function consultar() {
         $("#btnContinuar").focus();
         limpiar();
     });
-
+    //limpiar();
 }
 
 function listar(data){
@@ -222,6 +222,7 @@ function PuntoCuenta(id){
 }
 
 function limpiar(){
+    $("#id").val('');
     $("#nombres").val('');
     $("#apellidos").val('');
     $("#sexo").val('');
@@ -240,7 +241,13 @@ function limpiar(){
     $("#fano").val('');
     $("#vacaciones").val('');
     $("#numero_cuenta").val('');
+    $("#porcentaje").val('');
+    $("#monto").val('');
     $("#estatus").val('');
+    $("#divBotones").hide();
+    
+    var t = $('#reporteAnticipo').DataTable();
+    t.clear().draw(false);
 }
 
 function continuar(){
@@ -278,7 +285,8 @@ function calcularPorcentaje(){
         msj = cantidad <= 0? 'No posee disponibilidad para otorgar el anticipo':'Está seguro que desea efectuar el anticipo por Bs. ' + cantidad.formatMoney(2, ',', '.'); 
         $("#txtMensaje").html(msj);
         $("#divContinuar").html(crearBoton());
-        Anticipo['monto'] = parseFloat(cantidad).toFixed(2);     
+        Anticipo['monto'] = parseFloat(cantidad).toFixed(2);  
+        2
     }
 
     $("#logMensaje").modal('show');
@@ -302,16 +310,18 @@ function calcularMonto(){
 
     if (monto > cantidad){        
         msj = 'No se puede otorgar mas del 75% o estar en cero';
+        msjNo(msj);
         return false;
     }else{
         msj = 'Está seguro que desea efectuar el anticipo por Bs. ' + monto.formatMoney(2, ',', '.'); 
         Anticipo['porcentaje'] = parseFloat((monto * 75)/cantidad).toFixed(2);
-        Anticipo['monto'] = parseFloat(monto).toFixed(2);    
+        Anticipo['monto'] = parseFloat(monto).toFixed(2); 
+        $("#divContinuar").html(crearBoton());
+        $("#txtMensaje").html(msj);
+        $("#logMensaje").modal('show');
+        $("#controles").hide();  
     }
-    $("#divContinuar").html(crearBoton());
-    $("#txtMensaje").html(msj);
-    $("#logMensaje").modal('show');
-    $("#controles").hide();
+    
    
 }
 
