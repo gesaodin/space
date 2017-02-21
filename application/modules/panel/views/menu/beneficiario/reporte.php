@@ -110,7 +110,7 @@
                                 <div class="input-group-addon">
                                     <i class="fa fa-calendar"></i>
                                 </div>
-                                <input type="text" class="form-control" id="datepicker" readonly="readonly">
+                                <input type="text" class="form-control" id="datepicker">
                             </div>
                         </div>
                         <!-- /.input group -->
@@ -125,7 +125,7 @@
                                 <div class="input-group-addon">
                                     <i class="fa fa-calendar"></i>
                                 </div>
-                                <input type="text" class="form-control" id="datepicker1" readonly="readonly">
+                                <input type="text" class="form-control" id="datepicker1">
                             </div>
                         </div>
                         <!-- /.input group -->
@@ -133,20 +133,26 @@
                     <!-- /.form group -->
                     
                 </div>
+                <div class="overlay"  id="cargando" style="display:none">
+                        <i class="fa fa-refresh fa-spin"></i>
+                </div>
                 <!-- /.box-body -->
                 <div class="box-footer">
+                    
+
                    <div class="row no-print">
-        <div class="col-xs-6">
-    
-          <button type="button" class="btn btn-success pull-right" onclick="Consultar()"><i class="fa fa-search"></i>&nbsp;&nbsp;Consultar
-          </button>
-          </div>
-          <div class="col-xs-6">
-          <button type="button" class="btn btn-primary" style="margin-right: 5px;" id='btnImprimir'>
-            <i class="fa fa-print"></i>&nbsp;&nbsp;Imprimir
-          </button>
-        </div>
-      </div>
+                    <div class="col-xs-6">
+                
+                      <button type="button" class="btn btn-success pull-right" onclick="Consultar()">
+                        <i class="fa fa-search"></i>&nbsp;&nbsp;Consultar
+                      </button>
+                      </div>
+                      <div class="col-xs-6">
+                      <button type="button" class="btn btn-primary" style="margin-right: 5px;" id='btnImprimir'>
+                        <i class="fa fa-print"></i>&nbsp;&nbsp;Imprimir
+                      </button>
+                    </div>
+                  </div>
                 </div>
                 <!-- /.box-footer-->
             </div>

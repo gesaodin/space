@@ -475,13 +475,14 @@ class KCargador extends CI_Model{
     $this->load->model('kernel/KPerceptron'); //Red Perceptron Aprendizaje de patrones
 
 
-    
+    $fde = $obj->fde;
+    $nom = $obj->nom;
     $condicion = ' beneficiario.status_id=' . $obj->sit;
-    if($obj->nom != "") $condicion .= ' AND (beneficiario.nombres ~* \'' . $obj->nom . '\' OR apellidos ~* \'' . $obj->nom . '\')';
+    if($nom != "") $condicion .= ' AND (beneficiario.nombres ~* \'' . $obj->nom . '\' OR apellidos ~* \'' . $obj->nom . '\')';
     if($obj->gra != "99") $condicion .= ' AND grado.codigo=' . $obj->gra;
     if($obj->com != "99") $condicion .= ' AND beneficiario.componente_id=' . $obj->com;
+    if( $fde != "") $condicion .= ' AND beneficiario.fecha_ingreso BETWEEN \'' . $obj->fde . '\' AND \'' . $obj->fha . '\'';
     
-
     $sConsulta = '
       SELECT 
         beneficiario.nombres, beneficiario.apellidos,
@@ -496,12 +497,21 @@ class KCargador extends CI_Model{
 
     $obj = $this->DBSpace->consultar($sConsulta);
     
+    //echo $sConsulta;
     
     if ($obj->cant < 3000){
-      $lst = $this->generarMenoraMil($this->KCalculoLote, $this->KPerceptron, $fecha, $Directivas, $obj->rs);
-    }else{
+      if($fde == "" && $nom == "") {
+        $lst = $this->generarMenoraMil($this->KCalculoLote, $this->KPerceptron, $fecha, $Directivas, $obj->rs);  
+      } else{
+         $lst = $this->generarSinCalculos($obj->rs);  
+      }
       
-      $lst = $this->generarMayoraMil($this->KCalculoLote, $this->KPerceptron, $fecha, $Directivas, $obj->rs);
+    }else{      
+      if($fde == "" && $nom == ""){
+        $lst = $this->generarMayoraMil($this->KCalculoLote, $this->KPerceptron, $fecha, $Directivas, $obj->rs);        
+      }else{
+         $lst = $this->generarSinCalculosCsv($obj->rs);  
+      }
       
     }
     
@@ -537,7 +547,7 @@ class KCargador extends CI_Model{
 
   private function generarMayoraMil(KCalculoLote &$CalculoLote, KPerceptron &$Perceptron, $fecha, $Directivas, $obj){
     $lst = array();
-    $firma = md5($fecha); 
+    $firma = md5(date('Y-m-d H:i:s')); 
     $file = fopen("tmp/" . $firma . ".csv","a") or die("Problemas");
     $linea = 'CEDULA;GRADO;COMPONENTE;BENEFICIARIO;TIEMPO DE SERVICIO;SUELDO MENSUAL;SUELDO INTEGRAL';
     fputs($file,$linea);
@@ -566,6 +576,40 @@ class KCargador extends CI_Model{
     return $lst;
   }
 
+  private function generarSinCalculosCsv($obj){
+    $lst = array();
+    $firma = md5(date('Y-m-d H:i:s')); 
+    $file = fopen("tmp/" . $firma . ".csv","a") or die("Problemas");
+    $linea = 'CEDULA;GRADO;COMPONENTE;BENEFICIARIO;FECHA INGRESO;TIEMPO DE SERVICIO';
+    fputs($file,$linea);
+    fputs($file,"\n");  
+
+    foreach ($obj as $k => $v) {           
+      $linea = 
+        $v->cedula . ';' .
+        $v->apellidos . ' ' . $v->nombres . ';' .
+        $v->fecha_ingreso . ';';      
+      fputs($file,$linea);
+      fputs($file,"\n");      
+      unset($Bnf);
+    }
+    fclose($file);
+    
+    $lst[] = array('file' => $firma . '.csv');
+    return $lst;
+  }
+
+  private function generarSinCalculos($obj){
+    $lst = array();
+    foreach ($obj as $k => $v) {
+      $lst[] = array(
+        'ced' => $v->cedula, 
+        'nom' => $v->apellidos . ' ' . $v->nombres, 
+        'fin' => $v->fecha_ingreso
+      );
+    }
+    return $lst;
+  }
   /**
   * Generar Codigos por Patrones en la Red de Inteligencia
   *

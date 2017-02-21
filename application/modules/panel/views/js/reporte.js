@@ -7,8 +7,26 @@ $( "#id" ).keypress(function( event ) {
 });
 
 function Consultar(){
-	
+    var fde = "";
+	var fha = "";
+    $('#divreporte').html('');
     var val = $("#id").val();
+    f = $("#datepicker").val();
+    fx = $("#datepicker1").val();
+    if (f != ""){
+        f = f.split('/');
+        fde = f[2] + '-' + f[1] + '-' + f[0];        
+        if(fde != ""){        
+            fx = fx.split('/');
+            if(fx != ""){
+                fha = fx[2] + '-' + fx[1] + '-' + fx[0];
+            }else {
+                fha = fde;
+            }
+        }
+    }
+    
+    
 
     ruta = sUrlP + "consultarBeneficiario/" +  val; 
     data = JSON.stringify({
@@ -16,10 +34,16 @@ function Consultar(){
         nom: $('#nombre').val(),
         sit: $('#situacion option:selected').val(),
         com: $('#componente option:selected').val(),
-        gra: $('#grado option:selected').val()
+        gra: $('#grado option:selected').val(),
+        fde: fde,
+        fha: fha
     });
+    
+    $('#cargando').show();
+    
     if(val == "") ruta = sUrlP + "ConsultarGrupos"; 
     $.post(ruta, {data:data}, function(data) {
+        console.log(data);
         
         if (data[0].file != null){
             location.href = sUrl + 'tmp/' + data[0].file;  
@@ -27,16 +51,23 @@ function Consultar(){
             if(val != ""){
                 TablaIndividual(data);
             }else{                
-                TablaGrupos(data);
+                if(fde == '' || $('#nombre').val() == ''){
+                    TablaGruposNombreFecha(data);
+                }else{                    
+                    
+                    TablaGrupos(data);
+                }
             }
         }
-        
-        
+        $('#cargando').hide();
+       
 
     }).done(function(msg) {}).fail(function(jqXHR, textStatus) {
 
         alert('Beneficiario no esta registrado');
     });
+
+    
 
 }
 
@@ -111,8 +142,8 @@ function TablaGrupos(data){
     var t = $('#reporte').DataTable({
         "paging":   true,
         "ordering": true,
-        "info":     false,
-        "searching": false
+        "info":     true,
+        "searching": true
     });    
     t.clear().draw();
     
@@ -131,21 +162,42 @@ function TablaGrupos(data){
 
 }
 
+function TablaGruposNombreFecha(data){
+    tabla = '<table id="reporte" class="table table-bordered table-hover"><thead><tr>';
+    tabla += '<th>Cédula</th><th style="width:350px">Beneficiario</th>';
+    tabla += '<th>Fecha Ingreso</th></tr></thead></table>';
+    $('#divreporte').html(tabla);
+    var t = $('#reporte').DataTable({
+        "paging":   true,
+        "ordering": true,
+        "info":     true,
+        "searching": true
+    });    
+    t.clear().draw();
+    
+    $.each(data, function (c, v){
+       t.row.add( [
+            v.ced, 
+            v.nom,          
+            v.fin
+        ] ).draw( false );
+
+    });
+
+}
+
 function cargarGrado(){
     $("#grado").html('');
     $("#grado").append('<option value=99>Todos los grados</option>');
 
-    id = $("#componente option:selected").val();
-    
+    id = $("#componente option:selected").val();    
     ruta = sUrlP + "cargarGradoComponente/" + id;
-    $.getJSON(ruta, function(data) {
-        
-        $.each(data, function(d, v){
 
+    $.getJSON(ruta, function(data) {    
+        $.each(data, function(d, v){
             var opt = new Option(v.nombre, v.codigo);
             $("#grado").append(opt);
         });
-
     }).done(function(msg) {}).fail(function(jqXHR, textStatus) {
        $("#txtMensaje").html('No se encontro cédula de beneficiario');
        $("#logMensaje").modal('show');
