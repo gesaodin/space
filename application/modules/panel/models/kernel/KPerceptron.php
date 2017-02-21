@@ -18,6 +18,8 @@ if (!defined('BASEPATH'))
 class KPerceptron extends CI_Model{
 
 	var $Neurona = array();
+
+	var $NeuronaArtificial = array();
   
   	/**
 	* Iniciando la clase, Cargando Elementos Pace
@@ -33,6 +35,10 @@ class KPerceptron extends CI_Model{
 	function Aprender($patron, $conocimiento){
 		$this->Neurona[$patron] = $conocimiento;
 	}
+	function AprenderArtificial($patron, $ced, $conocimiento){
+		$this->NeuronaArtificial[$patron][$ced] = $conocimiento;
+	}
+
 
 	function Recordar($pensamiento){
 		$Recuerdo = array();
