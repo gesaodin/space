@@ -69,10 +69,12 @@ class KDirectiva extends CI_Model{
   *
   * @param int
   */
-  public function Cargar($id){
+  public function Cargar($id, $fecha = ''){
     $this->load->model('kernel/KPrimas');
     $this->load->model('kernel/KFunciones');
     
+    $donde = $fecha != ''? 'f_inicio < \'' . $fecha . '\' AND f_vigencia > \'' . $fecha . '\'': 'id=' . $id ;
+
     $lst = array();
     $sConsulta = '
         SELECT A.id, A.nombre, A.numero, A.f_vigencia, A.f_inicio, 
@@ -81,8 +83,8 @@ class KDirectiva extends CI_Model{
                 grado.nombre AS gnombre,componente.id AS compid,
                 componente.descripcion AS cnombre
         FROM (SELECT * FROM directiva_sueldo 
-          WHERE id=' . $id . ' ORDER BY f_inicio desc LIMIT 1) 
-              AS A 
+          WHERE ' . $donde . ' ORDER BY f_inicio desc LIMIT 1) 
+              AS A  
         JOIN 
           detalle_directiva ON A.id=detalle_directiva.directiva_sueldo_id
 

@@ -325,12 +325,12 @@ class Panel extends MY_Controller {
 	 *
 	 * @return	void
 	 */ 
-	public function PrepararIndices(){
+	public function PrepararIndices($pregunta = 0){
 		header('Content-Type: application/json');
 		$this->load->model('kernel/KSensor');
 		$this->load->model('kernel/KCargador');
 		$fecha = date('d/m/Y H:i:s');
-		//$this->KCargador->PrepararIndices();
+		if ($pregunta != 0) $this->KCargador->PrepararIndices();
 		$json = array('m' => "Fecha y Hora del Servidor: " . $fecha . " \n" . $this->KSensor->Duracion() . "... \n");
 		echo json_encode($json);
 
@@ -371,11 +371,23 @@ class Panel extends MY_Controller {
 
 		$this->load->model('kernel/KCargador');			
  		$this->KCargador->IniciarLoteEstudiar(48, '2017-03-01', $firma, $_SESSION['usuario'], 10);	
- 		//$mnt = $this->KCargador->Resultado['l'] - 1;
-		
-		
+ 		//$mnt = $this->KCargador->Resultado['l'] - 1;		
 	}
 
+	public function ConsultarGrupos(){
+		header('Content-Type: application/json');
+		$this->load->model('kernel/KSensor');
+		$fecha = date('d/m/Y H:i:s');
+		$firma = md5($fecha);
+
+		$this->load->model('kernel/KCargador');		
+		
+		$json = json_decode($_POST['data']);
+ 		$lst = $this->KCargador->ConsultarGrupos($json);	
+
+ 		echo json_encode($lst);
+
+	}
 	/**
 	 *	---------------------------------------------
 	 *	INICIANDO PROCESOS APORTE DE INTERESES

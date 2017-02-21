@@ -46,7 +46,7 @@
                         <div class="col-md-4">
                             <div class="input-group">
                             <span class="input-group-btn">
-                                <button type="button" class="btn btn-success" onclick="consultar()"><i class="fa fa-search"></i></button>
+                                <button type="button" class="btn btn-success" onclick="Consultar()"><i class="fa fa-search"></i></button>
                             </span> 
                             <input type="text" class="form-control" placeholder="Cédula de Identidad" id='id' onblur="Consultar()" />
                           </div> 
@@ -56,7 +56,7 @@
                         
                     </div>
                     <div class="col-md-4">
-                        <select class="form-control select2" style="width: 100%;">
+                        <select class="form-control select2" style="width: 100%;" id='situacion'>
                             <option value='201'>Activo</option>
                             <option value='202'>Retirado</option>
                             <option value='203'>Finiquito</option>
@@ -73,7 +73,7 @@
                         Nombre y Apellidos
                     </div>
                     <div class="col-md-10">
-                        <input type="text" class="form-control" placeholder="Busqueda por nombres y apellidos">
+                        <input type="text" class="form-control" placeholder="Busqueda por nombres y apellidos" id='nombre'>
                     </div>
                     
                     <br><br>
@@ -138,7 +138,7 @@
                    <div class="row no-print">
         <div class="col-xs-6">
     
-          <button type="button" class="btn btn-success pull-right"><i class="fa fa-search"></i>&nbsp;&nbsp;Consultar
+          <button type="button" class="btn btn-success pull-right" onclick="Consultar()"><i class="fa fa-search"></i>&nbsp;&nbsp;Consultar
           </button>
           </div>
           <div class="col-xs-6">
@@ -166,25 +166,9 @@
                         </div>
 
                         <!-- /.box-header -->
-                        <div class="box-body">
-                            <table id="reporte" class="table table-bordered table-hover">
-                                <thead>
-                                <tr>
-                                    <th>Acciones</th>
-                                    <th>Cédula</th>
-                                    <th>Grado</th>
-                                    <th>Componente</th>
-                                    <th>Beneficiario</th>
-                                    <th>Cuenta</th>
-                                    <th>Asig. Ant.</th>
-                                    <th>Fecha de Ingreso</th>
-                                    <th>Situación</th>
-                                    
-                                </tr>
-                                </thead>
-                              
+                        <div class="box-body" id="divreporte">
 
-                            </table>
+                            
                         </div>
                         <!-- /.box-body -->
                     </div>

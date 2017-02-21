@@ -460,5 +460,174 @@ class KCargador extends CI_Model{
       return $linea;      
   }
 
+
+
+  public function ConsultarGrupos($obj){
+    ini_set('memory_limit', '512M'); //Aumentar el limite de PHP
+    $lst = array();
+    $fecha = date("Y-m-d");
+    $this->load->model('comun/Dbpace');
+    $this->load->model('kernel/KSensor');
+    $this->load->model('fisico/MBeneficiario');
+    $this->load->model('kernel/KCalculoLote');
+    $this->load->model('kernel/KDirectiva');
+    $Directivas = $this->KDirectiva->Cargar('', $fecha); //Directivas
+    $this->load->model('kernel/KPerceptron'); //Red Perceptron Aprendizaje de patrones
+
+
+    
+    $condicion = ' beneficiario.status_id=' . $obj->sit;
+    if($obj->nom != "") $condicion .= ' AND (beneficiario.nombres ~* \'' . $obj->nom . '\' OR apellidos ~* \'' . $obj->nom . '\')';
+    if($obj->gra != "99") $condicion .= ' AND grado.codigo=' . $obj->gra;
+    if($obj->com != "99") $condicion .= ' AND beneficiario.componente_id=' . $obj->com;
+    
+
+    $sConsulta = '
+      SELECT 
+        beneficiario.nombres, beneficiario.apellidos,
+        beneficiario.cedula, fecha_ingreso,f_ult_ascenso, grado.codigo,
+        beneficiario.componente_id, n_hijos, st_no_ascenso,
+        st_profesion,anio_reconocido, mes_reconocido,dia_reconocido
+        FROM 
+          beneficiario  
+        JOIN 
+          grado ON beneficiario.grado_id=grado.id 
+        WHERE ' . $condicion . ' ;';
+
+    $obj = $this->DBSpace->consultar($sConsulta);
+    
+    
+    if ($obj->cant < 3000){
+      $lst = $this->generarMenoraMil($this->KCalculoLote, $this->KPerceptron, $fecha, $Directivas, $obj->rs);
+    }else{
+      
+      $lst = $this->generarMayoraMil($this->KCalculoLote, $this->KPerceptron, $fecha, $Directivas, $obj->rs);
+      
+    }
+    
+    //fclose($file);
+    //print_r($this->KPerceptron->NeuronaArtificial);
+    //echo count($this->KPerceptron->NeuronaArtificial);
+
+    return $lst;
+  
+      //$this->evaluarLotesLinuxComando($archivo);
+  }
+
+
+  private function generarMenoraMil(KCalculoLote &$CalculoLote, KPerceptron &$Perceptron, $fecha, $Directivas, $obj){
+    $lst = array();
+    foreach ($obj as $k => $v) {
+      $Bnf = new $this->MBeneficiario;      
+      $this->KCalculoLote->Instanciar($Bnf, $Directivas);
+      $linea = $this->generarConPatronesReporte($Bnf,  $this->KCalculoLote, $this->KPerceptron, $fecha, $Directivas, $v);
+      $lst[] = array(
+        'ced' => $Bnf->cedula, 
+        'nom' => $Bnf->apellidos . ' ' . $Bnf->nombres, 
+        'gra' => $Bnf->grado_nombre,
+        'com' => $Bnf->componente_nombre,
+        'fin' => $Bnf->fecha_ingreso,
+        'tse' => $Bnf->tiempo_servicio,
+        'sme' => $Bnf->sueldo_mensual, 
+        'sin' => $Bnf->sueldo_integral
+      );
+    }
+    return $lst;
+  }
+
+  private function generarMayoraMil(KCalculoLote &$CalculoLote, KPerceptron &$Perceptron, $fecha, $Directivas, $obj){
+    $lst = array();
+    $firma = md5($fecha); 
+    $file = fopen("tmp/" . $firma . ".csv","a") or die("Problemas");
+    $linea = 'CEDULA;GRADO;COMPONENTE;BENEFICIARIO;TIEMPO DE SERVICIO;SUELDO MENSUAL;SUELDO INTEGRAL';
+    fputs($file,$linea);
+    fputs($file,"\n");  
+
+    foreach ($obj as $k => $v) {
+      $Bnf = new $this->MBeneficiario;      
+      $this->KCalculoLote->Instanciar($Bnf, $Directivas);
+      $lin = $this->generarConPatronesReporte($Bnf,  $this->KCalculoLote, $this->KPerceptron, $fecha, $Directivas, $v);
+      $linea = 
+        $Bnf->cedula . ';' .
+        $Bnf->grado_nombre . ';' .
+        $Bnf->componente_nombre . ';' .  
+        $Bnf->apellidos . ' ' . $Bnf->nombres . ';' .              
+        $Bnf->tiempo_servicio . ';' .
+        $Bnf->sueldo_mensual . ';' .
+        $Bnf->sueldo_integral . ';';
+      
+      fputs($file,$linea);
+      fputs($file,"\n");      
+      unset($Bnf);
+    }
+    fclose($file);
+    
+    $lst[] = array('file' => $firma . '.csv');
+    return $lst;
+  }
+
+  /**
+  * Generar Codigos por Patrones en la Red de Inteligencia
+  *
+  * @param MBeneficiario
+  * @param KCalculoLote
+  * @param KPerceptron
+  * @param KDirectiva
+  * @param object
+  * @return void
+  */
+  private function generarConPatronesReporte(MBeneficiario &$Bnf, KCalculoLote &$CalculoLote, KPerceptron &$Perceptron, $fecha, $Directivas, $v){
+      $Bnf->cedula = $v->cedula;            
+      $Bnf->apellidos = $v->apellidos; //Individual del Objeto
+      $Bnf->nombres = $v->nombres; //Individual del Objeto
+      $Bnf->fecha_ingreso = $v->fecha_ingreso;
+      $Bnf->numero_hijos = $v->n_hijos;
+      $Bnf->no_ascenso = $v->st_no_ascenso;
+      $Bnf->componente_id = $v->componente_id;
+      $Bnf->componente_nombre = $Directivas['com'][$v->componente_id];
+      $Bnf->grado_codigo = $v->codigo;
+      $Bnf->grado_nombre = $Directivas['sb'][$v->codigo.'M']['gr'];
+      $Bnf->fecha_ultimo_ascenso = $v->f_ult_ascenso;
+      $Bnf->fecha_retiro = $fecha;
+      $Bnf->prima_profesionalizacion_mt = $v->st_profesion;
+
+      $patron = md5($v->fecha_ingreso.$v->n_hijos.$v->st_no_ascenso.$v->componente_id.
+        $v->codigo.$v->f_ult_ascenso.$v->st_profesion.$v->anio_reconocido.$v->mes_reconocido.$v->dia_reconocido);      
+
+      //GENERADOR DE CALCULOS DINAMICOS
+      if(!isset($Perceptron->Neurona[$patron])){
+        $CalculoLote->Ejecutar(); 
+
+        $segmentoincial = $Bnf->sueldo_base . ';' . $Bnf->prima_transporte_mt . ';' . 
+                          $Bnf->prima_transporte . ';' . $Bnf->prima_tiemposervicio_mt . ';' . 
+                          $Bnf->prima_tiemposervicio . ';' . $Bnf->prima_descendencia_mt . ';' . 
+                          $Bnf->prima_descendencia . ';' . $Bnf->prima_especial_mt . ';' . 
+                          $Bnf->prima_especial . ';' . $Bnf->prima_noascenso_mt . ';' . 
+                          $Bnf->prima_noascenso . ';' . $Bnf->prima_profesionalizacion_mt . ';' . 
+                          $Bnf->prima_profesionalizacion . ';' . $Bnf->sueldo_mensual . ';' . 
+                          $Bnf->aguinaldos . ';' . $Bnf->dia_vacaciones . ';' . $Bnf->vacaciones . ';' . 
+                          $Bnf->sueldo_integral . ';' . $Bnf->asignacion_antiguedad . ';';
+        $segmentofinal =  $Bnf->garantias . ';' . $Bnf->dias_adicionales;      
+
+        $Perceptron->Aprender($patron, array(
+          'DIA_VAC' => $Bnf->dia_vacaciones,
+          'T_SERVICIO' => $Bnf->tiempo_servicio,
+          'A_ANTIGUEDAD' => $Bnf->asignacion_antiguedad,
+          'S_INTEGRAL' => $Bnf->sueldo_integral, 
+          'SINCIAL' => $segmentoincial, 
+          'SFINAL' =>  $segmentofinal)
+        );
+
+
+      }else{
+        $Bnf->dia_vacaciones =  $Perceptron->Neurona[$patron]['DIA_VAC'];
+        $Bnf->tiempo_servicio = $Perceptron->Neurona[$patron]['T_SERVICIO'];
+        $Bnf->asignacion_antiguedad = $Perceptron->Neurona[$patron]['A_ANTIGUEDAD'];
+        $Bnf->sueldo_integral = $Perceptron->Neurona[$patron]['S_INTEGRAL'];
+        $CalculoLote->GenerarNoDepositadoBanco();     
+      }
+      return true;
+      
+  }
 }
 

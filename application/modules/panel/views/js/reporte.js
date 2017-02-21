@@ -1,10 +1,4 @@
-$('#reporte').DataTable({
-        "paging":   false,
-        "ordering": false,
-        "info":     false,
-        "searching": false
-    }
-);
+var _ZIP = '';
 
 $( "#id" ).keypress(function( event ) {
   if ( event.which == 13 ) {
@@ -14,66 +8,127 @@ $( "#id" ).keypress(function( event ) {
 
 function Consultar(){
 	
-    var t = $('#reporte').DataTable();
-
     var val = $("#id").val();
-    ruta = sUrlP + "consultarBeneficiario/" + val;  
 
-    t.clear().draw();
-
-    $.getJSON(ruta, function(data) {
-        var nombre = data.nombres + ' ' + data.apellidos;
-        var componente = data.Componente.descripcion;
-        var grado = data.Componente.Grado.nombre;
-                
-        var sBoton = '<div class="btn-group">';
-        var sAcciones = '';
-
-        switch (data.estatus_activo) {
-            case '201':
-                sBoton += '<button type="button" class="btn btn-warning" title="Paralizar" onclick="ventana(\'paralizar\')"><i class="fa fa-lock" ></i></button>';                                
-                sBoton += '</button>';
-                sBoton += '<button type="button" class="btn btn-danger" title="Retirar" onclick="ventana(\'retirar\')"><i class="fa fa-ban" ></i></button>';                                
-                sBoton += '</button>';
-                break;
-            case '202':
-                sBoton += '<button type="button" class="btn btn-primary" title="Activar" onclick="ventana(\'activar\')"><i class="fa fa-rotate-left" ></i></button>';                                
-                sBoton += '</button>';
-                break;
-            case '203':
-                
-                break;
-            case '204':
-                break;
-            case '205':
-                sBoton += '<button type="button" class="btn btn-success" title="Desparalizar" onclick="ventana(\'activar\')"><i class="fa fa-unlock-alt" ></i></button>';                                
-                sBoton += '</button>';
-                break;
-            default:
-                break;
+    ruta = sUrlP + "consultarBeneficiario/" +  val; 
+    data = JSON.stringify({
+        id: val, 
+        nom: $('#nombre').val(),
+        sit: $('#situacion option:selected').val(),
+        com: $('#componente option:selected').val(),
+        gra: $('#grado option:selected').val()
+    });
+    if(val == "") ruta = sUrlP + "ConsultarGrupos"; 
+    $.post(ruta, {data:data}, function(data) {
+        
+        if (data[0].file != null){
+            location.href = sUrl + 'tmp/' + data[0].file;  
+        }else{
+            if(val != ""){
+                TablaIndividual(data);
+            }else{                
+                TablaGrupos(data);
+            }
         }
-
-        sBoton += sAcciones + '</div>';        
-
-
-
-        t.row.add( [
-            sBoton,
-            data.cedula,
-            grado,
-            componente,
-            nombre,
-            data.numero_cuenta,
-            data.Calculo['asignacion_antiguedad'],
-            data.fecha_ingreso,
-            data.estatus_descripcion
-        ] ).draw( false );
-        //ConsultarHistorialBeneficiario();
+        
+        
 
     }).done(function(msg) {}).fail(function(jqXHR, textStatus) {
 
         alert('Beneficiario no esta registrado');
     });
+
+}
+
+function DescargarReporte(){
+    location.href = sUrl + 'tmp/' + _ZIP;
+}
+
+
+function TablaIndividual(data){
+    tabla = '<table id="reporte" class="table table-bordered table-hover"><thead><tr><th>Acciones</th>';
+    tabla += '<th>Cédula</th><th>Grado</th><th>Componente</th><th>Beneficiario</th><th>Cuenta</th>';
+    tabla += '<th>Asig. Ant.</th><th>Fecha de Ingreso</th><th>Situación</th></tr></thead></table>';
+    $('#divreporte').html(tabla);
+    var t = $('#reporte').DataTable({
+        "paging":   false,
+        "ordering": false,
+        "info":     false,
+        "searching": false
+    });    
+    t.clear().draw();
+
+    var nombre = data.nombres + ' ' + data.apellidos;
+    var componente = data.Componente.descripcion;
+    var grado = data.Componente.Grado.nombre;            
+    t.row.add( [
+        HacerBotones(data.estatus_activo),
+        data.cedula,
+        grado,
+        componente,
+        nombre,
+        data.numero_cuenta,
+        data.Calculo['asignacion_antiguedad'],
+        data.fecha_ingreso,
+        data.estatus_descripcion
+    ] ).draw( false );
+}
+function HacerBotones(estatus){
+    var sBoton = '<div class="btn-group">';
+    switch (estatus) {
+        case '201':
+            sBoton += '<button type="button" class="btn btn-warning" title="Paralizar" onclick="ventana(\'paralizar\')"><i class="fa fa-lock" ></i></button>';                                
+            sBoton += '</button>';
+            sBoton += '<button type="button" class="btn btn-danger" title="Retirar" onclick="ventana(\'retirar\')"><i class="fa fa-ban" ></i></button>';                                
+            sBoton += '</button>';
+            break;
+        case '202':
+            sBoton += '<button type="button" class="btn btn-primary" title="Activar" onclick="ventana(\'activar\')"><i class="fa fa-rotate-left" ></i></button>';                                
+            sBoton += '</button>';
+            break;
+        case '203':
+            
+            break;
+        case '204':
+            break;
+        case '205':
+            sBoton += '<button type="button" class="btn btn-success" title="Desparalizar" onclick="ventana(\'activar\')"><i class="fa fa-unlock-alt" ></i></button>';                                
+            sBoton += '</button>';
+            break;
+        default:
+            break;
+    }
+
+    return sBoton + '</div>';  
+
+}
+
+function TablaGrupos(data){
+    tabla = '<table id="reporte" class="table table-bordered table-hover"><thead><tr>';
+    tabla += '<th>Cédula</th><th>Grado</th><th>Componente</th><th style="width:250px">Beneficiario</th>';
+    tabla += '<th>T. Serv.</th><th>S. Mensual.</th><th>S. Int</th></tr></thead></table>';
+    $('#divreporte').html(tabla);
+    var t = $('#reporte').DataTable({
+        "paging":   true,
+        "ordering": true,
+        "info":     false,
+        "searching": false
+    });    
+    t.clear().draw();
+    
+    $.each(data, function (c, v){
+       t.row.add( [
+            v.ced,            
+            v.gra,
+            v.com, 
+            v.nom,
+            v.tse,
+            v.sme,
+            v.sin            
+        ] ).draw( false );
+
+    });
+
 }
 
 function cargarGrado(){
@@ -86,7 +141,8 @@ function cargarGrado(){
     $.getJSON(ruta, function(data) {
         
         $.each(data, function(d, v){
-            var opt = new Option(v.nombre, v.id);
+
+            var opt = new Option(v.nombre, v.codigo);
             $("#grado").append(opt);
         });
 
