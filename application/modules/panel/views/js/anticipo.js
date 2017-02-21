@@ -33,9 +33,9 @@ $( "#id" ).keypress(function( event ) {
 function consultar() {
     var val = $("#id").val();
     ruta = sUrlP + "consultarBeneficiario/" + val;
-    $.getJSON(ruta, function(data) {
 
-        if(data.fecha_retiro != null && data.fecha_retiro != ''){
+    $.getJSON(ruta, function(data) {
+       if(data.fecha_retiro != null && data.fecha_retiro != '' ){
             $("#id").val('');
             var boton = '<button type="button" class="btn btn-success pull-right" onclick="continuar()">';
             boton += '<i class="glyphicon glyphicon-ok"></i>&nbsp;&nbsp;Continuar</button>';
@@ -44,7 +44,12 @@ function consultar() {
             $("#logMensaje").modal('show');
             $("#controles").hide();
             limpiar();
+
         }else{
+            if (data.numero_cuenta == '' || data.numero_cuenta == '0'){
+                
+                 msjNo("El Numero de Cuenta no puede estar en cero");return false;
+              }
             dem = data.Calculo.embargos_aux;
             $("#divBotones").show();
             $("#btnAnticipo").focus();
@@ -90,6 +95,10 @@ function consultar() {
             $("#comision_servicios_aux").val(data.Calculo.comision_servicios_aux);
             comision_servicios = data.Calculo.comision_servicios_aux;
 
+            $("#asignacion_depositada").val(data.Calculo.asignacion_depositada);
+            $("#asignacion_depositada_aux").val(data.Calculo.asignacion_depositada_aux);
+            asignacion_depositada = data.Calculo.asignacion_depositada_aux;
+
             listar(data.HistorialOrdenPagos);
             monto_disponible = data.Calculo.asignacion_depositada_aux;
 
@@ -123,7 +132,7 @@ function consultar() {
         $("#btnContinuar").focus();
         limpiar();
     });
-
+    //limpiar();
 }
 
 function listar(data){
@@ -213,6 +222,7 @@ function PuntoCuenta(id){
 }
 
 function limpiar(){
+    $("#id").val('');
     $("#nombres").val('');
     $("#apellidos").val('');
     $("#sexo").val('');
@@ -231,7 +241,13 @@ function limpiar(){
     $("#fano").val('');
     $("#vacaciones").val('');
     $("#numero_cuenta").val('');
+    $("#porcentaje").val('');
+    $("#monto").val('');
     $("#estatus").val('');
+    $("#divBotones").hide();
+    
+    var t = $('#reporteAnticipo').DataTable();
+    t.clear().draw(false);
 }
 
 function continuar(){
@@ -269,7 +285,8 @@ function calcularPorcentaje(){
         msj = cantidad <= 0? 'No posee disponibilidad para otorgar el anticipo':'Está seguro que desea efectuar el anticipo por Bs. ' + cantidad.formatMoney(2, ',', '.'); 
         $("#txtMensaje").html(msj);
         $("#divContinuar").html(crearBoton());
-        Anticipo['monto'] = parseFloat(cantidad).toFixed(2);     
+        Anticipo['monto'] = parseFloat(cantidad).toFixed(2);  
+        2
     }
 
     $("#logMensaje").modal('show');
@@ -287,24 +304,34 @@ function crearBoton(){
 
 function calcularMonto(){
     
-    if($("#monto").val() == '')return false;
+    if($("#monto").val() == ''  || $("#monto").val()  == "0"){msjNo("El monto no puede estar en cero");return false}
     var cantidad = ((Number(monto_disponible) * 75) / 100) - Number($("#anticipos_aux").val()) - Number(monto_resguardo);
     monto = Number($("#monto").val());
 
     if (monto > cantidad){        
-        msj = 'No se puede otorgar mas del 75%';
+        msj = 'No se puede otorgar mas del 75% o estar en cero';
+        msjNo(msj);
         return false;
     }else{
         msj = 'Está seguro que desea efectuar el anticipo por Bs. ' + monto.formatMoney(2, ',', '.'); 
         Anticipo['porcentaje'] = parseFloat((monto * 75)/cantidad).toFixed(2);
-        Anticipo['monto'] = parseFloat(monto).toFixed(2);    
+        Anticipo['monto'] = parseFloat(monto).toFixed(2); 
+        $("#divContinuar").html(crearBoton());
+        $("#txtMensaje").html(msj);
+        $("#logMensaje").modal('show');
+        $("#controles").hide();  
     }
-    $("#divContinuar").html(crearBoton());
+    
+   
+}
+
+function msjNo(msj,botones){
+    $("#divContinuar").html(botones);
     $("#txtMensaje").html(msj);
     $("#logMensaje").modal('show');
     $("#controles").hide();
-   
 }
+
 
 
 

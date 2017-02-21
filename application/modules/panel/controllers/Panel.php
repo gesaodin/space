@@ -190,7 +190,13 @@ class Panel extends MY_Controller {
 		$this->load->view('reporte/beneficiario/medida_judicial_ejecutada', $data);
 	}
 
+	public function SuspenderMedidaJudicial($id){
+		$this->load->model('beneficiario/MMedidaJudicial');
+		$this->load->model('comun/Dbpace');
+		$this->MMedidaJudicial->Suspender($id, 222);
+		echo "Se ha suspendido la medida...";
 
+	}
 	public function cartaBancoFallecidoM($cedula = '', $codigo = ''){
 		$this->load->model('beneficiario/MBeneficiario');
 		$this->load->model('beneficiario/MHistorialMovimiento');

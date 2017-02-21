@@ -179,7 +179,7 @@
                                 <input type="hidden" id='garantias_aux'/>
                               </div>
                               <div class="col-xs-2">
-                                <label>Capital en banco</label>
+                                <label>Capital en Banco</label>
                               </div>
                               <div class="col-xs-4">
                                 <input type="text" class="form-control" placeholder="Capital en Banco" id='capital_banco' readonly="readonly" />
@@ -198,11 +198,11 @@
                                 <input type="hidden" class="form-control"  id='anticipos_aux' />
                               </div>
                               <div class="col-xs-2">
-                                <label>Saldo Disponible</label>
+                                <label>Dep. en Banco</label>
                               </div>
                               <div class="col-xs-4">
-                                <input type="text" class="form-control" placeholder="Saldo Disponible" id='saldo_disponible' readonly="readonly" />
-                                <input type="hidden" class="form-control"  id='saldo_disponible_aux' />
+                                <input type="text" class="form-control" placeholder="asignacion_depositada" id='asignacion_depositada' readonly="readonly" />
+                                <input type="hidden" class="form-control"  id='asignacion_depositada_aux' />
                               </div>
 
                             </div>
@@ -281,7 +281,7 @@
                           
                           <div class="box-footer">
                           <div class="col-xs-12">
-                            <button type="button" class="btn btn-danger pull-right" data-dismiss="modal"><i class="glyphicon glyphicon-remove"></i>&nbsp;&nbsp;Cancelar
+                            <button type="button" class="btn btn-danger pull-right" data-dismiss="modal" onclick="limpiar()"><i class="glyphicon glyphicon-remove"></i>&nbsp;&nbsp;Cancelar
                             </button>
                             
                             
