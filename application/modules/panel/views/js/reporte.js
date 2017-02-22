@@ -11,6 +11,7 @@ function Consultar(){
 	var fha = "";
     $('#divreporte').html('');
     var val = $("#id").val();
+
     f = $("#datepicker").val();
     fx = $("#datepicker1").val();
     if (f != ""){
@@ -42,12 +43,15 @@ function Consultar(){
     $('#cargando').show();
     
     if(val == "") ruta = sUrlP + "ConsultarGrupos"; 
+    
     $.post(ruta, {data:data}, function(data) {
-        console.log(data);
+       
         
-        if (data[0].file != null){
+        if (data[0].file != undefined){
+            
             location.href = sUrl + 'tmp/' + data[0].file;  
         }else{
+            
             if(val != ""){
                 TablaIndividual(data);
             }else{                
@@ -63,8 +67,10 @@ function Consultar(){
        
 
     }).done(function(msg) {}).fail(function(jqXHR, textStatus) {
-
+        console.log(jqXHR.responseText);
+        $('#cargando').hide();
         alert('Beneficiario no esta registrado');
+
     });
 
     

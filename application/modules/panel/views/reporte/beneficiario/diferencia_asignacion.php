@@ -159,13 +159,17 @@ th {
             <th>MONTO BS.</th>
           </tr>
        </thead>
-       <tbody>
+       <tbody>        
         <?php
+          $sum = 0;
           foreach ($lst as $c => $v) {
-
-            echo '<tr><td>' . $v['codigo'] . '</td><td>' . strtoupper($v['nombre']) . '</td><td>' . $v['cedula'] . '</td><td>' . 
-            number_format($v['mdaa'], 2, ',','.') . '</td></tr>';
+            if ($v['monto'] > 0){
+              echo '<tr><td>' . $v['codigo'] . '</td><td>' . strtoupper($v['nombre']) . '</td><td>' . $v['cedula'] . '</td><td>' . 
+              number_format($v['mdaa'], 2, ',','.') . '</td></tr>';
+              $sum += $v['mdaa'];
+            }
           }
+          echo '<tr><td colspan="3" style="text-align: right">TOTAL&nbsp;&nbsp;</td><td>' . number_format($sum, 2, ',','.') . '</td></tr>'
         ?>
        </tbody>
      </table>
@@ -182,7 +186,11 @@ th {
      <br>
 
      Notas:<br>
-     <?php echo $Beneficiario->observacion;?>
+     <?php 
+       $o = explode('*MA', $Beneficiario->observacion);
+       $o[0] = str_replace("\n", '<br>', $o[0]);
+       echo $o[0];
+      ?>
      <br><br>
      OCR/<?php echo $Beneficiario->usuario_modificacion;?>
    </td>

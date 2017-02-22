@@ -31,6 +31,8 @@ class Panel extends MY_Controller {
 		$this->load->view("view_home");
 	}
 
+	
+
 	public function fideicomitente(){
 		$this->load->view("fideicomitente");
 	}
@@ -625,7 +627,8 @@ class Panel extends MY_Controller {
 
 		$json = json_decode($_POST['data']); // 'Hola Mundo'; //Object($_POST);
 		$json->u_s = $_SESSION['usuario'];
-
+		//print_r($json);
+		$msj = 'Se debe definir una fecha para iniciar el proceso...';
 		$fecha_aux = isset($json->f_r) ? $json->f_r : '';
 		if($fecha_aux != ''){
 
@@ -647,14 +650,17 @@ class Panel extends MY_Controller {
 				$this->MBeneficiario->InsertarHistorial();
 				$this->MBeneficiario->insertarDetalle($json, $codigo);
 				$this->MMedidaJudicial->ejecutarMedidas($json->i_d, 223, $codigo, $json->t_e);
-				print_r($json);
-				echo 'Se ha procesado exitosamente el finiquito del beneficiario (' . $nombre . ')...';
+				//print_r($json);
+				$msj = 'Se ha procesado exitosamente el finiquito del beneficiario (' . $nombre . ')...';
 			}else{
-				echo 'El beneficiario  (' . $nombre . ') ya posee un finiquito...';
+				$msj = 'El beneficiario  (' . $nombre . ') ya posee un finiquito...';
 			}
 
 
 		}
+
+		print_r($msj);
+ 
 
 	}
 

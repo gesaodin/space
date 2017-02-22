@@ -698,7 +698,7 @@ function GuargarFiniquito(){
     m_d = $("#deuda").val(); //Monto Por Deuda
     a_i = $("#intereses").val(); //Ajuste PorInteres
     //t_an = $("#asignacion_antiguedad_aux").val(); //A.A Generada
-    t_an = $("#asignacion_antiguedad_fin_aux").val(); //A.A Generada
+    t_an = ""; //A.A Generada
     t_b = $("#total_banco").val(); //Total en Banco
     t_e = $("#embargos_aux").val(); //Total de los embargos
     t_bx = $("#total_banco_calc").val(); //Total en Banco
@@ -751,10 +751,10 @@ function GuargarFiniquito(){
           data: {'data' :data},
           url: ruta,
           success: function (data) {  
-            //console.log(data);    
+            console.log(data);    
             //alert(data);
             //$("#txtMensaje").html(data);
-            //$("#txtMensaje").html(data); 
+            $("#txtMensaje").html(data); 
             var boton = '<button type="button" class="btn btn-success pull-right" onclick="continuarFiniquito()">';
             boton += '<i class="glyphicon glyphicon-ok"></i>&nbsp;&nbsp;Continuar Finiquito</button>';
             $("#divContinuar").html(boton);
