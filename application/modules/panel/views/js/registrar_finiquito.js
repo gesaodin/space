@@ -409,6 +409,7 @@ function consultarBeneficiarioFecha(){
     ano = elem[2];
     var fech = ano + '-' + mes + '-' + dia;    
     ruta = sUrlP + "consultarBeneficiario/" + val  + "/" + fech;
+
     $.getJSON(ruta, function(data) {    
         $("#tservicio").val(data.tiempo_servicio_aux);
         var porcentaje = 0;
@@ -419,6 +420,7 @@ function consultarBeneficiarioFecha(){
         }
             
         embargos = monto + Number(data.Calculo.asignacion_antiguedad_fin_aux*porcentaje /100);
+
         $("#directiva").val(data.Componente.Grado.Directiva.nombre);    
         //$("#asignacion_antiguedad").val(data.Calculo.asignacion_antiguedad);
         $("#asignacion_antiguedad_fin").val(data.Calculo.asignacion_antiguedad_fin); //se cambio con la AA de la rutina AsignacionFiniquito
@@ -528,7 +530,7 @@ function consultarFiniquitos(){
         var nombre = data.nombres + ' ' + data.apellidos;
         var componente = data.Componente.descripcion;
         var grado = data.Componente.Grado.nombre;
-        var tiempo_servicio = data.tiempo_servicio;
+        var tiempo_servicio = data.tiempo_servicio_aux;
         
         var arr = data.HistorialDetalleMovimiento;
         console.log(arr);
@@ -874,9 +876,10 @@ function EjecutarReverso(ced, cod){
     $("#logMensaje").modal('hide');
     
     ruta = sUrlP + "reversarFiniquito/" + ced + "/" + cod; 
-    $.get(ruta, function(data) {        
+    $.get(ruta, function(data) { 
+        console.log(data);
         URL = sUrlP + "finiquitos";
-        $(location).attr('href', URL);
+        //$(location).attr('href', URL);
         
     }
 

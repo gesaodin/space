@@ -301,8 +301,10 @@ class MHistorialMovimiento extends CI_Model{
 	}
 
 	function isertarReverso($listado){
+
 		$sInsert = '';
         
+
 		$sInsert_aux = 'INSERT INTO public.movimiento 
 			(
 				tipo_movimiento_id,
