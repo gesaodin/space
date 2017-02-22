@@ -721,33 +721,34 @@ function GuargarFiniquito(){
             return false;
         }
     }
-
+    data =  JSON.stringify({
+        i_d: i_d, //Cedula de Identidad
+        t_an: t_an, //5 Formato Moneda
+        t_b: t_b, //9 Formato Moneda
+        t_e: t_e, //9 Formato de Embargo
+        t_bx: t_bx, //9 Fomato Cientifico
+        a_i: a_i, //10
+        a_a: a_a, //14 Formato Moneda       
+        a_ax: a_ax, //14 Fomato Cientifico
+        m_d: m_d, //15
+        m_r: m_r, //16
+        m_rx: m_rx, //16 Fomato Cientifico
+        o_b: o_b,
+        f_r: f_r,
+        p_p: p_p,
+        m_f: m_f,
+        m_ft: m_ft,
+        m_asaf: m_asaf,
+        fami: lstFamiliares      
+    });
+    console.log (data);
     if(p_p != 0){
 
         $.ajax({
           type: "POST",
           //contentType: "application/json",
           //dataType: "json",
-          data: {'data' : JSON.stringify({
-            i_d: i_d, //Cedula de Identidad
-            t_an: t_an, //5 Formato Moneda
-            t_b: t_b, //9 Formato Moneda
-            t_e: t_e, //9 Formato de Embargo
-            t_bx: t_bx, //9 Fomato Cientifico
-            a_i: a_i, //10
-            a_a: a_a, //14 Formato Moneda       
-            a_ax: a_ax, //14 Fomato Cientifico
-            m_d: m_d, //15
-            m_r: m_r, //16
-            m_rx: m_rx, //16 Fomato Cientifico
-            o_b: o_b,
-            f_r: f_r,
-            p_p: p_p,
-            m_f: m_f,
-            m_ft: m_ft,
-            m_asaf: m_asaf,
-            fami: lstFamiliares      
-          })},
+          data: {'data' :data},
           url: ruta,
           success: function (data) {  
             //console.log(data);    

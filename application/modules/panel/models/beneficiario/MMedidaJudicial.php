@@ -458,7 +458,19 @@ class MMedidaJudicial extends CI_Model{
 			}
 			//$sModificar = 'UPDATE medida_judicial SET total_monto= ' . $monto . ', status_id = ' . $estatus . ', observ_ult_modificacion=\'' . $codigo . '\'  WHERE cedula=\'' . $ced . '\' AND status_id = ' . $est . ' AND tipo_medida_id=1';
 			$sModificar = 'UPDATE medida_judicial SET status_id = ' . $estatus . ', observ_ult_modificacion=\'' . $codigo . '\'  WHERE cedula=\'' . $ced . '\' AND status_id = ' . $est . ' AND tipo_medida_id=1';
-			echo $sModificar;
+			
+			$this->Dbpace->consultar($sModificar);	
+
+		}
+	}
+
+	public function Suspender($id = '', $estatus = 0){
+		if ($id != ''){
+			
+			//$sModificar = 'UPDATE medida_judicial SET total_monto= ' . $monto . ', status_id = ' . $estatus . ', observ_ult_modificacion=\'' . $codigo . '\'  WHERE cedula=\'' . $ced . '\' AND status_id = ' . $est . ' AND tipo_medida_id=1';
+			$sModificar = 'UPDATE medida_judicial SET status_id = ' . $estatus . '  WHERE id=' . $id;
+			//echo $sModificar;
+			
 			$this->Dbpace->consultar($sModificar);	
 
 		}

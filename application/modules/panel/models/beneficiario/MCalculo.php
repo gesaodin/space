@@ -56,7 +56,9 @@ class MCalculo extends CI_Model{
     $this->AsignacionAntiguedad();
     $this->AsignacionFiniquito(); //se agrego rutina para calcular AA para finiquito
 
-
+    $monto = isset($this->Beneficiario->MedidaJudicial[1])? $this->Beneficiario->MedidaJudicial[1]->monto : 0;
+    $porcentaje = isset($this->Beneficiario->MedidaJudicial[1])? $this->Beneficiario->MedidaJudicial[1]->porcentaje : 0;
+    $total_embargos = $monto + ($this->Beneficiario->asignacion_antiguedad * $porcentaje) / 100;
     $this->Beneficiario->Calculo = array(
       'asignacion_antiguedad' => number_format($this->Beneficiario->asignacion_antiguedad, 2, ',','.'),
       'asignacion_antiguedad_fin' => number_format($this->Beneficiario->asignacion_antiguedad_fin, 2, ',','.'), //se agrego AA por el de la 
@@ -98,7 +100,10 @@ class MCalculo extends CI_Model{
       'fallecimiento_fueraservicio_aux' => $this->Fallecimiento_Fuera_Servicio(),
       'interes_capitalizado_banco' => $this->Interes_Capitalizado_Banco(),
       'medida_judicial_activas' => number_format($this->MedidaJudicialActiva(), 2, ',','.'),
-      'medida_judicial_activas_aux' => $this->MedidaJudicialActiva()
+      'medida_judicial_activas_aux' => $this->MedidaJudicialActiva(),
+      'total_embargos' => number_format($total_embargos, 2, ',','.'),
+      'total_embargos_aux' => $total_embargos
+      
     );
 
     

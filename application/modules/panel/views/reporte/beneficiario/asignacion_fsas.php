@@ -75,6 +75,26 @@ th {
     padding: 8px;
 }
 
+.ctd td{
+    border: 1px solid #000000;
+    text-align: left;
+    padding: 8px;
+}
+
+.ctd table {
+    font-family: arial, sans-serif;
+    font-size: 12px;
+    border-collapse: collapse;
+    width: 800px;
+}
+
+.ctd th {
+    border: 1px solid #000000;
+    text-align: left;
+    background-color: #dddddd; 
+    padding: 8px;
+}
+
 /*tr:nth-child(even) {
     background-color: #dddddd;
 }*/
@@ -141,7 +161,7 @@ th {
      familiares:
      <br><br>
 
-     <table>
+     <table class="ctd">
        <thead>
           <tr>
             <th>COD</th>
@@ -151,7 +171,7 @@ th {
           </tr>
        </thead>
        <tbody>
-        <?php
+       <?php
           foreach ($lst as $c => $v) {
            
             echo '<tr style="font-size:14px;"><td>' . $v['codigo'] . '</td><td>' . strtoupper($v['nombre']) . '</td><td>' . $v['cedula'] . '</td><td>' . 
