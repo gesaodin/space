@@ -48,7 +48,7 @@ function consultar() {
         }else{
             if (data.numero_cuenta == '' || data.numero_cuenta == '0'){
                 
-                 msjNo("El Numero de Cuenta no puede estar en cero");return false;
+                 msjNo("No se puede otorgar el anticipo: El afiliado no posee número de cuenta asociada");return false;
               }
             dem = data.Calculo.embargos_aux;
             $("#divBotones").show();
