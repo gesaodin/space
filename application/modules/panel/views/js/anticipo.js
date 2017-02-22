@@ -58,10 +58,10 @@ function consultar() {
             $("#sexo").val(data.sexo);
             $("#componente").val(data.Componente.nombre);
             $("#grado").val(data.Componente.Grado.nombre);
-            $("#fingreso").val(data.fecha_ingreso);
+            $("#fingreso").val(cargarFecha(data.fecha_ingreso));
             $("#tservicio").val(data.tiempo_servicio);
             $("#nhijos").val(data.numero_hijos);
-            $("#fuascenso").val(data.fecha_ultimo_ascenso);
+            $("#fuascenso").val(cargarFecha(data.fecha_ultimo_ascenso));
             $("#noascenso").val(data.no_ascenso);
             $("#profesionalizacion").val(data.profesionalizacion);
             $("#arec").val(data.ano_reconocido);
@@ -133,6 +133,13 @@ function consultar() {
         limpiar();
     });
     //limpiar();
+}
+
+function cargarFecha(fecha){
+    if(fecha != null){
+      var f = fecha.split('-');
+      return f[2] + '/' + f[1] + '/' + f[0];
+    }
 }
 
 function listar(data){
