@@ -66,7 +66,7 @@ class KCargador extends CI_Model{
    *
    * @return  void
    */
-  public function PrepararIndices(){
+  public function PrepararIndices($estatus = 201){
     $this->load->model('kernel/KSensor');
     $this->load->model('comun/DBSpace');    
     $rs = $this->DBSpace->consultar(
@@ -76,7 +76,7 @@ class KCargador extends CI_Model{
             from beneficiario b, movimiento m
           WHERE 
             b.cedula=m.cedula AND
-            b.status_id=201 AND
+            b.status_id=" . $estatus . " AND
             m.tipo_movimiento_id IN (3,31,32,9,28,5,25)
           GROUP BY b.cedula, m.tipo_movimiento_id
           ORDER BY b.cedula,tipo_movimiento_id' ) AS rs 
@@ -105,11 +105,11 @@ class KCargador extends CI_Model{
     
     $fde = $arr->fde;
 
-    $condicion = ' beneficiario.status_id=201 ';
+    $condicion = ' beneficiario.status_id= ' . $arr->sit;
     if($arr->com != "99") $condicion .= ' AND beneficiario.componente_id=' . $arr->com;
     if($arr->gra != "99") $condicion .= ' AND grado.codigo=' . $arr->gra;
     
-    if( $fde != "") $condicion .= ' AND beneficiario.fecha_ingreso BETWEEN \'' . $arr->fde . '\' AND \'' . $arr->fha . '\'';
+    if( $fde != "") $condicion .= ' AND beneficiario.f_retiro_efectiva BETWEEN \'' . $arr->fde . '\' AND \'' . $arr->fha . '\'';
     $sConsulta = "
       SELECT 
         beneficiario.nombres, beneficiario.apellidos,
@@ -347,11 +347,8 @@ class KCargador extends CI_Model{
   public function IniciarLoteEstudiar($directiva, $fecha, $archivo, $autor, $limit){
     ini_set('memory_limit', '512M'); //Aumentar el limite de PHP
    
-    $this->load->model('comun/Dbpace');
-    $this->load->model('kernel/KSensor');
+    $this->load->model('comun/Dbpace');        
     $this->load->model('fisico/MBeneficiario');
-
-
     $con = $this->DBSpace->consultar("
       SELECT 
         beneficiario.nombres, beneficiario.apellidos,
@@ -375,6 +372,7 @@ class KCargador extends CI_Model{
     $this->load->model('kernel/KCalculoLote');
     $this->load->model('kernel/KDirectiva');
     $Directivas = $this->KDirectiva->Cargar($id); //Directivas
+    //print_r($Directivas);
     $this->load->model('kernel/KPerceptron'); //Red Perceptron Aprendizaje de patrones
     //$lst = array(); //
     //$file = fopen("tmp/" . $archivo . ".csv","a") or die("Problemas"); 
@@ -400,7 +398,7 @@ class KCargador extends CI_Model{
 
     //fclose($file);
     print_r($this->KPerceptron->NeuronaArtificial);
-    echo count($this->KPerceptron->NeuronaArtificial);
+    echo count($this->KPerceptron->NeuronaArtificial) . '<br>';
   }
 
   /**

@@ -336,12 +336,12 @@ class Panel extends MY_Controller {
 	 *
 	 * @return	void
 	 */ 
-	public function PrepararIndices($pregunta = 0){
+	public function PrepararIndices($pregunta = 0, $estatus = 201){
 		header('Content-Type: application/json');
 		$this->load->model('kernel/KSensor');
 		$this->load->model('kernel/KCargador');
 		$fecha = date('d/m/Y H:i:s');
-		if ($pregunta != 0) $this->KCargador->PrepararIndices();
+		if ($pregunta != 0) $this->KCargador->PrepararIndices($estatus);
 		$json = array('m' => "Fecha y Hora del Servidor: " . $fecha . " \n" . $this->KSensor->Duracion() . "... \n");
 		echo json_encode($json);
 
@@ -380,10 +380,11 @@ class Panel extends MY_Controller {
 		echo "<pre>";
 		$this->load->model('kernel/KSensor');
 		$fecha = date('d/m/Y H:i:s');
-		$firma = md5($fecha);
+		$firma = md5($fecha); //PID
 
 		$this->load->model('kernel/KCargador');			
- 		$this->KCargador->IniciarLoteEstudiar(48, '2017-03-01', $firma, $_SESSION['usuario'], 10);	
+ 		$this->KCargador->IniciarLoteEstudiar(48, '2017-03-01', $firma, $_SESSION['usuario'], 1000);	
+ 		echo $this->KSensor->Duracion();
  		//$mnt = $this->KCargador->Resultado['l'] - 1;		
 	}
 
@@ -401,6 +402,16 @@ class Panel extends MY_Controller {
  		echo json_encode($lst);
 
 	}
+	function Sensor(){
+		$this->load->model('kernel/KSensor');
+		$sum = 0;
+		for ($i =0; $i< 100000; $i++){
+			$sum += $i;
+			echo "$sum<br>";
+		}
+		echo $this->KSensor->Duracion();
+	}
+
 	/**
 	 *	---------------------------------------------
 	 *	INICIANDO PROCESOS APORTE DE INTERESES
