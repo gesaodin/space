@@ -46,24 +46,23 @@ function Consultar(){
     
     $.post(ruta, {data:data}, function(data) {
        
-        
-        if (data[0].file != undefined){
-            
+        $('#cargando').hide();
+        if (data.cedula != undefined){
+            TablaIndividual(data);
+            $("#id").val("");
+        }
+        if (data[0].file != undefined){            
             location.href = sUrl + 'tmp/' + data[0].file;  
         }else{
-            
-            if(val != ""){
-                TablaIndividual(data);
+
+            if(fde != '' || $('#nombre').val() != ''){
+                TablaGruposNombreFecha(data);
             }else{                
-                if(fde == '' || $('#nombre').val() == ''){
-                    TablaGruposNombreFecha(data);
-                }else{                    
-                    
-                    TablaGrupos(data);
-                }
+                TablaGrupos(data);
             }
+       
         }
-        $('#cargando').hide();
+        
        
 
     }).done(function(msg) {}).fail(function(jqXHR, textStatus) {

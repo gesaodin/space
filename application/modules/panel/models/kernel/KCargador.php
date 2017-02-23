@@ -471,7 +471,7 @@ class KCargador extends CI_Model{
 
 
 
-  public function ConsultarGrupos($obj){
+  public function ConsultarGrupos($json){
     ini_set('memory_limit', '512M'); //Aumentar el limite de PHP
     $lst = array();
     $fecha = date("Y-m-d");
@@ -484,13 +484,13 @@ class KCargador extends CI_Model{
     $this->load->model('kernel/KPerceptron'); //Red Perceptron Aprendizaje de patrones
 
 
-    $fde = $obj->fde;
-    $nom = $obj->nom;
-    $condicion = ' beneficiario.status_id=' . $obj->sit;
-    if($nom != "") $condicion .= ' AND (beneficiario.nombres ~* \'' . $obj->nom . '\' OR apellidos ~* \'' . $obj->nom . '\')';
-    if($obj->gra != "99") $condicion .= ' AND grado.codigo=' . $obj->gra;
-    if($obj->com != "99") $condicion .= ' AND beneficiario.componente_id=' . $obj->com;
-    if( $fde != "") $condicion .= ' AND beneficiario.fecha_ingreso BETWEEN \'' . $obj->fde . '\' AND \'' . $obj->fha . '\'';
+    $fde = $json->fde;
+    $nom = $json->nom;
+    $condicion = ' beneficiario.status_id=' . $json->sit;
+    if($nom != "") $condicion .= ' AND (beneficiario.nombres ~* \'' . $json->nom . '\' OR apellidos ~* \'' . $json->nom . '\')';
+    if($json->gra != "99") $condicion .= ' AND grado.codigo=' . $json->gra;
+    if($json->com != "99") $condicion .= ' AND beneficiario.componente_id=' . $json->com;
+    if( $fde != "") $condicion .= ' AND beneficiario.fecha_ingreso BETWEEN \'' . $json->fde . '\' AND \'' . $json->fha . '\'';
     
     $sConsulta = '
       SELECT 
@@ -516,6 +516,7 @@ class KCargador extends CI_Model{
       }
       
     }else{      
+      
       if($fde == "" && $nom == ""){
         $lst = $this->generarMayoraMil($this->KCalculoLote, $this->KPerceptron, $fecha, $Directivas, $obj->rs);        
       }else{
