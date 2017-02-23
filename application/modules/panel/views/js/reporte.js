@@ -9,6 +9,8 @@ $( "#id" ).keypress(function( event ) {
 });
 
 function Consultar(){
+    if($('#situacion option:selected').val()=="--")return false;
+    if($('#componente option:selected').val()=="--")return false;
     var fde = "";
 	var fha = "";
     $('#divreporte').html('');
