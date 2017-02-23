@@ -89,7 +89,7 @@ class KCalculoLote extends CI_Model{
 
     foreach ($lst as $c => $v) {
       $monto_nominal = $v;
-      $rs =  $this->Directiva['fnx'][$c]['rs'];
+      $rs =  $this->Directiva['fnx'][$c]['rs']; // Como se llama la variable
       $rs_mt =  $this->Directiva['fnx'][$c]['rs'] . '_mt';
       $fnx =  $this->Directiva['fnx'][$c]['fn'];
       eval('$valor = ' . $fnx);

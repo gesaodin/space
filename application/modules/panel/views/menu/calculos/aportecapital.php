@@ -54,7 +54,7 @@
                    
 
                           
-                          <div class="col-md-8">
+                          <div class="col-md-4">
                             <label>Seleccionar Directivas:</label>
                                 <select class="form-control select2" style="width: 100%;" id="directiva">
                                   <option value="0" selected>SELECCIONAR UNA DIRECTIVA PARA INICIAR PROCESO</option>
@@ -68,6 +68,15 @@
                                 </select>
                             
                           </div>
+
+                          <div class="col-md-4">
+                          <label>Seleccionar Situación:</label>
+                          <select class="form-control select2" style="width: 100%;" id='situacion'>
+                              <option value='201'>Activo</option>
+                              <option value='203'>Finiquito</option>                              
+                          </select>
+                    </div>
+
                           <br><br> <br><hr>
                           <div class="form-group">
                             <div class="col-md-2">

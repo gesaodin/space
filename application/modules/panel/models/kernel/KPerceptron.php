@@ -36,7 +36,7 @@ class KPerceptron extends CI_Model{
 		$this->Neurona[$patron] = $conocimiento;
 	}
 	function AprenderArtificial($patron, $ced, $conocimiento){
-		$this->NeuronaArtificial[$patron][$ced] = $conocimiento;
+		$this->NeuronaArtificial[$patron] = $conocimiento;
 	}
 
 
