@@ -336,12 +336,12 @@ class Panel extends MY_Controller {
 	 *
 	 * @return	void
 	 */ 
-	public function PrepararIndices($pregunta = 0, $estatus = 201){
+	public function PrepararIndices($pregunta = 0){
 		header('Content-Type: application/json');
 		$this->load->model('kernel/KSensor');
 		$this->load->model('kernel/KCargador');
 		$fecha = date('d/m/Y H:i:s');
-		if ($pregunta != 0) $this->KCargador->PrepararIndices($estatus);
+		if ($pregunta != 0) $this->KCargador->PrepararIndices();
 		$json = array('m' => "Fecha y Hora del Servidor: " . $fecha . " \n" . $this->KSensor->Duracion() . "... \n");
 		echo json_encode($json);
 
@@ -383,8 +383,7 @@ class Panel extends MY_Controller {
 		$firma = md5($fecha); //PID
 
 		$this->load->model('kernel/KCargador');			
- 		$this->KCargador->IniciarLoteEstudiar(48, '2017-03-01', $firma, $_SESSION['usuario'], 1000);	
- 		echo $this->KSensor->Duracion();
+ 		$this->KCargador->IniciarLoteEstudiar(48, '2017-03-01', $firma, $_SESSION['usuario'], 100);	
  		//$mnt = $this->KCargador->Resultado['l'] - 1;		
 	}
 

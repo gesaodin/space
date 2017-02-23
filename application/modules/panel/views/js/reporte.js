@@ -1,5 +1,7 @@
 var _ZIP = '';
 
+var _ID = '';
+
 $( "#id" ).keypress(function( event ) {
   if ( event.which == 13 ) {
     $("#btnImrimir").focus();
@@ -11,6 +13,7 @@ function Consultar(){
 	var fha = "";
     $('#divreporte').html('');
     var val = $("#id").val();
+    _ID = val;
 
     f = $("#datepicker").val();
     fx = $("#datepicker1").val();
@@ -231,7 +234,7 @@ function continuar(){
 
 function paralizar(){
     var Paralizar = {};
-    Paralizar['id'] = $("#id").val();
+    Paralizar['id'] = _ID;
     Paralizar['motivo'] = $("#txtObservacion").val();
     Paralizar['estatus'] = '205';
     
@@ -265,7 +268,7 @@ function paralizar(){
 
 function retirar(){
     var Paralizar = {};
-    Paralizar['id'] = $("#id").val();
+    Paralizar['id'] =  _ID;
     Paralizar['motivo'] = cargarFechaSlash($("#txtObservacion").val());
     Paralizar['estatus'] = '202';
     
@@ -306,7 +309,7 @@ function cargarFechaSlash(fecha){
 
 function activar(){
     var Paralizar = {};
-    Paralizar['id'] = $("#id").val();
+    Paralizar['id'] = _ID;
     Paralizar['motivo'] = '';
     Paralizar['estatus'] = '201';
     
