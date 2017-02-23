@@ -95,15 +95,22 @@ class KCargador extends CI_Model{
 
   
 
-  public function IniciarLote($directiva, $fecha, $archivo, $autor){
+  public function IniciarLote($arr, $archivo, $autor){
     ini_set('memory_limit', '512M'); //Aumentar el limite de PHP
    
     $this->load->model('comun/Dbpace');
     $this->load->model('kernel/KSensor');
     $this->load->model('fisico/MBeneficiario');
+    $fecha = $arr->fe == ''?$arr->fha:$arr->fe;
+    
+    $fde = $arr->fde;
 
-
-    $con = $this->DBSpace->consultar("
+    $condicion = ' beneficiario.status_id=201 ';
+    if($arr->com != "99") $condicion .= ' AND beneficiario.componente_id=' . $arr->com;
+    if($arr->gra != "99") $condicion .= ' AND grado.codigo=' . $arr->gra;
+    
+    if( $fde != "") $condicion .= ' AND beneficiario.fecha_ingreso BETWEEN \'' . $arr->fde . '\' AND \'' . $arr->fha . '\'';
+    $sConsulta = "
       SELECT 
         beneficiario.nombres, beneficiario.apellidos,
         beneficiario.cedula, fecha_ingreso,f_ult_ascenso, grado.codigo,
@@ -115,12 +122,14 @@ class KCargador extends CI_Model{
         JOIN 
           grado ON beneficiario.grado_id=grado.id
         LEFT JOIN space.tablacruce ON beneficiario.cedula=space.tablacruce.cedula
-        WHERE beneficiario.status_id=201
-      ");
+        WHERE " . $condicion . "
+      ";
+    $con = $this->DBSpace->consultar($sConsulta);
+    
+    //echo $sConsulta;
+    $this->asignarBeneficiario($con->rs, $arr->id, $fecha, $archivo, $autor);
   
-      $this->asignarBeneficiario($con->rs, $directiva, $fecha, $archivo, $autor);
-  
-      $this->evaluarLotesLinuxComando($archivo);
+    $this->evaluarLotesLinuxComando($archivo);
   }
 
 
@@ -310,7 +319,7 @@ class KCargador extends CI_Model{
       't' => $time
     );
 
-    exec("cd tmp/; rm -rf " . $archivo . ".csv");
+    //exec("cd tmp/; rm -rf " . $archivo . ".csv");
 
     $sInsert = 'INSERT INTO space.archivos (arch,tipo,peso,cert,regi,usua,gara,dia,fech) 
     VALUES (\'' . $archivo . '\',1,\'' . $peso[0] . '\',\'' . $firma[0] . '\',\'' . $linea[0] . '\',\'' . 

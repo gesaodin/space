@@ -101,7 +101,10 @@ class Panel extends MY_Controller {
 
 	public function aportecapital(){
 		$this->load->model('kernel/KDirectiva');
+		$this->load->model('beneficiario/MComponente');
 		$data['lst'] = $this->KDirectiva->listarTodo();
+
+		$data['componente'] = $this->MComponente->listarTodo();
 		$this->load->view("menu/calculos/aportecapital", $data);
 	}
 
@@ -350,10 +353,13 @@ class Panel extends MY_Controller {
 		$this->load->model('kernel/KSensor');
 		$fecha = date('d/m/Y H:i:s');
 		$firma = md5($fecha);
-
+		$data = json_decode($_POST['data']);
+		//print_r($data);
+		
 		$this->load->model('kernel/KCargador');			
- 		$this->KCargador->IniciarLote($_POST['id'], $_POST['fe'], $firma, $_SESSION['usuario']);	
+ 		$this->KCargador->IniciarLote($data, $firma, $_SESSION['usuario']);	
  		//$this->KCargador->IniciarLote(48, '2017-03-01', $firma, $_SESSION['usuario']);	
+ 		
  		$mnt = $this->KCargador->Resultado['l'] - 1;
 		$json = array(
 			'm' => "Fecha y Hora del Servidor: " . $fecha . 
@@ -366,7 +372,6 @@ class Panel extends MY_Controller {
 			'z' => $firma .".zip",
 			'json' => $this->KCargador->Resultado
 		);
-
 		echo json_encode($json);
 		
 	}

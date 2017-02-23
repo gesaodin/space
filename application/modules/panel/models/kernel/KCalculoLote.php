@@ -332,7 +332,7 @@ class KCalculoLote extends CI_Model{
   }
 
   function GenerarAlicuotaVacaciones(){
-    
+    $dia = 0;
     $TM = $this->Beneficiario->tiempo_servicio;
     if ($TM > 0 && $TM <= 14) {
       $dia = 40;

@@ -22,10 +22,15 @@
                 <li><a href="<?php echo base_url()?>index.php/panel/Panel/medidajudicial"><i class="fa fa-edit"></i> Medidas Judiciales</a></li>
                 <?php
                   $cant  = count($_SESSION['roles']) -1;
+                  $verdad = false;
                   for($i=0; $i<=$cant; $i++){
                     if($_SESSION['roles'][$i] == 27 || $_SESSION['roles'][$i] == 1){
-                      echo '<li><a href="' . base_url() . 'index.php/panel/Panel/finiquitos"><i class="fa fa-credit-card"></i> Finiquitos</a></li>';    
+                       $verdad = true;
+
                     }
+                  }
+                  if ($verdad){
+                     echo '<li><a href="' . base_url() . 'index.php/panel/Panel/finiquitos"><i class="fa fa-credit-card"></i> Finiquitos</a></li>';  
                   }
                   
                 ?>
@@ -54,7 +59,12 @@
               <a href="../widgets.html">
                 <i class="fa fa-calculator"></i> <span>Calculos</span> <small class="label pull-right bg-green">Act</small>
                 <ul class="treeview-menu">
-                <li><a href="<?php echo base_url()?>index.php/panel/Panel/aportecapital"><i class="fa fa-edit"></i> Aporte de Capital</a></li>
+                <?php
+                 if ($verdad){
+                     echo '<li><a href="' . base_url() . 'index.php/panel/Panel/aportecapital"><i class="fa fa-edit"></i> Aporte de Capital</a></li>';  
+                  }
+                ?>
+
                 <li><a href="<?php echo base_url()?>index.php/panel/Panel/interesescaidos"><i class="fa  fa-arrow-circle-down"></i> Pago de Intereses Caidos</a></li>
 
                 <li><a href="<?php echo base_url()?>index.php/panel/Panel/asignacionantiguedad"><i class="fa fa-qrcode"></i> Cal. Asig. Antiguedad</a></li>
