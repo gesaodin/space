@@ -14,7 +14,7 @@
         <!-- Content Header (Page header) -->
        <section class="content-header">
             <h1>
-                Reporte de beneficiario
+                Reporte de Beneficiario
                 <small>Listado</small>
             </h1>
             <ol class="breadcrumb">
@@ -57,6 +57,7 @@
                     </div>
                     <div class="col-md-4">
                         <select class="form-control select2" style="width: 100%;" id='situacion'>
+                            <option value='--'>Seleccione</option>
                             <option value='201'>Activo</option>
                             <option value='202'>Retirado</option>
                             <option value='203'>Finiquito</option>
@@ -82,6 +83,7 @@
                     </div>
                     <div class="col-md-4">
                         <select class="form-control select2" style="width: 100%;" onchange="cargarGrado()" id="componente">
+                            <option value='--'>Seleccione</option>
                             <option value='99'>Todos los componentes</option>
                             <?php
                             foreach ($componente as $k => $v) {
@@ -95,7 +97,7 @@
                     </div>
                     <div class="col-md-4">
                         <select class="form-control select2" style="width: 100%;" id="grado">
-                            <option  value=99>Todos los grados</option>
+                            <option  value='99'>Todos los grados</option>
                         </select>
                     </div>
                     <br><br>
