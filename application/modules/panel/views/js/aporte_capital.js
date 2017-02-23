@@ -67,6 +67,7 @@ function PrepararIndices(){
 	_DATA = {
 		id : val, 
 		fe : fe,
+		sit: $("#situacion option:selected").val(),
 		com: $('#componente option:selected').val(),
 	    gra: $('#grado option:selected').val(),
 	    fde: fde,
@@ -82,8 +83,8 @@ function ProcesarIndices(id){
 
 	$("#logMensaje").modal('hide');
 	$('#cargando').show();
-
-	$.get(sUrlP + "PrepararIndices/" + id).done(function (data){
+	sit = $("#situacion option:selected").val();
+	$.get(sUrlP + "PrepararIndices/" + id+ "/" + sit).done(function (data){
 		$('#obse').val(data.m);
 		$('#detalle').show();
 		$('#cargando').hide();
