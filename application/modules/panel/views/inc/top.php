@@ -109,13 +109,13 @@
                     <img src="<?php echo base_url()?>system/img/pace.png" class="img-circle" alt="User Image"><br>
                     <p>
                      Prestaciones a cargo del estado
-                      <small>Fecha: <?php echo $Directiva->fecha_inicio . ' - ' . $Directiva->fecha_vigencia;?> </small>
+                      <small>Versión 2.0 </small>
                     </p>
                   </li>
                   <!-- Menu Body -->
                   <li class="user-body">
                     <div class="col-xs-12 text-center">
-                      <small><?php echo $Directiva->nombre;?></small>
+                      <small>Sistema</small>
                     </div>
                     <!-- Menu 
                       <div class="col-xs-4 text-center">

@@ -172,12 +172,16 @@ th {
           </tr>
        </thead>
        <tbody>
-        <?php
+       <?php
+        $sum = 0;
           foreach ($lst as $c => $v) {
-
-            echo '<tr style="font-size:14px;"><td>' . $v['codigo'] . '</td><td>' . strtoupper($v['nombre']) . '</td><td>' . $v['cedula'] . '</td><td>' . 
-            number_format($v['monto'], 2, ',','.') . '</td></tr>';
+            if ($v['monto'] > 0){
+              echo '<tr style="font-size:14px;"><td>' . $v['codigo'] . '</td><td>' . strtoupper($v['nombre']) . '</td><td>' . $v['cedula'] . '</td><td>' . 
+              number_format($v['monto'], 2, ',','.') . '</td></tr>';
+              $sum += $v['monto'];
+            }
           }
+          echo '<tr><td colspan="3" style="text-align: right">TOTAL&nbsp;&nbsp;</td><td>' . number_format($sum, 2, ',','.') . '</td></tr>'
         ?>
        </tbody>
      </table>
@@ -195,7 +199,12 @@ th {
      <br>
 
      Notas:<br>
-     <?php echo $Beneficiario->observacion;?>
+     <?php 
+
+     $o = explode('*MA', $Beneficiario->observacion);
+     $o[0] = str_replace("\n", '<br>', $o[0]);
+     echo $o[0];
+      ?>
      <br>
      <?php 
       if ( $Beneficiario->Calculo['monto_recuperar_aux'] > 0){

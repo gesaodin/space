@@ -48,7 +48,7 @@
                                 <div class="input-group-addon">
                                   <i class="fa fa-calendar"></i>
                                 </div>
-                                <input type="text" class="form-control" id="datepicker1">
+                                <input type="text" class="form-control" id="datepicker">
                               </div>
                           </div>
                    
@@ -67,8 +67,66 @@
 
                                 </select>
                             
-                          </div> <br>                          
-                          <!-- /.input group -->
+                          </div>
+                          <br><br> <br><hr>
+                          <div class="form-group">
+                            <div class="col-md-2">
+                                Componentes:
+                            </div>
+                            <div class="col-md-4">
+                                <select class="form-control select2" style="width: 100%;" onchange="cargarGrado()" id="componente">
+                                    <option value='99'>Todos los componentes</option>
+                                    <?php
+                                    foreach ($componente as $k => $v) {
+                                        echo '<option value=' . $v['id'] . '>' . $v['nomb'] . '</option>';                            
+                                    }
+                                    ?>
+                                </select>
+                            </div>
+                            <div class="col-md-2">
+                                Grado:
+                            </div>
+                            <div class="col-md-4">
+                                <select class="form-control select2" style="width: 100%;" id="grado">
+                                    <option  value=99>Todos los grados</option>
+                                </select>
+                            </div>
+                            <br><br>
+                            </div>
+                           
+                          <!-- Date -->
+                          <div class="form-group">
+                              <div class="col-md-2">
+                                  Desde:
+                              </div>
+                              <div class="col-md-4">
+                                  <div class="input-group date">
+                                      <div class="input-group-addon">
+                                          <i class="fa fa-calendar"></i>
+                                      </div>
+                                      <input type="text" class="form-control" id="datepicker1">
+                                  </div>
+                              </div>
+                              <!-- /.input group -->
+                          </div>
+
+                          <!-- /.form group -->
+                          <div class="form-group">
+                              <div class="col-md-2">
+                               Hasta:
+                              </div>
+                              <div class="col-md-4">
+                                  <div class="input-group date">
+                                      <div class="input-group-addon">
+                                          <i class="fa fa-calendar"></i>
+                                      </div>
+                                      <input type="text" class="form-control" id="datepicker2">
+                                  </div>
+                              </div>
+                              <!-- /.input group -->
+                          </div>
+                          <!-- /.form group -->
+
                           <br><br>
                           <div class="form-group"  style="display:none" id="detalle"><br>
                             <div class="col-md-12">

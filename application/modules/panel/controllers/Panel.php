@@ -31,6 +31,8 @@ class Panel extends MY_Controller {
 		$this->load->view("view_home");
 	}
 
+	
+
 	public function fideicomitente(){
 		$this->load->view("fideicomitente");
 	}
@@ -99,7 +101,10 @@ class Panel extends MY_Controller {
 
 	public function aportecapital(){
 		$this->load->model('kernel/KDirectiva');
+		$this->load->model('beneficiario/MComponente');
 		$data['lst'] = $this->KDirectiva->listarTodo();
+
+		$data['componente'] = $this->MComponente->listarTodo();
 		$this->load->view("menu/calculos/aportecapital", $data);
 	}
 
@@ -348,10 +353,13 @@ class Panel extends MY_Controller {
 		$this->load->model('kernel/KSensor');
 		$fecha = date('d/m/Y H:i:s');
 		$firma = md5($fecha);
-
+		$data = json_decode($_POST['data']);
+		//print_r($data);
+		
 		$this->load->model('kernel/KCargador');			
- 		$this->KCargador->IniciarLote($_POST['id'], $_POST['fe'], $firma, $_SESSION['usuario']);	
+ 		$this->KCargador->IniciarLote($data, $firma, $_SESSION['usuario']);	
  		//$this->KCargador->IniciarLote(48, '2017-03-01', $firma, $_SESSION['usuario']);	
+ 		
  		$mnt = $this->KCargador->Resultado['l'] - 1;
 		$json = array(
 			'm' => "Fecha y Hora del Servidor: " . $fecha . 
@@ -364,7 +372,6 @@ class Panel extends MY_Controller {
 			'z' => $firma .".zip",
 			'json' => $this->KCargador->Resultado
 		);
-
 		echo json_encode($json);
 		
 	}
@@ -625,7 +632,8 @@ class Panel extends MY_Controller {
 
 		$json = json_decode($_POST['data']); // 'Hola Mundo'; //Object($_POST);
 		$json->u_s = $_SESSION['usuario'];
-
+		//print_r($json);
+		$msj = 'Se debe definir una fecha para iniciar el proceso...';
 		$fecha_aux = isset($json->f_r) ? $json->f_r : '';
 		if($fecha_aux != ''){
 
@@ -647,14 +655,17 @@ class Panel extends MY_Controller {
 				$this->MBeneficiario->InsertarHistorial();
 				$this->MBeneficiario->insertarDetalle($json, $codigo);
 				$this->MMedidaJudicial->ejecutarMedidas($json->i_d, 223, $codigo, $json->t_e);
-				print_r($json);
-				echo 'Se ha procesado exitosamente el finiquito del beneficiario (' . $nombre . ')...';
+				//print_r($json);
+				$msj = 'Se ha procesado exitosamente el finiquito del beneficiario (' . $nombre . ')...';
 			}else{
-				echo 'El beneficiario  (' . $nombre . ') ya posee un finiquito...';
+				$msj = 'El beneficiario  (' . $nombre . ') ya posee un finiquito...';
 			}
 
 
 		}
+
+		print_r($msj);
+ 
 
 	}
 
@@ -665,21 +676,23 @@ class Panel extends MY_Controller {
 		$this->load->model('beneficiario/MFiniquito');
 		$this->load->model('beneficiario/MMedidaJudicial');
 
+
+
+		//$this->MHistorialMovimiento->InsertarDetalle($json);
 		$this->MBeneficiario->obtenerID($ced, '');
 		$this->Beneficiario->fecha_retiro = '';
 		$this->Beneficiario->cedula = $ced;
 		$this->Beneficiario->estatus_activo = 201;
 		$this->Beneficiario->observacion = 'REVERSO DE FINIQUITO';
-
-		//$this->MHistorialMovimiento->InsertarDetalle($json);
+		
 
 		$lst = $this->MFiniquito->listarCodigo($ced, $codigo);
 		$this->MHistorialMovimiento->isertarReverso($lst);
-		$this->Beneficiario->ActualizarPorMovimiento();
+		
 		$this->MBeneficiario->InsertarHistorial(); //Creando la traza de la modificacion
 
-
 		$this->MMedidaJudicial->ejecutarMedidas($ced, 220, $codigo);
+		$this->Beneficiario->ActualizarPorMovimiento();
 
 		echo 'Se ha procesado exitosamente el reverso';
 

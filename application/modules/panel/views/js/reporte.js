@@ -11,6 +11,7 @@ function Consultar(){
 	var fha = "";
     $('#divreporte').html('');
     var val = $("#id").val();
+
     f = $("#datepicker").val();
     fx = $("#datepicker1").val();
     if (f != ""){
@@ -42,29 +43,33 @@ function Consultar(){
     $('#cargando').show();
     
     if(val == "") ruta = sUrlP + "ConsultarGrupos"; 
+    
     $.post(ruta, {data:data}, function(data) {
-        console.log(data);
-        
-        if (data[0].file != null){
+       
+        $('#cargando').hide();
+        if (data.cedula != undefined){
+            TablaIndividual(data);
+            $("#id").val("");
+        }
+        if (data[0].file != undefined){            
             location.href = sUrl + 'tmp/' + data[0].file;  
         }else{
-            if(val != ""){
-                TablaIndividual(data);
+
+            if(fde != '' || $('#nombre').val() != ''){
+                TablaGruposNombreFecha(data);
             }else{                
-                if(fde == '' || $('#nombre').val() == ''){
-                    TablaGruposNombreFecha(data);
-                }else{                    
-                    
-                    TablaGrupos(data);
-                }
+                TablaGrupos(data);
             }
+       
         }
-        $('#cargando').hide();
+        
        
 
     }).done(function(msg) {}).fail(function(jqXHR, textStatus) {
-
+        console.log(jqXHR.responseText);
+        $('#cargando').hide();
         alert('Beneficiario no esta registrado');
+
     });
 
     

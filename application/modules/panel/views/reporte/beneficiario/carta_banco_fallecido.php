@@ -150,13 +150,17 @@ th {
       <tr><td>CODIGO</td><td>CEDULA</td><td>NOMBRE</td><td>MONTO</td></tr>
         
        <?php
+          $sum = 0;
           $fila = "";
           foreach ($lst as $c) {
             $fila .= "<tr>";
             $fila .= "<td>" . $c['codigo'] . "</td><td>" . $c['cedula'] . "</td><td>" . $c['nombre'] . "</td><td>" . $c['monto'] . "</td>";
             $fila .= "</tr>";
+            $sum = $c['monto'];
           }
           echo $fila;
+          
+          echo '<tr><td colspan="3" style="text-align: right">TOTAL&nbsp;&nbsp;</td><td>' . number_format($sum, 2, ',','.') . '</td></tr>';
         ?>      
      </table>
      <br>

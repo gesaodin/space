@@ -172,13 +172,18 @@ th {
        </thead>
        <tbody>
        <?php
+        $sum = 0;
           foreach ($lst as $c => $v) {
-           
-            echo '<tr style="font-size:14px;"><td>' . $v['codigo'] . '</td><td>' . strtoupper($v['nombre']) . '</td><td>' . $v['cedula'] . '</td><td>' . 
-            number_format($v['masfs'], 2, ',','.') . '</td></tr>';
+            if ($v['masfs'] > 0){
+              echo '<tr><td style="border: 1px solid #000000;">' . $v['codigo'] . '</td><td>' . strtoupper($v['nombre']) . '</td><td>' . $v['cedula'] . '</td><td>' . 
+              number_format($v['masfs'], 2, ',','.') . '</td></tr>';
+              $sum += $v['masfs'];
+            }
           }
+          echo '<tr><td colspan="3" style="text-align: right">TOTAL&nbsp;&nbsp;</td><td>' . number_format($sum, 2, ',','.') . '</td></tr>'
         ?>
        </tbody>
+
      </table>
      <br>
      &emsp;&emsp;Solicitud que le hago llegar, para su conocimiento y demas fines consiguientes.<br>
@@ -193,7 +198,12 @@ th {
      <br>
 
      Notas:<br>
-     <?php echo $Beneficiario->observacion;?>
+     <?php 
+
+     $o = explode('*MA', $Beneficiario->observacion);
+     $o[1] = str_replace("\n", '<br>', $o[1]);
+     echo $o[1];
+      ?>
      <br><br>
      OCR/<?php echo $Beneficiario->usuario_modificacion;?>
    </td>
