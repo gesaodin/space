@@ -380,10 +380,10 @@ class Panel extends MY_Controller {
 		echo "<pre>";
 		$this->load->model('kernel/KSensor');
 		$fecha = date('d/m/Y H:i:s');
-		$firma = md5($fecha);
+		$firma = md5($fecha); //PID
 
 		$this->load->model('kernel/KCargador');			
- 		$this->KCargador->IniciarLoteEstudiar(48, '2017-03-01', $firma, $_SESSION['usuario'], 10);	
+ 		$this->KCargador->IniciarLoteEstudiar(48, '2017-03-01', $firma, $_SESSION['usuario'], 100);	
  		//$mnt = $this->KCargador->Resultado['l'] - 1;		
 	}
 
@@ -401,6 +401,16 @@ class Panel extends MY_Controller {
  		echo json_encode($lst);
 
 	}
+	function Sensor(){
+		$this->load->model('kernel/KSensor');
+		$sum = 0;
+		for ($i =0; $i< 100000; $i++){
+			$sum += $i;
+			echo "$sum<br>";
+		}
+		echo $this->KSensor->Duracion();
+	}
+
 	/**
 	 *	---------------------------------------------
 	 *	INICIANDO PROCESOS APORTE DE INTERESES
