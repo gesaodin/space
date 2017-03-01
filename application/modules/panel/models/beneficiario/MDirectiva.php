@@ -160,7 +160,7 @@ class MDirectiva extends CI_Model{
 
 
     if($no_ascenso > 0){
-     echo $sGradoMaximo;
+     //echo $sGradoMaximo;
      $antiguedad =  $sGradoMaximo;
      
     }else{
