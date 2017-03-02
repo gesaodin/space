@@ -196,6 +196,7 @@ class MMedidaJudicial extends CI_Model{
 
 	function __construct(){
 		parent::__construct();
+		if(!isset($this->Dbpace)) $this->load->model('comun/Dbpace');
 	}
 
 	public function listar($cedula = '', $fecha_r = '', $estaus = false){
