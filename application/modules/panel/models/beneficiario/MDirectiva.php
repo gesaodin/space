@@ -149,17 +149,20 @@ class MDirectiva extends CI_Model{
     //echo "<br><br>" . $no_ascenso . ' ' . $antiguedad_grado . ' G: ' . $codigo_grado . "<br><br>";
 
 
-    //Seleccion 
+    //Seleccion
+    //Se cambio el signo de menor a signo igual en la fecha de vigencia directiva para que la leyera correctamente cuando no_ascenso>0
 
     $sGradoMaximo = '(SELECT max(detalle_directiva.anio) FROM 
-    ( SELECT * FROM directiva_sueldo WHERE f_inicio < \'' . $fecha . '\'  AND f_vigencia > \'' . $fecha . '\' ORDER BY f_inicio desc LIMIT 1) AS A
+    ( SELECT * FROM directiva_sueldo WHERE f_inicio = \'' . $fecha . '\'  AND f_vigencia > \'' . $fecha . '\' ORDER BY f_inicio desc LIMIT 1) AS A
     JOIN 
             detalle_directiva ON detalle_directiva.directiva_sueldo_id=A.id
    WHERE detalle_directiva.grado_id = \'' . $codigo_grado . '\')';
 
 
     if($no_ascenso > 0){
+     //echo $sGradoMaximo;
      $antiguedad =  $sGradoMaximo;
+     
     }else{
 
       $maximo = $this->maximoAscenso($fecha, $codigo_grado);
