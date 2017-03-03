@@ -94,6 +94,7 @@ class KDirectiva extends CI_Model{
           componente ON grado.componente_id=componente.id
         ORDER BY grado_id, anio;';
 
+    
     $obj = $this->DBSpace->consultar($sConsulta);
     if($obj->code == 0 ){
       
