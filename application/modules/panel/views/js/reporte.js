@@ -32,10 +32,8 @@ function Consultar(){
         }
     }
  
-    //alert(val);
     ruta = sUrlP + "consultarBeneficiario/" + val; 
     data = JSON.stringify({
-        //id: val, 
         id:  $("#id").val(),
         nom: $('#nombre').val(),
         sit: $('#situacion option:selected').val(),
@@ -46,7 +44,7 @@ function Consultar(){
     });
     
     $('#cargando').show();
-    //alert(data);
+  
     if(val == "") ruta = sUrlP + "ConsultarGrupos"; 
     
     $.post(ruta, {data:data}, function(data) {
@@ -54,7 +52,6 @@ function Consultar(){
         $('#cargando').hide();
         if (data.cedula != undefined){
             TablaIndividual(data);
-            //$("#id").val("");
         }
         if (data[0].file != undefined){            
             location.href = sUrl + 'tmp/' + data[0].file;  
@@ -63,7 +60,6 @@ function Consultar(){
             if(fde != '' || $('#nombre').val() != ''){
                 TablaGruposNombreFecha(data);
             }else{     
-                //alert($('#grado option:selected').val());        
                 TablaGrupos(data);
 
             }
