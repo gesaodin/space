@@ -702,7 +702,7 @@ function GuargarFiniquito(){
     //t_an = $("#asignacion_antiguedad_aux").val(); //A.A Generada
     t_an = ""; //A.A Generada
     t_b = $("#total_banco").val(); //Total en Banco
-    t_e = $("#embargos_aux").val(); //Total de los embargos
+    t_e = $("#e").val(); //Total de los embargos
     t_bx = $("#total_banco_calc").val(); //Total en Banco
     a_a = $("#asignacion_diferencia").val(); //Diferencia Asignación Antiguedad
     a_ax = $("#asignacion_diferencia_aux").val(); //Diferencia Asignación Antiguedad
