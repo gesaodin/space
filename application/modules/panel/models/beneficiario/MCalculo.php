@@ -107,10 +107,9 @@ class MCalculo extends CI_Model{
       'medida_judicial_activas_aux' => $this->MedidaJudicialActiva(),
       'total_embargos' => number_format($total_embargos, 2, ',','.'),
       'total_embargos_aux' => $total_embargos
-      
+       
     );
-
-    
+    //print_r(fallecimiento_fueraservicio);
     $this->Beneficiario->prima_transporte_aux = number_format($this->Beneficiario->prima_transporte, 2, ',','.');
     $this->Beneficiario->prima_descendencia_aux = number_format($this->Beneficiario->prima_descendencia, 2, ',','.');
     $this->Beneficiario->prima_especial_aux = number_format($this->Beneficiario->prima_especial, 2, ',','.');
@@ -788,7 +787,7 @@ class MCalculo extends CI_Model{
   * @access public
   * @return double
   */
-  public function Fallecimiento_Fuera_Servicio(){   
+  public function Fallecimiento_Fuera_Servicio(){  
     return $this->Beneficiario->sueldo_global * 24;
   }
 
