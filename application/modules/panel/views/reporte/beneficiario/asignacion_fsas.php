@@ -198,12 +198,13 @@ th {
      <br>
 
      Notas:<br>
+     <FONT SIZE=2>
      <?php 
 
      $o = explode('*MA', $Beneficiario->observacion);
-     $o[1] = str_replace("\n", '<br>', $o[1]);
-     echo $o[1];
-      ?>
+     $o[0] = str_replace("\n", '<br>', $o[0]);
+     echo $o[0];
+      ?></font>
      <br><br>
      OCR/<?php echo $Beneficiario->usuario_modificacion;?>
    </td>

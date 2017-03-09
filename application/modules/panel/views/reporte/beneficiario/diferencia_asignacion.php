@@ -123,7 +123,7 @@ th {
     <td >DE:</td><td><b>CNEL. GERENTE DE BIENESTAR Y SEGURIDAD SOCIAL</b></td>
   </tr> 
   <tr>
-    <td>PARA:</td><td><b>CNEL. GERENTE DE DE FINANZAS A/C SUB. GERENCIA DE TESORERIA</b></td>    
+    <td>PARA:</td><td><b>CNEL. GERENTE DE DE FINANZAS</b></td>    
   </tr> 
   <tr>
     <td>ASUNTO:</td><td><b>PAGO DE DIFERENCIA DE ASIGNACION DE ANTIGUEDAD</b></td>
@@ -179,8 +179,7 @@ th {
        Caracas,&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
      </p>
      <center>
-        Atentamente 
-        <br><br><br><b>
+       <br><br><br><b>
         CNEL. EDUARDO JOSE MARTINEZ SALAS<BR></b>
      </center>
      <br>

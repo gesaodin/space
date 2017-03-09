@@ -134,7 +134,7 @@ th {
   <tr>
    <td style="border: 0px solid #dddddd; text-align: justify; font-size: 16px; line-height: 1.5">
      
-     &emsp;&emsp;Mediante la presente me dirijo a Ud., en la oportunidad de remitirle anexo a la presente 
+     &emsp;&emsp;Tengo el agrado de dirigirme a Ud., en la oportunidad de remitirle anexo a la presente 
      anexo a la presente comunicación un (01) expediente del afiliado fallecido que se relaciona a continuación 
      para dar cumplimiento a lo establecido por la Contraloría Interna, según Memo del 14JUL95.
      
@@ -148,7 +148,7 @@ th {
            <th>APELLIDOS Y NOMBRES</th>
            
            <th>FINIQUITO</th>
-           <th>M. ACTO DE SERVICIOS</th>
+           <th>DIFERENCIA AA</th>
          </tr>
        </thead>
        <body>
@@ -158,7 +158,7 @@ th {
            <td><?php echo $Beneficiario->cedula;?></td>
            <td><?php echo $Beneficiario->nombres . ' ' . $Beneficiario->apellidos;?></td>
            <td><?php echo substr(md5($Beneficiario->cedula . $Beneficiario->fecha_ultima_modificacion), 0,6) . '/01';?></td>
-           <td><?php echo substr(md5($Beneficiario->cedula . $Beneficiario->fecha_ultima_modificacion), 0,6) . '/02';?></td>
+          <td><?php echo substr(md5($Beneficiario->cedula . $Beneficiario->fecha_ultima_modificacion), 0,6) . '/03';?></td><!--Se Agrega para obtener el Numero de Oficio de AA 08032017 -->
          </tr>
        </body>
      </table>

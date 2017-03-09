@@ -235,6 +235,7 @@ class Panel extends MY_Controller {
 		$data['Beneficiario'] = $this->MBeneficiario;
 		$data['lst'] = $this->MBeneficiario->detalleMovimientoFamiliar($cedula, $codigo);
 		$this->load->view('reporte/beneficiario/memorandum_fas', $data);
+		
 	}
 
 	public function DiferenciaAntiguedad($cedula = '', $codigo = ''){
@@ -243,6 +244,7 @@ class Panel extends MY_Controller {
 		$data['Beneficiario'] = $this->MBeneficiario;
 		$data['lst'] = $this->MBeneficiario->detalleMovimientoFamiliar($cedula, $codigo);
 		$this->load->view('reporte/beneficiario/diferencia_asignacion', $data);
+		
 	}
 
 	public function puntoCuenta($cedula = '', $codigo){
