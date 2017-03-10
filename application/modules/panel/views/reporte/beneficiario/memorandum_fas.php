@@ -146,7 +146,10 @@ th {
            <th>COMPONENTE</th>
            <th>CEDULA</th>
            <th>APELLIDOS Y NOMBRES</th>
-           
+           <?php if ($Beneficiario->fecha_retiro>'2015-12-29')//Condición para validar campo M. Acto de Servicios        
+           {?>
+           <th>M.ACTO DE SERVICIOS</th>
+            <?php }?>
            <th>FINIQUITO</th>
            <th>DIFERENCIA AA</th>
          </tr>
@@ -158,15 +161,27 @@ th {
            <td><?php echo $Beneficiario->cedula;?></td>
            <td><?php echo $Beneficiario->nombres . ' ' . $Beneficiario->apellidos;?></td>
            <td><?php echo substr(md5($Beneficiario->cedula . $Beneficiario->fecha_ultima_modificacion), 0,6) . '/01';?></td>
+           <?php if ($Beneficiario->fecha_retiro>'2015-12-29')          
+           {?>
+           <td><?php echo substr(md5($Beneficiario->cedula . $Beneficiario->fecha_ultima_modificacion), 0,6) . '/02';?></td>
+           <?php }?>
           <td><?php echo substr(md5($Beneficiario->cedula . $Beneficiario->fecha_ultima_modificacion), 0,6) . '/03';?></td><!--Se Agrega para obtener el Numero de Oficio de AA 08032017 -->
          </tr>
        </body>
      </table>
      
      <br> &emsp;&emsp;Solicitud que le hago llegar, para su conocimiento y demas fines consiguientes.
+
      <p align="right">
-       Caracas,&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+     
+     <?php $fecha=substr(($Beneficiario->fecha_ultima_modificacion), 0,10);
+          $fecha=explode('-', $fecha)
+     ?>
+       Caracas, <?php echo $fecha[2].'/'.$fecha[1].'/'.$fecha[0];?>
      </p>
+     <!--<p align="right">
+       Caracas,&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+     </p>-->
      <center>
         
         <br><br><br><b><br><b>

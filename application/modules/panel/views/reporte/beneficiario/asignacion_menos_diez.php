@@ -188,9 +188,16 @@ th {
      <br>
      &emsp;&emsp;Solicitud que le hago llegar, para su conocimiento y demas fines consiguientes.<br>
 
-     <p align="right">
-       Caracas, <?php echo ($Beneficiario->fecha_ultima_modificacion)?>
+      <p align="right">
+     
+     <?php $fecha=substr(($Beneficiario->fecha_ultima_modificacion), 0,10);
+          $fecha=explode('-', $fecha)
+     ?>
+       Caracas, <?php echo $fecha[2].'/'.$fecha[1].'/'.$fecha[0];?>
      </p>
+     <!--<p align="right">
+       Caracas,&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+     </p>-->
      <center>
         <br><br><br><b>
         CNEL. EDUARDO JOSE MARTINEZ SALAS<BR></b>
