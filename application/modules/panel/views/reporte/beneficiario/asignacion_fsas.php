@@ -187,9 +187,16 @@ th {
      </table>
      <br>
      &emsp;&emsp;Solicitud que le hago llegar, para su conocimiento y demas fines consiguientes.<br>
-     <p align="right">
-       Caracas,&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+      <p align="right">
+     
+     <?php $fecha=substr(($Beneficiario->fecha_ultima_modificacion), 0,10);
+          $fecha=explode('-', $fecha)
+     ?>
+       Caracas, <?php echo $fecha[2].'/'.$fecha[1].'/'.$fecha[0];?>
      </p>
+     <!--<p align="right">
+       Caracas,&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+     </p>-->
      <center>
         Atentamente 
         <br><br><br><br><br><b>
@@ -198,12 +205,13 @@ th {
      <br>
 
      Notas:<br>
+     <FONT SIZE=2>
      <?php 
 
      $o = explode('*MA', $Beneficiario->observacion);
-     $o[1] = str_replace("\n", '<br>', $o[1]);
-     echo $o[1];
-      ?>
+     $o[0] = str_replace("\n", '<br>', $o[0]);
+     echo $o[0];
+      ?></font>
      <br><br>
      OCR/<?php echo $Beneficiario->usuario_modificacion;?>
    </td>
