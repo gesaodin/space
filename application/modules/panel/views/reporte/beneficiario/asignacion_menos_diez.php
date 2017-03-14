@@ -138,7 +138,7 @@ th {
     <td >DE:</td><td><b>CNEL. GERENTE DE BIENESTAR Y SEGURIDAD SOCIAL</b></td>
   </tr> 
   <tr>
-    <td>PARA:</td><td><b>CNEL. GERENTE DE DE FINANZAS A/C SUB. GERENCIA DE TESORERIA</b></td>    
+    <td>PARA:</td><td><b>CNEL. GERENTE DE DE FINANZAS</b></td>    
   </tr> 
   <tr>
     <td>ASUNTO:</td><td><b>SOLICITUD DE FINIQUITO</b></td>
@@ -157,7 +157,7 @@ th {
  <table style="width: 700px">
   <tr>
    <td style="border: 0px solid #dddddd; text-align: justify; font-size: 16px; line-height: 1.5">
-     &emsp;&emsp;Mediante la presente comunicación me dirijo a Ud., en la oportunidad de solicitar su valiosa colaboración a objeto 
+     &emsp;&emsp;Tengo el honor de dirijirme a Ud., en la oportunidad de solicitar su valiosa colaboración a objeto 
      gire sus instruciones con la finalidad sea realizado el pago de la Asignación de Antiguedad generada por el fallecimiento del afiliado 
      en referencia quien de acuerdo a lo previsto en el artículo 57 de la LOSSFANB y los artículos 822 al 832 del Código Civil Venezolano
      <br><br>
@@ -188,23 +188,30 @@ th {
      <br>
      &emsp;&emsp;Solicitud que le hago llegar, para su conocimiento y demas fines consiguientes.<br>
 
-     <p align="right">
-       Caracas,&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+      <p align="right">
+     
+     <?php $fecha=substr(($Beneficiario->fecha_ultima_modificacion), 0,10);
+          $fecha=explode('-', $fecha)
+     ?>
+       Caracas, <?php echo $fecha[2].'/'.$fecha[1].'/'.$fecha[0];?>
      </p>
+     <!--<p align="right">
+       Caracas,&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+     </p>-->
      <center>
-        Atentamente 
-        <br><br><br><br><br><b>
+        <br><br><br><b>
         CNEL. EDUARDO JOSE MARTINEZ SALAS<BR></b>
      </center>
      <br>
 
      Notas:<br>
+     <FONT SIZE=2>
      <?php 
 
      $o = explode('*MA', $Beneficiario->observacion);
      $o[0] = str_replace("\n", '<br>', $o[0]);
      echo $o[0];
-      ?>
+      ?></font>
      <br>
      <?php 
       if ( $Beneficiario->Calculo['monto_recuperar_aux'] > 0){
