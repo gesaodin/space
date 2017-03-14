@@ -1,5 +1,7 @@
 var _ZIP = '';
 
+var _ID = '';
+
 $( "#id" ).keypress(function( event ) {
   if ( event.which == 13 ) {
     $("#btnImrimir").focus();
@@ -7,12 +9,13 @@ $( "#id" ).keypress(function( event ) {
 });
 
 function Consultar(){
-    if($('#situacion option:selected').val()=="--")return false;
-    if($('#componente option:selected').val()=="--")return false;
+    //if($('#situacion option:selected').val()=="--")return false;
+    //if($('#componente option:selected').val()=="--")return false;
     var fde = "";
 	var fha = "";
     $('#divreporte').html('');
     var val = $("#id").val();
+    _ID = val;
 
     f = $("#datepicker").val();
     fx = $("#datepicker1").val();
@@ -28,12 +31,10 @@ function Consultar(){
             }
         }
     }
-    
-    
-
-    ruta = sUrlP + "consultarBeneficiario/" +  val; 
+ 
+    ruta = sUrlP + "consultarBeneficiario/" + val; 
     data = JSON.stringify({
-        id: val, 
+        id:  $("#id").val(),
         nom: $('#nombre').val(),
         sit: $('#situacion option:selected').val(),
         com: $('#componente option:selected').val(),
@@ -43,7 +44,7 @@ function Consultar(){
     });
     
     $('#cargando').show();
-    
+  
     if(val == "") ruta = sUrlP + "ConsultarGrupos"; 
     
     $.post(ruta, {data:data}, function(data) {
@@ -51,7 +52,6 @@ function Consultar(){
         $('#cargando').hide();
         if (data.cedula != undefined){
             TablaIndividual(data);
-            $("#id").val("");
         }
         if (data[0].file != undefined){            
             location.href = sUrl + 'tmp/' + data[0].file;  
@@ -59,23 +59,21 @@ function Consultar(){
 
             if(fde != '' || $('#nombre').val() != ''){
                 TablaGruposNombreFecha(data);
-            }else{                
+            }else{     
                 TablaGrupos(data);
+
             }
        
         }
         
-       
-
+     
     }).done(function(msg) {}).fail(function(jqXHR, textStatus) {
         console.log(jqXHR.responseText);
         $('#cargando').hide();
         alert('Beneficiario no esta registrado');
 
     });
-
-    
-
+   
 }
 
 function DescargarReporte(){
@@ -111,6 +109,7 @@ function TablaIndividual(data){
         data.estatus_descripcion
     ] ).draw( false );
 }
+
 function HacerBotones(estatus){
     var sBoton = '<div class="btn-group">';
     switch (estatus) {
@@ -164,8 +163,9 @@ function TablaGrupos(data){
             v.sme,
             v.sin            
         ] ).draw( false );
-
+    
     });
+    
 
 }
 
@@ -197,7 +197,7 @@ function cargarGrado(){
     $("#grado").html('');
     $("#grado").append('<option value=99>Todos los grados</option>');
 
-    id = $("#componente option:selected").val();    
+    id = $("#componente option:selected").val();
     ruta = sUrlP + "cargarGradoComponente/" + id;
 
     $.getJSON(ruta, function(data) {    
@@ -233,7 +233,7 @@ function continuar(){
 
 function paralizar(){
     var Paralizar = {};
-    Paralizar['id'] = $("#id").val();
+    Paralizar['id'] = _ID;
     Paralizar['motivo'] = $("#txtObservacion").val();
     Paralizar['estatus'] = '205';
     
@@ -267,7 +267,7 @@ function paralizar(){
 
 function retirar(){
     var Paralizar = {};
-    Paralizar['id'] = $("#id").val();
+    Paralizar['id'] =  _ID;
     Paralizar['motivo'] = cargarFechaSlash($("#txtObservacion").val());
     Paralizar['estatus'] = '202';
     
@@ -308,7 +308,7 @@ function cargarFechaSlash(fecha){
 
 function activar(){
     var Paralizar = {};
-    Paralizar['id'] = $("#id").val();
+    Paralizar['id'] = _ID;
     Paralizar['motivo'] = '';
     Paralizar['estatus'] = '201';
     
@@ -346,7 +346,4 @@ function limpiar(){
     $("#id").val('');
     var t = $('#reporte').DataTable();
     t.clear().draw();
-    
-
-
 }
