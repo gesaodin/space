@@ -695,8 +695,10 @@ class MCalculo extends CI_Model{
     if(isset($this->Beneficiario->MedidaJudicial[1])){
       if($this->Beneficiario->MedidaJudicial[1]->monto > 0){
         $monto = $this->Beneficiario->MedidaJudicial[1]->monto;
+      }else if($this->Beneficiario->fecha_retiro == ''){
+        $monto = ($this->Beneficiario->asignacion_antiguedad * $this->Beneficiario->MedidaJudicial[1]->porcentaje)/100;
       }else{
-       $monto = ($this->Beneficiario->asignacion_antiguedad * $this->Beneficiario->MedidaJudicial[1]->porcentaje)/100;
+        $monto = ($this->Beneficiario->asignacion_antiguedad_fin * $this->Beneficiario->MedidaJudicial[1]->porcentaje)/100;
       }
     }
     
