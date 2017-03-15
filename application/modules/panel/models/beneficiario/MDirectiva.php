@@ -73,6 +73,7 @@ class MDirectiva extends CI_Model{
   public function iniciar(){
     //$fecha = date("Y-m-d");
     $fecha = '2016-08-01';
+    $lst = array();
     $sConsulta = 'SELECT 
         A.id, A.nombre, A.numero, A.f_vigencia, 
         A.f_inicio, udad_tributaria, detalle_directiva.grado_id, 
@@ -83,9 +84,10 @@ class MDirectiva extends CI_Model{
         detalle_directiva ON A.id=detalle_directiva.directiva_sueldo_id
       ORDER BY grado_id, anio;';
 
-    
+   //echo $sConsulta;
     //$this->load->model('beneficiario/MGrado');
     //$Grado = $this->MGrado->obtenerSegunDirectiva($this->id);
+
     $obj = $this->Dbpace->consultar($sConsulta);
 		if($obj->code == 0 ){
       
@@ -97,6 +99,12 @@ class MDirectiva extends CI_Model{
       $this->fecha_vigencia = $obj->rs[0]->f_vigencia;
       $this->unidad_tributaria = $obj->rs[0]->udad_tributaria;
       $grado = $obj->rs[0]->grado_id;
+      $list = array('ut' => $obj->rs[0]->udad_tributaria,
+        'fnx' => array()
+        ); 
+
+      $lst = array();
+      $codigoop = 0;
       $rs = $obj->rs;
 			foreach ($rs as $clv => $val) {        
         if($grado != $val->grado_id){
@@ -111,13 +119,20 @@ class MDirectiva extends CI_Model{
         //$Detalle->Prima = $Grado[$val->grado_id]; 
         $codigo = $val->grado_id . $val->anio;
         $this->Detalle[$codigo] = $Detalle;
+
+        
+        $lst[$codigo] = array('sb' => $val->sueldo_base,'mt' => 0);
         
       }
+      
+      $list['sb'] = $lst;
       $this->Detalle[$grado . 'M'] = $Detalle;
 
     }
+    echo '<pre>';
+    //print_r($list);
     return $this;
-   
+    
   }
 
 

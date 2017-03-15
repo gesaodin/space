@@ -287,12 +287,12 @@ th {
         $diasA = isset($Beneficiario->HistorialMovimiento[31]) ? $Beneficiario->HistorialMovimiento[31]->monto : 0;
         echo number_format($diasA, 2, ',','.');?>
       </td>
-      <td>Total Aportado</td>
+      <td>Depositado en Banco</td>
       <td>
         
         <?php 
               $totalA = isset($Beneficiario->HistorialMovimiento[3]) ? $Beneficiario->HistorialMovimiento[3]->monto : 0;
-              $disponible = $totalA + $diasA + $garantia;
+              $disponible = $totalA + $garantia;
               echo number_format($disponible, 2, ',','.');
 
 

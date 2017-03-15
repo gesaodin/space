@@ -30,3 +30,5 @@ _testmain.go
 *application/config/database.php
 
 tmp/*.txt
+tmp/*.csv
+tmp/*.zip

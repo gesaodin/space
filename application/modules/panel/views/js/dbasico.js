@@ -68,7 +68,7 @@ function consultar() {
             $("#fecha_ultimo_deposito").val(data.Calculo.fecha_ultimo_deposito);
             $("#fecha_ultimo_anticipo").val(data.Calculo.fecha_ultimo_anticipo);
             $("#anticipos").val(data.Calculo.anticipos);
-            $("#embargos").val(data.Calculo.embargos);
+            $("#embargos").val(data.Calculo.total_embargos);
             $("#coserv").val(data.Calculo.comision_servicios); /**se agrego la comision de servicio para mostrarla por la consulta **/
 
             $.each(data.MedidaJudicialActiva, function (clave, valor){
