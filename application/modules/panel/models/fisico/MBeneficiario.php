@@ -270,7 +270,21 @@ class MBeneficiario extends CI_Model{
 	*/
 	var $sueldo_global = 0.00;
 
-	
+	/**
+	* @var double
+	*/	
+	var $anticipo = 0.00;
+
+	/**
+	* @var double
+	*/	
+	var $finiquito = 0.00;
+
+	/**
+	* @var double
+	*/	
+	var $diferencia_asig_a = 0.00;
+
 
 	/**
 	* @var double

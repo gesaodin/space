@@ -27,11 +27,8 @@ class Perfil {
 	
 	
 	
-	function __construct($identificador = null) {
+	function __construct() {
 		parent::__construct();
-		$this->load->database();			
-		$consulta = 'SELECT * FROM perfil WHERE oid =\'' . $identificador .  '\'';
-
 		
 	}
 		

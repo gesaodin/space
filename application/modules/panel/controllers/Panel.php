@@ -338,12 +338,12 @@ class Panel extends MY_Controller {
 	 *
 	 * @return	void
 	 */ 
-	public function PrepararIndices($pregunta = 0){
+	public function PrepararIndices($pregunta = 0, $estatus = 201){
 		header('Content-Type: application/json');
 		$this->load->model('kernel/KSensor');
 		$this->load->model('kernel/KCargador');
 		$fecha = date('d/m/Y H:i:s');
-		if ($pregunta != 0) $this->KCargador->PrepararIndices();
+		if ($pregunta != 0) $this->KCargador->PrepararIndices($estatus);
 		$json = array('m' => "Fecha y Hora del Servidor: " . $fecha . " \n" . $this->KSensor->Duracion() . "... \n");
 		echo json_encode($json);
 
@@ -358,9 +358,19 @@ class Panel extends MY_Controller {
 		$data = json_decode($_POST['data']);
 		//print_r($data);
 		
-		$this->load->model('kernel/KCargador');			
+		$this->load->model('kernel/KCargador');	
+		/**$data['id'] = 50;
+		$data['fe'] = "2016-01-31";
+		$data['estado_id'] = 203;
+		$data['sit'] = 203;
+		$data['com'] = 99;
+		$data['gra'] = 99;
+		$data['fde'] = "2016-01-01";
+		$data['fha'] = "2016-01-31";
+		**/
+
  		$this->KCargador->IniciarLote($data, $firma, $_SESSION['usuario']);	
- 		//$this->KCargador->IniciarLote(48, '2017-03-01', $firma, $_SESSION['usuario']);	
+ 		//$this->KCargador->IniciarLote((object)$data, '2016-01-01', $firma, $_SESSION['usuario']);	
  		
  		$mnt = $this->KCargador->Resultado['l'] - 1;
 		$json = array(
@@ -885,6 +895,14 @@ class Panel extends MY_Controller {
 		echo json_encode($lst);
 	}
 
+
+	function TestUsuario(){
+		$this->load->model("comun/DbSaman");
+		$rs = $this->DbSaman->consultar("select * from personas limit 1");
+		print_r($rs);
+
+		echo "Test De pruebas usuarios";
+	}
 
 	public function salir(){
 		redirect('panel/Login/salir');

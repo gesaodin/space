@@ -390,6 +390,10 @@ class KCalculoLote extends CI_Model{
 
   public function GenerarAsignacionAntiguedad(){
     $this->Beneficiario->asignacion_antiguedad = $this->Beneficiario->sueldo_integral * $this->Beneficiario->tiempo_servicio;
+    if($this->Beneficiario->estatus_activo == 203)
+      $this->Beneficiario->asignacion_antiguedad = $this->Beneficiario->sueldo_integral * $this->Beneficiario->tiempo_servicio_aux;  
+    
+    
   }
 
  /**
