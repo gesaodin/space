@@ -146,7 +146,7 @@ th {
    
      <!--&emsp;&emsp;Mediante la presente comunicación me dirijo a Ud., en la oportunidad de solicitar de su valiosa colaboración -->
      &emsp;&emsp;Tengo el honor de dirigirme a usted, en la oportunidad se estudie la posibilidad de solicitar de su valiosa colaboración
-     en sentido de elaborar un cheque por la cantidad de Bs. <?php echo  number_format($monto, 2, ',','.');?>.
+     en sentido de elaborar un cheque por la cantidad de Bs. <?php echo number_format($Beneficiario->Calculo['total_embargos_aux'], 2, ',','.');?>.
      <br><br>
      <textarea style="width: 100%; height: 60px"></textarea>
      

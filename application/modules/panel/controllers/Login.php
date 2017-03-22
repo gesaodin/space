@@ -61,7 +61,6 @@ class Login extends MY_Controller {
 
 			$valores["usuario"] = $_POST['usuario'];
 			$valores["clave"] = $_POST['clave'];
-
 			$resultado = $this->Iniciar->validarCuenta($valores);			
 			if ( $resultado == 1){
 				$this->inicio();

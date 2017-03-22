@@ -70,26 +70,26 @@ class KCargador extends CI_Model{
     $this->load->model('kernel/KSensor');
     $this->load->model('comun/DBSpace');    
     $rs = $this->DBSpace->consultar(
-          "DROP TABLE IF EXISTS space.tablacruce;
-          CREATE TABLE space.tablacruce AS SELECT * FROM space.crosstab(
-            'select b.cedula, m.tipo_movimiento_id, SUM(monto) AS monto 
-            from beneficiario b, movimiento m
-          WHERE 
-            b.cedula=m.cedula AND
-            b.status_id=" . $estatus . " AND
-            m.tipo_movimiento_id IN (3,31,32,9,28,5,25)
-          GROUP BY b.cedula, m.tipo_movimiento_id
-          ORDER BY b.cedula,tipo_movimiento_id' ) AS rs 
-            (cedula character varying(12), 
-            asig_antiguedad numeric, 
-            dep_adicional numeric, 
-            dep_garantia numeric,
-            cap_banco numeric,
-            cap_bancor numeric,
-            anticipo numeric,
-            anticipor numeric
-          );
-          CREATE INDEX tablacruce_cedula ON space.tablacruce (cedula);
+            "DROP TABLE IF EXISTS space.tablacruce;
+            CREATE TABLE space.tablacruce AS SELECT * FROM space.crosstab(
+              'SELECT C.cedula, C.id, COALESCE(SUM(monto),0) AS monto  FROM (   
+              SELECT A.cedula, A.status_id, B.id FROM (select cedula,status_id 
+              from beneficiario WHERE status_id=" . $estatus . ") AS A, (SELECT id from tipo_movimiento t WHERE 
+                t.id IN (3,5,9,14,25,31,32) ) AS B) AS C
+              LEFT JOIN movimiento m ON m.cedula=C.cedula AND C.id=m.tipo_movimiento_id              
+              WHERE C.status_id=" . $estatus . " 
+              GROUP BY C.cedula, C.id
+              ORDER BY C.cedula, C.id' ) AS rs 
+              (cedula character varying(12), 
+              cap_banco numeric, -- CAPITAL EN BANCO
+              anticipo numeric,  -- ANTICIPO
+              fcap_banco numeric, -- FINIQUITO 
+              dif_asi_anti numeric, -- DIF. DE FINIQUITO
+              anticipor numeric, -- REVERSO
+              dep_adicional numeric, -- DEPOSITO ADICIONAL
+              dep_garantia numeric -- DEPOSITO DE GARANTIA
+            );
+            CREATE INDEX tablacruce_cedula ON space.tablacruce (cedula);
           "  );
   }
 
@@ -114,8 +114,10 @@ class KCargador extends CI_Model{
       SELECT 
         beneficiario.nombres, beneficiario.apellidos,
         beneficiario.cedula, fecha_ingreso,f_ult_ascenso, grado.codigo,
-        beneficiario.componente_id, n_hijos, st_no_ascenso,
-        tablacruce.asig_antiguedad,tablacruce.dep_adicional,tablacruce.dep_garantia,
+        beneficiario.componente_id, n_hijos, st_no_ascenso, beneficiario.status_id,
+        tablacruce.cap_banco,tablacruce.dep_adicional,tablacruce.dep_garantia,
+        tablacruce.fcap_banco, tablacruce.anticipo-tablacruce.anticipor AS anticipo,
+        tablacruce.dif_asi_anti, 
         st_profesion,anio_reconocido, mes_reconocido,dia_reconocido
         FROM 
           beneficiario  
@@ -146,7 +148,7 @@ class KCargador extends CI_Model{
     $linea .= 'FACTOR PRIMA DESCENDENCIA;PRIMA DESCENDENCIA;FACTOR PRIMA ESPECIAL;PRIMA ESPECIAL;ESTATUS NO ASCENSO;';
     $linea .= 'PRIMA NO ASCENSO;FACTOR PRIMA PROF.;PRIMA PROF.;';
     $linea .= 'SUELDO MENSUAL;ALI. BONO FIN AÑO;DIA BON. VAC.;ALICUOTA BONO VAC.;SUELDO INTEGRAL;ASIGNACION DE ANTIGUEDAD;';
-    $linea .= 'DEP. BANCO;GARANTIAS ACUM.;DIAS ADI. ACUM.;DIF. NO DEP. BANCO;GARANTIAS;DIAS ADICIONALES';
+    $linea .= 'DEP. BANCO;ANTICIPOS;GARANTIAS ACUM.;DIAS ADI. ACUM.;DIF. NO DEP. BANCO;GARANTIAS;DIAS ADICIONALES;FINIQUITO CAPITAL; DIF. ASIG. ANTIGUEDAD';
     fputs($file,$linea);
     fputs($file,"\n");  
     foreach ($obj as $k => $v) {
@@ -175,8 +177,12 @@ class KCargador extends CI_Model{
   */
   private function generarConPatrones(MBeneficiario &$Bnf, KCalculoLote &$CalculoLote, KPerceptron &$Perceptron, $fecha, $Directivas, $v){
       $Bnf->cedula = $v->cedula;            
-      $Bnf->deposito_banco = $v->asig_antiguedad; //Individual de la Red
+      $Bnf->deposito_banco = $v->cap_banco; //Individual de la Red
+      $Bnf->anticipo = $v->anticipo; //Anticipos
+      $Bnf->estatus_activo = $v->status_id;
+      $Bnf->finiquito = $v->fcap_banco; //Finiquito
       $Bnf->apellidos = $v->apellidos; //Individual del Objeto
+      $Bnf->diferencia_asig_a = $v->dif_asi_anti; // Diferencia de Asignacion de Antiguedad
       $Bnf->nombres = $v->nombres; //Individual del Objeto
       $Bnf->garantias_acumuladas = $v->dep_garantia; //Individual del Objeto
       $Bnf->dias_adicionales_acumulados = $v->dep_adicional; //Individual del Objeto
@@ -198,16 +204,16 @@ class KCargador extends CI_Model{
       if(!isset($Perceptron->Neurona[$patron])){
         $CalculoLote->Ejecutar(); 
 
-        $segmentoincial = $Bnf->sueldo_base . ';' . $Bnf->prima_transporte_mt . ';' . 
+        $segmentoincial = $Bnf->antiguedad_grado . ';' . $Bnf->sueldo_base . ';' . $Bnf->prima_transporte_mt . ';' . 
                           $Bnf->prima_transporte . ';' . $Bnf->prima_tiemposervicio_mt . ';' . 
                           $Bnf->prima_tiemposervicio . ';' . $Bnf->prima_descendencia_mt . ';' . 
                           $Bnf->prima_descendencia . ';' . $Bnf->prima_especial_mt . ';' . 
-                          $Bnf->prima_especial . ';' . $Bnf->prima_noascenso_mt . ';' . 
+                          $Bnf->prima_especial . ';' . $Bnf->no_ascenso . ';' . 
                           $Bnf->prima_noascenso . ';' . $Bnf->prima_profesionalizacion_mt . ';' . 
                           $Bnf->prima_profesionalizacion . ';' . $Bnf->sueldo_mensual . ';' . 
                           $Bnf->aguinaldos . ';' . $Bnf->dia_vacaciones . ';' . $Bnf->vacaciones . ';' . 
                           $Bnf->sueldo_integral . ';' . $Bnf->asignacion_antiguedad . ';';
-        $segmentofinal =  $Bnf->garantias . ';' . $Bnf->dias_adicionales;      
+        $segmentofinal =  $Bnf->garantias . ';' . $Bnf->dias_adicionales ;      
 
         $Perceptron->Aprender($patron, array(
           'DIA_VAC' => $Bnf->dia_vacaciones,
@@ -257,7 +263,7 @@ class KCargador extends CI_Model{
         $Bnf->prima_descendencia . ';' .  // 18
         $Bnf->prima_especial_mt . ';' . // 19
         $Bnf->prima_especial . ';' . // 20
-        $Bnf->prima_noascenso_mt . ';' . // 21
+        $Bnf->no_ascenso . ';' . // 21
         $Bnf->prima_noascenso . ';' . // 22
         $Bnf->prima_profesionalizacion_mt . ';' . // 23
         $Bnf->prima_profesionalizacion . ';' .  // 24
@@ -268,11 +274,15 @@ class KCargador extends CI_Model{
         $Bnf->sueldo_integral . ';' . // 29
         $Bnf->asignacion_antiguedad . ';' . // 30
         $Bnf->deposito_banco . ';' . // 31
+        $Bnf->anticipo . ';' .
         $Bnf->garantias_acumuladas  . ';' . // 32
         $Bnf->dias_adicionales_acumulados . ';' . // 33
         $Bnf->no_depositado_banco  . ';' .  // 34
         $Bnf->garantias . ';' .  // 35
-        $Bnf->dias_adicionales;  // 36
+        $Bnf->dias_adicionales . ';' .
+        $Bnf->finiquito . ';' .
+        $Bnf->diferencia_asig_a; // 36
+
   }
 
 
@@ -287,14 +297,16 @@ class KCargador extends CI_Model{
         $Bnf->fecha_ingreso . ';' . 
         $Bnf->tiempo_servicio . ';' .
         $Bnf->numero_hijos . ';' .        
-        $Bnf->fecha_ultimo_ascenso . ';' . 
-        $Bnf->antiguedad_grado . ';' . 
+        $Bnf->fecha_ultimo_ascenso . ';' .         
         $Recuerdo['SINCIAL'] .        
         $Bnf->deposito_banco . ';' .
+        $Bnf->anticipo . ';' .
         $Bnf->garantias_acumuladas  . ';' .
         $Bnf->dias_adicionales_acumulados . ';' .
         $Bnf->no_depositado_banco  . ';' . 
-        $Recuerdo['SFINAL'];
+        $Recuerdo['SFINAL']  . ';' .
+        $Bnf->finiquito . ';' .
+        $Bnf->diferencia_asig_a;
   }
 
   private function evaluarLotesLinuxComando($archivo){
@@ -354,7 +366,7 @@ class KCargador extends CI_Model{
         beneficiario.nombres, beneficiario.apellidos,
         beneficiario.cedula, fecha_ingreso,f_ult_ascenso, grado.codigo,
         beneficiario.componente_id, n_hijos, st_no_ascenso,
-        tablacruce.asig_antiguedad,tablacruce.dep_adicional,tablacruce.dep_garantia,
+        tablacruce.cap_banco,tablacruce.dep_adicional,tablacruce.dep_garantia,
         st_profesion,anio_reconocido, mes_reconocido,dia_reconocido
         FROM 
           beneficiario  
@@ -413,7 +425,7 @@ class KCargador extends CI_Model{
   */
   private function generarSinPatrones(MBeneficiario &$Bnf, KCalculoLote &$CalculoLote, KPerceptron &$Perceptron, $fecha, $Directivas, $v){
       $Bnf->cedula = $v->cedula;            
-      $Bnf->deposito_banco = $v->asig_antiguedad; //Individual de la Red
+      $Bnf->deposito_banco = $v->cap_banco; //Individual de la Red
       $Bnf->apellidos = $v->apellidos; //Individual del Objeto
       $Bnf->nombres = $v->nombres; //Individual del Objeto
       $Bnf->garantias_acumuladas = $v->dep_garantia; //Individual del Objeto

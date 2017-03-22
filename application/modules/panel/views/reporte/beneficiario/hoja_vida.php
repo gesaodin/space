@@ -340,15 +340,8 @@ th {
       <td>
       <?php 
           $monto = 0;
-          if(isset($Beneficiario->MedidaJudicial[1])){
-            if($Beneficiario->MedidaJudicial[1]->monto > 0){
-              $monto = $Beneficiario->MedidaJudicial[1]->monto;
-            }else{
-             $monto = ($Beneficiario->asignacion_antiguedad * $Beneficiario->MedidaJudicial[1]->porcentaje)/100;
-            }
-          }
-       
-          echo number_format($monto, 2, ',','.')
+          $monto = isset($Beneficiario->Calculo['total_embargos_aux']) ? $Beneficiario->Calculo['total_embargos_aux'] : 0;      
+          echo number_format($monto, 2, ',','.');
         ?>
       </td>
       <td>Anticipos.</td>

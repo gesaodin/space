@@ -229,6 +229,7 @@ class Usuario extends CI_Model {
   protected function _evaluarSobreNombre() {
     //return preg_match("/^([-a-z0-9_-])+$/i", $this -> sobreNombre);
     return $this -> sobreNombre;
+
   }
 
   function conectar() {    
@@ -239,8 +240,7 @@ class Usuario extends CI_Model {
         JOIN usuario_rol ON space.usuario.id=usuario_rol.usuario_id 
         JOIN rol ON usuario_rol.rol_id=rol.id 
       WHERE login=\'' . $this -> sobreNombre . '\' AND password =\'' . $this -> _claveEncriptada() . '\';';
-    
-    
+        
     $obj = $this->Dbpace->consultar($consulta);
     return $obj;
   }
@@ -248,17 +248,11 @@ class Usuario extends CI_Model {
   protected function _claveEncriptada() {
     return md5($this -> clave);
   }
-
-
   
   protected function _evaluarCorreo() {
   	return preg_match("/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix", $this -> correo);
   }
   
-
-  
-
-
   function cargarPrivilegios() {
     return $this -> listaPrivilegios;
   }

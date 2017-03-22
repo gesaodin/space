@@ -58,7 +58,11 @@ class MCalculo extends CI_Model{
 
     $monto = isset($this->Beneficiario->MedidaJudicial[1])? $this->Beneficiario->MedidaJudicial[1]->monto : 0;
     $porcentaje = isset($this->Beneficiario->MedidaJudicial[1])? $this->Beneficiario->MedidaJudicial[1]->porcentaje : 0;
-    $total_embargos = $monto + ($this->Beneficiario->asignacion_antiguedad * $porcentaje) / 100;
+    if ($Beneficiario->fecha_retiro != ''){
+        $total_embargos = $monto + ($this->Beneficiario->asignacion_antiguedad_fin * $porcentaje) / 100;
+    }else{
+        $total_embargos = $monto + ($this->Beneficiario->asignacion_antiguedad * $porcentaje) / 100;      
+    }
     $this->Beneficiario->Calculo = array(
       'asignacion_antiguedad' => number_format($this->Beneficiario->asignacion_antiguedad, 2, ',','.'),
       'asignacion_antiguedad_fin' => number_format($this->Beneficiario->asignacion_antiguedad_fin, 2, ',','.'), //se agrego AA por el de la 
@@ -103,10 +107,9 @@ class MCalculo extends CI_Model{
       'medida_judicial_activas_aux' => $this->MedidaJudicialActiva(),
       'total_embargos' => number_format($total_embargos, 2, ',','.'),
       'total_embargos_aux' => $total_embargos
-      
+       
     );
-
-    
+    //print_r(fallecimiento_fueraservicio);
     $this->Beneficiario->prima_transporte_aux = number_format($this->Beneficiario->prima_transporte, 2, ',','.');
     $this->Beneficiario->prima_descendencia_aux = number_format($this->Beneficiario->prima_descendencia, 2, ',','.');
     $this->Beneficiario->prima_especial_aux = number_format($this->Beneficiario->prima_especial, 2, ',','.');
@@ -692,8 +695,10 @@ class MCalculo extends CI_Model{
     if(isset($this->Beneficiario->MedidaJudicial[1])){
       if($this->Beneficiario->MedidaJudicial[1]->monto > 0){
         $monto = $this->Beneficiario->MedidaJudicial[1]->monto;
+      }else if($this->Beneficiario->fecha_retiro == ''){
+        $monto = ($this->Beneficiario->asignacion_antiguedad * $this->Beneficiario->MedidaJudicial[1]->porcentaje)/100;
       }else{
-       $monto = ($this->Beneficiario->asignacion_antiguedad * $this->Beneficiario->MedidaJudicial[1]->porcentaje)/100;
+        $monto = ($this->Beneficiario->asignacion_antiguedad_fin * $this->Beneficiario->MedidaJudicial[1]->porcentaje)/100;
       }
     }
     
@@ -784,7 +789,7 @@ class MCalculo extends CI_Model{
   * @access public
   * @return double
   */
-  public function Fallecimiento_Fuera_Servicio(){   
+  public function Fallecimiento_Fuera_Servicio(){  
     return $this->Beneficiario->sueldo_global * 24;
   }
 

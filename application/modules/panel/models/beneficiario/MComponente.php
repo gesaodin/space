@@ -87,7 +87,7 @@ class MComponente extends CI_Model{
       FROM componente 
       JOIN grado ON componente.id = grado.componente_id
       WHERE componente.id=' . $cid . ' AND grado.id=' . $gid;
-    //echo  $sConsulta;
+    
     $obj = $this->Dbpace->consultar($sConsulta);
     if($obj->code == 0 ){
       foreach ($obj->rs as $clv => $val) {

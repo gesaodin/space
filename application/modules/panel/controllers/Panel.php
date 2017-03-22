@@ -235,6 +235,7 @@ class Panel extends MY_Controller {
 		$data['Beneficiario'] = $this->MBeneficiario;
 		$data['lst'] = $this->MBeneficiario->detalleMovimientoFamiliar($cedula, $codigo);
 		$this->load->view('reporte/beneficiario/memorandum_fas', $data);
+		
 	}
 
 	public function DiferenciaAntiguedad($cedula = '', $codigo = ''){
@@ -243,6 +244,7 @@ class Panel extends MY_Controller {
 		$data['Beneficiario'] = $this->MBeneficiario;
 		$data['lst'] = $this->MBeneficiario->detalleMovimientoFamiliar($cedula, $codigo);
 		$this->load->view('reporte/beneficiario/diferencia_asignacion', $data);
+		
 	}
 
 	public function puntoCuenta($cedula = '', $codigo){
@@ -356,9 +358,19 @@ class Panel extends MY_Controller {
 		$data = json_decode($_POST['data']);
 		//print_r($data);
 		
-		$this->load->model('kernel/KCargador');			
+		$this->load->model('kernel/KCargador');	
+		/**$data['id'] = 50;
+		$data['fe'] = "2016-01-31";
+		$data['estado_id'] = 203;
+		$data['sit'] = 203;
+		$data['com'] = 99;
+		$data['gra'] = 99;
+		$data['fde'] = "2016-01-01";
+		$data['fha'] = "2016-01-31";
+		**/
+
  		$this->KCargador->IniciarLote($data, $firma, $_SESSION['usuario']);	
- 		//$this->KCargador->IniciarLote(48, '2017-03-01', $firma, $_SESSION['usuario']);	
+ 		//$this->KCargador->IniciarLote((object)$data, '2016-01-01', $firma, $_SESSION['usuario']);	
  		
  		$mnt = $this->KCargador->Resultado['l'] - 1;
 		$json = array(
@@ -383,8 +395,7 @@ class Panel extends MY_Controller {
 		$firma = md5($fecha); //PID
 
 		$this->load->model('kernel/KCargador');			
- 		$this->KCargador->IniciarLoteEstudiar(48, '2017-03-01', $firma, $_SESSION['usuario'], 1000);	
- 		echo $this->KSensor->Duracion();
+ 		$this->KCargador->IniciarLoteEstudiar(48, '2017-03-01', $firma, $_SESSION['usuario'], 100);	
  		//$mnt = $this->KCargador->Resultado['l'] - 1;		
 	}
 
@@ -884,6 +895,14 @@ class Panel extends MY_Controller {
 		echo json_encode($lst);
 	}
 
+
+	function TestUsuario(){
+		$this->load->model("comun/DbSaman");
+		$rs = $this->DbSaman->consultar("select * from personas limit 1");
+		print_r($rs);
+
+		echo "Test De pruebas usuarios";
+	}
 
 	public function salir(){
 		redirect('panel/Login/salir');
