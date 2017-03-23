@@ -144,7 +144,7 @@ class KCargador extends CI_Model{
     
     $linea = 'CEDULA;CODGRA;GRADO;CODFZA;COMPONENTE;APELLIDOS Y NOMBRES;FECHA DE INGRESO;';
     $linea .= 'TIEMPO DE SERVICIO;NUMERO DE HIJOS;FECHA ULTIMO ASCENSO;TIEMPO DE SERVICIO EN EL GRADO;SUELDO BASICO;';
-    $linea .= 'FACTOR PRIMA TRANSPORTE;PRIMA TRANSPORTE;FACTOR PRIMA TIEMPO DE SERVICIO;PRIMA TIEMPO DE SERVICIO;';
+    $linea .= 'FACTOR PRIMA TRANSPORTE;PRIMA TRANSPORTE;PRIMA TIEMPO DE SERVICIO;';
     $linea .= 'FACTOR PRIMA DESCENDENCIA;PRIMA DESCENDENCIA;FACTOR PRIMA ESPECIAL;PRIMA ESPECIAL;ESTATUS NO ASCENSO;';
     $linea .= 'PRIMA NO ASCENSO;FACTOR PRIMA PROF.;PRIMA PROF.;';
     $linea .= 'SUELDO MENSUAL;ALI. BONO FIN AÑO;DIA BON. VAC.;ALICUOTA BONO VAC.;SUELDO INTEGRAL;ASIGNACION DE ANTIGUEDAD;';
@@ -196,6 +196,9 @@ class KCargador extends CI_Model{
       $Bnf->fecha_ultimo_ascenso = $v->f_ult_ascenso;
       $Bnf->fecha_retiro = $fecha;
       $Bnf->prima_profesionalizacion_mt = $v->st_profesion;
+      $Bnf->ano_reconocido = $v->anio_reconocido;
+      $Bnf->mes_reconocido = $v->mes_reconocido;
+      $bnf->dia_reconocido = $v->dia_reconocido;
 
       $patron = md5($v->fecha_ingreso.$v->n_hijos.$v->st_no_ascenso.$v->componente_id.
         $v->codigo.$v->f_ult_ascenso.$v->st_profesion.$v->anio_reconocido.$v->mes_reconocido.$v->dia_reconocido);      
@@ -205,7 +208,7 @@ class KCargador extends CI_Model{
         $CalculoLote->Ejecutar(); 
 
         $segmentoincial = $Bnf->antiguedad_grado . ';' . $Bnf->sueldo_base . ';' . $Bnf->prima_transporte_mt . ';' . 
-                          $Bnf->prima_transporte . ';' . $Bnf->prima_tiemposervicio_mt . ';' . 
+                          $Bnf->prima_transporte . ';' . //$Bnf->prima_tiemposervicio_mt . ';' . 
                           $Bnf->prima_tiemposervicio . ';' . $Bnf->prima_descendencia_mt . ';' . 
                           $Bnf->prima_descendencia . ';' . $Bnf->prima_especial_mt . ';' . 
                           $Bnf->prima_especial . ';' . $Bnf->no_ascenso . ';' . 
@@ -257,7 +260,7 @@ class KCargador extends CI_Model{
         $Bnf->sueldo_base . ';' . // 12
         $Bnf->prima_transporte_mt . ';' . // 13
         $Bnf->prima_transporte . ';' . // 14
-        $Bnf->prima_tiemposervicio_mt . ';' . // 15
+        //$Bnf->prima_tiemposervicio_mt . ';' . // 15
         $Bnf->prima_tiemposervicio . ';' .  // 16
         $Bnf->prima_descendencia_mt . ';' . // 17
         $Bnf->prima_descendencia . ';' .  // 18
@@ -440,6 +443,9 @@ class KCargador extends CI_Model{
       $Bnf->fecha_ultimo_ascenso = $v->f_ult_ascenso;
       $Bnf->fecha_retiro = $fecha;
       $Bnf->prima_profesionalizacion_mt = $v->st_profesion;
+      $Bnf->ano_reconocido = $v->anio_reconocido;
+      $Bnf->mes_reconocido = $v->mes_reconocido;
+      $bnf->dia_reconocido = $v->dia_reconocido;
 
       $patron = md5($v->fecha_ingreso.$v->n_hijos.$v->st_no_ascenso.$v->componente_id.
         $v->codigo.$v->f_ult_ascenso.$v->st_profesion.$v->anio_reconocido.$v->mes_reconocido.$v->dia_reconocido);      
@@ -449,7 +455,7 @@ class KCargador extends CI_Model{
         $CalculoLote->Ejecutar(); 
 
         $segmentoincial = $Bnf->sueldo_base . ';' . $Bnf->prima_transporte_mt . ';' . 
-                          $Bnf->prima_transporte . ';' . $Bnf->prima_tiemposervicio_mt . ';' . 
+                          $Bnf->prima_transporte . ';' . //$Bnf->prima_tiemposervicio_mt . ';' . 
                           $Bnf->prima_tiemposervicio . ';' . $Bnf->prima_descendencia_mt . ';' . 
                           $Bnf->prima_descendencia . ';' . $Bnf->prima_especial_mt . ';' . 
                           $Bnf->prima_especial . ';' . $Bnf->prima_noascenso_mt . ';' . 
@@ -655,6 +661,9 @@ class KCargador extends CI_Model{
       $Bnf->fecha_ultimo_ascenso = $v->f_ult_ascenso;
       $Bnf->fecha_retiro = $fecha;
       $Bnf->prima_profesionalizacion_mt = $v->st_profesion;
+      $Bnf->ano_reconocido = $v->anio_reconocido;
+      $Bnf->mes_reconocido = $v->mes_reconocido;
+      $bnf->dia_reconocido = $v->dia_reconocido;
 
       $patron = md5($v->fecha_ingreso.$v->n_hijos.$v->st_no_ascenso.$v->componente_id.
         $v->codigo.$v->f_ult_ascenso.$v->st_profesion.$v->anio_reconocido.$v->mes_reconocido.$v->dia_reconocido);      
@@ -664,7 +673,7 @@ class KCargador extends CI_Model{
         $CalculoLote->Ejecutar(); 
 
         $segmentoincial = $Bnf->sueldo_base . ';' . $Bnf->prima_transporte_mt . ';' . 
-                          $Bnf->prima_transporte . ';' . $Bnf->prima_tiemposervicio_mt . ';' . 
+                          $Bnf->prima_transporte . ';' . //$Bnf->prima_tiemposervicio_mt . ';' . 
                           $Bnf->prima_tiemposervicio . ';' . $Bnf->prima_descendencia_mt . ';' . 
                           $Bnf->prima_descendencia . ';' . $Bnf->prima_especial_mt . ';' . 
                           $Bnf->prima_especial . ';' . $Bnf->prima_noascenso_mt . ';' . 
