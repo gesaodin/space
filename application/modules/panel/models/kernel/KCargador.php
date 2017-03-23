@@ -141,6 +141,7 @@ class KCargador extends CI_Model{
     $Directivas = $this->KDirectiva->Cargar($id); //Directivas
     $this->load->model('kernel/KPerceptron'); //Red Perceptron Aprendizaje de patrones
     $file = fopen("tmp/" . $archivo . ".csv","a") or die("Problemas"); 
+    //$file_log = fopen("tmp/" . $archivo . ".log","a") or die("Problemas"); 
     
     $linea = 'CEDULA;CODGRA;GRADO;CODFZA;COMPONENTE;APELLIDOS Y NOMBRES;FECHA DE INGRESO;';
     $linea .= 'TIEMPO DE SERVICIO;NUMERO DE HIJOS;FECHA ULTIMO ASCENSO;TIEMPO DE SERVICIO EN EL GRADO;SUELDO BASICO;';
@@ -155,11 +156,23 @@ class KCargador extends CI_Model{
       $Bnf = new $this->MBeneficiario;
       $this->KCalculoLote->Instanciar($Bnf, $Directivas);
       $linea = $this->generarConPatrones($Bnf,  $this->KCalculoLote, $this->KPerceptron, $fecha, $Directivas, $v);
+/**
+      if($Bnf->cedula == "15472216" || $Bnf->cedula == "16009573"  || $Bnf->cedula == "15739493" ){
+        $linea_log = $Bnf->cedula . ';' . $Bnf->ano_reconocido . ';' . $Bnf->mes_reconocido . ';' . $Bnf->dia_reconocido . ';' . 
+        $Bnf->tiempo_servicio . ';' . $Bnf->prima_tiemposervicio . ';' . $Bnf->asignacion_antiguedad;
+
+        fputs($file_log, $linea_log);  
+        fputs($file_log,"\n");
+      }
+**/
+      
       fputs($file,$linea);
       fputs($file,"\n");      
       unset($Bnf);
     }
+    
     fclose($file);
+    //fclose($file_log);
     return true;
   }
 
