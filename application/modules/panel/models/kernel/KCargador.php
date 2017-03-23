@@ -364,7 +364,7 @@ class KCargador extends CI_Model{
     $con = $this->DBSpace->consultar("
       SELECT 
         beneficiario.nombres, beneficiario.apellidos,
-        beneficiario.cedula, fecha_ingreso,f_ult_ascenso, grado.codigo,
+        beneficiario.cedula, fecha_ingreso,f_ult_ascenso, grado.codigo,grado.nombre as gnombre,
         beneficiario.componente_id, n_hijos, st_no_ascenso,
         tablacruce.cap_banco,tablacruce.dep_adicional,tablacruce.dep_garantia,
         st_profesion,anio_reconocido, mes_reconocido,dia_reconocido
@@ -436,7 +436,7 @@ class KCargador extends CI_Model{
       $Bnf->componente_id = $v->componente_id;
       $Bnf->componente_nombre = $Directivas['com'][$v->componente_id];
       $Bnf->grado_codigo = $v->codigo;
-      $Bnf->grado_nombre = $Directivas['sb'][$v->codigo.'M']['gr'];
+      $Bnf->grado_nombre = $v->gnombre;
       $Bnf->fecha_ultimo_ascenso = $v->f_ult_ascenso;
       $Bnf->fecha_retiro = $fecha;
       $Bnf->prima_profesionalizacion_mt = $v->st_profesion;
@@ -505,13 +505,14 @@ class KCargador extends CI_Model{
     $sConsulta = '
       SELECT 
         beneficiario.nombres, beneficiario.apellidos,
-        beneficiario.cedula, fecha_ingreso,f_ult_ascenso, grado.codigo,
+        beneficiario.cedula, fecha_ingreso,f_ult_ascenso, grado.codigo,grado.nombre as gnombre,
         beneficiario.componente_id, n_hijos, st_no_ascenso,
         st_profesion,anio_reconocido, mes_reconocido,dia_reconocido
         FROM 
           beneficiario  
         JOIN 
-          grado ON beneficiario.grado_id=grado.id 
+          grado ON beneficiario.grado_id=grado.id
+         
         WHERE ' . $condicion . ' ;';
 
     $obj = $this->DBSpace->consultar($sConsulta);
@@ -650,7 +651,7 @@ class KCargador extends CI_Model{
       $Bnf->componente_id = $v->componente_id;
       $Bnf->componente_nombre = $Directivas['com'][$v->componente_id];
       $Bnf->grado_codigo = $v->codigo;
-      $Bnf->grado_nombre = $Directivas['sb'][$v->codigo.'M']['gr'];
+      $Bnf->grado_nombre = $v->gnombre;
       $Bnf->fecha_ultimo_ascenso = $v->f_ult_ascenso;
       $Bnf->fecha_retiro = $fecha;
       $Bnf->prima_profesionalizacion_mt = $v->st_profesion;

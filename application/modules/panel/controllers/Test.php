@@ -43,6 +43,11 @@ class Test extends MY_Controller {
 		//echo json_encode($this->MBeneficiario);
 	}
 
+	/*function saman_prueba(){
+		$this->load->model('comun/DbSaman');
+		$rs=$this->DbSaman->consultar("select * from personas limit 1");
+		print_r($rs);
+	}*/
 	
 	function init(){
 		phpinfo();

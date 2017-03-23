@@ -160,6 +160,14 @@
                     <div class="col-md-2">                      
                       <input type="text" placeholder="Fecha de Retiro" id='fecha_retiro' class="form-control" readonly="readonly"></input>
                     </div> 
+                    <label class="col-md-2">Monto Recuperado Activo</label>
+                     <div class="col-md-2">                      
+                      <input type="text" placeholder="Monto Recuperado" id='monto_recuperado' class="form-control"></input>
+                      </div> 
+                      <label class="col-md-2">Saldo Disponible</label>
+                      <div class="col-md-2">                      
+                       <input type="text" placeholder="Saldo Disponible" id='saldo_disponible' class="form-control" readonly="readonly"></input>
+                        </div>     
                   </div> <!-- /Numero Cuenta -->
 
 
