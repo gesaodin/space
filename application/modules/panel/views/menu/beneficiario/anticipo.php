@@ -304,9 +304,7 @@
             <div class="box-footer">
               <div class="row no-print">
                 <div class="col-xs-12" style="display: none" id='divBotones' >
-                <button type="button" class="btn btn-success" 
-                data-toggle="modal" data-target="#myModal" id='btnAnticipo'><i class="glyphicon glyphicon-plus">
-                </i>&nbsp;&nbsp;Nuevo Anticipo</button>
+                
               </div>
             </div><!-- /.box-footer-->
           </div><!-- /.box -->

@@ -42,11 +42,10 @@
                                   <input type="text" class="form-control" placeholder="Cedula de Identidad" id="cedulaB">
                                   
                               </div>
-                              <div class="col-md-6">
-                          <button type="button" class="btn btn-info pull-midium" onclick="consultarFiniquitos()"><i class="fa fa-search"></i>&nbsp;&nbsp;Consultar</button>
-                          <a href="<?php echo base_url()?>index.php/panel/Panel/registrarFiniquito" class="btn btn-success pull-midium">
-                          <i class="fa fa-plus"></i>&nbsp;&nbsp;Registrar Finiquito</a>
-                          </a>
+                              <div class="col-md-6" id="divBotones">
+                                <button type="button" class="btn btn-info pull-midium" onclick="consultarFiniquitos()"><i class="fa fa-search"></i>&nbsp;&nbsp;Consultar</button>
+                                
+                                </a>
                               </div>
                               <br>
                     </div>

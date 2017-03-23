@@ -167,7 +167,7 @@ function listar(data){
             }
 
         }else if(valor.estatus == '101'){
-            if(valor.movimiento == 0 )sBoton += '<button type="button" class="btn btn-danger" title="Recharzar" onclick="rechazar(\'' + valor.id + '\')"><i class="fa fa-remove" ></i></button>';
+            if(valor.movimiento == 0 )sBoton += '<button id="btnRechazar" type="button" class="btn btn-danger" title="Recharzar" onclick="rechazar(\'' + valor.id + '\')"><i class="fa fa-remove" ></i></button>';
         }
         sBoton += sAcciones + '</div>';
 
@@ -181,7 +181,7 @@ function listar(data){
             monto.formatMoney(2, ',', '.')
         ] ).draw( false );
     });
-    //validarPorcentaje();
+    vBtn();
 
 }
 
@@ -293,7 +293,6 @@ function calcularPorcentaje(){
         $("#txtMensaje").html(msj);
         $("#divContinuar").html(crearBoton());
         Anticipo['monto'] = parseFloat(cantidad).toFixed(2);  
-        2
     }
 
     $("#logMensaje").modal('show');

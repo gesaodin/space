@@ -66,6 +66,7 @@ function Consultar(){
        
         }
         
+
      
     }).done(function(msg) {}).fail(function(jqXHR, textStatus) {
         console.log(jqXHR.responseText);
@@ -108,19 +109,21 @@ function TablaIndividual(data){
         data.fecha_ingreso,
         data.estatus_descripcion
     ] ).draw( false );
+
+    vBtn();
 }
 
 function HacerBotones(estatus){
     var sBoton = '<div class="btn-group">';
     switch (estatus) {
         case '201':
-            sBoton += '<button type="button" class="btn btn-warning" title="Paralizar" onclick="ventana(\'paralizar\')"><i class="fa fa-lock" ></i></button>';                                
+            sBoton += '<button id="btnParalizar" type="button" class="btn btn-warning" title="Paralizar" onclick="ventana(\'paralizar\')"><i class="fa fa-lock" ></i></button>';                                
             sBoton += '</button>';
-            sBoton += '<button type="button" class="btn btn-danger" title="Retirar" onclick="ventana(\'retirar\')"><i class="fa fa-ban" ></i></button>';                                
+            sBoton += '<button  id="btnRetirar" type="button" class="btn btn-danger" title="Retirar" onclick="ventana(\'retirar\')"><i class="fa fa-ban" ></i></button>';                                
             sBoton += '</button>';
             break;
         case '202':
-            sBoton += '<button type="button" class="btn btn-primary" title="Activar" onclick="ventana(\'activar\')"><i class="fa fa-rotate-left" ></i></button>';                                
+            sBoton += '<button id="btnActivar"  type="button" class="btn btn-primary" title="Activar" onclick="ventana(\'activar\')"><i class="fa fa-rotate-left" ></i></button>';                                
             sBoton += '</button>';
             break;
         case '203':
@@ -129,7 +132,7 @@ function HacerBotones(estatus){
         case '204':
             break;
         case '205':
-            sBoton += '<button type="button" class="btn btn-success" title="Desparalizar" onclick="ventana(\'activar\')"><i class="fa fa-unlock-alt" ></i></button>';                                
+            sBoton += '<button id="btnDesParalizar" type="button" class="btn btn-success" title="Desparalizar" onclick="ventana(\'activar\')"><i class="fa fa-unlock-alt" ></i></button>';                                
             sBoton += '</button>';
             break;
         default:

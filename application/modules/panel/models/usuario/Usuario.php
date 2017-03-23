@@ -267,14 +267,10 @@ class Usuario extends CI_Model {
     return TRUE;
   }
 
-  function listar(){
-    $sConsulta = "DELETE FROM usuario_sistema WHERE oid=3";
-    $this->Dbpace->consultar($sConsulta);
-    $sConsulta = "SELECT * FROM usuario_sistema";
+  function listar(){   
+    $sConsulta = "SELECT id, login, nombre, apellido, status_id FROM space.usuario WHERE status_id=292 ORDER BY id";
     $obj = $this->Dbpace->consultar($sConsulta);
-
-    
-    return $obj;
+    return $obj->rs;
   }
 
   /**

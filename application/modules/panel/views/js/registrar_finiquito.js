@@ -537,7 +537,7 @@ function consultarFiniquitos(){
         if(Array.isArray(arr) == false){
             $.each(arr[9], function ( clv, valores ){
                 
-                console.log(valores);
+              
 
                 var fecha_creacion = valores.fecha_creacion;
                 var fecha_contable = valores.fecha_contable;
@@ -552,7 +552,7 @@ function consultarFiniquitos(){
                 
                 if(estatus != 'Reverso') {
                     
-                    if(fecha_creacion > '2016-11-01')sBoton += '<button type="button" class="btn btn-danger" title="Reversar" onclick="Reversar(\'' + cedula + '\',\'' + codigo + '\')"><i class="fa fa-random"></i></button>';
+                    if(fecha_creacion > '2016-11-01')sBoton += '<button type="button" id="btnReversar" class="btn btn-danger" title="Reversar" onclick="Reversar(\'' + cedula + '\',\'' + codigo + '\')"><i class="fa fa-random"></i></button>';
                 
                     
                     sBoton += '<button type="button" class="btn btn-info" title="Imprimir"><i class="fa fa-print" ></i></button>';                
@@ -621,8 +621,9 @@ function consultarFiniquitos(){
                     estatus
                 ] ).draw( false );
                 
-            });
 
+            });
+            vBtn();
         }else{
             alert('Beneficiario no posee finiquito');
         }
@@ -888,4 +889,8 @@ function EjecutarReverso(ced, cod){
     });
 
     
+}
+
+function UrlDire(){
+    $(location).attr('href', 'registrarFiniquito');
 }

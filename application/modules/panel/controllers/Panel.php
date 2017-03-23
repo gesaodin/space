@@ -127,7 +127,9 @@ class Panel extends MY_Controller {
 		$this->load->view("menu/reclamos/reclamos");
 	}
 	public function administrar(){
-		$this->load->view("menu/administracion/administrar");
+		$this->load->model("usuario/Usuario");
+		$data['usuarios'] = $this->Usuario->listar();
+		$this->load->view("menu/administracion/administrar", $data);
 	}
 	public function auditoria(){
 
@@ -895,13 +897,48 @@ class Panel extends MY_Controller {
 		echo json_encode($lst);
 	}
 
+	function obtenerMenu(){
+		header('Content-Type: application/json');
+		$this->load->model("usuario/Perfil");
+		print_r($this->Perfil->listarMenu($_SESSION['id']));	
+	}
+
+	function obtenerMHijos($id){
+		header('Content-Type: application/json');
+		$this->load->model("usuario/Perfil");
+		print_r($this->Perfil->listarMenu($id));	
+	}
+
+	function listarMenu(){
+		header('Content-Type: application/json');
+		$this->load->model("usuario/Perfil");		
+		print_r(json_encode($this->Perfil->listar()));	
+	}
+	function listarSubMenu($id){
+		header('Content-Type: application/json');
+		$this->load->model("usuario/Perfil");		
+		print_r(json_encode($this->Perfil->listarSubMenu($id)));	
+	}
+
+	function listarPerfilPrivilegios($url){
+		header('Content-Type: application/json');
+		$this->load->model("usuario/Perfil");		
+		print_r(json_encode($this->Perfil->listarPerfilPrivilegios($url)));	
+	}
+
+	function listarUsuarios(){
+		header('Content-Type: application/json');
+		$this->load->model("usuario/Usuario");
+		print_r(json_encode($this->Usuario->listar()));
+
+	}
 
 	function TestUsuario(){
-		$this->load->model("comun/DbSaman");
+		$this->load->model("comun/DBSpace");
 		$rs = $this->DbSaman->consultar("select * from personas limit 1");
 		print_r($rs);
 
-		echo "Test De pruebas usuarios";
+		//echo "Test De pruebas usuarios";
 	}
 
 	public function salir(){
