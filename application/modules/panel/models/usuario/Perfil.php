@@ -47,7 +47,7 @@ class Perfil extends CI_Model{
 	}
 
 	/**
-	*	
+	*	Listar Perfiles con privilegios
 	* 
 	*	
 	*/
