@@ -52,6 +52,7 @@ function consultar() {
         $("#vacaciones").val(data.vacaciones_aux);
         $("#numero_cuenta").val(data.numero_cuenta);
         $("#estatus").val(data.estatus_descripcion);
+        $("#saldo_disponible").val(data.Calculo.saldo_disponible);
 
     }).done(function(msg) {}).fail(function(jqXHR, textStatus) {
         $("#txtMensaje").html('No se encontro cédula de beneficiario');
@@ -146,6 +147,7 @@ function limpiar(){
     $("#vacaciones").val('');
     $("#numero_cuenta").val('');
     $("#estatus").val('');
+   
 }
 
 function cargarBeneficiario(){
@@ -169,6 +171,7 @@ function cargarBeneficiario(){
     Persona['vacaciones'] = $("#vacaciones").val();
     Persona['numero_cuenta'] = $("#numero_cuenta").val();
     Persona['estatus'] = $("#estatus").val();
+    
 }
 
 function actualizar(){

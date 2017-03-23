@@ -352,9 +352,11 @@
                               <div class="col-md-2">                      
                                 <input type="text" placeholder="Comisión de Servicio" id='coserv' class="form-control" readonly="readonly"></input>
                               </div>               
+                              <label class="col-md-2">Monto Recuperado Act.</label>
+                              <div class="col-md-2">                      
+                                <input type="text" placeholder="Monto Recuperado" id='coserv' class="form-control" readonly="readonly"></input>
+                              </div>               
                             </div> <!-- /Numero Cuenta -->
-                            
-
 
 
 
