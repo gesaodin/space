@@ -118,8 +118,8 @@ function GenerarAporte(){
 	console.log (_DATA);
 	url = sUrlP + "GenerarCalculoAporteCapital/";
 	$.post(url, {data: JSON.stringify(_DATA)}, function (data){
-		console.log(data);
 		
+		console.log(data);
 		$('#obse').val(data.m);
 		$('#generar').hide();
 		$('#descargar').show();
@@ -127,7 +127,7 @@ function GenerarAporte(){
 		_ZIP = data.z;
 		acc = 0;
 		j = data.json;
-		console.log(j.f + ' ' + j.l);
+		
 		
 		t.row.add([
 				acc,
@@ -140,6 +140,8 @@ function GenerarAporte(){
 		).draw(false);
 		
 		$('#cargando').hide();
+	}).fail(function (err){
+		console.log(err);
 	});
 		
 

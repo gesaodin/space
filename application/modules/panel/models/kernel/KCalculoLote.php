@@ -218,7 +218,7 @@ class KCalculoLote extends CI_Model{
   * @param array
   * @return int
   */
-  function TiempoServicios($fechaIngreso = '', $tiempoReconocido = array()){
+  function TiempoServicios(){
    
       if($this->Beneficiario->ano_reconocido != 0){
         $anos = $this->__fechaReconocida();

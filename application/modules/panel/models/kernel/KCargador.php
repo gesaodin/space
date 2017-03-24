@@ -141,6 +141,7 @@ class KCargador extends CI_Model{
     $Directivas = $this->KDirectiva->Cargar($id); //Directivas
     $this->load->model('kernel/KPerceptron'); //Red Perceptron Aprendizaje de patrones
     $file = fopen("tmp/" . $archivo . ".csv","a") or die("Problemas"); 
+    //$file_log = fopen("tmp/" . $archivo . ".log","a") or die("Problemas"); 
     
     $linea = 'CEDULA;CODGRA;GRADO;CODFZA;COMPONENTE;APELLIDOS Y NOMBRES;FECHA DE INGRESO;';
     $linea .= 'TIEMPO DE SERVICIO;NUMERO DE HIJOS;FECHA ULTIMO ASCENSO;TIEMPO DE SERVICIO EN EL GRADO;SUELDO BASICO;';
@@ -155,11 +156,23 @@ class KCargador extends CI_Model{
       $Bnf = new $this->MBeneficiario;
       $this->KCalculoLote->Instanciar($Bnf, $Directivas);
       $linea = $this->generarConPatrones($Bnf,  $this->KCalculoLote, $this->KPerceptron, $fecha, $Directivas, $v);
+      /**
+      if($Bnf->cedula == "15472216" || $Bnf->cedula == "16009573"  || $Bnf->cedula == "15739493" ){
+        $linea_log = $Bnf->cedula . ';' . $Bnf->ano_reconocido . ';' . $Bnf->mes_reconocido . ';' . $Bnf->dia_reconocido . ';' . 
+        $Bnf->tiempo_servicio . ';' . $Bnf->prima_tiemposervicio . ';' . $Bnf->asignacion_antiguedad;
+
+        fputs($file_log, $linea_log);  
+        fputs($file_log,"\n");
+      }
+      **/
+      
       fputs($file,$linea);
       fputs($file,"\n");      
       unset($Bnf);
     }
+    
     fclose($file);
+    //fclose($file_log);
     return true;
   }
 
@@ -198,7 +211,7 @@ class KCargador extends CI_Model{
       $Bnf->prima_profesionalizacion_mt = $v->st_profesion;
       $Bnf->ano_reconocido = $v->anio_reconocido;
       $Bnf->mes_reconocido = $v->mes_reconocido;
-      $bnf->dia_reconocido = $v->dia_reconocido;
+      $Bnf->dia_reconocido = $v->dia_reconocido;
 
       $patron = md5($v->fecha_ingreso.$v->n_hijos.$v->st_no_ascenso.$v->componente_id.
         $v->codigo.$v->f_ult_ascenso.$v->st_profesion.$v->anio_reconocido.$v->mes_reconocido.$v->dia_reconocido);      
@@ -325,23 +338,27 @@ class KCargador extends CI_Model{
     $comando = "cd tmp; du -sh " . $archivo . ".csv | awk  '{print $1}'";
     exec($comando, $peso);
     $time = date("Y-m-d H:i:s");
+    
+
+    //exec("cd tmp/; rm -rf " . $archivo . ".csv");
+
+    $sInsert = 'INSERT INTO space.archivos (arch,tipo,peso,cert,regi,usua,gara,diaa,fech) 
+    VALUES (\'' . $archivo . '\',1,\'' . $peso[0] . '\',\'' . $firma[0] . '\',\'' . $linea[0] . '\',\'' . 
+    $_SESSION['usuario'] . '\',' . $g_d[0] . ',' . $g_d[1] . ',\'' . $time . '\');';
+    
+
+    $rs = $this->DBSpace->consultar($sInsert);
+
     $this->Resultado = array(
       'l' => $linea[0], 
       'f' => $firma[0], 
       'g' => number_format($g_d[0], 2, ',','.'), 
       'd' => number_format($g_d[1], 2, ',','.'), 
       'p' => $peso[0],
-      't' => $time
+      't' => $time,
+      'e' => $rs,
+      'i' => $sInsert
     );
-
-    //exec("cd tmp/; rm -rf " . $archivo . ".csv");
-
-    $sInsert = 'INSERT INTO space.archivos (arch,tipo,peso,cert,regi,usua,gara,dia,fech) 
-    VALUES (\'' . $archivo . '\',1,\'' . $peso[0] . '\',\'' . $firma[0] . '\',\'' . $linea[0] . '\',\'' . 
-    $_SESSION['usuario'] . '\',' . $g_d[0] . ',' . $g_d[1] . ',' . $time . ');';
-    
-
-    $this->DBSpace->consultar($sInsert);
   }
 
 
@@ -445,7 +462,7 @@ class KCargador extends CI_Model{
       $Bnf->prima_profesionalizacion_mt = $v->st_profesion;
       $Bnf->ano_reconocido = $v->anio_reconocido;
       $Bnf->mes_reconocido = $v->mes_reconocido;
-      $bnf->dia_reconocido = $v->dia_reconocido;
+      $Bnf->dia_reconocido = $v->dia_reconocido;
 
       $patron = md5($v->fecha_ingreso.$v->n_hijos.$v->st_no_ascenso.$v->componente_id.
         $v->codigo.$v->f_ult_ascenso.$v->st_profesion.$v->anio_reconocido.$v->mes_reconocido.$v->dia_reconocido);      
@@ -663,7 +680,7 @@ class KCargador extends CI_Model{
       $Bnf->prima_profesionalizacion_mt = $v->st_profesion;
       $Bnf->ano_reconocido = $v->anio_reconocido;
       $Bnf->mes_reconocido = $v->mes_reconocido;
-      $bnf->dia_reconocido = $v->dia_reconocido;
+      $Bnf->dia_reconocido = $v->dia_reconocido;
 
       $patron = md5($v->fecha_ingreso.$v->n_hijos.$v->st_no_ascenso.$v->componente_id.
         $v->codigo.$v->f_ult_ascenso.$v->st_profesion.$v->anio_reconocido.$v->mes_reconocido.$v->dia_reconocido);      
