@@ -45,14 +45,21 @@ function actualizarClave(){
 function cUsers(){
 	
 	var url = sUrlP + 'obtenerMHijos/' + $("#cmbUsuarios option:selected").val();
+	
+
 	$("#cmbMenu").html('');
+	
+	$("#submenu").html('<option value=0>Seleccionar...</option>');
+	$("#perfil").html('<option value=0>Seleccionar...</option>');
+	$("#privilegio").html('<option value=0>Seleccionar...</option>');
+
 	$.post(url).done(function (data){
 
 		$.each(data, function (x,y){		
 			$("#cmbMenu").append('<optgroup label="' + x + '">');
 
             $.each(y, function(c, v){ 
-				$("#cmbMenu").append('<option value="' + v.oid + '">' + v.desc + '</option>');
+				$("#cmbMenu").append('<option value="' + v.oid + '|' + v.url + '">' + v.desc + '</option>');
 			});    
             
 		});
@@ -62,9 +69,13 @@ function cUsers(){
 }
 
 function cargarMenu(){
+	
 	var url = sUrlP + 'listarMenu';
 	
-	$("#menu").html('<option value=0>Seleccionar...</option>');	
+	$("#menu").html('<option value=0>Seleccionar...</option>');
+	$("#submenu").html('<option value=0>Seleccionar...</option>');
+	$("#perfil").html('<option value=0>Seleccionar...</option>');
+	$("#privilegio").html('<option value=0>Seleccionar...</option>');
 	$.post(url).done(function (data){
 		$.each(data, function (x,y){			
 			$("#menu").append('<option value="' + y.oid + '">' + y.nomb + '</option>');            
@@ -74,10 +85,13 @@ function cargarMenu(){
 }
 
 function cargarSubMenu(){
+	t = $('#reporteUPP').DataTable();
+   	t.clear().draw();
 	var url = sUrlP + 'listarSubMenu/' + $("#menu option:selected").val();
 	$("#submenu").html('<option value=0>Seleccionar...</option>');
+	$("#perfil").html('<option value=0>Seleccionar...</option>');
+	$("#privilegio").html('<option value=0>Seleccionar...</option>');
 	$.post(url).done(function (data){
-
 		$.each(data, function (x,y){
 			$("#submenu").append('<option value="' + y.oid + '|' + y.url + '">' + y.obse + '</option>');            
 		});
@@ -90,10 +104,11 @@ function cargarSubMenu(){
 *
 */
 function cargarPerfil(){
+	t = $('#reporteUPP').DataTable();
+   	t.clear().draw();
 	var id = $("#submenu option:selected").val();
 	var u = id.split("|");
-	var url = sUrlP + 'listarPerfilPrivilegios/' + u[1];
-	
+	var url = sUrlP + 'listarPerfilPrivilegios/' + u[1];	
 	$("#perfil").html('<option value=0>Seleccionar...</option>');
 	$("#privilegio").html('<option value=0>Seleccionar...</option>');
 	$.post(url).done(function (data){
@@ -103,6 +118,25 @@ function cargarPerfil(){
 		});
 	});	
 
+}
+
+function cargarPP(){
+	t = $('#reporteUPP').DataTable();
+   	t.clear().draw();
+	var id = $("#cmbMenu option:selected").val();
+	
+	var u = id.split("|");
+	var url = sUrlP + 'listarPerfilPrivilegios/' + u[1];
+
+	$.post(url).done(function (data){
+		_PRIVILEGIO = data;
+		cargarPrivilegios();
+		/**
+		$.each(data, function (x,y){
+			$("#perfil").append('<option value="' +  y[0].oidp + '">' + x + '</option>');            
+		});
+		**/
+	});
 }
 
 /**
@@ -115,7 +149,8 @@ function cargarPrivilegios(){
 	$.each(_PRIVILEGIO, function (x,y){
 		$.each(y, function(p, q){
 			//$("#privilegio").append('<option value="' + q.cod + '">' + q.nomb + '</option>');
-			activar(q.cod, q.nomb);
+
+			activar(q.cod, q.nomb, q.visi);
 		});
 		
 
@@ -163,27 +198,22 @@ function continuar(){
     $("#logMensaje").modal('hide');
 }
 
-function activar(idpr, idprt){
+function activar(idpr, idprt, visi){
 	
    	t = $('#reporteUPP').DataTable();
+   
     var uid = $("#cmbUsuarios option:selected").val();
 	var idm = $("#menu option:selected").val();
 	var ids = $("#submenu option:selected").val();
 	var idst = $("#submenu option:selected").text();
 	var idp = $("#perfil option:selected").val();
 	var idpt = $("#perfil option:selected").text();
-	//var idpr = $("#privilegio option:selected").val();
-	//var idprt = $("#privilegio option:selected").text();
-	var s = ids.split("|");
-    
-
-   
-    
+	var s = ids.split("|"); 
+    checked = "";
+    if (visi == 1) checked = "checked";
    
     t.row.add( [
-       '<input type="checkbox">',
-       //idst,
-       //idpt,
+       '<input type="checkbox" value="' + idprt +'" ' + checked + '>',
        idprt,
        uid, //ID
        idm,
@@ -203,15 +233,3 @@ function activar(idpr, idprt){
 
 }
 
-/**
- $("#menu option:selected").text(),
-        $("#submenu option:selected").text(),
-        $("#perfil option:selected").text(),
-        $("#privilegio option:selected").text(),
-        $("#cmbUsuarios option:selected").val(),
-        $("#menu option:selected").val(),
-        $("#submenu option:selected").val(),
-        $("#perfil option:selected").val(),
-        $("#privilegio option:selected").val()
-
-        **/

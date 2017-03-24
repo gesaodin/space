@@ -65,8 +65,8 @@
               <div class="nav-tabs-custom">
                 <ul class="nav nav-tabs">
                   <li class="active"><a href="#tab_1" data-toggle="tab">Usuarios</a></li>
-                  <li><a href="#tab_2" data-toggle="tab">Menú</a></li>
-                  <li><a href="#tab_3" data-toggle="tab">Perfil</a></li>
+                  <li><a href="#tab_2" data-toggle="tab">Configuración de Menú</a></li>
+
                   
                   <li class="pull-right"><a href="#" class="text-muted"><i class="fa fa-gear"></i></a></li>
                 </ul>
@@ -165,7 +165,7 @@
                     <div class="col-md-4">
                       <div class="form-group">
                         <label>Menú</label>
-                        <select multiple="" ondblclick="removerMenu()" id="cmbMenu" class="form-control js-example-placeholder-multiple" style= "height: 25em"  >
+                        <select multiple="" onclick="cargarPP();" ondblclick="removerMenu()" id="cmbMenu" class="form-control js-example-placeholder-multiple" style= "height: 25em"  >
                          
                         </select>
                       </div>
@@ -276,11 +276,11 @@
                     </div>
                     </div>
                   </div>
-                  <!-- /.tab-pane -->
+                  <!-- /.tab-pane 
                   <div class="tab-pane" id="tab_3">
                    
                   </div>
-                  <!-- /.tab-pane -->
+                   /.tab-pane -->
                 </div>
                 <!-- /.tab-content -->
               </div>

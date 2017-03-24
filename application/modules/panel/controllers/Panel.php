@@ -920,10 +920,10 @@ class Panel extends MY_Controller {
 		print_r(json_encode($this->Perfil->listarSubMenu($id)));	
 	}
 
-	function listarPerfilPrivilegios($url){
+	function listarPerfilPrivilegios($url, $id = 0){
 		header('Content-Type: application/json');
 		$this->load->model("usuario/Perfil");		
-		print_r(json_encode($this->Perfil->listarPerfilPrivilegios($url)));	
+		print_r(json_encode($this->Perfil->listarPerfilPrivilegios($url, $id)));	
 	}
 
 	function listarUsuarios(){

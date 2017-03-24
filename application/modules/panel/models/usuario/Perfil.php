@@ -51,45 +51,67 @@ class Perfil extends CI_Model{
 	* 
 	*	
 	*/
-	function listarPerfilPrivilegios($url){
-		$s = 'SELECT p.oid,p.nomb,prv.oid AS oidp,prv.id, prv.nomb AS bnom FROM space.privilegio prv
+	function listarPerfilPrivilegios($url, $id = 0){
+		$s = 'SELECT p.oid,p.nomb,prv.oid AS oidp,prv.id, prv.nomb AS bnom, COALESCE(upp.visi,0) AS visi
+				FROM space.privilegio prv
+				JOIN space.menu_accion ma ON prv.para=ma.url
+				JOIN space.perfil_privilegio pp ON pp.oidpr=prv.oid
+				JOIN space.perfil p ON p.oid=pp.oidp
+				LEFT JOIN space.usuario_perfil up on p.oid=up.oidp
+				LEFT JOIN space.usuario u ON u.id=up.oidu
+				LEFT JOIN space.usuario_perfil_privilegio upp ON 
+				upp.oidu = u.id AND
+				upp.oidp = p.oid AND
+				upp.oidpr = prv.oid
+				WHERE ma.url=\'' . $url . '\' AND u.id=' . $id;
+
+		
+		//echo $s;
+		$obj = $this->DBSpace->consultar($s);
+
+		$lst = array();
+		$lstp = array();
+		if($obj->cant == 0 ){
+			$s = 'SELECT p.oid,p.nomb,prv.oid AS oidp,prv.id, prv.nomb AS bnom, prv.visi
+				FROM space.privilegio prv
 				JOIN space.menu_accion ma ON prv.para=ma.url
 				JOIN space.perfil_privilegio pp ON pp.oidpr=prv.oid
 				JOIN space.perfil p ON p.oid=pp.oidp
 				WHERE ma.url=\'' . $url . '\'';
-		$obj = $this->DBSpace->consultar($s);
-		$lst = array();
-		$lstp = array();
-		if($obj->code == 0 ){
-			$perfil =  $obj->rs[0]->nomb;	
-
-			foreach ($obj->rs as $clv => $v) {
-				if($perfil != $v->nomb){
-					$lst[$perfil] = $lstp;
-					$perfil = $v->nomb;
-					$lstp = null;
-				}
-				$lstp[] =  array(
-					'oidp' => $v->oid,
-					'cod'=> $v->oidp,
-					'nomb' => $v->bnom
-				);
-			}
-			$lst[$perfil] = $lstp;
+			$obj = $this->DBSpace->consultar($s);
+			if($obj->cant == 0 )return $lst;
 		}
+		
+		$perfil =  $obj->rs[0]->nomb;
+		foreach ($obj->rs as $clv => $v) {
+			if($perfil != $v->nomb){
+				$lst[$perfil] = $lstp;
+				$perfil = $v->nomb;
+				$lstp = null;
+			}
+			$lstp[] =  array(
+				'oidp' => $v->oid,
+				'cod'=> $v->oidp,
+				'nomb' => $v->bnom,
+				'visi' => $v->visi
+			);
+		}
+		$lst[$perfil] = $lstp;
+		
 		return $lst;
 	}
 
 	function listarMenu($id = 0){
 		$s = 'SELECT 
 				ua.oid,ua.nomb,ua.obse,mnu.nomb as menu,ua.url,mnu.clase,ua.clase_, prv.id,prv.cod,prv.func,
-				prv.nomb AS prvnomb, prv.visi,prv.clase AS clase_prv
+				prv.nomb AS prvnomb, prv.clase AS clase_prv, COALESCE(upp.visi,0) AS visi
 			FROM space.usuario u
 			JOIN space.usuario_menu um ON u.id=um.oidu
 			JOIN space.menu_accion ua ON um.oidm=ua.oid 
 			LEFT JOIN (
 				SELECT 
-					p.obse,pr.cod,pr.id,pr.func,pr.nomb,pr.clase, pr.para,pr.visi 
+					u.id AS uid, p.oid AS pid, pr.oid AS proid, p.obse,
+					pr.cod,pr.id,pr.func,pr.nomb,pr.clase, pr.para,pr.visi 
 				FROM space.usuario u
 				JOIN space.usuario_perfil up on u.id=up.oidu
 				JOIN space.perfil p on p.oid = up.oidp
@@ -98,6 +120,12 @@ class Perfil extends CI_Model{
 				WHERE u.id='  . $id . ') AS prv
 			ON ua.url=prv.para 
 			JOIN space.menu mnu ON ua.idmenu=mnu.oid
+
+			LEFT JOIN space.usuario_perfil_privilegio upp ON 
+				upp.oidu = prv.uid AND
+				upp.oidp = prv.pid AND
+				upp.oidpr = prv.proid
+
 			WHERE u.id='  . $id . '
 			ORDER BY mnu.oid';
 
