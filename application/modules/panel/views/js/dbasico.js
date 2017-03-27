@@ -71,6 +71,7 @@ function consultar() {
             $("#embargos").val(data.Calculo.total_embargos);
             $("#coserv").val(data.Calculo.comision_servicios); /**se agrego la comision de servicio para mostrarla por la consulta **/
 
+            $("#monto_recuperado").val(data.Calculo.monto_recuperado);
             $.each(data.MedidaJudicialActiva, function (clave, valor){
                 $("#lblMedida").text('Beneficiario con Medidas Judiciales');
 
