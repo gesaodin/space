@@ -88,10 +88,11 @@ class MHistorialMovimiento extends CI_Model{
 		$sConsulta = 'SELECT movimiento.id, movimiento.codigo, movimiento.motivo_id, partida_id, tipo_movimiento_id, 
 			transaccion_id, monto, observaciones, f_contable, f_creacion, partida.codigo AS partida
 			FROM movimiento 
-				JOIN partida ON movimiento.partida_id=partida.id
+				LEFT JOIN partida ON movimiento.partida_id=partida.id
  			WHERE cedula =\'' . $cedula . '\'' .  $sDonde . '
 			ORDER BY tipo_movimiento_id';
-		$obj = $this->Dbpace->consultar($sConsulta);		
+		$obj = $this->Dbpace->consultar($sConsulta);	
+		//print_r($sConsulta);	
 		$rs = $obj->rs;		
 		if(count($rs) > 0){
 			$id_aux = $rs[0]->tipo_movimiento_id;
@@ -209,6 +210,12 @@ class MHistorialMovimiento extends CI_Model{
 			case 27:
 				$valor = 34;
 				break;
+			case 28:
+				$valor = 36;
+				break;
+			case 35:
+				$valor = 37;
+				break;
 			default:
 				# code...
 				break;
@@ -216,7 +223,44 @@ class MHistorialMovimiento extends CI_Model{
 		return $valor;
 	}
 
+	function Insertar($obj)
+	{
+		
+		$sInsert_aux = 'INSERT INTO public.movimiento 
+			(
+				tipo_movimiento_id,
+				monto,
+				cedula, 
+				observaciones, 
+				f_contable, 
+				status_id,				 
+				motivo_id, 
+				f_creacion, 
+				usr_creacion, 
+				f_ult_modificacion, 
+				usr_modificacion, 
+				observ_ult_modificacion
+				
+			) VALUES ';
+		$sInsert_aux .= '(' . 
+					$obj['tipo_movimiento'] . ',' . 
+					$obj['monto'] . ',\'' . 
+					$obj['cedula'] .'\',\'' . 
+					$obj['o_b'] . '\',\''  .  
+					$obj['f_contable'] . 
+					'\',280,' . 
+					$obj['motivo_id'] . ',\''  .  
+					date("Y-m-d H:i:s") . '\',\''  .  
+					$_SESSION['usuario'] . '\',\''  .  
+					date("Y-m-d H:i:s") . '\',\''  .  
+					$_SESSION['usuario'] . '\',\'' . 
+					$obj['o_b'] . '\')'; 
+		//print_r($sInsert_aux);
+	 	$obj = $this->Dbpace->consultar($sInsert_aux);		
+		return $sInsert_aux;
 
+
+	}
 
 	function InsertarDetalle($obj){
 		//ID - AUTOINCREMENT
@@ -290,6 +334,7 @@ class MHistorialMovimiento extends CI_Model{
 		return $this->codigo;
 
 	}
+
 
  	private function valorRepetido($cod, $obj, $mnt){
 	 	$sCodigo = '(' . $cod . ',' . $mnt . ',\'' . $obj->i_d . '\',\'' . 

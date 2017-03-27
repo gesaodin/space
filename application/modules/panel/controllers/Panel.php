@@ -502,6 +502,40 @@ class Panel extends MY_Controller {
 		$Bnf->usuario_creador = $_SESSION['usuario'];
 		$Bnf->fecha_ultima_modificacion = date("Y-m-d H:i:s");
 		$Bnf->usuario_modificacion = $_SESSION['usuario'];
+		if(isset($Persona->comision_servicio)){
+			$this->load->model('beneficiario/MHistorialMovimiento');
+			$obj["tipo_movimiento"]=28;
+			$obj["monto"]=$Persona->comision_servicio;
+			$obj["cedula"]=$Bnf->cedula;
+			$obj["o_b"]=$Persona->o_b;
+			$obj["f_contable"]=$Bnf->fecha_creacion;
+			$obj["status_id"]=280;
+			$obj["motivo_id"]=1;
+			$obj["f_creacion"]=$Bnf->fecha_creacion;
+			$obj["usuario_creador"]=$Bnf->usuario_creador;
+			$obj["fecha"]=$Bnf->fecha_ultima_modificacion;
+			$obj["usr_modificacion"]=$Bnf->usuario_modificacion;
+			$obj["o_b"]=$Persona->o_b;
+			$this->MHistorialMovimiento->Insertar($obj);
+
+		}
+		if(isset($Persona->monto_recuperado)){
+			$this->load->model('beneficiario/MHistorialMovimiento');
+			$obj["tipo_movimiento"]=35;
+			$obj["monto"]=$Persona->monto_recuperado;
+			$obj["cedula"]=$Bnf->cedula;
+			$obj["o_b"]=$Persona->o_b;
+			$obj["f_contable"]=$Bnf->fecha_creacion;
+			$obj["status_id"]=280;
+			$obj["motivo_id"]=1;
+			$obj["f_creacion"]=$Bnf->fecha_creacion;
+			$obj["usuario_creador"]=$Bnf->usuario_creador;
+			$obj["fecha"]=$Bnf->fecha_ultima_modificacion;
+			$obj["usr_modificacion"]=$Bnf->usuario_modificacion;
+			$obj["o_b"]=$Persona->o_b;
+			$this->MHistorialMovimiento->Insertar($obj);
+
+		}
 
 		$this->MBeneficiario->InsertarHistorial(); //Creando la traza de la modificacion
 		$Bnf->guardar();

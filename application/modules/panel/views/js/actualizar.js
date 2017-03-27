@@ -147,6 +147,11 @@ function limpiar(){
     $("#vacaciones").val('');
     $("#numero_cuenta").val('');
     $("#estatus").val('');
+    $("#saldo_disponible").val('');
+    $("#comision_servicio").val('');
+    $("#monto_recuperado").val('');
+    $("#fecha").val('');
+    $("#o_b").val('');
    
 }
 
@@ -171,7 +176,13 @@ function cargarBeneficiario(){
     Persona['vacaciones'] = $("#vacaciones").val();
     Persona['numero_cuenta'] = $("#numero_cuenta").val();
     Persona['estatus'] = $("#estatus").val();
-    
+    Persona['comision_servicio'] = $("#comision_servicio").val();
+    Persona['monto_recuperado'] = $("#monto_recuperado").val();
+    Persona['o_b'] = $("#o_b").val();
+    Persona['status_id'] = $("#status_id").val();
+    Persona['motivo_id'] = $("#motivo_id").val();
+    Persona['observ_ult_modificacion'] = $("#observ_ult_modificacion").val();
+   
 }
 
 function actualizar(){

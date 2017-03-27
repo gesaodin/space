@@ -354,7 +354,7 @@
                               </div>               
                               <label class="col-md-2">Monto Recuperado Act.</label>
                               <div class="col-md-2">                      
-                                <input type="text" placeholder="Monto Recuperado" id='coserv' class="form-control" readonly="readonly"></input>
+                                <input type="text" placeholder="Monto Recuperado" id='monto_recuperado' class="form-control" readonly="readonly"></input>
                               </div>               
                             </div> <!-- /Numero Cuenta -->
 
