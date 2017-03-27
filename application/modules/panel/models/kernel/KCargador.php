@@ -109,7 +109,14 @@ class KCargador extends CI_Model{
     if($arr->com != "99") $condicion .= ' AND beneficiario.componente_id=' . $arr->com;
     if($arr->gra != "99") $condicion .= ' AND grado.codigo=' . $arr->gra;
     
-    if( $fde != "") $condicion .= ' AND beneficiario.f_retiro_efectiva BETWEEN \'' . $arr->fde . '\' AND \'' . $arr->fha . '\'';
+    if( $fde != "") {
+      if($arr->sit == 201){
+        $condicion .= ' AND beneficiario.fecha_ingreso BETWEEN \'' . $arr->fde . '\' AND \'' . $arr->fha . '\'';  
+      }else{
+        $condicion .= ' AND beneficiario.f_retiro_efectiva BETWEEN \'' . $arr->fde . '\' AND \'' . $arr->fha . '\'';
+      }
+    }
+      
     $sConsulta = "
       SELECT 
         beneficiario.nombres, beneficiario.apellidos,
@@ -131,7 +138,7 @@ class KCargador extends CI_Model{
     //echo $sConsulta;
     $this->asignarBeneficiario($con->rs, $arr->id, $fecha, $archivo, $autor);
   
-    $this->evaluarLotesLinuxComando($archivo);
+    $this->evaluarLotesLinuxComando($archivo,  $arr->sit);
   }
 
 
@@ -325,7 +332,7 @@ class KCargador extends CI_Model{
         $Bnf->diferencia_asig_a;
   }
 
-  private function evaluarLotesLinuxComando($archivo){
+  private function evaluarLotesLinuxComando($archivo, $situacion){
     $comando = "wc -l tmp/" . $archivo . ".csv | awk -F\  '{print $1}'"; //Contar lineas del archivo generadas
     exec($comando, $linea);    
     $comando = "cd tmp/; zip " . $archivo . ".zip " . $archivo . ".csv";
@@ -359,6 +366,71 @@ class KCargador extends CI_Model{
       'e' => $rs,
       'i' => $sInsert
     );
+  }
+
+  /**
+  *
+  * @param string
+  * @param int | 0 Garantias | 1 Dias Adicionales 
+  * @param int Porcentaje de distribucíón de pago
+  *
+  * @retun bool
+  */
+  function GarantiasDiasAdicionales($archivo =  '',  $tipo = 0, $porce = 100){
+    $columna = "35";
+    $parametro = "G";
+
+    if($tipo != 0){
+      $columna = "36";
+      $parametro = "D";
+    }
+
+    $comando = 'cd tmp/; rm -rf '. $parametro . $archivo . '.csv';
+    exec($comando, $err);
+
+    $comando = 'cd tmp/; awk -F\';\' \'{ for (x=1; x<=28; x++) {  printf "%s;", $x } printf $' . 
+    $columna . ' "\n" } \' ' . $archivo . '.csv >> ' . $parametro . $archivo . '.csv';
+
+    exec($comando, $firma);
+    
+    $comando = 'cd tmp/; awk -F\';\' \'{SUM+=$NF} END {printf "%.2f", SUM }\' ' . $parametro . $archivo . '.csv';
+    exec($comando, $monto);
+    
+    
+    $comando = 'cd tmp/; du -sh ' .  $parametro . $archivo . '.csv | awk  \'{print $1}\'';
+    exec($comando, $peso);
+    $time = date("Y-m-d H:i:s");
+    $this->Resultado = array(
+      'd' => number_format($monto[0], 2, ',','.'), 
+      'p' => $peso[0],
+      't' => $time,
+      'a' => $parametro . $archivo . '.csv'
+    );
+
+    return true;
+  }
+
+
+
+
+  function AsignacionAntiguedad($archivo =  '',  $tipo = 0, $porce = 100){
+    
+    $comando = "cd tmp/; awk -F';' '{ for (x=1; x<=34; x++) {  printf \"%s;\", $x } printf \"\n\" }' " . $archivo . ".csv >> A" . $archivo . ".csv";
+    exec($comando, $firma);
+    
+    $comando = "cd tmp/; awk -F';' '{SUM+=$NF} END {print SUM }' A" . $archivo . ".csv";
+    exec($comando, $monto);
+
+    
+    $comando = "cd tmp; du -sh A" . $archivo . ".csv | awk  '{print $1}'";
+    exec($comando, $peso);
+    $time = date("Y-m-d H:i:s");
+    $this->Resultado = array(
+      'd' => number_format($monto, 2, ',','.'), 
+      'p' => $peso[0],
+      't' => $time
+    );
+
   }
 
 

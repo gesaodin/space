@@ -181,6 +181,8 @@ function listar(data){
             monto.formatMoney(2, ',', '.')
         ] ).draw( false );
     });
+    
+    if(_ACT != true)t.column(0).visible(false);
     vBtn();
 
 }

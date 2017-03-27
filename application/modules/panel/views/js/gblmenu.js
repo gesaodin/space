@@ -8,6 +8,7 @@
 
 _INTERFAZ = '';
 _PRV = {};
+_ACT = false;
 
  $(function () {
  	s = window.location.pathname;
@@ -31,10 +32,9 @@ function init(){
 			$.each(y, function(cla, val){
 
 				submenu = '';			
-				clase = '<i class="' + val.clase + '"></i>';
-	            
+				clase = '<i class="' + val.clase + '"></i>';	           	
 				if (val.priv_!=null && val.url == _INTERFAZ) {
-					_PRV = val.priv_;
+					_PRV = val.priv_;					
 					cBtn(_PRV);
 				}
 				
@@ -64,16 +64,17 @@ function cBtn(_DATA){
                 onclick="' + q.func + '()" id=\'' + q.cod + '\'><i class="' + q.clas + '">\
                 </i>&nbsp;&nbsp;' + q.nomb + '</button>');
          }
+         if(q.tipo == "tbl_"){
+         	_ACT = true;
+         }
 	})
 }
 
 
 function vBtn(){
-	console.log(_PRV);
-	$.each(_PRV, function(p, q){
+	$.each(_PRV, function(p, q){		
 		console.log(q);
-		
-		if (q.tipo == "tbl_" && q.visi == 0){
+		if (q.tipo == "tbl_" && q.visi == "0"){
 			$("#" + q.cod).hide();
 		}
 	});
@@ -82,3 +83,7 @@ function vBtn(){
 function show(_ID){
 	$("#myModal").modal('show');
 }
+
+
+
+

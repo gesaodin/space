@@ -19,36 +19,16 @@ _PRIVILEGIO = {};
 
 
 
-function actualizarClave(){
-
-    var val = $("#clave").val();
-
-    if(val != ''){
-	    ruta = sUrlP + "actualizarClave/" + val;
-	    $.get(ruta, function(data) {
-	        var boton = '<button type="button" class="btn btn-success pull-right" onclick="principal()">';
-	            boton += '<i class="glyphicon glyphicon-ok"></i>&nbsp;&nbsp;Ok</button>';
-	        $("#divContinuar").html(boton);
-	        $("#txtMensaje").html(data); 
-	        $("#logMensaje").modal('show');
-	        $("#controles").hide();
-	        $("#clave").val('');
-
-	    }).done(function(msg) {}).fail(function(jqXHR, textStatus) {
-	        
-	    });
-
-    }
-}
 
 
 function cUsers(){
 	
 	var url = sUrlP + 'obtenerMHijos/' + $("#cmbUsuarios option:selected").val();
-	
+	t = $('#reporteUPP').DataTable();
+   	t.clear().draw();
 
 	$("#cmbMenu").html('');
-	
+	$('#menu').val(0);
 	$("#submenu").html('<option value=0>Seleccionar...</option>');
 	$("#perfil").html('<option value=0>Seleccionar...</option>');
 	$("#privilegio").html('<option value=0>Seleccionar...</option>');
@@ -72,7 +52,7 @@ function cargarMenu(){
 	
 	var url = sUrlP + 'listarMenu';
 	
-	$("#menu").html('<option value=0>Seleccionar...</option>');
+	$("#menu").html('<option value="0">Seleccionar...</option>');
 	$("#submenu").html('<option value=0>Seleccionar...</option>');
 	$("#perfil").html('<option value=0>Seleccionar...</option>');
 	$("#privilegio").html('<option value=0>Seleccionar...</option>');
@@ -106,12 +86,15 @@ function cargarSubMenu(){
 function cargarPerfil(){
 	t = $('#reporteUPP').DataTable();
    	t.clear().draw();
+   	var uid = $("#cmbUsuarios option:selected").val();
 	var id = $("#submenu option:selected").val();
 	var u = id.split("|");
-	var url = sUrlP + 'listarPerfilPrivilegios/' + u[1];	
+	var url = sUrlP + 'listarPerfilPrivilegios/' + u[1] + '/' + uid;	
 	$("#perfil").html('<option value=0>Seleccionar...</option>');
 	$("#privilegio").html('<option value=0>Seleccionar...</option>');
 	$.post(url).done(function (data){
+		console.log(data);
+
 		_PRIVILEGIO = data;
 		$.each(data, function (x,y){
 			$("#perfil").append('<option value="' +  y[0].oidp + '">' + x + '</option>');            
@@ -124,18 +107,14 @@ function cargarPP(){
 	t = $('#reporteUPP').DataTable();
    	t.clear().draw();
 	var id = $("#cmbMenu option:selected").val();
+	var uid = $("#cmbUsuarios option:selected").val();
 	
 	var u = id.split("|");
-	var url = sUrlP + 'listarPerfilPrivilegios/' + u[1];
+	var url = sUrlP + 'listarPerfilPrivilegios/' + u[1] + '/' + uid;
 
 	$.post(url).done(function (data){
 		_PRIVILEGIO = data;
-		cargarPrivilegios();
-		/**
-		$.each(data, function (x,y){
-			$("#perfil").append('<option value="' +  y[0].oidp + '">' + x + '</option>');            
-		});
-		**/
+		cargarPrivilegios(1);
 	});
 }
 
@@ -143,13 +122,13 @@ function cargarPP(){
 *	Privilegio	
 *
 */
-function cargarPrivilegios(){
-
-	//$("#privilegio").html('<option value=0>Seleccionar...</option>');
+function cargarPrivilegios(id){
+	t = $('#reporteUPP').DataTable();
+   	t.clear().draw();
+   	if ($("#perfil").val() == 0 ) return false;
+   	//console.log(_PRIVILEGIO);
 	$.each(_PRIVILEGIO, function (x,y){
 		$.each(y, function(p, q){
-			//$("#privilegio").append('<option value="' + q.cod + '">' + q.nomb + '</option>');
-
 			activar(q.cod, q.nomb, q.visi);
 		});
 		
@@ -209,11 +188,12 @@ function activar(idpr, idprt, visi){
 	var idp = $("#perfil option:selected").val();
 	var idpt = $("#perfil option:selected").text();
 	var s = ids.split("|"); 
+	
     checked = "";
-    if (visi == 1) checked = "checked";
+    if (visi == "1") checked = "checked";
    
     t.row.add( [
-       '<input type="checkbox" value="' + idprt +'" ' + checked + '>',
+       '<input id="' + idpr +'" type="checkbox" value="' + idprt +'" ' + checked + '>',
        idprt,
        uid, //ID
        idm,
@@ -228,8 +208,133 @@ function activar(idpr, idprt, visi){
     t.column(5).visible(false);
     t.column(6).visible(false);
    
-   	check();
-    continuar();
+   	//check();
+    //continuar();
 
 }
 
+function actualizarPrivilegios(){
+	var uid = $("#cmbUsuarios option:selected").val();
+	var idm = $("#menu option:selected").val();
+	var ids = $("#submenu option:selected").val();	
+	var idp = $("#perfil option:selected").val();
+	var s = ids.split("|");
+	var t = $('#reporteUPP').DataTable();
+ 	var privilegio = [];
+ 	var i = 0;
+
+	t
+    .column( 6 )
+    .data()
+    .each( function ( value, index ) {
+    	check = 0;
+    	if($("#" + value).is(':checked') == true)check = 1;	    	
+    	privilegio[i] = {id:value, est: check};
+    	i++;       
+    } );
+
+    var data = JSON.stringify({
+    	uid : uid,
+    	idm: idm,
+    	ids: s[0],
+    	idp: idp,
+    	pri: privilegio
+    });
+    
+   	t.clear().draw(false);
+	var url = sUrlP + 'UpsertPerfilPrivilegios';
+	$.post(url, {data: data})
+	.done(function (data){
+		console.log("Proceso exitoso");
+	});
+
+	$("#cmbUsuarios").val(0);
+	cUsers();
+
+}
+
+
+function detallesUsuario(){
+	//console.log("AQUI");
+	var url = sUrlP + 'obtenerUsuario/' + $("#cmbListadoUsuario option:selected").val();
+	$.post(url)
+	.done(function (data){		
+		$("#idUser").val($("#cmbListadoUsuario option:selected").val());
+		$("#nombre").val(data[0].nombre + ' ' + data[0].apellido);
+		$("#seudonimo").val( $("#cmbListadoUsuario option:selected").text());
+		$("#correo").val(data[0].correo);
+		$("#telefono").val(data[0].pregunta_secreta)
+		$("#estatus").val(data[0].status_id);
+		$("#fecha").val(data[0].f_ult_modificacion);
+		$("#observacion").val(data.observ_ult_modificacion);
+
+	});
+	
+}
+
+function UpsertUsuario(){
+
+	var nom = $("#nombre").val();
+	var seu = $("#seudonimo").val();
+	var cor = $("#correo").val();
+	var cla = $("#clave").val();
+	var rcl = $("#rclave").val();
+	var obs = $("#observacion").val();
+
+	if(nom == "" || seu == "" || cor == "" || cla == "" || rcl == ""){		
+		msjErr ('Los datos para crear el usuario deben estar completos verifique e intente de nuevo');
+	}else{
+		if(cla != rcl) {
+			msjErr('Las claves no son iguales intente de nuevo');
+		}else{
+			msjCrear(nom);
+		}
+
+	}
+
+
+}
+
+function msjCrear(msj){
+
+	var boton = '<button type="button" class="btn btn-danger pull-right" onclick="continuar()">';
+            boton += '<i class="glyphicon glyphicon-ok"></i>&nbsp;&nbsp;No</button>';
+            boton += '<button type="button" class="btn btn-success" onclick="salvarDatos()">';
+            boton += '<i class="glyphicon glyphicon-ok"></i>&nbsp;&nbsp;Si</button>';
+    var msj = '¿Está seguro que desea crear el usuario ' + msj + '?';
+    $("#divContinuar").html(boton);
+    $("#txtMensaje").html(msj);
+    $("#logMensaje").modal('show');
+}
+
+function msjErr(msj){	
+	var boton = '<button type="button" class="btn btn-danger pull-right" onclick="continuar()">';
+        boton += '<i class="glyphicon glyphicon-ok"></i>&nbsp;&nbsp;Continuar</button>';
+    
+    $("#divContinuar").html(boton);
+    $("#txtMensaje").html(msj);
+    $("#logMensaje").modal('show');
+}
+
+function salvarDatos(){
+	var data = JSON.stringify({
+		id : $("#idUser").val(),
+		nom : $("#nombre").val(),
+		seu : $("#seudonimo").val(),
+		tel : $("#telefono").val(),
+	 	cor : $("#correo").val(),
+	 	cla : $("#clave").val(),
+	 	rcl : $("#rclave").val(),
+	 	est : $("#estatus").val(),
+	 	obs : $("#observacion").val()
+	 });
+
+	var url = sUrlP + 'UpsertUsuario';
+	$.post(url, {data: data})
+	.done(function (data){
+		console.log(data);
+		console.log("Proceso exitoso");
+	});
+	$("#logMensaje").modal('hide');
+
+}

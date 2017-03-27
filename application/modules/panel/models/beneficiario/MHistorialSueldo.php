@@ -10,6 +10,7 @@ class MHistorialSueldo extends CI_Model{
 	
 	function __construct(){
 		parent::__construct();
+		if(!isset($this->Dbpace)) $this->load->model('comun/Dbpace');
 	}
 
 	function listar($cedula = ''){

@@ -623,7 +623,10 @@ function consultarFiniquitos(){
                 
 
             });
+            if(_ACT != true)t.column(0).visible(false);
             vBtn();
+
+
         }else{
             alert('Beneficiario no posee finiquito');
         }

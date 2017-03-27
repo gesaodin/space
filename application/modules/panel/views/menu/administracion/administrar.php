@@ -73,13 +73,33 @@
                 <div class="tab-content">
                   <div class="tab-pane active" id="tab_1">
                   <br>
-                   <div class="row">
+
+
+                     <div class="row"> 
+                       <div class="col-md-4">
+                          <div class="form-group">
+                            <label>Listado de Usuarios del sistema</label>
+                            <input type="hidden" id="idUser" value=0>
+                            <select multiple="" onclick="detallesUsuario();" ondblclick="inactivarUsuario()" id="cmbListadoUsuario" 
+                            class="form-control js-example-placeholder-multiple" style= "height: 25em"  >
+                             <?php
+
+                                foreach ($usuarios as $k => $v) {
+                                  echo '<option value="' . $v->id . '">'. $v->login . '</option>';
+                                };
+                              ?>
+                            </select>
+                          </div>
+                        </div>
+
+                        <div class="col-md-8">
+                            <div class="row">
                     <div class="col-xs-6 col-md-6">
                       <div class="form-group">
                         <label>Nombre completo del usuario</label>
                         <div class="input-group">
                           <span class="input-group-addon"><span class="fa fa-user"></span></span>
-                          <input type="text" class="form-control" id="nombregrupo" placeholder="Nombre completo del usuario" />
+                          <input type="text" class="form-control" id="nombre" placeholder="Nombre completo del usuario" />
                         </div>
                       </div>
                     </div>
@@ -89,7 +109,7 @@
                         <label>Seudonimo</label>
                         <div class="input-group">
                           <span class="input-group-addon"><span class="fa fa-user"></span></span>
-                          <input type="text" class="form-control" id="nombregrupo" placeholder="Seudonimo" />
+                          <input type="text" class="form-control" id="seudonimo" placeholder="Seudonimo" />
                         </div>
                       </div>
                     </div>
@@ -104,7 +124,7 @@
                         <label>Teléfono</label>
                         <div class="input-group">
                           <span class="input-group-addon"><span class="fa fa-phone"></span></span>
-                          <input type="password" class="form-control" id="telefono" placeholder="Teléfono" />
+                          <input type="text" class="form-control" id="telefono" placeholder="Teléfono" />
                         </div>
                       </div>
                     </div>
@@ -114,7 +134,7 @@
                         <label>Correo Electrónico</label>
                         <div class="input-group">
                           <span class="input-group-addon"><span class="fa fa-envelope"></span></span>
-                          <input type="password" class="form-control" id="correo" placeholder="Correo Electronico" />
+                          <input type="text" class="form-control" id="correo" placeholder="Correo Electronico" />
                         </div>
                       </div>
                     </div>
@@ -144,6 +164,35 @@
                   </div>
 
                   <div class="row">
+                    <div class="col-xs-6 col-md-6">
+                      <div class="form-group">
+                        <label>Fecha de Última modificación</label>
+                        <div class="input-group">
+                          <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
+                          <input type="text" readonly="readonly" class="form-control" id="fecha" placeholder="Fecha última Modificación" />
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-xs-6 col-md-6">
+                      <div class="form-group">
+                        <label>Estaus</label>
+                        <div class="input-group">
+                          <span class="input-group-addon"><span class="fa fa-check-square-o"></span></span>
+                           <select class="form-control" id="estatus" onchange="cargarSubMenu()">
+                              <option value="0">Seleccionar...</option>
+                              <option value="292">Activo</option>
+                              <option value="293">Inactivo</option>
+                              
+                            </select>
+
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+
+                  <div class="row">
                     <div class="col-xs-12 col-md-12">
                       <div class="form-group">
                         <label>Observación</label>
@@ -153,6 +202,22 @@
                         </div>
                       </div>
                     </div>
+
+
+                    <div class="col-xs-12 col-md-12">
+                      <div class="pull-right">
+                        <button type="button" class="btn btn-success" onclick="UpsertUsuario()"><i class="fa fa-plus"></i>&nbsp;Agregar o actualizar</button>                      
+                      </div>
+                    </div>  
+
+                        </div>
+
+
+ 
+                      </div>
+
+
+                    
 
                   </div>
 
@@ -178,7 +243,7 @@
                           <div class="input-group">
                             <span class="input-group-addon"><span class="fa fa-user"></span></span>
                               <select class="form-control" id="cmbUsuarios" onchange="cUsers()">
-                              <option value=0>Seleccionar...</option>
+                              <option value="0">Seleccionar...</option>
                               <?php
 
                                 foreach ($usuarios as $k => $v) {
@@ -197,7 +262,7 @@
                             <div class="input-group">
                               <span class="input-group-addon"><span class="fa fa-home"></span></span>
                               <select class="form-control" id="menu" onchange="cargarSubMenu()">
-                                  <option value=0>Seleccionar...</option>
+                                  <option value="0">Seleccionar...</option>
                                   
                                 </select>
                               </div>
@@ -259,7 +324,7 @@
                         <div class="col-xs-12 col-md-12">
                         <br><br>
                           <div class="pull-right">
-                            <button type="button" class="btn btn-success" onclick="agregarMenu()"><i class="fa fa-plus"></i>&nbsp;Actualizar</button>                      
+                            <button type="button" class="btn btn-success" onclick="actualizarPrivilegios()"><i class="fa fa-plus"></i>&nbsp;Actualizar</button>                      
                           </div>
                         </div>
 

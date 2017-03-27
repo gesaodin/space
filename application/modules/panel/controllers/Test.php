@@ -48,6 +48,14 @@ class Test extends MY_Controller {
 		$rs=$this->DbSaman->consultar("select * from personas limit 1");
 		print_r($rs);
 	}*/
+
+	function xorC(){
+		echo "<pre>";
+		$this->load->model('comun/DbSaman');
+		$s = 'SELECT * FROM personas WHERE codnip=\'10007781\'';
+		print_r($this->DbSaman->consultar($s));
+
+	}
 	
 	function init(){
 		phpinfo();

@@ -127,7 +127,7 @@ class Perfil extends CI_Model{
 				upp.oidpr = prv.proid
 
 			WHERE u.id='  . $id . '
-			ORDER BY mnu.oid';
+			ORDER BY mnu.oid, ua.orde';
 
 		$obj = $this->DBSpace->consultar($s);
 
@@ -165,6 +165,7 @@ class Perfil extends CI_Model{
 	      		);
 	      	}
 	      }
+	      $lst[$nombre][$observacion]['priv_'] = $lstpriv;
 	    }
 	    return json_encode($lst);
 
@@ -205,7 +206,51 @@ class Perfil extends CI_Model{
 
 	}
 	
+
+	function InsertPerfil($uid, $idp){
+		$s = 'INSERT INTO space.usuario_perfil (oidu,oidp) VALUES (' . $uid . ',' . $idp . ');';
+		$obj = $this->DBSpace->consultar($s);
+		
+		return $obj->cant;
+	}
+
+	function InsertMenu($uid, $idm){
+		$s = 'INSERT INTO space.usuario_menu (oidu,oidm) VALUES (' . $uid . ',' . $idm . ');';
+		$obj = $this->DBSpace->consultar($s);
+		
+		return $obj->cant;
+	}
+
+	function DeleteMenu($uid, $idm){
+		$s = 'DELETE FROM space.usuario_menu WHERE oidu=' . $uid . ' AND oidm=' . $idm . ');';
+		$obj = $this->DBSpace->consultar($s);
+		return $obj->rs;
+	}
+
+
 	
+
+
+	function UpsertPrivilegio($uid, $idp, $idpr, $visi){
+		$upsert = 'WITH UPSERT AS (
+			UPDATE space.usuario_perfil_privilegio 
+			SET visi=' . $visi . ' WHERE oidu = ' . $uid . ' AND oidp = ' . $idp . ' AND oidpr= ' . $idpr . '
+			RETURNING *
+		)
+		INSERT INTO 
+			space.usuario_perfil_privilegio 
+			(oidu,oidp,oidpr, visi) 
+		select ' . $uid . ',' . $idp . ',' . $idpr . ',' . $visi . ' WHERE NOT EXISTS (SELECT * FROM upsert)';
+
+		//echo $upsert;
+
+		$obj = $this->DBSpace->consultar($upsert);
+		//print_r($obj);
+		return $obj->cant;
+	}
+
+
+
 	function __destruct(){
 		unset($this->db);
 	}

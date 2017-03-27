@@ -425,6 +425,26 @@ class Panel extends MY_Controller {
 		echo $this->KSensor->Duracion();
 	}
 
+	function LoteGarantiaDiasAdicionales($archivo = ''){
+		header('Content-Type: application/json');
+
+		if($archivo == ''){
+			echo 'Está intentando acceder a un área restringida.';
+		}else{
+			$this->load->model("kernel/KCargador");
+			$respuesta = $this->KCargador->GarantiasDiasAdicionales($archivo, 1, 100);
+			echo json_encode($this->KCargador->Resultado);
+		}
+	}
+
+	function LoteGarantiaAsignacionAntiguedad(){
+
+	}
+
+	function LoteAsignacionAntiguedad(){
+
+	}
+
 	/**
 	 *	---------------------------------------------
 	 *	INICIANDO PROCESOS APORTE DE INTERESES
@@ -932,6 +952,50 @@ class Panel extends MY_Controller {
 		print_r(json_encode($this->Usuario->listar()));
 
 	}
+
+	function obtenerUsuario($id = 0){
+		header('Content-Type: application/json');
+		$this->load->model("usuario/Usuario");
+		print_r(json_encode($this->Usuario->obtener($id)));
+	}
+
+	function UpsertUsuario(){
+		//header('Content-Type: application/json');
+		$this->load->model("usuario/Usuario");
+		$rs = json_decode($_POST['data']);
+
+		echo $this->Usuario->upsert($rs);
+		
+		
+	}
+
+	function UpsertPerfilPrivilegios(){
+		//header('Content-Type: application/json');
+		$this->load->model("usuario/Perfil");
+		$rs = json_decode($_POST['data']);
+		$this->Perfil->InsertMenu($rs->uid,$rs->ids);
+		$this->Perfil->InsertPerfil($rs->uid,$rs->idp);
+		foreach ($rs->pri as $k => $v) {
+			# code...			
+			$this->Perfil->UpsertPrivilegio($rs->uid, $rs->idp, $v->id, $v->est);
+			print_r($v);
+		}
+		
+	}
+
+	function LHistorialSueldo($id = ''){
+		header('Content-Type: application/json');
+		$this->load->model("beneficiario/MHistorialSueldo");
+		echo json_encode($this->MHistorialSueldo->listar('11953710'));
+	}
+
+	function LHistorialMovimiento($id = ''){
+		header('Content-Type: application/json');
+		$this->load->model("beneficiario/MHistorialMovimiento");
+		echo json_encode($this->MHistorialMovimiento->listar('11953710'));
+	}
+
+
 
 	function TestUsuario(){
 		$this->load->model("comun/DBSpace");

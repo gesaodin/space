@@ -185,7 +185,7 @@ class Usuario extends CI_Model {
    */
   public function existe() {
     $codigo = -1;
-    $consulta = 'SELECT oid FROM space.usuario WHERE login =\'' . $this -> cedula . ' \' LIMIT 1';
+    $consulta = 'SELECT id FROM space.usuario WHERE login =\'' . $this -> cedula . ' \' LIMIT 1';
     $obj = $this->Dbpace->consultar($consulta);
     foreach ($obj->rs as $clv => $val) {
       $codigo = $val -> oid;
@@ -235,10 +235,9 @@ class Usuario extends CI_Model {
   function conectar() {    
     $consulta = 'SELECT 
         space.usuario.id, space.usuario.login, space.usuario.nombre, space.usuario.apellido, space.usuario.correo,
-        space.usuario.status_id,  usuario_rol.rol_id, rol.status_id AS rolestatus, rol_descripcion  
+        space.usuario.status_id
       FROM space.usuario 
-        JOIN usuario_rol ON space.usuario.id=usuario_rol.usuario_id 
-        JOIN rol ON usuario_rol.rol_id=rol.id 
+       
       WHERE login=\'' . $this -> sobreNombre . '\' AND password =\'' . $this -> _claveEncriptada() . '\';';
         
     $obj = $this->Dbpace->consultar($consulta);
@@ -267,11 +266,50 @@ class Usuario extends CI_Model {
     return TRUE;
   }
 
+  function obtener($id){
+    $sConsulta = 'SELECT * FROM space.usuario WHERE id=\'' . $id . '\'';
+    $obj = $this->Dbpace->consultar($sConsulta);
+    return $obj->rs;
+  }
+
   function listar(){   
     $sConsulta = "SELECT id, login, nombre, apellido, status_id FROM space.usuario WHERE status_id=292 ORDER BY id";
     $obj = $this->Dbpace->consultar($sConsulta);
     return $obj->rs;
   }
+
+
+  function upsert($r){
+
+    $upsert = 'WITH UPSERT AS (
+      UPDATE space.usuario 
+      SET 
+        login=\'' . $r->seu . '\', 
+        correo=\'' . $r->cor . '\', 
+        nombre=\'' . $r->nom . '\',
+        apellido=\'\',
+        pregunta_secreta=\'' . $r->tel . '\',
+        status_id=' . $r->est . ',
+        password=md5(\'' . $r->cla . '\'),
+        f_ult_modificacion=now(),
+        observ_ult_modificacion=\'' . $r->obs . '\'
+      WHERE id = ' . $r->id . ' 
+      RETURNING *
+    )
+    INSERT INTO 
+      space.usuario 
+      (login,correo,nombre,apellido,pregunta_secreta,status_id,password,f_ult_modificacion, observ_ult_modificacion) 
+    SELECT \'' . $r->seu . '\',\'' . $r->cor  . '\',\'' . 
+    $r->nom . '\',\'\',\'' . $r->tel . '\',' . $r->est . ',md5(\'' . $r->tel . '\'), now(),\'' . $r->obs . '\'
+    WHERE NOT EXISTS (SELECT * FROM upsert)';
+
+    echo $upsert;
+
+    $obj = $this->Dbpace->consultar($upsert);
+    //print_r($obj);
+    return $obj->cant;
+  }
+  
 
   /**
   * Ver la ultima conexion de un usuario
