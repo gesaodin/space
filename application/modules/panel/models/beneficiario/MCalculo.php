@@ -98,6 +98,10 @@ class MCalculo extends CI_Model{
       //'comision_servicios' => '0,00', se cambion para que mostrara el monto de comision de servicio
       'comision_servicios' => number_format($this->ComisionServicio(), 2, ',','.'),
       'comision_servicios_aux' => $this->ComisionServicio(),
+
+      'monto_recuperado' => number_format($this->MontoRecuperadoActivo(), 2, ',','.'),
+      'monto_recuperado_aux' => $this->MontoRecuperadoActivo(),
+     
       'fallecimiento_actoservicio' => number_format($this->Fallecimiento_Acto_Servicio(), 2, ',','.'),
       'fallecimiento_fueraservicio' => number_format($this->Fallecimiento_Fuera_Servicio(), 2, ',','.'),
       'fallecimiento_actoservicio_aux' => $this->Fallecimiento_Acto_Servicio(),
@@ -518,6 +522,19 @@ class MCalculo extends CI_Model{
     return $ComisionServicio;
   }
 
+     /**
+  * Monto Recuperado Activo
+  * CODIGO MOVIMIENTO: 35
+  *
+  * @access public
+  * @return double
+  */
+  public function MontoRecuperadoActivo(){
+    $MontoRecuperadoActivo = isset($this->Beneficiario->HistorialMovimiento[35]) ? $this->Beneficiario->HistorialMovimiento[35]->monto : 0;
+
+    return $MontoRecuperadoActivo;
+  }
+
   /**
   * Capital en Banco
   * CODIGO MOVIMIENTO: 3
@@ -733,7 +750,7 @@ class MCalculo extends CI_Model{
   * @return double
   */
   public function Asignacion_Depositada(){   
-    return $this->DepositoBanco() + $this->Garantias()+$this->ComisionServicio();
+    return ($this->DepositoBanco() + $this->Garantias()+$this->ComisionServicio())-$this->MontoRecuperadoActivo();
   }
 
 

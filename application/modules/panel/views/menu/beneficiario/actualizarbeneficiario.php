@@ -160,17 +160,44 @@
                     <div class="col-md-2">                      
                       <input type="text" placeholder="Fecha de Retiro" id='fecha_retiro' class="form-control" readonly="readonly"></input>
                     </div> 
-                    <label class="col-md-2">Monto Recuperado Activo</label>
-                     <div class="col-md-2">                      
-                      <input type="text" placeholder="Monto Recuperado" id='monto_recuperado' class="form-control"></input>
-                      </div> 
-                      <label class="col-md-2">Saldo Disponible</label>
+                   <label class="col-md-2">Saldo Disponible</label>
                       <div class="col-md-2">                      
                        <input type="text" placeholder="Saldo Disponible" id='saldo_disponible' class="form-control" readonly="readonly"></input>
                         </div>     
                   </div> <!-- /Numero Cuenta -->
-
-
+                  <div class="box ">
+            <div class="box-header with-border">
+              <h3 class="box-title">Datos de Asignación de Antiguedad</h3>
+              <div class="box-tools pull-right">
+              </div>
+              </div>
+          </div>
+               <div class="form-group">
+               <label class="col-md-2">Comision de Servicio</label>
+                    <div class="col-md-2">                      
+                      <input type="text" placeholder="Comision de Servicio" id='comision_servicio' class="form-control"></input>
+                    </div> 
+                    <label class="col-md-2">Monto Recuperado Activo</label>
+                    <div class="col-md-2">                      
+                      <input type="text" placeholder="Monto Recuperado" id='monto_recuperado' class="form-control"></input>
+                    </div> 
+                     </div> 
+                    <div class="form-group">
+                    <label class="col-md-2">Fecha</label>
+                    <div class="col-md-2">                      
+                      <div class="input-group date">
+                          <div class="input-group-addon">
+                              <i class="fa fa-calendar"></i>
+                          </div>
+                          <input type="text" class="form-control" placeholder="Fecha" id='fecha' data-provide="datepicker">
+                      </div>                      
+                    </div> 
+                     </div> 
+                     <div class="form-group">
+                    <label class="col-md-2">Descripción</label>
+                    <div class="col-md-8"> 
+                   <textarea class="form-control" rows="4" placeholder="Descripcion ..." id='o_b'></textarea>
+                </div> 
                 </div>
               </form>
             </div><!-- /.box-body -->
