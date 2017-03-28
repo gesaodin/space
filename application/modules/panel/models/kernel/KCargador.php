@@ -377,15 +377,29 @@ class KCargador extends CI_Model{
   * @retun bool
   */
   function GarantiasDiasAdicionales($archivo =  '',  $tipo = 0, $porce = 100){
+    $fecha = Date("Y-m-d");
+
     $columna = "35";
     $parametro = "G";
-
+    $codigo = 32;
     if($tipo != 0){
       $columna = "36";
       $parametro = "D";
+      $codigo = 31;
     }
 
-    $comando = 'cd tmp/; rm -rf '. $parametro . $archivo . '.csv';
+    $ruta = explode("/", BASEPATH);
+    $c = count($ruta)-2;
+    $r = '/';
+    for ($i=1; $i < $c; $i++) { 
+      $r .= $ruta[$i] . '/';
+    }
+
+    $r .= 'tmp/';
+
+    $sub = substr($archivo, 24, 32);
+
+    $comando = 'cd tmp/; rm -rf '. $parametro . $archivo . '.csv; rm -rf '. $sub . '.csv';
     exec($comando, $err);
 
     $comando = 'cd tmp/; awk -F\';\' \'{ for (x=1; x<=28; x++) {  printf "%s;", $x } printf $' . 
@@ -396,6 +410,12 @@ class KCargador extends CI_Model{
     $comando = 'cd tmp/; awk -F\';\' \'{SUM+=$NF} END {printf "%.2f", SUM }\' ' . $parametro . $archivo . '.csv';
     exec($comando, $monto);
     
+    $comando = 'cd tmp/; awk -F\';\' \'{printf $1 ";' . $sub . ';' . $codigo . ';" $NF ";' 
+    . $fecha . ';' . $fecha . ';' . $_SESSION['usuario'] . '\n" }\' ' . $parametro . $archivo . '.csv >> ' . $sub . '.csv';
+    exec($comando, $insert);
+
+    $comando = 'cd tmp/;time ./script.sh ' . $r . $sub . ' 2>&1';
+    exec($comando, $bash);
     
     $comando = 'cd tmp/; du -sh ' .  $parametro . $archivo . '.csv | awk  \'{print $1}\'';
     exec($comando, $peso);
@@ -404,7 +424,8 @@ class KCargador extends CI_Model{
       'd' => number_format($monto[0], 2, ',','.'), 
       'p' => $peso[0],
       't' => $time,
-      'a' => $parametro . $archivo . '.csv'
+      'a' => $parametro . $archivo . '.csv',
+      'rs' => $bash
     );
 
     return true;
