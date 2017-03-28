@@ -77,6 +77,9 @@ function consultar() {
 
             });
             $("#porcentaje_cancelado").val(data.Calculo.porcentaje_cancelado);
+            listarHistorialSueldo(data.HistorialSueldo);
+            listarHistorialMovimiento(data.HistorialDetalleMovimiento);
+
         }
 
     ).done(function(msg) {}).fail(function(jqXHR, textStatus) {
@@ -127,3 +130,67 @@ function limpiar(){
     $("#numero_cuenta").val('');
     $("#estatus").val('');
 }
+
+
+function listarHistorialSueldo(_Data){
+    
+
+    var t = $('#reporteSueldos').DataTable({
+        "paging":  true,
+        "ordering": false,
+        "info":     false,
+        "searching": false
+    });    
+    t.clear().draw();
+        
+    var i = 0;
+    $.each(_Data, function (p,q){
+        i++;
+        fecha = cargarFecha(q.fecha);
+        t.row.add( [
+            i,
+            fecha,
+            q.sueldo_base,
+            q.sueldo_global
+    ] ).draw( false );
+    });
+}
+
+function listarHistorialMovimiento(_Data){
+    
+
+    var tab = $('#reporteMovimientos').DataTable({
+        "paging":  true,        
+        "ordering": false,
+        "info":     false,
+        "searching": false
+    });    
+    
+    tab.clear().draw();
+        
+    var i = 0;
+    $.each(_Data.Detalle, function (x,y){
+        i++;
+        var detalle = '';
+        var monto = 0;
+        var fecha = '';
+        var observacion = '';
+
+        $.each(y, function(p, q){
+            detalle = q.detalle;
+            monto = q.monto;
+            fecha = cargarFecha(q.fecha);
+            observacion = q.observacion;
+        });
+                
+        tab.row.add( [
+            i,
+            fecha,
+            detalle,
+            monto,
+            observacion,
+        ] ).draw( false );
+    });
+
+
+  }

@@ -163,7 +163,9 @@
               <div class="nav-tabs-custom">
                 <ul class="nav nav-tabs">
                   <li class="active"><a href="#tab_1" data-toggle="tab">Datos Sueldo</a></li>
-                  <li><a href="#tab_2" data-toggle="tab">Datos Asignación Antiguedad</a></li>
+                  <li><a href="#tab_2" data-toggle="tab">Asignación Antiguedad</a></li>
+                  <li><a href="#tab_3" data-toggle="tab">Historial de Sueldos</a></li>
+                  <li><a href="#tab_4" data-toggle="tab">Historial de Movimientos</a></li>
 
                   <li class="pull-right"><a href="#" class="text-muted"><i class="fa fa-gear"></i></a></li>
                 </ul>
@@ -402,11 +404,49 @@
                         </div>
 
                       </div>
-                      <!-- /.tab-pane -->               
+                      <!-- /.tab-pane -->  
+
                     </div>
+
+
                     <!-- /.tab-content -->
                   </div>
-
+                  <div class="tab-pane" id="tab_3">
+                      <div class="row">
+                      <div class="col-md-12">
+                        
+                          <table  id="reporteSueldos" class="table table-striped table-bordered">
+                            <thead>
+                              <tr>
+                                <th style="width:20px">#</th>
+                                <th>FECHA</th>
+                                <th>SUELDO BASE </th>
+                                <th>SUELDO GLOBAL </th>
+                              </tr>
+                            </thead>
+                          </table>
+                      </div>
+                        
+                      </div>
+                  </div> 
+                  <!-- /.tab-content -->
+                  <div class="tab-pane" id="tab_4">
+                      <div class="row">                      
+                         <div class="col-md-12">                        
+                          <table  id="reporteMovimientos" class="table table-striped table-bordered">
+                            <thead>
+                              <tr>
+                                <th style="width:20px">#</th>
+                                <th>FECHA</th>
+                                <th>TIPO DE MOVIMIENTO</th>
+                                <th>MONTO</th>
+                                <th>OBSERVACIONES</th>                                
+                              </tr>
+                            </thead>
+                          </table>
+                        </div>
+                      </div>
+                  </div> 
                 </div>
               </div>
             </div>

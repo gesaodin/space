@@ -120,16 +120,15 @@ class Perfil extends CI_Model{
 				WHERE u.id='  . $id . ') AS prv
 			ON ua.url=prv.para 
 			JOIN space.menu mnu ON ua.idmenu=mnu.oid
-
 			LEFT JOIN space.usuario_perfil_privilegio upp ON 
 				upp.oidu = prv.uid AND
 				upp.oidp = prv.pid AND
 				upp.oidpr = prv.proid
-
-			WHERE u.id='  . $id . '
+			WHERE u.id='  . $id . ' AND ua.esid = 1
 			ORDER BY mnu.oid, ua.orde';
 
 		$obj = $this->DBSpace->consultar($s);
+		//echo $s;
 
 	    $lst = array();
 	    $lstpriv = array();
