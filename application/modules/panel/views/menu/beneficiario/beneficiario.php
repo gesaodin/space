@@ -413,6 +413,8 @@
                   </div>
                   <div class="tab-pane" id="tab_3">
                       <div class="row">
+
+
                       <div class="col-md-12">
                         
                           <table  id="reporteSueldos" class="table table-striped table-bordered">
@@ -431,7 +433,18 @@
                   </div> 
                   <!-- /.tab-content -->
                   <div class="tab-pane" id="tab_4">
-                      <div class="row">                      
+                      <div class="row"> 
+                        <div class="col-md-4 pull-right">
+                          <label>Tipo de Movimiento</label>
+                          <select class="form-control select2" style="width: 100%;" id="tipomovimiento">                            
+                            <option value=1 selected>EJERCITO</option>
+                            <option value=2>ARMADA</option>
+                            <option value=3>AVIACION</option>
+                            <option value=4>GUARDIA NACIONAL</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="row"> 
                          <div class="col-md-12">                        
                           <table  id="reporteMovimientos" class="table table-striped table-bordered">
                             <thead>
