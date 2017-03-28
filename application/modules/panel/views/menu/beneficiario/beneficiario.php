@@ -415,18 +415,9 @@
                       <div class="row">
 
 
-                      <div class="col-md-12">
+                      <div class="col-md-12" id="dvsueldo">
                         
-                          <table  id="reporteSueldos" class="table table-striped table-bordered">
-                            <thead>
-                              <tr>
-                                <th style="width:20px">#</th>
-                                <th>FECHA</th>
-                                <th>SUELDO BASE </th>
-                                <th>SUELDO GLOBAL </th>
-                              </tr>
-                            </thead>
-                          </table>
+                          
                       </div>
                         
                       </div>
@@ -444,19 +435,9 @@
                           </select>
                         </div>
                       </div>
-                      <div class="row"> 
-                         <div class="col-md-12">                        
-                          <table  id="reporteMovimientos" class="table table-striped table-bordered">
-                            <thead>
-                              <tr>
-                                <th style="width:20px">#</th>
-                                <th>FECHA</th>
-                                <th>TIPO DE MOVIMIENTO</th>
-                                <th>MONTO</th>
-                                <th>OBSERVACIONES</th>                                
-                              </tr>
-                            </thead>
-                          </table>
+                      <div class="row" > 
+                         <div class="col-md-12" id="dvmovimiento">                        
+                          
                         </div>
                       </div>
                   </div> 

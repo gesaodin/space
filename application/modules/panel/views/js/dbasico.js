@@ -133,7 +133,16 @@ function limpiar(){
 
 
 function listarHistorialSueldo(_Data){
-    
+    $("#dvsueldo").html('<table  id="reporteSueldos" class="table table-striped table-bordered">\
+                            <thead>\
+                              <tr>\
+                                <th style="width:20px">#</th>\
+                                <th>FECHA</th>\
+                                <th>SUELDO BASE </th>\
+                                <th>SUELDO GLOBAL </th>\
+                              </tr>\
+                            </thead>\
+                          </table>');
 
     var t = $('#reporteSueldos').DataTable({
         "paging":  true,
@@ -157,7 +166,17 @@ function listarHistorialSueldo(_Data){
 }
 
 function listarHistorialMovimiento(_Data){
-    
+    $("#dvmovimiento").html('<table  id="reporteMovimientos" class="table table-striped table-bordered">\
+                            <thead>\
+                              <tr>\
+                                <th style="width:20px">#</th>\
+                                <th>FECHA</th>\
+                                <th>TIPO DE MOVIMIENTO</th>\
+                                <th>MONTO</th>\
+                                <th>OBSERVACIONES</th>\
+                              </tr>\
+                            </thead>\
+                          </table>')
 
     var tab = $('#reporteMovimientos').DataTable({
         "paging":  true,        
