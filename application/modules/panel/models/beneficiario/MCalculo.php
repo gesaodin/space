@@ -83,7 +83,7 @@ class MCalculo extends CI_Model{
       'saldo_disponible' => number_format($this->Saldo_Disponible(), 2, ',','.'),
       'saldo_disponible_aux' => $this->Saldo_Disponible(),      
       'saldo_disponible_fini' => number_format($this->Saldo_DisponibleFiniquito(), 2, ',','.'),
-      'saldo_disponible_fini_aux' => $this->Saldo_DisponibleFiniquito(),
+      'saldo_disponible_fini_aux' => $this->Saldo_DisponibleFiniquito()-$this->MontoRecuperadoActivo(),
       'diferencia_AA' => number_format($this->Diferencia_Asignacion(), 2, ',','.'),
       'fecha_ultimo_anticipo' => $this->Fecha_Ultimo_Anticipo(),
       'embargos' => number_format($this->Embargos(), 2, ',','.'),

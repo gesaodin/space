@@ -411,7 +411,7 @@
                 </div>
                 <label class="col-md-2">Monto Recuperado Activo</label>
                      <div class="col-md-4">                      
-                      <input type="text" placeholder="Monto Recuperado" id='monto_recuperado' class="form-control"></input>
+                      <input type="text" placeholder="Monto Recuperado" id='monto_recuperado' class="form-control" readonly="readonly"></input>
                       </div> 
                 
                 </div> <!-- /Numero Cuenta -->

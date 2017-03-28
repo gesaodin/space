@@ -71,6 +71,7 @@ function consultar() {
             $("#numero_cuenta").val(data.numero_cuenta);
             $("#estatus").val(data.estatus_descripcion);
 
+            
             fallecimiento_actoservicio = data.Calculo.fallecimiento_actoservicio_aux;
             fallecimiento_fueraservicio = data.Calculo.fallecimiento_fueraservicio_aux;
             $("#controles").show();
@@ -440,9 +441,10 @@ function consultarBeneficiarioFecha(){
 
 
         $("#comision_servicios").val(data.Calculo.comision_servicios);
+        $("#monto_recuperado").val(data.Calculo.monto_recuperado);
         
-
-        var total_banco = Number(data.Calculo.saldo_disponible_fini_aux); //+ Number(data.Calculo.dias_adicionales_aux);
+     
+        var total_banco = Number(data.Calculo.saldo_disponible_fini_aux); //+ Number(data.Calculo.monto_recuperado);
         $("#total_banco").val(data.Calculo.saldo_disponible_fini);
         $("#total_banco_calc").val(total_banco);
         $("#total_banco_aux").val(total_banco);
