@@ -1,3 +1,5 @@
+_MOVIMIENTO = {};
+
 $( "#id" ).keypress(function( event ) {
   if ( event.which == 13 ) {
     $("#btnImprimir").focus();
@@ -76,9 +78,12 @@ function consultar() {
                 $("#lblMedida").text('Beneficiario con Medidas Judiciales');
 
             });
+            
+            _MOVIMIENTO = data.HistorialDetalleMovimiento;
+
             $("#porcentaje_cancelado").val(data.Calculo.porcentaje_cancelado);
             listarHistorialSueldo(data.HistorialSueldo);
-            listarHistorialMovimiento(data.HistorialDetalleMovimiento);
+            listarHistorialMovimiento();
 
         }
 
@@ -147,8 +152,12 @@ function listarHistorialSueldo(_Data){
     var t = $('#reporteSueldos').DataTable({
         "paging":  true,
         "ordering": false,
-        "info":     false,
-        "searching": false
+        "info":     true,
+        "searching": false,
+        "dom": 'Bfrtip',
+        "buttons": [
+            'print'
+        ]
     });    
     t.clear().draw();
         
@@ -156,16 +165,20 @@ function listarHistorialSueldo(_Data){
     $.each(_Data, function (p,q){
         i++;
         fecha = cargarFecha(q.fecha);
+        sueldo_base = Number(q.sueldo_base);
+        sueldo_global = Number(q.sueldo_global);
+
         t.row.add( [
             i,
             fecha,
-            q.sueldo_base,
-            q.sueldo_global
+            sueldo_base.formatMoney(2, ',', '.'),
+            sueldo_global.formatMoney(2, ',', '.')
     ] ).draw( false );
     });
 }
 
-function listarHistorialMovimiento(_Data){
+function listarHistorialMovimiento(tipo){
+
     $("#dvmovimiento").html('<table  id="reporteMovimientos" class="table table-striped table-bordered">\
                             <thead>\
                               <tr>\
@@ -181,35 +194,56 @@ function listarHistorialMovimiento(_Data){
     var tab = $('#reporteMovimientos').DataTable({
         "paging":  true,        
         "ordering": false,
-        "info":     false,
-        "searching": false
+        "info":     true,
+        "searching": false,
+        "dom": 'Bfrtip',
+        "buttons": [
+            'print'
+        ]
     });    
     
     tab.clear().draw();
         
     var i = 0;
-    $.each(_Data.Detalle, function (x,y){
-        i++;
-        var detalle = '';
-        var monto = 0;
-        var fecha = '';
-        var observacion = '';
-
+    $.each(_MOVIMIENTO.Detalle, function (x,y){
         $.each(y, function(p, q){
+            i++;
             detalle = q.detalle;
-            monto = q.monto;
+            monto = Number(q.monto);
+
             fecha = cargarFecha(q.fecha);
             observacion = q.observacion;
+            if (tipo != null){
+                if(tipo == q.tipo){                    
+                     tab.row.add( [
+                        i,
+                        fecha,
+                        detalle,
+                        monto.formatMoney(2, ',', '.'),
+                        observacion,
+                    ] ).draw( false );        
+                }
+            }else{
+                
+                 tab.row.add( [
+                    i,
+                    fecha,
+                    detalle,
+                    monto.formatMoney(2, ',', '.'),
+                    observacion,
+                ] ).draw( false );    
+            }
+            
         });
                 
-        tab.row.add( [
-            i,
-            fecha,
-            detalle,
-            monto,
-            observacion,
-        ] ).draw( false );
+       
     });
 
 
+  }
+
+  function STM(){
+    tipo = $('#tipomovimiento option:selected').val();
+
+    listarHistorialMovimiento(parseInt(tipo));
   }

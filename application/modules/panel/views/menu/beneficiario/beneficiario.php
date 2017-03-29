@@ -427,11 +427,15 @@
                       <div class="row"> 
                         <div class="col-md-4 pull-right">
                           <label>Tipo de Movimiento</label>
-                          <select class="form-control select2" style="width: 100%;" id="tipomovimiento">                            
-                            <option value=1 selected>EJERCITO</option>
-                            <option value=2>ARMADA</option>
-                            <option value=3>AVIACION</option>
-                            <option value=4>GUARDIA NACIONAL</option>
+                          
+                          <select class="form-control select2" style="width: 100%;" id="tipomovimiento" onchange="STM()"> 
+                            <option value="0">SELECCIONAR...</option>                           
+                            <?php
+                              
+                              foreach ($Movimientos as $c => $v) {
+                                echo '<option value="' . $v["id"] . '">' . $v["nomb"] . '</option>';
+                              }
+                            ?>
                           </select>
                         </div>
                       </div>

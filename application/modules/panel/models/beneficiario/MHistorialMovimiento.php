@@ -45,16 +45,18 @@ class MHistorialMovimiento extends CI_Model{
   * @return void
   */
   function listarTodo(){
-    $sConsulta = 'SELECT * FROM tipo_movimiento';
+    $sConsulta = 'SELECT * FROM tipo_movimiento WHERE status_id != 0';
+
     $obj = $this->Dbpace->consultar($sConsulta);
+    //echo $sConsulta;
     $arr = array();
     if($obj->code == 0 ){
-      foreach ($obj->rs as $clv => $val) {
-        $motivo = new $this;
-        $motivo->id = $val->id;
-        $motivo->nombre = strtoupper($val->nombre);
-        $motivo->descripcion = $val->descripcion;
-        $arr[] = $motivo;
+      foreach ($obj->rs as $clv => $val) {        
+        $arr[] = array(
+        	'id' => $val->id,
+         	'nomb' => strtoupper($val->nombre), 
+         	'desc' => $val->descripcion
+         );
       }
     }
     return $arr;
