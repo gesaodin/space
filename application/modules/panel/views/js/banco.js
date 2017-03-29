@@ -14,9 +14,13 @@ function consultar() {
             
             $("#componente").val(data.Componente.nombre);
             $("#grado").val(data.Componente.Grado.nombre);
+
+            var numero_cuenta = $("#numero_cuenta").val(data.numero_cuenta);
             
-            $("#numero_cuenta").val(data.numero_cuenta);
-            
+            if (numero_cuenta == 0)
+            {
+              numero_cuenta = '0102';
+            }
                    
         }
 
