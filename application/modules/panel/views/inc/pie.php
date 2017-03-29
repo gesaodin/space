@@ -21,13 +21,12 @@
     <script src="<?php echo base_url()?>assets/plugins/datatables/jquery.dataTables.min.js"></script> 
 
     <script src="<?php echo base_url()?>assets/plugins/datatables/dataTables.bootstrap.min.js"></script> 
-
+    <script src="<?php echo base_url()?>assets/plugins/datatables/dataTables.bootstrap.min.js"></script> 
+    <script src="<?php echo base_url()?>assets/plugins/datatables/dataTables.buttons.min.js"></script> 
+    <script src="<?php echo base_url()?>assets/plugins/datatables/buttons.print.min.js"></script> 
 
     
- 
-
-    
-     <!--Date-->
+    <!--Date-->
     <!-- Select2 -->
     <script src="<?php echo base_url()?>assets/plugins/select2/select2.full.min.js"></script>
     <!-- InputMask -->
@@ -40,6 +39,8 @@
     <script src="<?php echo base_url()?>assets/plugins/datepicker/bootstrap-datepicker.js"></script>
     <!-- bootstrap color picker -->
     <script src="<?php echo base_url()?>assets/plugins/colorpicker/bootstrap-colorpicker.min.js"></script>
+
+
 
 
     <!-- iCheck -->

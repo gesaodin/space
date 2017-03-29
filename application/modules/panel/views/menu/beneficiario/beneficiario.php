@@ -415,18 +415,9 @@
                       <div class="row">
 
 
-                      <div class="col-md-12">
+                      <div class="col-md-12" id="dvsueldo">
                         
-                          <table  id="reporteSueldos" class="table table-striped table-bordered">
-                            <thead>
-                              <tr>
-                                <th style="width:20px">#</th>
-                                <th>FECHA</th>
-                                <th>SUELDO BASE </th>
-                                <th>SUELDO GLOBAL </th>
-                              </tr>
-                            </thead>
-                          </table>
+                          
                       </div>
                         
                       </div>
@@ -436,27 +427,21 @@
                       <div class="row"> 
                         <div class="col-md-4 pull-right">
                           <label>Tipo de Movimiento</label>
-                          <select class="form-control select2" style="width: 100%;" id="tipomovimiento">                            
-                            <option value=1 selected>EJERCITO</option>
-                            <option value=2>ARMADA</option>
-                            <option value=3>AVIACION</option>
-                            <option value=4>GUARDIA NACIONAL</option>
+                          
+                          <select class="form-control select2" style="width: 100%;" id="tipomovimiento" onchange="STM()"> 
+                            <option value="0">SELECCIONAR...</option>                           
+                            <?php
+                              
+                              foreach ($Movimientos as $c => $v) {
+                                echo '<option value="' . $v["id"] . '">' . $v["nomb"] . '</option>';
+                              }
+                            ?>
                           </select>
                         </div>
                       </div>
-                      <div class="row"> 
-                         <div class="col-md-12">                        
-                          <table  id="reporteMovimientos" class="table table-striped table-bordered">
-                            <thead>
-                              <tr>
-                                <th style="width:20px">#</th>
-                                <th>FECHA</th>
-                                <th>TIPO DE MOVIMIENTO</th>
-                                <th>MONTO</th>
-                                <th>OBSERVACIONES</th>                                
-                              </tr>
-                            </thead>
-                          </table>
+                      <div class="row" > 
+                         <div class="col-md-12" id="dvmovimiento">                        
+                          
                         </div>
                       </div>
                   </div> 

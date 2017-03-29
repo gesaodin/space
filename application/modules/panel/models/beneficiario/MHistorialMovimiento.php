@@ -37,6 +37,32 @@ class MHistorialMovimiento extends CI_Model{
 		if(!isset($this->Dbpace)) $this->load->model('comun/Dbpace');
 	}
 
+
+	 /**
+  * 
+  *
+  * @access public
+  * @return void
+  */
+  function listarTodo(){
+    $sConsulta = 'SELECT * FROM tipo_movimiento WHERE status_id != 0';
+
+    $obj = $this->Dbpace->consultar($sConsulta);
+    //echo $sConsulta;
+    $arr = array();
+    if($obj->code == 0 ){
+      foreach ($obj->rs as $clv => $val) {        
+        $arr[] = array(
+        	'id' => $val->id,
+         	'nomb' => strtoupper($val->nombre), 
+         	'desc' => $val->descripcion
+         );
+      }
+    }
+    return $arr;
+
+  }
+
 	function listar($cedula = ''){
 		$arr = array();
 		$sConsulta = 'select tipo_movimiento_id, sum(monto) AS monto, MAX(f_contable) AS f_contable from movimiento where cedula =\'' . $cedula . '\' GROUP BY tipo_movimiento_id';

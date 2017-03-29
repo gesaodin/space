@@ -38,7 +38,10 @@ class Panel extends MY_Controller {
 	}
 
 	public function beneficiario(){
-		$this->load->view("menu/beneficiario/beneficiario");
+		$this->load->model('beneficiario/MHistorialMovimiento');
+		$data['Movimientos'] = $this->MHistorialMovimiento->listarTodo();
+
+		$this->load->view("menu/beneficiario/beneficiario", $data);
 	}
 
 	public function asociarcuenta(){
@@ -1040,6 +1043,12 @@ class Panel extends MY_Controller {
 		echo json_encode($this->MHistorialMovimiento->listar('11953710'));
 	}
 
+
+	function LTipoMovimiento(){
+		header('Content-Type: application/json');
+		$this->load->model("beneficiario/MHistorialMovimiento");
+		echo json_encode($this->MHistorialMovimiento->listarTodo());	
+	}
 
 
 	function TestUsuario(){
