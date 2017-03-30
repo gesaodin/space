@@ -347,6 +347,7 @@ function cargar(){
     if (Anticipo['monto'] > 0){
         Anticipo['id'] = $("#id").val();
         Anticipo['motivo'] = 'Anticipo - ' + $("#motivo_medida option:selected").text();
+        Anticipo['tipoan'] = $("#motivo_medida option:selected").val();
         //Anticipo['porcentaje'] = $('#porcentaje').val();//se agrega para mostrar el porcentaje en el punto de cuenta
 
         Anticipo['tipo'] = 1;
@@ -365,6 +366,7 @@ function continuarAnticipo(estatus){
         type: "POST",
         data: {'data' : JSON.stringify({Anticipo: Anticipo})},
         success: function (data){
+
             var boton = '<button type="button" class="btn btn-success pull-right" onclick="recargar()">';
             boton += '<i class="glyphicon glyphicon-ok"></i>&nbsp;&nbsp;Continuar</button>';
             $("#divContinuar").html(boton);

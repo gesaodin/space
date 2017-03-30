@@ -1,6 +1,6 @@
 <?php  
   $usuario = '';
-  
+  $monto = 0;
 
   foreach ($Beneficiario->HistorialOrdenPagos as $c => $v) {
     if($v->id == $codigo){
@@ -10,6 +10,8 @@
       $porcentaje = $v->porcentaje;//se agrega para mostrar el porcentaje otorgado en el punto de cuenta
       $usuario = $v->usuario_modificacion;
     }  
+
+    $anticipo =  $Beneficiario->Calculo['anticipos_aux'] - $monto;
     
   }
 
@@ -147,7 +149,7 @@
          la cantidad de Bs. <b><?php echo $Beneficiario->Calculo['asignacion_antiguedad'];?></b> Actualmente se le ha depositado un monto         
          total de Bs.<b><?php echo $Beneficiario->Calculo['asignacion_depositada'];?></b> lo que representa el 
          <b><?php echo $Beneficiario->Calculo['porcentaje_cancelado'];?>%</b> de la Asignación de Antiguedad y se han 
-         otorgado adelantos que totalizan la cantidad de Bs. <b><?php echo $Beneficiario->Calculo['anticipos'];?>.</b>
+         otorgado adelantos que totalizan la cantidad de Bs. <b><?php echo number_format($anticipo, 2, ',','.');?>.</b>
          El monto a otorgar es de Bs. <b><?php echo number_format($monto, 2, ',','.');?></b> lo que representa el 
          <b><?php echo number_format($porcentaje, 0, ',','.');?>%</b> del total depositado en banco.
          <br><br>

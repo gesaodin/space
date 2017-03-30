@@ -157,7 +157,16 @@ function listarHistorialSueldo(_Data){
         "dom": 'Bfrtip',
         "buttons": [
             'print'
-        ]
+        ],
+
+        "language": { 
+            "lengthMenu": "Mostrar _MENU_ registros por pagina", 
+            "zeroRecords": "No se encontraron registros", 
+            "info": "P&aacutegina _PAGE_ of _PAGES_",
+            "sPrint": "Imprimir", 
+            "infoEmpty": "No hay registros"
+ 
+        }
     });    
     t.clear().draw();
         

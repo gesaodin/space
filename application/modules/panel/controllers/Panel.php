@@ -797,6 +797,7 @@ class Panel extends MY_Controller {
 
 
 		$data = json_decode($_POST['data']);
+		print_r($data);
 		$this->MOrdenPago->cedula_beneficiario = $data->Anticipo->id;
 		$this->MOrdenPago->cedula_afiliado = $data->Anticipo->id;
 
@@ -807,6 +808,9 @@ class Panel extends MY_Controller {
 		$this->MOrdenPago->motivo = $data->Anticipo->motivo;
 		$this->MOrdenPago->estatus = $data->Anticipo->estatus;
 		$this->MOrdenPago->tipo = $data->Anticipo->tipo;
+		if (isset($data->Anticipo->tipo)){
+			$this->MOrdenPago->tipoan = $data->Anticipo->tipoan;
+		}
 		$this->MOrdenPago->monto = $data->Anticipo->monto;
 		$this->MOrdenPago->porcentaje = $data->Anticipo->porcentaje;
 
@@ -1057,6 +1061,50 @@ class Panel extends MY_Controller {
 		print_r($rs);
 
 		//echo "Test De pruebas usuarios";
+	}
+
+	function file(){
+		$this->load->model('kernel/KSensor');
+		$handle = @fopen("tmp/b485e312430614e47deb5657671368dc.csv", "r");
+		$sum = 0;
+		if ($handle) {
+		    while (($buffer = fgets($handle, 4096)) !== false) {
+		    	$l = explode(";", $buffer);
+		    	if($l[30] == "0" && $l[32] == "0"){
+		    		$cedula = $this->completarCero(9, $l[0]);
+		    		$n = explode(" ", $l[5]);
+
+		    		$p = isset($n[0]); $n[0]; " ";
+		    		$nombre = $this->completarCero(15, $p, " ");
+		    		
+		    		$p = isset($n[1]); $n[1]; " ";
+		    		$nombre .= $this->completarCero(15, $p, " ");
+
+		    		echo $cedula . $n[2] .  $nombre . "<br>";
+		    		$sum++;
+		    	}
+		        //echo $buffer;
+		    }
+		    if (!feof($handle)) {
+		        echo "Error: unexpected fgets() fail\n";
+		    }
+		    fclose($handle);
+		}
+		echo "Lineas $sum <br>";
+
+		echo $this->KSensor->Duracion();
+	}
+	function completarCero($cant, $cadena, $caracter = "0"){
+		
+		 $largo_numero = strlen($cadena);
+		 $largo_maximo = $cant;
+		 $agregar = $largo_maximo - $largo_numero;
+		 //agrego los ceros
+		 for($i =0; $i<$agregar; $i++){
+		 	$cadena = $caracter . $cadena;
+		 }
+		 //retorno el valor con ceros
+		 return $cadena;
 	}
 
 	public function salir(){

@@ -336,5 +336,8 @@ function salvarDatos(){
 		console.log("Proceso exitoso");
 	});
 	$("#logMensaje").modal('hide');
+	var val = $("#id").val();
+    URL = sUrlP + "administrar";
+    $(location).attr('href', URL);
 
 }

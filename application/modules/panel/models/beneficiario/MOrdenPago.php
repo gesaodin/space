@@ -94,6 +94,11 @@ class MOrdenPago extends CI_Model{
   */
   var $tipo = 1;
 
+/**
+  * @var string
+  */
+  var $tipoan = 0;
+
   /**
   * @var string
   */
@@ -226,7 +231,8 @@ class MOrdenPago extends CI_Model{
       usr_creacion,
       f_ult_modificacion,
       usr_modificacion,
-      observ_ult_modificacion
+      observ_ult_modificacion,
+      tipoan
     ) VALUES (';
 
     $sInsert .=
@@ -242,16 +248,14 @@ class MOrdenPago extends CI_Model{
       \'' . $this->movimiento . '\',
       \'' . $this->monto . '\',
       \'' . $this->fecha . '\',
-      \'' . $this->observacion . '\',
-      \'' . $this->tipo . '\',
-      \'' . $this->cedula_afiliado . '\',
+      \'' . $this->observacion . '\',' . $this->tipo . ',\'' . $this->cedula_afiliado . '\',
       \'' . $this->fecha_creacion . '\',
       \'' . $this->usuario_creacion . '\',
       \'' . $this->fecha_modificacion . '\',
       \'' . $this->usuario_modificacion . '\',
-      \'' . $this->ultima_observacion . '\')';
+      \'' . $this->ultima_observacion . '\',' . $this->tipoan . ')';
     
-    //echo $sInsert;
+    echo $sInsert;
     $obj = $this->Dbpace->consultar($sInsert);
 
 
@@ -401,7 +405,7 @@ class MOrdenPago extends CI_Model{
     where ' . $texto . '
       orden_pago.f_creacion >= \'' . $desde . ' 00:00:00\' AND 
       orden_pago.f_creacion <= \'' . $hasta . ' 24:00:00\' AND
-      orden_pago.status_id = 100';
+      AND orden_pago.tipoan != 0 orden_pago.status_id = 100';
         
     $obj = $this->Dbpace->consultar($sConsulta);
     

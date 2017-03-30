@@ -14,12 +14,11 @@ function consultar() {
             
             $("#componente").val(data.Componente.nombre);
             $("#grado").val(data.Componente.Grado.nombre);
-
+            console.log(data);
             var numero_cuenta = $("#numero_cuenta").val(data.numero_cuenta);
             
-            if (numero_cuenta == 0)
-            {
-              numero_cuenta = '0102';
+            if (data.numero_cuenta == "0")     {
+              $("#numero_cuenta").val('0102');
             }
                    
         }
