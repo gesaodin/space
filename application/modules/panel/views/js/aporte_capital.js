@@ -115,27 +115,40 @@ function GenerarAporte(){
 	var t = $('#reportearchivos').DataTable();
     t.clear().draw();
 	$('#cargando').show();
-	console.log (_DATA);
+
 	url = sUrlP + "GenerarCalculoAporteCapital/";
 	$.post(url, {data: JSON.stringify(_DATA)}, function (data){
 		
+
+
 		console.log(data);
 		$('#obse').val(data.m);
 		$('#generar').hide();
 		$('#descargar').show();
 		
+
+
+
+
 		_ZIP = data.z;
-		acc = 0;
+		
 		j = data.json;
 		
+		var sBoton = '<div class="btn-group">';
+        sBoton += '<button id="btnProcesar" type="button" class="btn btn-success" title="Generar" onclick="Ctxt(\'' + j.f + '\')"><i class="fa fa-lock" ></i></button>';                                
+        sBoton += '</button>';
+	    sBoton + '</div>';  
+
+
 		
 		t.row.add([
-				acc,
+				sBoton,
 				j.p + ' ' + j.f.substring(0,10) + '...',
 				j.l,
 				j.t,
 				j.g + 'Bs.',
-				j.d + 'Bs.'
+				j.d + 'Bs.',
+				j.a + 'Bs.'
 			]
 		).draw(false);
 		
@@ -174,4 +187,28 @@ function cargarGrado(){
        $("#logMensaje").modal('show');
        limpiar();
     });
+}
+
+
+
+
+function ventana(fn){
+    
+    var boton = '<button type="button" class="btn btn-danger pull-right" onclick="continuar()">';
+        boton += '<i class="glyphicon glyphicon-remove"></i>&nbsp;&nbsp;No&nbsp;&nbsp;</button>';
+        boton += '<button type="button" class="btn btn-success" onclick="GTxt()">';
+        boton += '<i class="glyphicon glyphicon-ok"></i>&nbsp;&nbsp;Si&nbsp;&nbsp;</button>';
+    $("#divContinuar").html(boton);
+    texto = 'Esta seguro que desea generar los archivos e insertar los movimientos'; 
+    $("#txtMensaje").html(texto); 
+    $("#logMensaje").modal('show');
+    
+}
+
+function continuar(){
+    $("#logMensaje").modal('hide');
+}
+
+function Ctxt(id){
+	$("#myModal").modal('show');
 }

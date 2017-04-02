@@ -197,6 +197,8 @@
                             <th style="width: 120px;">Fecha</th>
                             <th>Garantias</th> 
                             <th>Dias Adic.</th> 
+                            <th>Asignación A.</th>
+                            
                         </tr>
                         </thead>
                         <tbody>
@@ -224,6 +226,70 @@
         </div>
         <strong>Copyright &copy; 2015-2016 Instituto de Previsión Social.</strong> Todos los derechos.
       </footer>
+
+
+
+
+      <div div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="myModal" >
+        <div class="modal-dialog modal-lg" role="document">
+
+          <!-- Modal content-->
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+              <h4 class="modal-title">Generar Archivos... </h4>
+            </div>
+            <div class="modal-body">
+
+             
+             <br>
+              <div class="row">
+                <div class="col-xs-2">
+                  <label>Motivo</label>
+
+                </div>
+                <div class="col-xs-10">
+                  <select class="form-control select2" style="width: 100%;" id='motivo'>
+                    <option value=0> Garantias </option>>
+                    <option value=1> Dias Adicionales </option>
+                    <option value=2> Asignación de Antiguedad </option>>
+                  </select>
+                </div>
+
+              </div>
+
+
+              <br>
+              <div class="row">
+                <div class="col-xs-2">
+                  <label>Porcentaje</label>
+                </div>
+                <div class="col-xs-2">
+                  <input type="text" class="form-control" placeholder="Porcentaje" id='porcentaje' />
+                </div> 
+              </div>
+
+            </div>
+
+            <div class="box-footer">
+              <div class="col-xs-12">
+                <button type="button" class="btn btn-success" data-dismiss="modal"
+                onclick="CGTxt()"><i class="glyphicon glyphicon-plus"></i>&nbsp;&nbsp;Continuar
+                </button>
+                <button type="button" class="btn btn-danger pull-right" data-dismiss="modal"
+                onclick="CGTxt()"><i class="glyphicon glyphicon-remove"></i>&nbsp;&nbsp;Cancelar
+                </button>
+
+
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+
 
      
     </div><!-- ./wrapper -->

@@ -89,8 +89,8 @@ class KCargador extends CI_Model{
               dep_adicional numeric, -- DEPOSITO ADICIONAL
               dep_garantia numeric -- DEPOSITO DE GARANTIA
             );
-            CREATE INDEX tablacruce_cedula ON space.tablacruce (cedula);
-          "  );
+            CREATE INDEX tablacruce_cedula ON space.tablacruce (cedula);");
+    return $rs;
   }
 
   
@@ -339,7 +339,7 @@ class KCargador extends CI_Model{
     exec($comando);
     $comando = "cd tmp/; md5sum " . $archivo . ".csv  | awk -F\  '{print $1}'";
     exec($comando, $firma);
-    $comando = "cd tmp/; awk -F\; '{SUMG += $35; SUMD += $36} END  {printf \"%.2f\", SUMG; printf \";%.2f\", SUMD}' " . $archivo . ".csv";
+    $comando = "cd tmp/; awk -F\; '{SUMG += $35; SUMD += $36; SUMA += $38} END {printf \"%.2f\", SUMG; printf \";%.2f\", SUMD; printf \";%.2f\", SUMA}' " . $archivo . ".csv";
     exec($comando, $monto);
     $g_d = explode(";", $monto[0]);
     $comando = "cd tmp; du -sh " . $archivo . ".csv | awk  '{print $1}'";
@@ -361,6 +361,7 @@ class KCargador extends CI_Model{
       'f' => $firma[0], 
       'g' => number_format($g_d[0], 2, ',','.'), 
       'd' => number_format($g_d[1], 2, ',','.'), 
+      'a' => number_format($g_d[2], 2, ',','.'),
       'p' => $peso[0],
       't' => $time,
       'e' => $rs,
