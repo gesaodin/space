@@ -203,7 +203,7 @@
                         </thead>
                         <tbody>
                         </tbody>
-                    </table>
+                      </table>
                     </div><!-- /.box-body -->
                     <div class="box-footer">
                       Los archivos generados por el sistema poseen firmas de autentificación que los hacen únicos e irremplazables

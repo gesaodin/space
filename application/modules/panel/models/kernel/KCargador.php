@@ -481,9 +481,12 @@ class KCargador extends CI_Model{
     if($obj->code == 0 ){
       foreach ($obj->rs as $clv => $val) {
         
+
         $arr[] = array(
           'id' => $val->arch, 
-          'tipo' => $val->tipo, 
+          'tipo' => $val->tipo,
+          'tipotexto' => $this->tipoMovimiento($val->tipo),
+          'fecha' => $val->fech,
           'peso' => $val->peso, 
           'usuario' => $val->usua, 
           'registro' => $val->regi
@@ -493,6 +496,28 @@ class KCargador extends CI_Model{
     return $arr;
   }
 
+  function tipoMovimiento($id) {
+    $tipo = '';
+    switch ($id) {
+      case 0:
+        $tipo = 'Días Adicionales';
+        # code...
+        break;
+      case 1:
+        $tipo = 'Garantias';
+        # code...
+        break;
+      case 2:
+        $tipo = 'Asignación de Antiguedad';
+        # code...
+        break;
+      default:
+        $tipo = 'Días Adicionales';
+        # code...
+        break;
+    }
+    return $tipo;
+  }
 
 
   /**
@@ -502,10 +527,11 @@ class KCargador extends CI_Model{
   * @param int
   * @return array
   */
-  function CrearTxtMovimientos($archivo =  '', $tipo = 0){
+  function CrearTxtMovimientos( $archivo =  '', $tipo = 0){
     $fecha = Date("Y-m-d");   
 
-
+    
+   
 
     $ruta = explode("/", BASEPATH);
     $c = count($ruta)-2;
@@ -513,15 +539,19 @@ class KCargador extends CI_Model{
     for ($i=1; $i < $c; $i++) { 
       $r .= $ruta[$i] . '/';
     }
+    
     $r .= 'tmp/' . $archivo . '/';
-    $sub = substr($archivo, 25, 32);
+    $sub = substr($archivo, 25, 33);
 
-   
+
+    $file = $this->KGenerador->AperturaTXT($archivo, $sub, $tipo);
+    
     $comando = 'cd tmp/;time ./script.sh ' . $r . $sub . ' 2>&1';
-    exec($comando, $bash);
+    //exec($comando, $bash);
     $this->Resultado = array(
       'a' => $sub . '.csv',
-      'rs' => $bash
+      //'rs' => $bash,
+      'file' => $file
     );
     return $this->Resultado;
   }
