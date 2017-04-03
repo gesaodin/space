@@ -30,7 +30,6 @@ function init(){
 	        textomenu = '<span>' + x + '</span><i class="fa fa-angle-left pull-right"></i></a><ul class="treeview-menu">';	              
 			var submenu = '';
 			$.each(y, function(cla, val){
-
 				submenu = '';			
 				clase = '<i class="' + val.clase + '"></i>';	           	
 				if (val.priv_!=null && val.url == _INTERFAZ) {
@@ -72,10 +71,14 @@ function cBtn(_DATA){
 
 
 function vBtn(){
+	
 	$.each(_PRV, function(p, q){		
 		console.log(q);
 		if (q.tipo == "tbl_" && q.visi == "0"){
 			$("#" + q.cod).hide();
+		}
+		if (q.tipo == "div" && q.visi == "1"){
+			$("#" + q.cod).show();
 		}
 	});
 }
