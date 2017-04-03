@@ -115,6 +115,11 @@ class Panel extends MY_Controller {
 		$this->load->view("menu/calculos/asignacionantiguedad");
 	}
 
+	public function pagoaportes(){
+		$this->load->view("menu/calculos/pagoaportes");
+	}
+
+
 	public function interesescaidos(){
 		$this->load->view("menu/calculos/interesescaidos");
 	}
@@ -473,6 +478,12 @@ class Panel extends MY_Controller {
 		echo json_encode($respuesta);
 	}
 
+	function Apert(){
+		
+		$this->load->model("kernel/KGenerador");
+		$respuesta = $this->KGenerador->AperturaTXT('G3351645ef2122e6983aa18da34b70818', '34b70818', 0);
+		echo json_encode($respuesta);
+	}
 
 
 	function LoteConsultar(){

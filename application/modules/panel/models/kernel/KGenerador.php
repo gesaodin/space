@@ -64,13 +64,16 @@ class KGenerador extends CI_Model{
   }
 
 
-  function AperturaTXT($archivo, $tipo){
+  function AperturaTXT($path, $archivo, $tipo){
     $m = 35;
     if($tipo == 1)$m = 36;
     
-
+ 
+    $sub = substr($path, 1, 33);
     $this->load->model('kernel/KSensor');
-    $handle = @fopen("tmp/" . $archivo, "r");
+    $handle = fopen("tmp/" . $sub . ".csv", "r");
+    $file = fopen("tmp/" . $path . '/' . $archivo . ".txt","a") or die("Problemas");
+
     $sum = 0;
     $plan = '03487';
     if ($handle) {
@@ -96,11 +99,13 @@ class KGenerador extends CI_Model{
             $monto = round($l[$m], 2);
             $monto_s = $this->completarCero(13, str_replace('.', '', $monto) , "0");            
             $ganancia = '0';
-            $tipo_cuenta = '';
+            $numeroyubicacion = $this->completarCero(15, " ", " ");
 
-            $numeroyubicacion = $this->completarCero(15, " ", " "); 
-            echo $plan . $nac . $cedula .  $nombre . 
-            $edocivil . $campo . $monto_s . "\n";
+            $linea = $plan . $nac . $cedula .  $nombre . $edocivil . $campo . $monto_s;
+
+            fputs($file,$linea);
+            fputs($file,"\n");      
+            
             $sum++;
           }
             //echo $buffer;
@@ -109,6 +114,7 @@ class KGenerador extends CI_Model{
             return "Error: unexpected fgets() fail\n";
         }
         fclose($handle);
+        fclose($file);
     }
     
     //echo "Lineas $sum <br>";
@@ -123,6 +129,8 @@ class KGenerador extends CI_Model{
   function AporteTXT($archivo){
     $this->load->model('kernel/KSensor');
     $handle = @fopen("tmp/" . $archivo, "r");
+    $file = fopen("tmp/" . $archivo . ".txt","a") or die("Problemas");
+
     $sum = 0;
     $plan = '03487';
     if ($handle) {
@@ -156,9 +164,11 @@ class KGenerador extends CI_Model{
             $tipo_cuenta = '';
             $numeroyubicacion = $this->completarCero(15, " ", " "); 
 
-            echo $plan . $nac . $cedula .  $nombre . 
+            $linea = $plan . $nac . $cedula .  $nombre . 
             $edocivil . $campo . $ganancia . 
             $tipo_cuenta . $numeroyubicacion . "\n";
+            fputs($file,$linea);
+            fputs($file,"\n");
             $sum++;
           }
             //echo $buffer;
@@ -167,11 +177,12 @@ class KGenerador extends CI_Model{
             return "Error: unexpected fgets() fail\n";
         }
         fclose($handle);
+        fclose($file);
     }
     
     //echo "Lineas $sum <br>";
 
-    return "Duración: " . $this->KSensor->Duracion();
+    return "Duración del Archivo ($archivo.txt) : " . $this->KSensor->Duracion();
   }
 
 
