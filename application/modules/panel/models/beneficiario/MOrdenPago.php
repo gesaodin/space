@@ -405,7 +405,7 @@ class MOrdenPago extends CI_Model{
     where ' . $texto . '
       orden_pago.f_creacion >= \'' . $desde . ' 00:00:00\' AND 
       orden_pago.f_creacion <= \'' . $hasta . ' 24:00:00\' AND
-      orden_pago.tipoan != 0 orden_pago.status_id = 100';
+      orden_pago.tipoan != 0 AND orden_pago.status_id = 100';
         
     $obj = $this->Dbpace->consultar($sConsulta);
     
