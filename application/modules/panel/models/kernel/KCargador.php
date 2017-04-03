@@ -40,8 +40,10 @@ class KCargador extends CI_Model{
   */
   public function __construct(){
     parent::__construct();
+    if(!isset($this->DBSpace)) $this->load->model('comun/DBSpace');
     $this->load->model('kernel/KCalculo');
-    $this->load->model('kernel/KGenerador'); 
+    $this->load->model('kernel/KGenerador');
+
   }
   
 
@@ -339,7 +341,7 @@ class KCargador extends CI_Model{
     exec($comando);
     $comando = "cd tmp/; md5sum " . $archivo . ".csv  | awk -F\  '{print $1}'";
     exec($comando, $firma);
-    $comando = "cd tmp/; awk -F\; '{SUMG += $35; SUMD += $36; SUMA += $38} END {printf \"%.2f\", SUMG; printf \";%.2f\", SUMD; printf \";%.2f\", SUMA}' " . $archivo . ".csv";
+    $comando = "cd tmp/; awk -F\; '{SUMG += $35; SUMD += $36; SUMA += $37} END {printf \"%.2f\", SUMG; printf \";%.2f\", SUMD; printf \";%.2f\", SUMA}' " . $archivo . ".csv";
     exec($comando, $monto);
     $g_d = explode(";", $monto[0]);
     $comando = "cd tmp; du -sh " . $archivo . ".csv | awk  '{print $1}'";
@@ -349,16 +351,17 @@ class KCargador extends CI_Model{
 
     //exec("cd tmp/; rm -rf " . $archivo . ".csv");
 
-    $sInsert = 'INSERT INTO space.archivos (arch,tipo,peso,cert,regi,usua,gara,diaa,fech) 
-    VALUES (\'' . $archivo . '\',1,\'' . $peso[0] . '\',\'' . $firma[0] . '\',\'' . $linea[0] . '\',\'' . 
-    $_SESSION['usuario'] . '\',' . $g_d[0] . ',' . $g_d[1] . ',\'' . $time . '\');';
+    $sInsert = 'INSERT INTO space.archivos (arch,tipo,peso,cert,regi,usua,gara,diaa,asig,fech,esta) 
+    VALUES (\'' . $archivo . '\',9,\'' . $peso[0] . '\',\'' . $firma[0] . '\',\'' . $linea[0] . '\',\'' . 
+    $_SESSION['usuario'] . '\',' . $g_d[0] . ',' . $g_d[1] . ',' . $g_d[2] . ',\'' . $time . '\',0);';
     
 
     $rs = $this->DBSpace->consultar($sInsert);
 
     $this->Resultado = array(
       'l' => $linea[0], 
-      'f' => $firma[0], 
+      'f' => $firma[0],
+      'c' => $archivo, 
       'g' => number_format($g_d[0], 2, ',','.'), 
       'd' => number_format($g_d[1], 2, ',','.'), 
       'a' => number_format($g_d[2], 2, ',','.'),
@@ -380,13 +383,27 @@ class KCargador extends CI_Model{
   function GarantiasDiasAdicionales($archivo =  '',  $tipo = 0, $porce = 100){
     $fecha = Date("Y-m-d");
 
-    $columna = "35";
-    $parametro = "G";
-    $codigo = 32;
-    if($tipo != 0){
-      $columna = "36";
-      $parametro = "D";
-      $codigo = 31;
+    switch ($tipo) {
+      case 0:
+        $columna = "35";
+        $parametro = "G";
+        $codigo = 33; //tipo de movimientos para calculos Garantias
+        break;
+      case 1:
+        $columna = "36";
+        $parametro = "D";
+        $codigo = 30;  //Calculo de dias adicionales
+        break;
+      case 2: 
+        $columna = "38";
+        $parametro = "A";
+        $codigo = 8;  //Calculo de dias adicionales
+        break;
+      default:
+        $columna = "36";
+        $parametro = "A";
+        $codigo = 8;  //Calculo de dias adicionales
+        break;
     }
 
     $ruta = explode("/", BASEPATH);
@@ -397,36 +414,59 @@ class KCargador extends CI_Model{
     }
 
     $r .= 'tmp/';
+    $porcen = '';
+    if($porce < 100){
+      $porcen = '* ' . $porce . '/100';
+    }
 
-    $sub = substr($archivo, 24, 32);
+    $sub = substr($archivo, 24, 32);    
+    $file = $parametro . $archivo;
 
-    $comando = 'cd tmp/; rm -rf '. $parametro . $archivo . '.csv; rm -rf '. $sub . '.csv';
+    $comando = 'cd tmp/; rm -rf '. $file . '; mkdir '. $file;
     exec($comando, $err);
 
-    $comando = 'cd tmp/; awk -F\';\' \'{ for (x=1; x<=28; x++) {  printf "%s;", $x } printf $' . 
-    $columna . ' "\n" } \' ' . $archivo . '.csv >> ' . $parametro . $archivo . '.csv';
+    if($tipo == 2){
+      //$comando = "cd tmp/; awk -F';' '{ for (x=1; x<=34; x++) {  printf \"%s;\", $x } printf \"\n\" }' " . $archivo . ".csv >>  " . $file . "/" . $file . ".csv";
+      $comando = 'cd tmp/; awk -F\';\' \'{ for (x=1; x<=34; x++) {  printf "%s;", $x } printf $' . 
+      $columna . $porcen . ' "\n" } \' ' . $archivo . '.csv >> ' . $file . '/' . $file . '.csv';
+      exec($comando, $firma);
+    }else{
+      $comando = 'cd tmp/; awk -F\';\' \'{ for (x=1; x<=28; x++) {  printf "%s;", $x } printf $' . 
+      $columna . $porcen . ' "\n" } \' ' . $archivo . '.csv >> ' . $file . '/' . $file . '.csv';
+      exec($comando, $firma);
+    }
 
-    exec($comando, $firma);
     
-    $comando = 'cd tmp/; awk -F\';\' \'{SUM+=$NF} END {printf "%.2f", SUM }\' ' . $parametro . $archivo . '.csv';
+    $comando = 'cd tmp/' . $file . '/; awk -F\';\' \'{SUM+=$NF} END {printf "%.2f", SUM }\' ' . $file . '.csv';
     exec($comando, $monto);
     
-    $comando = 'cd tmp/; awk -F\';\' \'{printf $1 ";' . $sub . ';' . $codigo . ';" $NF ";' 
-    . $fecha . ';' . $fecha . ';' . $_SESSION['usuario'] . '\n" }\' ' . $parametro . $archivo . '.csv >> ' . $sub . '.csv';
-    exec($comando, $insert);
-
-    $comando = 'cd tmp/;time ./script.sh ' . $r . $sub . ' 2>&1';
-    exec($comando, $bash);
+    $comando = 'cd tmp/' . $file . '/; awk -F\';\' \'{printf $1 ";' . $sub . ';' . $codigo . ';" $NF ";' 
+    . $fecha . ';' . $fecha . ';' . $_SESSION['usuario'] . '\n" }\' ' . $file . '.csv >> ' . $sub . '.csv';
+    exec($comando, $insert);  
     
-    $comando = 'cd tmp/; du -sh ' .  $parametro . $archivo . '.csv | awk  \'{print $1}\'';
+    $comando = 'cd tmp/' . $file . '/; du -sh ' .  $file . '.csv | awk  \'{print $1}\'';
     exec($comando, $peso);
+
+    $comando = 'cd tmp/' . $file . '/; zip ' .  $file . '.zip ' .  $file . '.csv';
+    exec($comando, $firma);
+
     $time = date("Y-m-d H:i:s");
+
+
+    $sUpdate = 'UPDATE  space.archivos SET esta=1, tipo=' . $tipo . ' WHERE arch=\'' . $archivo . '\';';
+    
+
+    $rs = $this->DBSpace->consultar($sUpdate);
+
+
+
     $this->Resultado = array(
       'd' => number_format($monto[0], 2, ',','.'), 
       'p' => $peso[0],
       't' => $time,
-      'a' => $parametro . $archivo . '.csv',
-      'rs' => $bash
+      'a' => $parametro . $archivo, //,
+      //'rs' => $bash,
+      'tipo' => $tipo
     );
 
     return true;
@@ -434,27 +474,57 @@ class KCargador extends CI_Model{
 
 
 
-
-  function AsignacionAntiguedad($archivo =  '',  $tipo = 0, $porce = 100){
-    
-    $comando = "cd tmp/; awk -F';' '{ for (x=1; x<=34; x++) {  printf \"%s;\", $x } printf \"\n\" }' " . $archivo . ".csv >> A" . $archivo . ".csv";
-    exec($comando, $firma);
-    
-    $comando = "cd tmp/; awk -F';' '{SUM+=$NF} END {print SUM }' A" . $archivo . ".csv";
-    exec($comando, $monto);
-
-    
-    $comando = "cd tmp; du -sh A" . $archivo . ".csv | awk  '{print $1}'";
-    exec($comando, $peso);
-    $time = date("Y-m-d H:i:s");
-    $this->Resultado = array(
-      'd' => number_format($monto, 2, ',','.'), 
-      'p' => $peso[0],
-      't' => $time
-    );
-
+  function ConsultarArchivos(){
+    $s = 'SELECT * FROM  space.archivos WHERE esta=1';
+    $obj = $this->DBSpace->consultar($s);
+    $arr = array();
+    if($obj->code == 0 ){
+      foreach ($obj->rs as $clv => $val) {
+        
+        $arr[] = array(
+          'id' => $val->arch, 
+          'tipo' => $val->tipo, 
+          'peso' => $val->peso, 
+          'usuario' => $val->usua, 
+          'registro' => $val->regi
+        );
+      }
+    }
+    return $arr;
   }
 
+
+
+  /**
+  * Crear Txt Para los bancos e insertar movimientos
+  *
+  * @param string
+  * @param int
+  * @return array
+  */
+  function CrearTxtMovimientos($archivo =  '', $tipo = 0){
+    $fecha = Date("Y-m-d");   
+
+
+
+    $ruta = explode("/", BASEPATH);
+    $c = count($ruta)-2;
+    $r = '/';
+    for ($i=1; $i < $c; $i++) { 
+      $r .= $ruta[$i] . '/';
+    }
+    $r .= 'tmp/' . $archivo . '/';
+    $sub = substr($archivo, 25, 32);
+
+   
+    $comando = 'cd tmp/;time ./script.sh ' . $r . $sub . ' 2>&1';
+    exec($comando, $bash);
+    $this->Resultado = array(
+      'a' => $sub . '.csv',
+      'rs' => $bash
+    );
+    return $this->Resultado;
+  }
 
 
   /**

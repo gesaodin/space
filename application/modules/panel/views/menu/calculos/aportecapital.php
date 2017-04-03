@@ -250,9 +250,10 @@
                 </div>
                 <div class="col-xs-10">
                   <select class="form-control select2" style="width: 100%;" id='motivo'>
-                    <option value=0> Garantias </option>>
-                    <option value=1> Dias Adicionales </option>
-                    <option value=2> Asignación de Antiguedad </option>>
+                    <option value='-'> Seleccionar </option>>
+                    <option value="0"> Garantias </option>>
+                    <option value="1"> Dias Adicionales </option>
+                    <option value="2"> Asignación de Antiguedad </option>>
                   </select>
                 </div>
 
@@ -265,8 +266,12 @@
                   <label>Porcentaje</label>
                 </div>
                 <div class="col-xs-2">
-                  <input type="text" class="form-control" placeholder="Porcentaje" id='porcentaje' />
+                  <input type="text" class="form-control" placeholder="Porcentaje %" id='porc' value='100'/>
+                  <input type="hidden" id='llave' value='0'>
                 </div> 
+                <div class="col-xs-8"> 
+                  <label>Define la forma en que se distribuye el archivo.</label>
+                </div>
               </div>
 
             </div>
@@ -277,7 +282,7 @@
                 onclick="CGTxt()"><i class="glyphicon glyphicon-plus"></i>&nbsp;&nbsp;Continuar
                 </button>
                 <button type="button" class="btn btn-danger pull-right" data-dismiss="modal"
-                onclick="CGTxt()"><i class="glyphicon glyphicon-remove"></i>&nbsp;&nbsp;Cancelar
+                onclick="continuar()"><i class="glyphicon glyphicon-remove"></i>&nbsp;&nbsp;Cancelar
                 </button>
 
 

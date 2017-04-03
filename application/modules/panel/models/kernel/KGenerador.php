@@ -64,7 +64,7 @@ class KGenerador extends CI_Model{
   }
 
 
-  function Apertura($archivo, $tipo){
+  function AperturaTXT($archivo, $tipo){
     $m = 35;
     if($tipo == 1)$m = 36;
     
@@ -72,7 +72,7 @@ class KGenerador extends CI_Model{
     $this->load->model('kernel/KSensor');
     $handle = @fopen("tmp/" . $archivo, "r");
     $sum = 0;
-    $plan = '12345';
+    $plan = '03487';
     if ($handle) {
         while (($buffer = fgets($handle, 4096)) !== false) {
           $l = explode(";", $buffer);
@@ -90,9 +90,7 @@ class KGenerador extends CI_Model{
                 $nombre .= $this->completarCero(15, " ", " ");
               }
               
-            }
-            
-            
+            }   
             
             $campo = $this->completarCero(26, " ", "0");
             $monto = round($l[$m], 2);
@@ -102,8 +100,7 @@ class KGenerador extends CI_Model{
 
             $numeroyubicacion = $this->completarCero(15, " ", " "); 
             echo $plan . $nac . $cedula .  $nombre . 
-            $edocivil . $campo . $monto_s . $ganancia . 
-            $tipo_cuenta . $numeroyubicacion . "\n";
+            $edocivil . $campo . $monto_s . "\n";
             $sum++;
           }
             //echo $buffer;
@@ -116,18 +113,18 @@ class KGenerador extends CI_Model{
     
     //echo "Lineas $sum <br>";
 
-    //$this->KSensor->Duracion();
-    return "Proceso Exitoso";
+    
+    return "Duración: " . $this->KSensor->Duracion();
   }
 
 
 
 
-  function Aporte($archivo){
+  function AporteTXT($archivo){
     $this->load->model('kernel/KSensor');
     $handle = @fopen("tmp/" . $archivo, "r");
     $sum = 0;
-    $plan = '12345';
+    $plan = '03487';
     if ($handle) {
         while (($buffer = fgets($handle, 4096)) !== false) {
           $l = explode(";", $buffer);
@@ -174,8 +171,7 @@ class KGenerador extends CI_Model{
     
     //echo "Lineas $sum <br>";
 
-    //$this->KSensor->Duracion();
-    return "Proceso Exitoso";
+    return "Duración: " . $this->KSensor->Duracion();
   }
 
 

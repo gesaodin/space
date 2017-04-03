@@ -436,23 +436,46 @@ class Panel extends MY_Controller {
 		echo $this->KSensor->Duracion();
 	}
 
+
+
 	function LoteGarantiaDiasAdicionales($archivo = ''){
 		header('Content-Type: application/json');
-
-		if($archivo == ''){
+		$data = json_decode($_POST['data']);
+		if($archivo == '' || $data->tipo < 0 || $data->tipo > 3){
 			echo 'Está intentando acceder a un área restringida.';
 		}else{
 			$this->load->model("kernel/KCargador");
-			$respuesta = $this->KCargador->GarantiasDiasAdicionales($archivo, 1, 100);
+			$respuesta = $this->KCargador->GarantiasDiasAdicionales($archivo, $data->tipo, $data->porc);	
 			echo json_encode($this->KCargador->Resultado);
 		}
+		
 	}
 
-	function LoteGarantiaAsignacionAntiguedad(){
-
+	function CrearTxtMovimientos(){
+		header('Content-Type: application/json');
+		$data = json_decode($_POST['data']);
+		
+		
+		if($data->id == '' || $data->tipo < 0 ){
+			echo json_encode('Está intentando acceder en un área restringida.');
+		}else{
+			$this->load->model("kernel/KCargador");
+			$respuesta = $this->KCargador->CrearTxtMovimientos($data->id, $data->tipo);	
+			echo json_encode($this->KCargador->Resultado);
+		}
+		
 	}
 
 	function LoteAsignacionAntiguedad(){
+		header('Content-Type: application/json');
+		$this->load->model("kernel/KCargador");
+		$respuesta = $this->KCargador->ConsultarArchivos();
+		echo json_encode($respuesta);
+	}
+
+
+
+	function LoteConsultar(){
 
 	}
 
