@@ -176,7 +176,7 @@ class MDirectiva extends CI_Model{
    
    //$antiguedad = $no_ascenso > 0 ? $sGradoMaximo : $antiguedad_grado;
 
-
+    if($antiguedad < 0) $antiguedad = 0;
 
     $sConsulta = 'SELECT A.id, A.nombre, A.numero, A.f_vigencia, 
         A.f_inicio, udad_tributaria, detalle_directiva.grado_id, 
