@@ -22,7 +22,9 @@ function consultar() {
             // Se cambio para desplegar el tiempo de servicio correcto segun situacion del beneficiario
             if(data.fecha_retiro != null && data.fecha_retiro != '') {
                 $("#tservicio").val(data.tiempo_servicio_aux);
+
             }else{
+
                 $("#tservicio").val(data.tiempo_servicio);
             }
             $("#nhijos").val(data.numero_hijos);
@@ -63,6 +65,7 @@ function consultar() {
             $("#saldo_disponible").val(data.Calculo.saldo_disponible);
             if(data.fecha_retiro != null && data.fecha_retiro != '') {
                 $("#diferencia_AA").val(data.Calculo.asignacion_diferencia);
+                $("#saldo_disponible").val('0');
             }else{
                 $("#diferencia_AA").val(data.Calculo.diferencia_AA);
             }
