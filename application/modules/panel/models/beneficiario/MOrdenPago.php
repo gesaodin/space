@@ -255,7 +255,7 @@ class MOrdenPago extends CI_Model{
       \'' . $this->usuario_modificacion . '\',
       \'' . $this->ultima_observacion . '\',' . $this->tipoan . ')';
     
-    echo $sInsert;
+    //echo $sInsert;
     $obj = $this->Dbpace->consultar($sInsert);
 
 

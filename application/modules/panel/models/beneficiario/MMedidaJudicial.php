@@ -345,7 +345,7 @@ class MMedidaJudicial extends CI_Model{
 	      \'' . $this->usuario_modificacion . '\',
 	      \'' . $this->ultima_observacion . '\')';
 	    
-	    //echo $sInsert;
+	    echo $sInsert;
 	    $obj = $this->Dbpace->consultar($sInsert);
 
 

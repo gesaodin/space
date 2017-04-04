@@ -332,7 +332,7 @@ function CalcularAA(id){
 
 function CalcularM(id){
     var suma = 0;
-    var calcMontoAsignacion = parseFloat($("#monto_asignacion").val());        
+    var calcMontoAsignacion = parseFloat($("#monto_asignacion_aux").val());        
     for (var i = 1; i <= iFamiliares; i++) {
         if($("#txtM" + i).val() != ""){
             var por = parseFloat($("#txtM" + i).val());      
@@ -410,6 +410,7 @@ function consultarBeneficiarioFecha(){
     ano = elem[2];
     var fech = ano + '-' + mes + '-' + dia;    
     ruta = sUrlP + "consultarBeneficiario/" + val  + "/" + fech;
+    console.log(ruta);
 
     $.getJSON(ruta, function(data) {    
         $("#tservicio").val(data.tiempo_servicio_aux);
@@ -452,6 +453,26 @@ function consultarBeneficiarioFecha(){
 
         fallecimiento_actoservicio = data.Calculo.fallecimiento_actoservicio_aux;
         fallecimiento_fueraservicio = data.Calculo.fallecimiento_fueraservicio_aux;
+        var motivo = $("#motivo_finiquito option:selected").val();
+
+        if(motivo > 8 && motivo < 11){
+            fa = Number(fallecimiento_actoservicio); 
+            $("#monto_asignacion").val(fa.formatMoney(2, ',', '.'));
+            $("#monto_asignacion_aux").val(fallecimiento_actoservicio);
+            
+            if(motivo == 9 ) {
+                ma = Number(fallecimiento_fueraservicio);
+                $("#monto_asignacion").val(ma.formatMoney(2, ',', '.'));
+                $("#monto_asignacion_aux").val(fallecimiento_fueraservicio);
+
+            }else{
+                
+                $("#asignacion_causa").val('36,00');
+                $("#asignacion_causa_aux").val('36.00');
+            }
+        }
+
+
         CalcularDeuda();
     }
     ).done(function(msg) {}).fail(function(jqXHR, textStatus) {
