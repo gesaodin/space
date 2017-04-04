@@ -410,6 +410,7 @@ function consultarBeneficiarioFecha(){
     ano = elem[2];
     var fech = ano + '-' + mes + '-' + dia;    
     ruta = sUrlP + "consultarBeneficiario/" + val  + "/" + fech;
+    console.log(ruta);
 
     $.getJSON(ruta, function(data) {    
         $("#tservicio").val(data.tiempo_servicio_aux);
@@ -452,6 +453,24 @@ function consultarBeneficiarioFecha(){
 
         fallecimiento_actoservicio = data.Calculo.fallecimiento_actoservicio_aux;
         fallecimiento_fueraservicio = data.Calculo.fallecimiento_fueraservicio_aux;
+
+        if(motivo > 8 && motivo < 11){
+
+            $("#monto_asignacion").val(fallecimiento_actoservicio);
+            $("#monto_asignacion_aux").val(fallecimiento_actoservicio);
+            
+            if(motivo == 9 ) {
+                $("#monto_asignacion").val(fallecimiento_fueraservicio);
+                $("#monto_asignacion_aux").val(fallecimiento_fueraservicio);
+
+            }else{
+                
+                $("#asignacion_causa").val('36,00');
+                $("#asignacion_causa_aux").val('36.00');
+            }
+        }
+
+
         CalcularDeuda();
     }
     ).done(function(msg) {}).fail(function(jqXHR, textStatus) {
