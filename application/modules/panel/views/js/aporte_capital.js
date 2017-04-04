@@ -261,6 +261,7 @@ function RegistarTxt(id, tipo){
 		id: id,
 		tipo: tipo
 	}
+	console.log(tipo);
 	
 	url = sUrlP + "CrearTxtMovimientos/" + id;
 	$.post(url, {data: JSON.stringify(dato)}, function (data){

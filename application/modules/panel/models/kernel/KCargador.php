@@ -558,8 +558,6 @@ class KCargador extends CI_Model{
   function CrearTxtMovimientos( $archivo =  '', $tipo = 0){
     $fecha = Date("Y-m-d");   
 
-    
-   
 
     $ruta = explode("/", BASEPATH);
     $c = count($ruta)-2;
