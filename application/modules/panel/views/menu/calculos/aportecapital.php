@@ -234,10 +234,10 @@
                 </div>
                 <div class="col-xs-10">
                   <select class="form-control select2" style="width: 100%;" id='motivo'>
-                    <option value='-'> Seleccionar </option>>
-                    <option value="0"> Garantias </option>>
+                    <option value='-'> Seleccionar </option>
+                    <option value="0"> Garantias </option>
                     <option value="1"> Dias Adicionales </option>
-                    <option value="2"> Asignación de Antiguedad </option>>
+                    <option value="2"> Asignación de Antiguedad </option>
                   </select>
                 </div>
 
