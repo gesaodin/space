@@ -525,10 +525,9 @@ class KCargador extends CI_Model{
 
 
   /*
-  *DROP TABLE space.archivos;
-
-    CREATE TABLE space.archivos
-    (
+  *
+    DROP TABLE space.archivos;
+    CREATE TABLE space.archivos(
       oid serial NOT NULL,
       arch character varying(128) NOT NULL,
       tipo integer,
@@ -544,7 +543,8 @@ class KCargador extends CI_Model{
       aper numeric,
       apor numeric,
       CONSTRAINT archivos_pkey PRIMARY KEY (oid)
-    )
+    );
+    
   */
 
 
