@@ -2,6 +2,8 @@
 
 var Persona = {};
 
+
+
 $( "#id" ).keypress(function( event ) {
   if ( event.which == 13 ) {
     $("#btnActualizar").focus();
@@ -53,6 +55,7 @@ function consultar() {
         $("#numero_cuenta").val(data.numero_cuenta);
         $("#estatus").val(data.estatus_descripcion);
         $("#saldo_disponible").val(data.Calculo.saldo_disponible);
+        vBtn();
 
     }).done(function(msg) {}).fail(function(jqXHR, textStatus) {
         $("#txtMensaje").html('No se encontro cédula de beneficiario');
@@ -152,6 +155,7 @@ function limpiar(){
     $("#monto_recuperado").val('');
     $("#fecha").val('');
     $("#o_b").val('');
+    vBtn();
    
 }
 
