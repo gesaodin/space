@@ -111,7 +111,18 @@ function CrearBotones(){
 
 function GenerarAporte(){
 
-
+	$("#divPendientes").html('<table id="reportearchivos" class="table table-bordered table-hover">\
+                        <thead>\
+                        <tr>\
+                            <th>#</th>\
+                            <th style="width: 120px;">Llave del Archivo</th>\
+                            <th style="width: 60px;">Registros</th>\
+                            <th style="width: 120px;">Fecha</th>\
+                            <th>Garantias</th>\
+                            <th>Dias Adic.</th>\
+                            <th>Asignación A.</th>\
+                        </tr>\
+                        </thead><tbody></tbody></table>');
 	var t = $('#reportearchivos').DataTable();
     t.clear().draw();
 	$('#cargando').show();
@@ -135,7 +146,7 @@ function GenerarAporte(){
 		j = data.json;
 		
 		var sBoton = '<div class="btn-group">';
-        sBoton += '<button id="btnProcesar" type="button" class="btn btn-success" title="Generar" onclick="Ctxt(\'' + j.c + '\')"><i class="fa fa-lock" ></i></button>';                                
+        sBoton += '<button id="btnProcesar" type="button" class="btn btn-success pull-right" title="Generar" onclick="Ctxt(\'' + j.c + '\')"><i class="fa fa-database" ></i></button>';                                
         sBoton += '</button>';
 	    sBoton + '</div>';  
 
@@ -167,9 +178,9 @@ function DescargarAportes(){
 function DescargarTxt(file, tipo){
 	location.href = sUrl + 'tmp/' + file + '/' + file + '.zip';
 	
-	var boton = '<button type="button" class="btn btn-warning" onclick="RegistarTxt(\'' + file + '\',' + tipo + ')">';
+	var boton = '<button type="button" class="btn btn-warning pull-right" onclick="RegistarTxt(\'' + file + '\',' + tipo + ')">';
         boton += '<i class="fa fa-superscript"></i>&nbsp;&nbsp;Ejecutar&nbsp;&nbsp;</button>';
-        boton += '<button type="button" class="btn btn-danger pull-right" onclick="continuar()">';
+        boton += '<button type="button" class="btn btn-danger" onclick="continuar()">';
         boton += '<i class="glyphicon glyphicon-remove"></i>&nbsp;&nbsp;Cancelar&nbsp;&nbsp;</button>';
     $("#divContinuar").html(boton);
     texto = '¿Desea ejecutar los calculos y registrarlos en la base de datos para luego depositarlos?'; 
@@ -195,7 +206,7 @@ function cargarGrado(){
             $("#grado").append(opt);
         });
     }).done(function(msg) {}).fail(function(jqXHR, textStatus) {
-       $("#txtMensaje").html('No se encontro cédula de beneficiario');
+       $("#txtMensaje").html('No se encontr...');
        $("#logMensaje").modal('show');
        limpiar();
     });
@@ -253,11 +264,14 @@ function RegistarTxt(id, tipo){
 	
 	url = sUrlP + "CrearTxtMovimientos/" + id;
 	$.post(url, {data: JSON.stringify(dato)}, function (data){
-
-		var boton = '<button type="button" class="btn btn-success" onclick="continuar()">';
+		console.log(data);
+		urlf = sUrl + 'tmp/' + data.a + '/' + data.aper;
+		urlt = sUrl + 'tmp/' + data.a + '/' + data.apor;
+		var boton = '<button type="button" class="btn btn-success pull-right" onclick="continuar()">';
         boton += '<i class="fa fa-cloud-download"></i>&nbsp;&nbsp;Continuar&nbsp;&nbsp;</button>';
 	    $("#divContinuar").html(boton);
-	    texto = 'Proceso exitoso...'; 
+	    texto = '<a href="' + urlf + '" target="top" class="btn btn-app"><span class="badge bg-green">' + data.caper + '</span><i class="fa fa-edit"></i> Apertura </a>'; 
+	    texto += '<a href="' + urlt + '"  target="top" class="btn btn-app"><span class="badge bg-green">' + data.capro + '</span><i class="fa fa-barcode"></i> Aporte </a>'; 
 	    $("#txtMensaje").html(texto);
 	    	
 	}).fail(function (err){

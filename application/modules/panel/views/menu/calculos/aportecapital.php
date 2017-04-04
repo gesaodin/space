@@ -187,23 +187,7 @@
                       </div><!-- /.box-tools -->
                     </div><!-- /.box-header -->
                     <div class="box-body">
-                      <table id="reportearchivos" class="table table-bordered table-hover">
-                        <thead>
-                        <tr>
-                            <th>#</th>
-                            <th style="width: 120px;">Llave del Archivo</th>                            
-                            <th style="width: 60px;">Registros</th>
-                            
-                            <th style="width: 120px;">Fecha</th>
-                            <th>Garantias</th> 
-                            <th>Dias Adic.</th> 
-                            <th>Asignación A.</th>
-                            
-                        </tr>
-                        </thead>
-                        <tbody>
-                        </tbody>
-                      </table>
+                      <div id="divPendientes"></div>
                     </div><!-- /.box-body -->
                     <div class="box-footer">
                       Los archivos generados por el sistema poseen firmas de autentificación que los hacen únicos e irremplazables

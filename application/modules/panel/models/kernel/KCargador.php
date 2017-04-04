@@ -475,7 +475,7 @@ class KCargador extends CI_Model{
 
 
   function ConsultarArchivos(){
-    $s = 'SELECT * FROM  space.archivos WHERE esta=1';
+    $s = 'SELECT * FROM  space.archivos WHERE esta=2';
     $obj = $this->DBSpace->consultar($s);
     $arr = array();
     if($obj->code == 0 ){
@@ -489,7 +489,9 @@ class KCargador extends CI_Model{
           'fecha' => $val->fech,
           'peso' => $val->peso, 
           'usuario' => $val->usua, 
-          'registro' => $val->regi
+          'registro' => $val->regi,
+          'aporte' => $val->apor,
+          'apertura' => $val->aper
         );
       }
     }
@@ -520,6 +522,32 @@ class KCargador extends CI_Model{
   }
 
 
+
+
+  /*
+  *DROP TABLE space.archivos;
+
+    CREATE TABLE space.archivos
+    (
+      oid serial NOT NULL,
+      arch character varying(128) NOT NULL,
+      tipo integer,
+      peso character varying(16) NOT NULL,
+      cert character varying(128) NOT NULL,
+      regi integer,
+      usua character varying(64) NOT NULL,
+      fech timestamp without time zone,
+      gara numeric,
+      diaa numeric,
+      asig numeric,
+      esta integer,
+      aper numeric,
+      apor numeric,
+      CONSTRAINT archivos_pkey PRIMARY KEY (oid)
+    )
+  */
+
+
   /**
   * Crear Txt Para los bancos e insertar movimientos
   *
@@ -544,14 +572,33 @@ class KCargador extends CI_Model{
     $sub = substr($archivo, 25, 33);
 
 
-    $file = $this->KGenerador->AperturaTXT($archivo, $sub, $tipo);
+    $file = $this->KGenerador->AperturaTXT($archivo, $sub, $tipo);    
+    $fils = $this->KGenerador->AporteTXT($archivo, $sub, $tipo);
     
+
+    $comando = 'cd tmp/' . $archivo . '/; zip APERT' . $sub . '.zip APERT' . $sub . '.txt';
+    exec($comando, $bash);
+
+    $comando = 'cd tmp/' . $archivo . '/; zip APORT' . $sub . '.zip APORT' . $sub . '.txt';
+    exec($comando, $bash);
+
     $comando = 'cd tmp/;time ./script.sh ' . $r . $sub . ' 2>&1';
-    //exec($comando, $bash);
+    exec($comando, $bash);
+
+    $sUpdate = 'UPDATE  space.archivos SET esta=2, aper=' . $file['c'] . ', apor=' . $fils['c'] . ' WHERE arch=\'' . substr($archivo, 1, 33) . '\';';
+    
+
+    $rs = $this->DBSpace->consultar($sUpdate);
+
+
     $this->Resultado = array(
-      'a' => $sub . '.csv',
+      'a' => $archivo,
+      'aper' =>  'APERT' . $sub . '.zip',
+      'apor' =>  'APORT' . $sub . '.zip',
       //'rs' => $bash,
-      'file' => $file
+      'd' => $file['d'],
+      'caper' => $file['c'], //,
+      'capro' => $fils['c']
     );
     return $this->Resultado;
   }

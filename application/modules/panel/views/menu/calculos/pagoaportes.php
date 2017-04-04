@@ -42,17 +42,43 @@
 
                 <div class="form-group">
                   <div class="col-md-12">
+                  
                     <table id="reportearchivos" class="table table-bordered table-hover">
                         <thead>
                         <tr>
-                            <th>#</th>
-                            <th style="width: 120px;">Llave del Archivo</th>                            
-                            <th style="width: 60px;">Registros</th>
-                            
-                            <th style="width: 120px;">Fecha</th>                            
+                            <th style="width:200px;">Archivos Bancarios</th>
+                            <th >Llave del Archivo</th>                            
+                            <th style="width: 50px;">Registros</th>   
+                            <th>Descripcion</th>                         
+                            <th>Fecha</th>                            
+                            <th>Peso</th>
+                            <th>Usuario</th>
                         </tr>
                         </thead>
                         <tbody>
+                          <?php
+                            foreach ($Archivos as $k => $v) {
+
+                              echo '<tr>
+                                      <td>
+                                        <a href="" target="top" class="btn btn-app">
+                                          <span class="badge bg-green">' . $v['apertura'] . '</span>
+                                          <i class="fa fa-edit"></i> Apertura 
+                                        </a>
+                                        <a href=""  target="top" class="btn btn-app">
+                                          <span class="badge bg-green">' . $v['aporte'] . '</span>
+                                          <i class="fa fa-barcode"></i> Aporte 
+                                        </a>
+                                      </td>
+                                      <td>' . $v['id'] . '</td>
+                                      <td>' . $v['registro']. '</td>
+                                      <td>' . $v['tipotexto'] . '</td>
+                                      <td>' . $v['fecha']. '</td>
+                                      <td>' . $v['peso'] . '</td>
+                                      <td>' . $v['usuario'] . '</td>
+                                    </tr>';
+                            }
+                          ?>
                         </tbody>
                       </table>
                   </div>
