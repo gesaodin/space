@@ -839,7 +839,7 @@ class Panel extends MY_Controller {
 
 
 		$data = json_decode($_POST['data']);
-		print_r($data);
+		//print_r($data);
 		$this->MOrdenPago->cedula_beneficiario = $data->Anticipo->id;
 		$this->MOrdenPago->cedula_afiliado = $data->Anticipo->id;
 
