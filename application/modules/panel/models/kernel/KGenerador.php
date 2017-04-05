@@ -75,14 +75,14 @@ class KGenerador extends CI_Model{
     $sub = substr($path, 1, 33);
     $handle = fopen("tmp/" . $sub . ".csv", "r");
     $file = fopen("tmp/" . $path . '/APERT' . $archivo . ".txt","a") or die("Problemas");
-
+    $cantidad = 0;
     $sum = 0;
     $plan = '03487';
     if ($handle) {
         while (($buffer = fgets($handle, 4096)) !== false) {
            if($sum > 0){ 
               $l = explode(";", $buffer);
-              if($l[30] == 0 && $l[32] == 0){
+              if($l[29] == 0 && $l[31] == 0 && $l[33] == 0){
                 $nombre = '';
                 $cedula = $this->completarCero(9, $l[0], '0');
                 $nac = 'V';
@@ -105,6 +105,8 @@ class KGenerador extends CI_Model{
                 //echo $linea . "\n";
                 fputs($file,$linea);
                 fputs($file,"\n");
+                $cantidad++;
+
               }
 
            }
@@ -123,7 +125,7 @@ class KGenerador extends CI_Model{
     
     return array(
       'd' => "Duración: " . $this->KSensor->Duracion(),
-      'c' => $sum
+      'c' => $cantidad
     );
   }
 
@@ -142,21 +144,21 @@ class KGenerador extends CI_Model{
     $this->load->model('kernel/KSensor');
     $handle = fopen("tmp/" . $sub . ".csv", "r");
     $file = fopen("tmp/" . $path . '/APORT' . $archivo . ".txt","a") or die("Problemas");
-
+    $cantidad = 0;
     $sum = 0;
     $plan = '03487';
     if ($handle) {
         while (($buffer = fgets($handle, 4096)) !== false) {
           if($sum > 0){ 
               $l = explode(";", $buffer);
-              if($l[30] > 0 ||  $l[32] > 0){                    
+              if($l[29] > 0 ||  $l[31] > 0 || $l[32] > 0){                    
                 $nac = 'V';
                 $cedula = $this->completarCero(9, $l[0], '0');
                 $tiptrn = '1';
                 $tippre = '00';
                 $frmpgo = '0';
                 $monto = $l[$m] * 100;  
-                echo $l[$m] . "   ->   " . $monto . '  ->  ' .  "<br>";
+                //echo $l[$m] . "   ->   " . $monto . '  ->  ' .  "<br>";
                 $monto_s = $this->completarCero(13, $monto, '0');
                 $tippta = 'N';
                 $tipcue = '0';
@@ -168,7 +170,8 @@ class KGenerador extends CI_Model{
                 $cuoanu = '000';
                 $linea = $plan . $nac . $cedula . $tiptrn . $frmpgo . $monto_s . $tippta . $tipcue . $numcue . $tasaint . $cbrintatp . $cuomen . $mtoanu . $cuoanu;
                 fputs($file,$linea);
-                fputs($file,"\n");                
+                fputs($file,"\n");   
+                $cantidad++;             
               }
           }
           $sum++;
@@ -183,7 +186,7 @@ class KGenerador extends CI_Model{
   
     return array(
       'd' => "Duración: " . $this->KSensor->Duracion(),
-      'c' => $sum
+      'c' => $cantidad
     );
   }
 
