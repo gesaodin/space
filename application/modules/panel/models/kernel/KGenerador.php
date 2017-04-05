@@ -158,8 +158,9 @@ class KGenerador extends CI_Model{
                 $tippre = '00';
                 $frmpgo = '0';
                 $monto = $l[$m] * 100;  
-                //echo $l[$m] . "   ->   " . $monto . '  ->  ' .  "<br>";
                 $monto_s = $this->completarCero(13, $monto, '0');
+                //echo $l[$m] . "   ->   " . $monto . '  ->  ' .  $monto_s . "<br>";
+                
                 $tippta = 'N';
                 $tipcue = '0';
                 $numcue = '0000000000';
@@ -168,7 +169,7 @@ class KGenerador extends CI_Model{
                 $cuomen = '000';
                 $mtoanu = '0000000000000';
                 $cuoanu = '000';
-                $linea = $plan . $nac . $cedula . $tiptrn . $frmpgo . $monto_s . $tippta . $tipcue . $numcue . $tasaint . $cbrintatp . $cuomen . $mtoanu . $cuoanu;
+                $linea = $plan . $nac . $cedula . $tiptrn . $tippre . $frmpgo . $monto_s . $tippta . $tipcue . $numcue . $tasaint . $cbrintatp . $cuomen . $mtoanu . $cuoanu;
                 fputs($file,$linea);
                 fputs($file,"\n");   
                 $cantidad++;             
