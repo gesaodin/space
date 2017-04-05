@@ -159,8 +159,6 @@ class KGenerador extends CI_Model{
                 $frmpgo = '0';
                 $monto = $l[$m] * 100;  
                 $monto_s = $this->completarCero(13, $monto, '0');
-                //echo $l[$m] . "   ->   " . $monto . '  ->  ' .  $monto_s . "<br>";
-                
                 $tippta = 'N';
                 $tipcue = '0';
                 $numcue = '0000000000';
