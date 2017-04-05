@@ -332,12 +332,13 @@ function salvarDatos(){
 	var url = sUrlP + 'UpsertUsuario';
 	$.post(url, {data: data})
 	.done(function (data){
-		console.log(data);
+		
 		console.log("Proceso exitoso");
+		var val = $("#id").val();
+	    URL = sUrlP + "administrar";
+	    $(location).attr('href', URL);
 	});
 	$("#logMensaje").modal('hide');
-	var val = $("#id").val();
-    URL = sUrlP + "administrar";
-    $(location).attr('href', URL);
+	
 
 }

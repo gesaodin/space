@@ -70,12 +70,14 @@ function listar(data){
         sBoton += '<button type="button" class="btn btn-success" title="Ver Detalles"><i class="fa fa-search" ></i></button>'; 
         switch (valor.estatus){
             case '220':
-                sBoton += '<button onclick="SuspenderMedidaEjecutada(\'' + valor.id + '\')" type="button" class="btn btn-warning" title="Inactivar"><i class="fa fa-mail-reply-all" ></i></button>';
+                idbtn = 'btnAsignacion';
+                if(valor.tipo_nombre == 'INTERESES')idbtn = 'btnIntereses';
+                sBoton += '<button id="' + idbtn +'" onclick="SuspenderMedidaEjecutada(\'' + valor.id + '\')" type="button" class="btn btn-warning" title="Inactivar"><i class="fa fa-mail-reply-all" ></i></button>';
                 //sBoton += '<button type="button" class="btn btn-info" title="Ejecutar"><i class="fa fa-cogs" ></i></button>'; 
                 sBoton += '<button type="button" class="btn btn-info" title="Imprimir" onclick="imprimir(\'' + valor.id + '\')"><i class="fa fa-print" ></i></button>'; 
                 break;
             case '221':
-                break;
+                break;21
             case '222':
                 break;
             case '223':                
@@ -101,6 +103,7 @@ function listar(data){
         ] ).draw( false );
         
     });
+    vBtn();
 }
 
 function continuar(){
@@ -226,28 +229,29 @@ function cargar(){
 function guardarMedida(){
 
     cargar();
-    
+    console.log("POR CULPA DE MARI");
     $("#myModal").modal('hide');
     $.ajax({
-              url: sUrlP + "crearMedidaJudicial",
-              type: "POST",
-              data: {'data' : JSON.stringify({
-                MedidaJudicial: MedidaJudicial      
-              })},
-              success: function (data) { 
-                var boton = '<button type="button" class="btn btn-success pull-right" onclick="recargar()">';
-                    boton += '<i class="glyphicon glyphicon-ok"></i>&nbsp;&nbsp;Continuar</button>';
-                $("#divContinuar").html(boton);
-                $("#txtMensaje").html(data);             
-                $("#logMensaje").modal('show');
-                
-              },
-              error: function(data){ 
-                $("#txtMensaje").html('Ocurrio un error en la conexion'); 
-                $("#logMensaje").modal('show');
+          url: sUrlP + "crearMedidaJudicial",
+          type: "POST",
+          data: {'data' : JSON.stringify({
+            MedidaJudicial: MedidaJudicial      
+          })},
+          success: function (data) { 
+            console.log(data);
+            var boton = '<button type="button" class="btn btn-success pull-right" onclick="recargar()">';
+                boton += '<i class="glyphicon glyphicon-ok"></i>&nbsp;&nbsp;Continuar</button>';
+            $("#divContinuar").html(boton);
+            $("#txtMensaje").html(data);             
+            $("#logMensaje").modal('show');
+            
+          },
+          error: function(data){ 
+            $("#txtMensaje").html('Ocurrio un error en la conexion'); 
+            $("#logMensaje").modal('show');
 
-              }
-            });
+          }
+    });
 }
 
 function cargarFechaSlash(fecha){

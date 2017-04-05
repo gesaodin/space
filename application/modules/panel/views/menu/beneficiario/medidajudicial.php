@@ -159,9 +159,7 @@
             <div class="box-footer">
               <div class="row no-print">
                 <div class="col-xs-12"  id='divBotones' >
-                <button type="button" class="btn btn-danger" 
-                data-toggle="modal" data-target="#myModal" id='btnMedida'><i class="glyphicon glyphicon-plus">
-                </i>&nbsp;&nbsp;Agregar Medida Judicial</button>
+                
               </div>
             </div><!-- /.box-footer-->
           </div><!-- /.box -->

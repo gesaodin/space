@@ -281,10 +281,15 @@ class Usuario extends CI_Model {
 
   function upsert($r){
 
+    if($r->id == 0){
+      $donde = ' login = \'' . $r->seu . '\' ';
+    }else{
+      $donde = ' id=  ' . $r->id;
+    }
+
     $upsert = 'WITH UPSERT AS (
       UPDATE space.usuario 
       SET 
-        login=\'' . $r->seu . '\', 
         correo=\'' . $r->cor . '\', 
         nombre=\'' . $r->nom . '\',
         apellido=\'\',
@@ -293,17 +298,17 @@ class Usuario extends CI_Model {
         password=md5(\'' . $r->cla . '\'),
         f_ult_modificacion=now(),
         observ_ult_modificacion=\'' . $r->obs . '\'
-      WHERE id = ' . $r->id . ' 
+      WHERE ' . $donde . ' 
       RETURNING *
     )
     INSERT INTO 
       space.usuario 
       (login,correo,nombre,apellido,pregunta_secreta,status_id,password,f_ult_modificacion, observ_ult_modificacion) 
     SELECT \'' . $r->seu . '\',\'' . $r->cor  . '\',\'' . 
-    $r->nom . '\',\'\',\'' . $r->tel . '\',' . $r->est . ',md5(\'' . $r->tel . '\'), now(),\'' . $r->obs . '\'
+    $r->nom . '\',\'\',\'' . $r->tel . '\',' . $r->est . ',md5(\'' . $r->cla . '\'), now(),\'' . $r->obs . '\'
     WHERE NOT EXISTS (SELECT * FROM upsert)';
 
-    echo $upsert;
+    //echo $upsert;
 
     $obj = $this->Dbpace->consultar($upsert);
     //print_r($obj);
