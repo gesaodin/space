@@ -480,7 +480,7 @@ class Panel extends MY_Controller {
 	function Apert(){
 		//header('Content-Type: application/json');
 		$this->load->model("kernel/KCargador");
-		$respuesta = $this->KCargador->CrearTxtMovimientos('G4546c742da0047dc1e814c86ae460f06', 2);	
+		$respuesta = $this->KCargador->CrearTxtMovimientos('Ga9e84a49c765405bcdc6696f8f400a2b', 1);	
 		//$this->load->model("kernel/KGenerador");
 		//$respuesta = $this->KGenerador->AperturaTXT('G920d88b208a3b4380a31aa42c2f988d8', 'c2f988d8', 0);
 		echo json_encode($respuesta);

@@ -82,7 +82,9 @@ class KGenerador extends CI_Model{
         while (($buffer = fgets($handle, 4096)) !== false) {
            if($sum > 0){ 
               $l = explode(";", $buffer);
-              if($l[29] == 0 && $l[31] == 0 && $l[33] == 0){
+              
+              if($l[29] == 0 && $l[31] == 0 && $l[32] == 0){
+                //echo $l[0] . " -> " . $l[29] . " -> " . $l[31] . " -> " . $l[32] . "<br>";
                 $nombre = '';
                 $cedula = $this->completarCero(9, $l[0], '0');
                 $nac = 'V';
@@ -149,7 +151,8 @@ class KGenerador extends CI_Model{
         while (($buffer = fgets($handle, 4096)) !== false) {
           if($sum > 0){ 
               $l = explode(";", $buffer);
-              if($l[29] > 0 ||  $l[31] > 0 || $l[32] > 0){                    
+              if($l[29] > 0 ||  $l[31] > 0 || $l[32] > 0){  
+               
                 $nac = 'V';
                 $cedula = $this->completarCero(9, $l[0], '0');
                 $tiptrn = '1';
