@@ -93,8 +93,7 @@ class KGenerador extends CI_Model{
                     $nombre .= $this->completarCero(15, $n[$i], " ", 1); 
                   }else{
                     $nombre .= $this->completarCero(15, " ", " ");
-                  }
-                  
+                  }                  
                 }
                 $campo = $this->completarCero(26, " ", "0");
                 $monto = $l[$m] * 100;         
@@ -102,7 +101,6 @@ class KGenerador extends CI_Model{
                 $ganancia = '0';
                 $numeroyubicacion = $this->completarCero(15, " ", " ");
                 $linea = $plan . $nac . $cedula .  $nombre . $edocivil . $campo . $monto_s;
-                //echo $linea . "\n";
                 fputs($file,$linea);
                 fputs($file,"\n");
               }
