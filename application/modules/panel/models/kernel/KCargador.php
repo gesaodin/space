@@ -593,7 +593,7 @@ class KCargador extends CI_Model{
       'a' => $archivo,
       'aper' =>  'APERT' . $sub . '.zip',
       'apor' =>  'APORT' . $sub . '.zip',
-      //'rs' => $bash,
+      'rs' => $bash,
       'd' => $file['d'],
       'caper' => $file['c'], //,
       'capro' => $fils['c']
