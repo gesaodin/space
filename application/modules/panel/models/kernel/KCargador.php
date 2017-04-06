@@ -491,7 +491,8 @@ class KCargador extends CI_Model{
           'usuario' => $val->usua, 
           'registro' => $val->regi,
           'aporte' => $val->apor,
-          'apertura' => $val->aper
+          'apertura' => $val->aper,
+          'sub' => $sub = substr($val->arch, 24, 33)
         );
       }
     }
@@ -502,11 +503,11 @@ class KCargador extends CI_Model{
     $tipo = '';
     switch ($id) {
       case 0:
-        $tipo = 'Días Adicionales';
+        $tipo = 'Garantias';        
         # code...
         break;
       case 1:
-        $tipo = 'Garantias';
+        $tipo = 'Días Adicionales';
         # code...
         break;
       case 2:

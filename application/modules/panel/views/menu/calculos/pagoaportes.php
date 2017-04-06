@@ -58,14 +58,15 @@
                         <tbody>
                           <?php
                             foreach ($Archivos as $k => $v) {
-
+                              $url = '/system/space/tmp/' . tipoMovimiento($v['tipo']) .  $v['id'] . '/APORT' . $v['sub'] . '.txt';
+                              $urlApert = '/system/space/tmp/' . tipoMovimiento($v['tipo']) .  $v['id'] . '/APERT' . $v['sub'] . '.txt';
                               echo '<tr>
                                       <td>
-                                        <a href="" target="top" class="btn btn-app">
+                                        <a href="' .  $url . '" target="top" class="btn btn-app">
                                           <span class="badge bg-green">' . $v['apertura'] . '</span>
                                           <i class="fa fa-edit"></i> Apertura 
                                         </a>
-                                        <a href=""  target="top" class="btn btn-app">
+                                        <a href="' . $urlApert . '"  target="top" class="btn btn-app">
                                           <span class="badge bg-green">' . $v['aporte'] . '</span>
                                           <i class="fa fa-barcode"></i> Aporte 
                                         </a>
@@ -77,6 +78,25 @@
                                       <td>' . $v['peso'] . '</td>
                                       <td>' . $v['usuario'] . '</td>
                                     </tr>';
+                            }
+
+                            function tipoMovimiento($id) {
+                              $tipo = '';
+                              switch ($id) {
+                                case 0:
+                                  $tipo = 'G'; 
+                                  break;
+                                case 1:
+                                  $tipo = 'D';
+                                  break;
+                                case 2:
+                                  $tipo = 'A';
+                                  break;
+                                default:
+                                  $tipo = 'G';
+                                  break;
+                              }
+                              return $tipo;
                             }
                           ?>
                         </tbody>

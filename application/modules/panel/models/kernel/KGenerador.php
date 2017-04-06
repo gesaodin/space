@@ -97,7 +97,7 @@ class KGenerador extends CI_Model{
                     $nombre .= $this->completarCero(15, " ", " ");
                   }                  
                 }
-                $campo = $this->completarCero(26, " ", "0");
+                $campo = $this->completarCero(26, "0", "0");
                 $monto = $l[$m] * 100;         
                 $monto_s = $this->completarCero(13, $monto, '0');
                 $ganancia = '0';
