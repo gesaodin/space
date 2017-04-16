@@ -14,6 +14,8 @@
     <link rel="stylesheet" href="<?php echo base_url()?>assets/plugins/datatables/dataTables.bootstrap.css">
 
     <link rel="stylesheet" href="<?php echo base_url()?>assets/plugins/datatables/buttons.dataTables.min.css">
+    <link rel="stylesheet" href="<?php echo base_url()?>assets/plugins/datatables/select.dataTables.min.css">
+    <link rel="stylesheet" href="<?php echo base_url()?>assets/plugins/datatables/editor.dataTables.min.css">
 
 
  

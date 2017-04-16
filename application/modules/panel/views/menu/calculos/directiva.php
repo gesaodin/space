@@ -30,77 +30,24 @@
                   </div>
                 </div>
                 <div class="box-body">
-                  <div class="col-md-2">
-                   Número:
-                 </div>
-                 <div class="col-md-4">
-                 <input type="text" class="form-control" placeholder="Número">
-                </div>
-                
-                <div class="col-md-2">
-                   Valor UT:
-                 </div>
-                 <div class="col-md-4">
-                 <input type="text" class="form-control" placeholder="Número">
-                </div>
-<br><br>
-                <div class="form-group">
-                    <div class="col-md-2">
-                      Fecha:
-                    </div>
-                    <div class="col-md-4">
-                      <div class="input-group date">
-                        <div class="input-group-addon">
-                          <i class="fa fa-calendar"></i>
-                        </div>
-                        <input type="text" class="form-control" id="datepicker">
-                      </div>
-                    </div>
-                    <!-- /.input group -->
-               
-
-               
-                  <div class="form-group">
-                    <div class="col-md-2">
-                      Vigencia:
-                    </div>
-                    <div class="col-md-4">
-                      <div class="input-group date">
-                        <div class="input-group-addon">
-                          <i class="fa fa-calendar"></i>
-                        </div>
-                        <input type="text" class="form-control" id="datepicker1">
-                      </div>       <!-- /.input group -->
-                  </div>
-                  <!-- /.input group -->
-               </div>
-
-                </div>
-<br>               <br><br>
-                <!-- /.form group -->
-                <div class="form-group">
-                  <div class="col-md-2">
-                    Tipo de Directiva:
-                  </div>
-                  <div class="col-md-4">
-                    <select class="form-control select2" style="width: 100%;">
-                      <option selected="selected">Estimación</option>
-                      <option>1</option>
-                    </select>
-                  </div>
-                  <!-- /.input group -->
-                  <div class="col-md-6">
-                     <button type="button" class="btn btn-success"><i class="fa fa-file-text-o"></i> Detalle Directiva
-                  </button>
-                  </div>
                   <div class="col-md-12">
-                     <b>Agregar desde Archivos</b><br>
-                     <button type="button" class="btn btn-success"><i class="fa fa-file-text-o"></i> Detalle Directiva(Archivo)
-                  </button>
-                  <button type="button" class="btn btn-success"><i class="fa fa-file-text-o"></i> Primas Directiva(Archivo)
-                  </button>
-                </div>
-              </div>
+                    <label>Seleccionar Directivas:</label>
+                        <select class="form-control select2" style="width: 100%;" id="directiva">
+                          <option value="0" selected>SELECCIONAR UNA DIRECTIVA PARA INICIAR PROCESO</option>
+                          <?php
+
+                            foreach ($lst as $c => $v) {
+                              echo '<option value="' . $v->id . '">' . $v->nombre . '</option>';
+                            }
+                          ?>
+
+                        </select>
+                    
+                  </div>
+
+                  
+                  
+
 
 
               </div>
@@ -110,7 +57,7 @@
                <div class="row no-print">
                 <div class="col-xs-6">
 
-                  <button type="button" class="btn btn-success pull-right"><i class="fa fa-check"></i> Aceptar
+                  <button type="button" class="btn btn-success pull-right" onclick="ConsultarID()"><i class="fa fa-search"></i> Consultar
                   </button>
                 </div>
                 <div class="col-xs-6">
@@ -125,9 +72,73 @@
           <!-- /.box -->
 
 
-          <!-- /.box -->
-        </div>
-      </div>
+                <div class="box box-success">
+                  <div class="box-header with-border">
+                    <h3 class="box-title">Detalles</h3>
+                    <div class="box-tools pull-right">
+                     
+                    </div><!-- /.box-tools -->
+                  </div><!-- /.box-header -->
+                  <div class="box-body">
+                      <!-- Date -->
+                          <div class="form-group">
+                              
+                              <div class="col-md-6">
+                              <label>Fecha de Vigencia:</label>
+                                  <div class="input-group date">
+                                      <div class="input-group-addon">
+                                          <i class="fa fa-calendar"></i>
+                                      </div>
+                                      <input type="text" class="form-control" id="datepicker1" disabled>
+                                  </div>
+                              </div>
+                                                         
+                              <div class="col-md-6">
+                                <label>Fecha de Inicio:</label>
+                                  <div class="input-group date">
+                                      <div class="input-group-addon">
+                                          <i class="fa fa-calendar"></i>
+                                      </div>
+                                      <input type="text" class="form-control" id="datepicker2" disabled>
+                                  </div>
+                              </div>
+                              <!-- /.input group -->
+                          </div><br><br><br>
+                
+
+                          <table id="reportedirectiva" class="table table-bordered table-hover">
+                              <thead>
+                              <tr>
+                                  <th style="width: 110px;">ID</th>
+                                  <th>UNIDAD TRIBUTARIA</th>
+                                  <!--<th>Cédula</th>
+                                  <th>Benficiario</th>-->
+                                  <th >GRADO</th>
+                                  <th>SUELDO BASE</th>
+                                  
+                                  <th>AÑOS R.</th>
+                                  
+                                  
+                                  
+                                  
+                              </tr>
+                              </thead>
+                              <tbody>
+                              </tbody>
+
+                          </table>
+
+                  </div><!-- /.box-body -->
+                </div><!-- /.box -->
+
+
+  
+
+
+
+
+
+
 
     </section>
     <!-- /.content -->
@@ -146,6 +157,7 @@
     </div><!-- ./wrapper -->
 
     <?php $this->load->view('inc/pie.php');?>
+    <script src="<?php echo base_url()?>application/modules/panel/views/js/directiva.js"></script>
   </body>
 </html>
 

@@ -47,7 +47,7 @@
                         <span class="input-group-btn">
                             <button type="button" class="btn btn-success" onclick="consultar()"><i class="fa fa-search"></i></button>
                         </span> 
-                        <input type="text" class="form-control" placeholder="Cédula de Identidad" id='id' onblur="consultar()"></input>                          
+                        <input type="text" class="form-control" placeholder="Cédula de Identidad" id='id' onblur="consultar()">                          
                       </div>                  
                       
                     </div>

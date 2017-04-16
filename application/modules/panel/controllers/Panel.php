@@ -72,6 +72,7 @@ class Panel extends MY_Controller {
 	public function ordenpago(){
 		$this->load->view("menu/orden_pago/orden");
 	}
+
 	public function ordenpagoejecutada(){
 		$this->load->view("menu/orden_pago/ejecutada");
 	}
@@ -98,7 +99,19 @@ class Panel extends MY_Controller {
 
 
 	public function directiva(){
-		$this->load->view("menu/calculos/directiva");
+		$this->load->model('kernel/KDirectiva');
+		$this->load->model('beneficiario/MComponente');
+		$data['lst'] = $this->KDirectiva->listarTodo();
+
+		$data['componente'] = $this->MComponente->listarTodo();
+		$this->load->view("menu/calculos/directiva", $data);
+	}
+
+
+	public function tasabcv(){
+		$this->load->model("beneficiario/MTasabcv");
+		$data['Tasa'] = $this->MTasabcv->listarTodo();
+		$this->load->view("menu/calculos/tasabcv", $data);
 	}
 
 
@@ -1096,6 +1109,18 @@ class Panel extends MY_Controller {
 		echo json_encode($this->MHistorialMovimiento->listarTodo());	
 	}
 
+
+	function ListarTasaBCV(){
+		header('Content-Type: application/json');
+		$this->load->model("beneficiario/MTasabcv");
+		echo json_encode($this->MTasabcv->listarTodo());
+	}
+
+	function ListarEditarDirectiva($id){
+		header('Content-Type: application/json');
+		$this->load->model("beneficiario/MDirectiva");
+		echo json_encode($this->MDirectiva->listarTodo($id));
+	}
 
 	function TestUsuario(){
 		$this->load->model("comun/DBSpace");

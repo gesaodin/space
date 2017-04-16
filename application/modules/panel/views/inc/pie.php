@@ -23,6 +23,11 @@
     <script src="<?php echo base_url()?>assets/plugins/datatables/dataTables.bootstrap.min.js"></script> 
     <script src="<?php echo base_url()?>assets/plugins/datatables/dataTables.bootstrap.min.js"></script> 
     <script src="<?php echo base_url()?>assets/plugins/datatables/dataTables.buttons.min.js"></script> 
+
+    <script src="<?php echo base_url()?>assets/plugins/datatables/dataTables.select.min.js"></script> 
+    <script src="<?php echo base_url()?>assets/plugins/datatables/dataTables.editor.min.js"></script> 
+    
+
     <script src="<?php echo base_url()?>assets/plugins/datatables/buttons.print.min.js"></script> 
 
     

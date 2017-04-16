@@ -241,4 +241,25 @@ class MDirectiva extends CI_Model{
 
   }
 
+
+
+  public function listarTodo($id){
+    $sConsulta = 'SELECT dd.id, ds.nombre, ds.numero, ds.f_vigencia, ds.udad_tributaria,
+      ds.f_inicio, ds.f_creacion,
+      gr.descripcion,dd.grado_id,dd.sueldo_base,dd.anio  
+      FROM directiva_sueldo ds 
+      JOIN detalle_directiva dd ON ds.id=dd.directiva_sueldo_id
+      JOIN grado_codigo gr ON gr.codigo=dd.grado_id
+      WHERE ds.id=' . $id . ' ORDER BY dd.grado_id,dd.anio' ;
+
+    $obj = $this->Dbpace->consultar($sConsulta);
+    $lst = array();
+
+    if($obj->code == 0 ){
+      //foreach ($obj->rs as $clv => $val) {
+       $lst = $obj->rs;
+      //}
+    }
+    return $lst;
+  }
 }

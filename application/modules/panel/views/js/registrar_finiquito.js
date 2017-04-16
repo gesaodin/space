@@ -556,7 +556,7 @@ function consultarFiniquitos(){
         var tiempo_servicio = data.tiempo_servicio_aux;
         
         var arr = data.HistorialDetalleMovimiento;
-        console.log(arr);
+        //console.log(arr);
         if(Array.isArray(arr) == false){
             $.each(arr[9], function ( clv, valores ){
                 

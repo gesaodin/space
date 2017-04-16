@@ -45,7 +45,7 @@
                         <span class="input-group-btn">
                             <button type="button" class="btn btn-success" onclick="consultar()"><i class="fa fa-search"></i></button>
                         </span> 
-                        <input type="text" class="form-control" placeholder="Cédula de Identidad" id='id' onblur="consultar()"></input>                          
+                        <input type="text" class="form-control" placeholder="Cédula de Identidad" id='id' onblur="consultar()">                          
                       </div>                  
                       
                     </div>
@@ -58,7 +58,7 @@
                         <span class="input-group-btn">
                             <button type="button" class="btn btn-success"><i class="fa fa-bank"></i></button>
                         </span> 
-                        <input type="text" class="form-control" placeholder="Número de Cuenta" id="numero_cuenta" readonly="readonly"></input>                          
+                        <input type="text" class="form-control" placeholder="Número de Cuenta" id="numero_cuenta" readonly="readonly">                          
                       </div>  
                     </div> 
                   </div> <!-- /Numero Cuenta -->
@@ -66,11 +66,11 @@
                   <div class="form-group">
                     <label class="col-md-2">Nombres</label>
                     <div class="col-md-2">                      
-                      <input type="text" placeholder="Nombre"  id='nombres' class="form-control" ></input>
+                      <input type="text" placeholder="Nombre"  id='nombres' class="form-control" />
                     </div> 
                     <label class="col-md-2">Apellidos</label>
                     <div class="col-md-2">                      
-                      <input type="text" placeholder="Apellido"  id='apellidos' class="form-control" ></input>
+                      <input type="text" placeholder="Apellido"  id='apellidos' class="form-control" />
                     </div> 
                     <label class="col-md-2">Sexo</label>
                     <div class="col-md-2">                      
@@ -126,7 +126,7 @@
                           <div class="input-group-addon">
                               <i class="fa fa-calendar"></i>
                           </div>
-                          <input type="text" placeholder="Ultimo Ascenso" id='fuascenso' class="form-control" data-provide="datepicker"></input>
+                          <input type="text" placeholder="Ultimo Ascenso" id='fuascenso' class="form-control" data-provide="datepicker">
                       </div>                         
                       
                     </div> 
