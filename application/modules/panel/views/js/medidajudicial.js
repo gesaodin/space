@@ -16,6 +16,15 @@ $( "#id" ).keypress(function( event ) {
   }
 });
 
+function ShowNuevaMedida(){
+    limpiarMedida();
+    if($("#id").val() != "" ){
+        $("#codigomedida").val("0");
+        $("#myModal").modal('show');    
+    }
+    
+}
+
 function consultar() {
     var val = $("#id").val();
     ruta = sUrlP + "consultarBeneficiarioJudicial/" + val;
@@ -62,12 +71,11 @@ function consultar() {
 function listar(data){
     var t = $('#reporteMedida').DataTable();
     t.clear().draw();
-    console.log(data);
     $.each(data, function (clave, valor){
         var monto = Number(valor.monto);
         var sBoton = '<div class="btn-group">';
         var sAcciones = '';        
-        sBoton += '<button type="button" class="btn btn-success" title="Ver Detalles"><i class="fa fa-search" ></i></button>'; 
+        sBoton += '<button type="button" class="btn btn-success" title="Ver Detalles" onclick="ConsultarMedidaEjecutada(\'' + valor.id + '\')" ><i class="fa fa-search" ></i></button>'; 
         switch (valor.estatus){
             case '220':
                 idbtn = 'btnAsignacion';
@@ -130,7 +138,7 @@ function SuspenderMedidaEjecutada(id){
 }
 
 function Suspender(id){
-    URL = sUrlP + "SuspenderMedidaJudicial/" + id 
+    URL = sUrlP + "SuspenderMedidaJudicial/" + id;
     $.get(URL, function (data){
         var boton = '<button type="button" class="btn btn-danger pull-right" onclick="recargar()">';
             boton += '<i class="glyphicon glyphicon-ok"></i>&nbsp;&nbsp;Continuar</button>';
@@ -143,6 +151,56 @@ function Suspender(id){
 
     });
 }
+
+function ConsultarMedidaEjecutada(id){
+    var ced = $("#id").val(); //Cedula
+    ruta = sUrlP + "ConsultarMedidaEjecutada";
+
+    $("#myModal").modal("show");
+    $.post(ruta, {ced:ced, id:id}, function (data){
+       //console.log(data);
+       $.each(data, function(p,q){
+            $("#codigomedida").val(id);
+            $("#numero_oficio").val(q.numero_oficio);
+            $("#numero_expediente").val(q.numero_expediente);
+
+            $("#tipo").val(q.tipo);
+            $("#datepicker").val(cargarFecha(q.fecha));
+            $("#observacion").val(q.descripcion_embargo);
+
+            $("#porcentaje").val(q.porcentaje);
+            $("#salario").val(q.salario);
+            $("#ut").val(q.unidad_tributaria);
+            $("#monto_total").val(q.monto);
+            $("#forma_pago").val(q.forma_pago);
+            $("#institucion").val(q.institucion);
+            $("#autoridad").val(q.nombre_autoridad);
+            $("#cargo").val(q.cargo);
+
+            
+            $("#estado").val(q.estado_id);
+            
+            obtenerCiudades();
+            $("#ciudad option:selected").val(q.ciudad);
+            $("#municipio option:selected").val(q.municipio);
+            $("#descripcion_institucion").val(q.descripcion_institucion);
+
+            $("#beneficiario").val(q.nombre_beneficiario);
+            $("#cedula_beneficiario").val( q.numero_beneficiario);
+            $("#parentesco").val(q.parentesco);
+
+            $("#cedula_autorizado").val(q.cedula_autorizado);
+            $("#autorizado").val(q.nombre_autorizado);
+
+       });
+
+    }).fail(function(data){
+        console.log('Error');
+    });
+
+
+}
+
 
 function continuar(){
     $("#logMensaje").modal('hide');
@@ -227,32 +285,48 @@ function cargar(){
 
 }
 function guardarMedida(){
+    if($("#numero_oficio").val() != ""){
+        cargar();
+        id = "";
+        if($("#codigomedida").val() != "0"){
+            id = "/" + $("#codigomedida").val();
+        }
+        url = sUrlP + "crearMedidaJudicial" + id;
+        console.log(url);
+        $("#myModal").modal('hide');
+        $.ajax({
+              url: url,
+              type: "POST",
+              data: {'data' : JSON.stringify({
+                MedidaJudicial: MedidaJudicial      
+              })},
+              success: function (data) { 
+                console.log(data);
+                var boton = '<button type="button" class="btn btn-success pull-right" onclick="recargar()">';
+                    boton += '<i class="glyphicon glyphicon-ok"></i>&nbsp;&nbsp;Continuar</button>';
+                $("#divContinuar").html(boton);
+                $("#txtMensaje").html(data);             
+                $("#logMensaje").modal('show');
+                
+              },
+              error: function(data){ 
+                $("#txtMensaje").html('Ocurrio un error en la conexion'); 
+                $("#logMensaje").modal('show');
 
-    cargar();
-    console.log("POR CULPA DE MARI");
-    $("#myModal").modal('hide');
-    $.ajax({
-          url: sUrlP + "crearMedidaJudicial",
-          type: "POST",
-          data: {'data' : JSON.stringify({
-            MedidaJudicial: MedidaJudicial      
-          })},
-          success: function (data) { 
-            console.log(data);
-            var boton = '<button type="button" class="btn btn-success pull-right" onclick="recargar()">';
-                boton += '<i class="glyphicon glyphicon-ok"></i>&nbsp;&nbsp;Continuar</button>';
-            $("#divContinuar").html(boton);
-            $("#txtMensaje").html(data);             
-            $("#logMensaje").modal('show');
-            
-          },
-          error: function(data){ 
-            $("#txtMensaje").html('Ocurrio un error en la conexion'); 
-            $("#logMensaje").modal('show');
-
-          }
-    });
+              }
+        });
+    }else{
+        $("#myModal").modal('hide');
+    }
 }
+
+function cargarFecha(fecha){
+    if(fecha != null){
+      var f = fecha.split('-');
+      return f[2] + '/' + f[1] + '/' + f[0];
+    }
+}
+
 
 function cargarFechaSlash(fecha){
     if(fecha != null){
@@ -264,4 +338,32 @@ function cargarFechaSlash(fecha){
 function recargar(){
     URL = sUrlP + "medidajudicial";
     $(location).attr('href', URL);
+}
+
+function limpiarMedida(){
+    $("#codigomedida").val("");
+    $("#numero_oficio").val("");
+    $("#numero_expediente").val("");
+
+    $("#tipo").val("");
+    $("#datepicker").val("");
+    $("#observacion").val("");
+
+    $("#porcentaje").val("");
+    $("#salario").val("");
+    $("#ut").val("");
+    $("#monto_total").val("");
+    $("#forma_pago").val("");
+    $("#institucion").val("");
+    $("#autoridad").val("");
+    $("#cargo").val("");
+    
+    $("#estado").val(0);
+    $("#municipio").val("");
+    $("#descripcion_institucion").val("");
+    $("#beneficiario").val("");
+    $("#cedula_beneficiario").val("");
+    $("#parentesco").val("0");
+    $("#cedula_autorizado").val("");
+    $("#autorizado").val("");
 }

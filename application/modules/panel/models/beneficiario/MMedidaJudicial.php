@@ -162,7 +162,12 @@ class MMedidaJudicial extends CI_Model{
 	/**
 	* @var string
 	*/
-	var $estado = 0;
+	var $estado = '';
+
+	/**
+	* @var int
+	*/	
+	var $estado_id = 0;
 
 	/**
 	* @var string
@@ -230,18 +235,24 @@ class MMedidaJudicial extends CI_Model{
 		return $arr;
 	}
 
-	public function listarTodo($cedula = ''){
+	public function listarTodo($cedula = '', $id = ''){
 		$arr = array();
-		$sConsulta = 'select *,medida_judicial.id AS medida_id, medida_judicial.status_id AS estatus, status.nombre as estatus_nombre, 
+		$donde = '';
+		if ($id != '') $donde = ' AND medida_judicial.id = ' . $id;
+		
+		$sConsulta = 'SELECT *,medida_judicial.id AS medida_id, medida_judicial.status_id AS estatus, status.nombre as estatus_nombre, 
 			tipo_medida.nombre AS tipo_nombre, 			
-			estado.nombre AS estado_nombre
-			from medida_judicial
+			estado.nombre AS estado_nombre,
+			estado.id AS eid,
+			medida_judicial.municipio_id AS mid,
+			ciudad.id AS cid
+			FROM medida_judicial
 			JOIN status ON status.id=medida_judicial.status_id
 			JOIN tipo_medida ON tipo_medida.id=medida_judicial.tipo_medida_id			
 			JOIN municipio ON municipio.id=medida_judicial.municipio_id
 			JOIN ciudad ON municipio.ciudad_id=ciudad.id
 			JOIN estado ON ciudad.estado_id=estado.id
-			WHERE cedula=\'' . $cedula . '\'';
+			WHERE cedula=\'' . $cedula . '\'' . $donde;
 			
 		//echo $sConsulta;
 		$obj = $this->Dbpace->consultar($sConsulta);		
@@ -256,6 +267,7 @@ class MMedidaJudicial extends CI_Model{
 			$mdj->descripcion_embargo = $v->desc_embargo;
 			$mdj->forma_pago = $v->forma_pago_id;
 			$mdj->municipio = $v->municipio_id;
+
 			$mdj->institucion = $v->institucion;
 			$mdj->cedula_beneficiario = $v->ci_beneficiario;
 			$mdj->cedula = $v->cedula;
@@ -265,9 +277,11 @@ class MMedidaJudicial extends CI_Model{
 			$mdj->tipo_nombre = strtoupper($v->tipo_nombre);
 			$mdj->porcentaje = $v->porcentaje;
 			$mdj->monto = $v->total_monto;
+			$mdj->ciudad = $v->cid;
 			$mdj->tipo = $v->tipo_medida_id;
 			$mdj->estatus = $v->estatus;
 			$mdj->estado = strtoupper($v->estado_nombre);
+			$mdj->estado_id = $v->eid;
 			$mdj->nombre_autoridad = $v->nombre_autoridad;
 			$mdj->cargo = $v->cargo_autoridad;
 			$mdj->descripcion_institucion = $v->desc_institucion;
@@ -319,21 +333,21 @@ class MMedidaJudicial extends CI_Model{
 	      '\'' . $this->fecha . '\',
 	      \'' . $this->numero_oficio . '\',
 	      \'' . $this->numero_expediente . '\',
-	      \'' . $this->monto . '\',
-	      \'' . $this->porcentaje . '\',
+	      ' . $this->monto . ',
+	      ' . $this->porcentaje . ',
 	      \'' . $this->observacion . '\',
-	      \'' . $this->forma_pago . '\',
+	      ' . $this->forma_pago . ',
 	      \'' . $this->municipio . '\',
 	      \'' . $this->institucion . '\',
 	      \'' . $this->descripcion_institucion . '\',
 	      \'' . $this->cedula_beneficiario . '\',
 	      \'' . $this->nombre_beneficiario . '\',
 	      \'' . $this->nombre_autorizado . '\',
-	      \'' . $this->estatus . '\',
-	      \'' . $this->parentesco . '\',
-	      \'' . $this->tipo . '\',
-	      \'' . $this->salario . '\',
-	      \'' . $this->unidad_tributaria . '\',
+	      ' . $this->estatus . ',
+	      ' . $this->parentesco . ',
+	      ' . $this->tipo . ',
+	      ' . $this->salario . ',
+	      ' . $this->unidad_tributaria . ',
 	      \'' . $this->nombre_autoridad . '\',
 	      \'' . $this->cargo . '\',
 	      \'' . $this->motivo . '\',
@@ -345,13 +359,54 @@ class MMedidaJudicial extends CI_Model{
 	      \'' . $this->usuario_modificacion . '\',
 	      \'' . $this->ultima_observacion . '\')';
 	    
-	    echo $sInsert;
+	    //echo $sInsert;
 	    $obj = $this->Dbpace->consultar($sInsert);
 
 
   }
 
-  	public function listarPorCodigo($cedula = '', $id){
+  public function actualizar(){
+    	$sInsert = 'UPDATE medida_judicial SET 
+	      	f_documento = \'' . $this->fecha . '\',
+			nro_oficio = \'' . $this->numero_oficio . '\',
+			nro_expediente = \'' . $this->numero_expediente . '\',
+			total_monto = ' . $this->monto . ',
+			porcentaje = ' . $this->porcentaje . ',
+			desc_embargo = \'' . $this->observacion . '\',
+			forma_pago_id = ' . $this->forma_pago . ',
+			municipio_id = ' . $this->municipio . ',
+			institucion = \'' . $this->institucion . '\',
+			desc_institucion = \'' . $this->descripcion_institucion . '\',
+			ci_beneficiario = \'' . $this->cedula_beneficiario . '\',
+			n_beneficiario = \'' . $this->nombre_beneficiario . '\',
+			n_autorizado = \'' . $this->nombre_autorizado . '\',
+			status_id = ' . $this->estatus . ',
+			parentesco_id = ' . $this->parentesco . ', 
+			tipo_medida_id = ' . $this->tipo . ',
+			cantidad_salario = ' . $this->salario . ',
+			unidad_tributaria = ' . $this->unidad_tributaria . ',
+			nombre_autoridad = \'' . $this->nombre_autoridad . '\',
+			cargo_autoridad = \'' . $this->cargo . '\',
+			motivo_id = ' . $this->motivo . ',
+			cedula = \'' . $this->cedula . '\',
+			ci_autorizado = \'' . $this->cedula_autorizado . '\',
+			f_creacion = \'' . $this->fecha_creacion . '\',
+			usr_creacion = \'' . $this->usuario_creacion . '\',
+			f_ult_modificacion = \'' . $this->fecha_modificacion . '\',
+			usr_modificacion = \'' . $this->usuario_modificacion . '\',
+			observ_ult_modificacion = \'' . $this->ultima_observacion . '\'
+	    WHERE id = ' . $this->id;
+
+	
+	    
+	    //echo $sInsert;
+	    $obj = $this->Dbpace->consultar($sInsert);
+
+
+  }
+
+
+  public function listarPorCodigo($cedula = '', $id){
 		$arr = array();
 		$sConsulta = 'select *,medida_judicial.id AS medida_id, 
 			ciudad.nombre AS ciudad_nombre,

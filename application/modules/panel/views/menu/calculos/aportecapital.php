@@ -168,6 +168,9 @@
                           <button type="button" class="btn btn-success pull-right" id="descargar" onclick="DescargarAportes()" id="btnDescargarAportes" style="display:none">
                             <i class="fa fa-cloud-download"></i>&nbsp;&nbsp;Descargar Archivo
                           </button>
+                          <button type="button" class="btn btn-success" id="sueldos" onclick="GenerarSueldos()" id="btnSueldos" style="display:none">
+                            <i class="fa fa-money"></i>&nbsp;&nbsp;Generar Sueldos
+                          </button>
                           <button type="button" class="btn btn-danger" id="salir" onclick="principal()" id="btnSalir">
                             <i class="fa fa-close"></i>&nbsp;&nbsp;Salir de Aportes
                           </button>

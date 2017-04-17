@@ -73,7 +73,7 @@ function cBtn(_DATA){
 function vBtn(){
 	
 	$.each(_PRV, function(p, q){		
-		console.log(q);
+		
 		if (q.tipo == "tbl_" && q.visi == "0"){
 			$("#" + q.cod).hide();
 		}

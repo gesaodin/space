@@ -132,10 +132,11 @@ function GenerarAporte(){
 		
 
 
-		console.log(data);
+		//console.log(data);
 		$('#obse').val(data.m);
 		$('#generar').hide();
 		$('#descargar').show();
+		$('#sueldos').show();
 		
 
 
@@ -280,4 +281,8 @@ function RegistarTxt(id, tipo){
 	});
 
 
+}
+
+function GenerarSueldos(){
+	
 }

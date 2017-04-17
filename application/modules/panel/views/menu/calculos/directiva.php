@@ -55,13 +55,14 @@
               <!-- /.box-body -->
               <div class="box-footer">
                <div class="row no-print">
-                <div class="col-xs-6">
+                <div class="col-xs-12">
 
-                  <button type="button" class="btn btn-success pull-right" onclick="ConsultarID()"><i class="fa fa-search"></i> Consultar
+                  <button type="button" class="btn btn-success" onclick="ConsultarID()"><i class="fa fa-search"></i> Consultar
                   </button>
-                </div>
-                <div class="col-xs-6">
-                  <button type="button" class="btn btn-danger" style="margin-right: 5px;">
+                  <button type="button" class="btn btn-primary" onclick="ClonarShow()"><i class="fa fa-copy"></i> Clonar Directiva
+                  </button>
+                
+                  <button type="button" class="btn btn-danger pull-right" style="margin-right: 5px;">
                     <i class="fa fa-remove"></i> Cancelar
                   </button>
                 </div>
@@ -84,12 +85,12 @@
                           <div class="form-group">
                               
                               <div class="col-md-6">
-                              <label>Fecha de Vigencia:</label>
+                                <label>Fecha de Vigencia:</label>
                                   <div class="input-group date">
                                       <div class="input-group-addon">
                                           <i class="fa fa-calendar"></i>
                                       </div>
-                                      <input type="text" class="form-control" id="datepicker1" disabled>
+                                      <input type="text" class="form-control" id="f_ini" disabled>
                                   </div>
                               </div>
                                                          
@@ -99,28 +100,19 @@
                                       <div class="input-group-addon">
                                           <i class="fa fa-calendar"></i>
                                       </div>
-                                      <input type="text" class="form-control" id="datepicker2" disabled>
+                                      <input type="text" class="form-control" id="f_ven" disabled>
                                   </div>
                               </div>
                               <!-- /.input group -->
-                          </div><br><br><br>
-                
-
+                          </div><br><br><br>  
                           <table id="reportedirectiva" class="table table-bordered table-hover">
                               <thead>
                               <tr>
-                                  <th style="width: 110px;">ID</th>
-                                  <th>UNIDAD TRIBUTARIA</th>
-                                  <!--<th>Cédula</th>
-                                  <th>Benficiario</th>-->
+                                  <th style="width: 30px;">ID</th>
                                   <th >GRADO</th>
-                                  <th>SUELDO BASE</th>
-                                  
-                                  <th>AÑOS R.</th>
-                                  
-                                  
-                                  
-                                  
+                                  <th>ANTIGUEDAD</th>
+                                  <th>SUELDO BASE</th>                                  
+                                  <th>UNIDAD TRIBUTARIA</th>                                  
                               </tr>
                               </thead>
                               <tbody>
@@ -142,6 +134,137 @@
 
     </section>
     <!-- /.content -->
+
+
+
+
+                <div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="DivEditor" >
+                      <div class="modal-dialog modal-sm" role="document">                      
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Actualizar Directiva</h4>
+                          </div>
+                          <div class="modal-body">                           
+                            <div class="row">
+                              <div class="col-xs-6">
+                                <label>Grado</label>
+                                <input type="text" class="form-control" placeholder="Grado" id='grado' readonly="readonly"/>
+                                <input type="hidden" id='codigo'/>
+                              </div>
+                              <div class="col-xs-6">
+                                <label>Antiguedad</label>
+                                <input type="text" class="form-control" placeholder="Antigudad" id='anio' readonly="readonly" />
+                                <input type="hidden" id='capital_banco_aux' />
+                              </div>
+                                                       
+                            </div>
+                            <br>
+                            <div class="row">
+                                
+                              
+                              <div class="col-xs-6">
+                                  <label>Unidad Tributaria</label>
+                                  <div class="input-group">
+                                    <input type="text" class="form-control" placeholder="Unidad Tributaria" id='unidad' /> 
+                                  </div>                                
+                              </div> 
+                              <div class="col-xs-6">
+                                <label>Monto Sueldo</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" placeholder="Sueldo" id='sueldo' />
+                                     
+                                </div>
+                              </div> 
+                            </div>
+
+
+                            
+                          </div>
+                          
+                          <div class="box-footer">
+                          <div class="col-xs-12">
+                            <button type="button" class="btn btn-success" data-dismiss="modal" onclick="Actualizar()"><i class="fa fa-refresh"></i>&nbsp;&nbsp;Actualizar
+                            </button>
+                            <button type="button" class="btn btn-danger pull-right" data-dismiss="modal" onclick="Cancelar()"><i class="glyphicon glyphicon-remove"></i>&nbsp;&nbsp;Cancelar
+                            </button>
+                          </div>                            
+                          </div>
+                        </div>
+                        
+                      </div>
+                    </div>
+
+      <!-- Clonar -->
+
+       <div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="DivClone" >
+          <div class="modal-dialog modal-sm" role="document">                      
+            <!-- Modal content-->
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Clonar Directiva</h4>
+              </div>
+              <div class="modal-body">                           
+                
+                <div class="row">
+                    
+                  <div class="form-group">
+                    <div class="col-md-12">
+                        <label>Descripción General</label>                        
+                        
+                          <input type="text" class="form-control" placeholder="Descripcion" id='cldes'/> 
+                                                      
+                    </div> 
+                              
+                    <div class="col-md-12">
+                    <label>Fecha de Vigencia:</label>
+                        <div class="input-group date">
+                            <div class="input-group-addon">
+                                <i class="fa fa-calendar"></i>
+                            </div>
+                            <input type="text" class="form-control" id="datepicker1" >
+                        </div>
+                    </div>
+                                               
+                    <div class="col-md-12">
+                      <label>Fecha de Inicio:</label>
+                        <div class="input-group date">
+                            <div class="input-group-addon">
+                                <i class="fa fa-calendar"></i>
+                            </div>
+                            <input type="text" class="form-control" id="datepicker2" >
+                        </div>
+                    </div>
+                    <!-- /.input group -->
+                </div>
+                                           
+                </div>
+                <br>
+
+
+                
+              </div>
+              
+              <div class="box-footer">
+              <div class="col-xs-12">
+                <button type="button" class="btn btn-success" data-dismiss="modal" onclick="Clonar()"><i class="fa fa-copy"></i>&nbsp;&nbsp;Clonar
+                </button>
+                <button type="button" class="btn btn-danger pull-right" data-dismiss="modal" onclick="Cancelar()"><i class="glyphicon glyphicon-remove"></i>&nbsp;&nbsp;Cancelar
+                </button>
+                
+                
+              </div>
+                
+              </div>
+            </div>
+            
+          </div>
+        </div>
+
+
+
 
         <!-- Main content -->
 

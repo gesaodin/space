@@ -262,4 +262,10 @@ class MDirectiva extends CI_Model{
     }
     return $lst;
   }
+
+
+  public function Actualizar($arr){
+    $sConsulta = 'UPDATE detalle_directiva SET anio=' . $arr->an . ', sueldo_base=' . $arr->sb . ' WHERE id=' . $arr->id;
+    return $this->Dbpace->consultar($sConsulta);
+  }
 }

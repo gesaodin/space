@@ -87,10 +87,10 @@
                 <input type="file" id="exampleInputFile">
               </div>
 
-            <center></center><button type="button" class="btn btn-info btn-flat">Enviar</button>
+            <center></center><button type="button" class="btn btn-primary"><i class="fa fa-cloud-download"></i>&nbsp;&nbsp;Cargar Archivos</button>
 
                  
-          <button type="button" class="btn btn-danger pull-right"><i class="fa fa-file-text"></i> Ver el Registro de Errores  
+          <button type="button" class="btn btn-danger pull-right"><i class="fa fa-file-text"></i>&nbsp;&nbsp;Ver Registro  
           </button>
           </form>
           </div>

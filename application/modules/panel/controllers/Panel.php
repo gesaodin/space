@@ -881,7 +881,7 @@ class Panel extends MY_Controller {
 		echo "Se registro el nuevo anticipo en estatus de pendiente";
 	}
 
-	public function crearMedidaJudicial(){
+	public function crearMedidaJudicial($id = ''){
 
 		$this->load->model('beneficiario/MMedidaJudicial');
 
@@ -926,11 +926,13 @@ class Panel extends MY_Controller {
 		$this->MMedidaJudicial->usuario_modificacion = $_SESSION['usuario'];
 		$this->MMedidaJudicial->ultima_observacion = '';
 
-
-		$this->MMedidaJudicial->salvar();
-		//print_r($this->MMedidaJudicial);
-
-
+		if($id == ''){
+			$this->MMedidaJudicial->salvar();	
+		}else{
+			$this->MMedidaJudicial->id = $id;
+			$this->MMedidaJudicial->actualizar();
+		}
+		
 		echo "Se registro nueva Medida Judicial en estatus de activo";
 	}
 
@@ -1120,6 +1122,20 @@ class Panel extends MY_Controller {
 		header('Content-Type: application/json');
 		$this->load->model("beneficiario/MDirectiva");
 		echo json_encode($this->MDirectiva->listarTodo($id));
+	}
+
+	function ActualizarEditarDirectiva(){
+		//header('Content-Type: application/json');
+		$data = json_decode($_POST['data']);
+		$this->load->model("beneficiario/MDirectiva");
+		$this->MDirectiva->Actualizar($data);
+		//print_r();
+	}
+
+	function ConsultarMedidaEjecutada(){
+		header('Content-Type: application/json');
+		$this->load->model("beneficiario/MMedidaJudicial");
+		echo json_encode($this->MMedidaJudicial->listarTodo($_POST['ced'], $_POST['id']));
 	}
 
 	function TestUsuario(){

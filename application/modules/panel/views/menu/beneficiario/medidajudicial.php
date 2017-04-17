@@ -212,7 +212,10 @@
                           <div class="modal-body">
                            <div class="row">
                             <div class="col-md-2">N° Oficio:</div>
-                            <div class="col-md-4"><input type="text" class="form-control" placeholder="N° Oficio" id='numero_oficio'/></div>
+                            <div class="col-md-4">
+                              <input type="hidden" id='codigomedida' value="0"/>
+                              <input type="text" class="form-control" placeholder="N° Oficio" id='numero_oficio'/>
+                            </div>
                             <div class="col-md-2">Expediente:</div>
                             <div class="col-md-4"><input type="text" class="form-control" placeholder="Expediente" id='numero_expediente'/></div>
                           </div>
@@ -256,7 +259,7 @@
                             <div class="row">
                               <div class="col-md-2">Forma Pago:</div>
                               <div class="col-md-10">
-                                <select class="form-control select2" id='forma_pago' style="width: 100%;">
+                                <select class="form-control" id='forma_pago' style="width: 100%;">
                                   <option value='0'>SELECCIONE UNA OPCION</option>
                                   <?php
                                     foreach ($FormaPago as $k => $v) {
@@ -288,7 +291,7 @@
                             <div class="row">
                               <div class="col-md-2">Estado</div>
                               <div class="col-md-10">
-                                <select class="form-control select2" id='estado' style="width: 100%;" onchange="obtenerCiudades()">
+                                <select class="form-control" id='estado' style="width: 100%;" onchange="obtenerCiudades()">
                                   <option value='0'>SELECCIONE UNA OPCION</option>
                                   <?php
                                     foreach ($Estado as $k => $v) {

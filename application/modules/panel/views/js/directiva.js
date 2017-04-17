@@ -6,76 +6,33 @@ var t = $('#reportedirectiva').DataTable({
     }
 );
 
-
-var editor; // use a global for the submit and return data rendering in the examples
- 
-$(document).ready(function() {
-    editor = new $.fn.dataTable.Editor( {
-        ajax: "../php/staff.php",
-        table: "#reportedirectiva",
-        fields: [ {
-                label: "ID:",
-                name: "id"
-            }, {
-                label: "Unidad Tributaria:",
-                name: "udad_tributaria"
-            }, {
-                label: "Descripcion:",
-                name: "descripcion"
-            }, {
-                label: "Monto:",
-                name: "monto"
-            }, {
-                label: "Año:",
-                name: "anio"
-            }
-        ]
-    } );
-
-
-        // Activate an inline edit on click of a table cell
-    $('#reportedirectiva').on( 'click', 'tbody td:not(:first-child)', function (e) {
-    	alert(1);
-        editor.inline( this );
-    } );
- 
-
-} );
-
-
-
-
-
-
-
-
-
 function ConsultarID(){
-
 	var id = $("#directiva option:selected").val();
 	var f_v = '';
 	var f_i = '';
-	ruta = sUrlP + "ListarEditarDirectiva/" + id;  
-
-    t.clear().draw();
-    
+	ruta = sUrlP + "ListarEditarDirectiva/" + id;
+    t.clear().draw();    
 	$.getJSON(ruta, function (data){
 		$.each(data, function (p,q){
 			//console.log(q);
 			f_v = q.f_vigencia;
 			f_i = q.f_inicio;
 			monto = Number(q.sueldo_base);
+			var sBoton = '<div class="btn-group">';
+            sBoton += '<button type="button" class="btn btn-success" title="Imprimir" \
+            			onclick="Editar(' + q.id + ',\'' + q.descripcion + '\',' + q.anio + ',' + q.sueldo_base + ',' + q.udad_tributaria + ')"><i class="fa fa-edit" ></i></button>';
+       		sBoton += '</div>';
 			t.row.add( [
-                    q.id,
-                    q.udad_tributaria,                    
-                    q.descripcion,                    
+                    sBoton,                     
+                    q.descripcion,
+                    q.anio,
                     monto.formatMoney(2, ',', '.'),
-                    q.anio                  
+                    q.udad_tributaria                  
                 ] ).draw( false );
 				
 		});
-		$("#datepicker1").val(cargarFecha(f_i));
-		$("#datepicker2").val(cargarFecha(f_v));
+		$("#f_ini").val(cargarFecha(f_i));
+		$("#f_ven").val(cargarFecha(f_v));
 
 	});
 
@@ -89,4 +46,49 @@ function cargarFecha(fecha){
       var f = fecha.split('-');
       return f[2] + '/' + f[1] + '/' + f[0];
     }
+}
+
+function Editar(id, desc, anio, sb, uni){
+	$("#DivEditor").modal("show");
+	$("#codigo").val(id);
+	$("#grado").val(desc);
+	$("#anio").val(anio);
+	$("#unidad").val(uni);
+	$("#sueldo").val(sb);
+}
+
+function Actualizar(){
+	id = $("#codigo").val();
+	desc = $("#grado").val();
+	anio = $("#anio").val();
+	uni = $("#unidad").val();
+	sb = $("#sueldo").val();
+	data = JSON.stringify({
+		id : id,
+		desc: desc,
+		an: anio,
+		uni: uni,
+		sb: sb
+	});
+	ruta = sUrlP + "ActualizarEditarDirectiva/";
+	
+	$.post(ruta, {data: data}, function(data){
+		console.log(data);
+	}).fail(function (data){
+
+	});
+}
+
+
+function Cacelar(){
+	$("#DivEditor").modal("hide");
+	$("#DivClone").modal("hide");
+}
+
+function ClonarShow(){
+	$("#DivClone").modal("show");
+}
+
+function Clonar(){
+
 }

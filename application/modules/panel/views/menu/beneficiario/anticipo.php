@@ -159,7 +159,7 @@
                      <div class="col-md-8">                      
                      
                      <!-- Modal -->
-                    <div div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="myModal" >
+                    <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="myModal" >
                       <div class="modal-dialog modal-lg" role="document">
                       
                         <!-- Modal content-->
