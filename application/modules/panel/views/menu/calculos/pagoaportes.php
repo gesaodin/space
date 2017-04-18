@@ -58,8 +58,8 @@
                         <tbody>
                           <?php
                             foreach ($Archivos as $k => $v) {
-                              $url = '/system/space/tmp/' . tipoMovimiento($v['tipo']) .  $v['id'] . '/APORT' . $v['sub'] . '.txt';
-                              $urlApert = '/system/space/tmp/' . tipoMovimiento($v['tipo']) .  $v['id'] . '/APERT' . $v['sub'] . '.txt';
+                              $url = '/system/space/tmp/' . tipoMovimiento($v['tipo']) .  $v['id'] . '/APERT' . $v['sub'] . '.txt';
+                              $urlApert = '/system/space/tmp/' . tipoMovimiento($v['tipo']) .  $v['id'] . '/APORT' . $v['sub'] . '.txt';
                               echo '<tr>
                                       <td>
                                         <a href="' .  $url . '" target="top" class="btn btn-app">
