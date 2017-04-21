@@ -276,6 +276,7 @@ class MMedidaJudicial extends CI_Model{
 			$mdj->estatus_nombre = $v->estatus_nombre;
 			$mdj->tipo_nombre = strtoupper($v->tipo_nombre);
 			$mdj->porcentaje = $v->porcentaje;
+			$mdj->salario = $v->cantidad_salario;
 			$mdj->monto = $v->total_monto;
 			$mdj->ciudad = $v->cid;
 			$mdj->tipo = $v->tipo_medida_id;
