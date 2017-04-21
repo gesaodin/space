@@ -265,7 +265,11 @@ function cargar(){
     MedidaJudicial['salario'] = $("#salario").val();
     MedidaJudicial['ut'] = $("#ut").val();
     MedidaJudicial['monto'] = $("#monto_total").val();
-    MedidaJudicial['forma_pago'] = $("#forma_pago option:selected").val();
+    if($("#forma_pago option:selected").val() == null || $("#forma_pago option:selected").val() == '0'){
+      MedidaJudicial['forma_pago'] = 1;  
+    }else{
+       MedidaJudicial['forma_pago'] = $("#forma_pago option:selected").val(); 
+    }
     MedidaJudicial['institucion'] = $("#institucion").val();
     MedidaJudicial['autoridad'] = $("#autoridad").val();
     MedidaJudicial['cargo'] = $("#cargo").val();
@@ -285,14 +289,15 @@ function cargar(){
 
 }
 function guardarMedida(){
-    if($("#numero_oficio").val() != ""){
+    if($("#numero_oficio").val() != "" || $("#forma_pago option:selected").val() != '0'){
+
         cargar();
         id = "";
         if($("#codigomedida").val() != "0"){
             id = "/" + $("#codigomedida").val();
         }
         url = sUrlP + "crearMedidaJudicial" + id;
-        console.log(url);
+        //console.log(url);
         $("#myModal").modal('hide');
         $.ajax({
               url: url,
@@ -301,7 +306,7 @@ function guardarMedida(){
                 MedidaJudicial: MedidaJudicial      
               })},
               success: function (data) { 
-                console.log(data);
+                //console.log(data);
                 var boton = '<button type="button" class="btn btn-success pull-right" onclick="recargar()">';
                     boton += '<i class="glyphicon glyphicon-ok"></i>&nbsp;&nbsp;Continuar</button>';
                 $("#divContinuar").html(boton);
