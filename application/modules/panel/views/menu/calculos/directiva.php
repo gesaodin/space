@@ -59,7 +59,9 @@
 
                   <button type="button" class="btn btn-success" onclick="ConsultarID()"><i class="fa fa-search"></i> Consultar
                   </button>
-                  <button type="button" class="btn btn-primary" onclick="ClonarShow()"><i class="fa fa-copy"></i> Clonar Directiva
+                  <button type="button" class="btn btn-primary" onclick="ClonarShow()"><i class="fa fa-copy"></i> Clonar 
+                  </button>
+                  <button type="button" class="btn btn-danger" onclick="EliminarShow()"><i class="fa fa-remove"></i> Eliminar
                   </button>
                 
                   <button type="button" class="btn btn-danger pull-right" style="margin-right: 5px;">
@@ -212,12 +214,29 @@
                     
                   <div class="form-group">
                     <div class="col-md-12">
-                        <label>Descripción General</label>                        
+                        <label>Nombre Directiva</label>
+                          <input type="text" class="form-control" placeholder="Nombre Directiva" id='nombre'/> 
+                    </div> 
+                    <div class="col-md-12">
+                        <label>Número de Directiva</label>                        
+                          <input type="text" class="form-control" placeholder="Número de Directiva" id='observacion'/> 
+                    </div> 
+                    <div class="col-md-12">
+                        <label>Motivo</label>                        
                         
-                          <input type="text" class="form-control" placeholder="Descripcion" id='cldes'/> 
+                          <input type="text" class="form-control" placeholder="Motivo Directiva" id='motivo'/> 
                                                       
                     </div> 
-                              
+                    <div class="col-md-12">
+                      <label>Fecha de Inicio:</label>
+                        <div class="input-group date">
+                            <div class="input-group-addon">
+                                <i class="fa fa-calendar"></i>
+                            </div>
+                            <input type="text" class="form-control" id="datepicker2" >
+                        </div>
+                    </div>
+
                     <div class="col-md-12">
                     <label>Fecha de Vigencia:</label>
                         <div class="input-group date">
@@ -228,15 +247,20 @@
                         </div>
                     </div>
                                                
-                    <div class="col-md-12">
-                      <label>Fecha de Inicio:</label>
-                        <div class="input-group date">
-                            <div class="input-group-addon">
-                                <i class="fa fa-calendar"></i>
-                            </div>
-                            <input type="text" class="form-control" id="datepicker2" >
-                        </div>
+                    
+
+                    <div class="col-md-6">
+                        <label>Unidad Tributaria</label>                        
+                        
+                          <input type="text" class="form-control" placeholder="U.T" id='unidad_tributaria'/> 
+                                                      
                     </div>
+                    <div class="col-md-6">
+                        <label>% Aumento</label>                        
+                        
+                          <input type="text" class="form-control" placeholder="Pocentaje" id='porcentaje'/> 
+                                                      
+                    </div>  
                     <!-- /.input group -->
                 </div>
                                            
