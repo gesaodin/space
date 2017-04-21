@@ -1124,6 +1124,23 @@ class Panel extends MY_Controller {
 		echo json_encode($this->MDirectiva->listarTodo($id));
 	}
 
+	
+	function ClonarDirectiva(){
+		header('Content-Type: application/json');
+		$this->load->model("beneficiario/MDirectiva");
+		$data = json_decode($_POST['data']);
+		$this->MDirectiva->crearDirectiva($data);
+	}
+
+	function EliminarDirectiva(){
+		
+		$this->load->model("beneficiario/MDirectiva");
+		$data = json_decode($_POST['data']);
+		$this->MDirectiva->Eliminar($data->id);
+	}
+
+
+
 	function ActualizarEditarDirectiva(){
 		//header('Content-Type: application/json');
 		$data = json_decode($_POST['data']);

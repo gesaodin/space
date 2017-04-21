@@ -80,6 +80,71 @@ function Actualizar(){
 }
 
 
+function Clonar(){
+	id = $("#directiva").val();
+	nombre = $("#nombre").val();
+	observacion = $("#observacion").val();
+	motivo = $("#motivo").val();
+
+	fecha_vigencia = $("#datepicker1").val();
+	fecha_inicio = $("#datepicker2").val();
+	unidad_tributaria = $("#unidad_tributaria").val();
+	porcentaje = $("#porcentaje").val();
+
+	data = JSON.stringify({
+		id : id,
+		nombre: nombre,
+		observacion: observacion,
+		numero: motivo,		
+		fecha_inicio: fecha_inicio,
+		fecha_vigencia: fecha_vigencia,
+		unidad_tributaria: unidad_tributaria,
+		porcentaje: porcentaje
+	});
+	ruta = sUrlP + "ClonarDirectiva/";
+	
+	$.post(ruta, {data: data}, function(data){
+		Redirigir();
+	}).fail(function (data){
+		console.log("Error de Consulta");
+	});
+}
+
+function EliminarShow(){
+
+	if($("#directiva").val() == "0"){
+		$("#txtMensaje").html('Debe seleccionar una directiva');
+		var boton = '<button type="button" class="btn btn-success pull-right" onclick="continuar()">';
+            boton += '<i class="glyphicon glyphicon-ok"></i>&nbsp;&nbsp;Continuar&nbsp;&nbsp;</button>';
+        $("#divContinuar").html(boton);
+    	$("#logMensaje").modal('show');
+		return false;
+	}
+	$("#txtMensaje").html('Esta seguro que desea Eliminar la Directiva');    
+	var boton = '<button type="button" class="btn btn-danger pull-right" onclick="continuar()">';
+        boton += '<i class="glyphicon glyphicon-remove"></i>&nbsp;&nbsp;No&nbsp;&nbsp;</button>';
+        boton += '<button type="button" class="btn btn-success" onclick="Eliminar()">';
+        boton += '<i class="glyphicon glyphicon-ok"></i>&nbsp;&nbsp;Si&nbsp;&nbsp;</button>';
+	$("#divContinuar").html(boton);
+	$("#logMensaje").modal('show');
+}
+
+function Eliminar(){
+
+	$("#logMensaje").modal('hide');
+	data = JSON.stringify({
+		id : $("#directiva").val()
+	});
+	ruta = sUrlP + "EliminarDirectiva";
+	
+	$.post(ruta, {data: data}, function(data){
+		Redirigir();
+	}).fail(function (data){
+		console.log(data);
+	});
+}
+
+
 function Cacelar(){
 	$("#DivEditor").modal("hide");
 	$("#DivClone").modal("hide");
@@ -89,6 +154,11 @@ function ClonarShow(){
 	$("#DivClone").modal("show");
 }
 
-function Clonar(){
+function Redirigir(){
+	URL = sUrlP + "directiva/";
+    $(location).attr('href', URL);
+}
 
+function continuar(){
+	$("#logMensaje").modal('hide');
 }

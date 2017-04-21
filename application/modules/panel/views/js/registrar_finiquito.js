@@ -29,7 +29,9 @@ function consultar() {
     ruta = sUrlP + "consultarBeneficiario/" + val;
 
     iFamiliares = 0;
+    //console.log(ruta);
     $.getJSON(ruta, function(data) {
+
         
         //if(data.fecha_retiro != null && data.fecha_retiro != '' || data.estatus == 205){
         //alert(data.estatus_descripcion);
@@ -539,6 +541,10 @@ function cargarPersona(){
     });
 }
 
+function AsignarCeroASFS(){
+    monto = $("#monto_asignacion").val();
+    $("#monto_asignacion_aux").val(monto);
+}
 
 function consultarFiniquitos(){
    var t = $('#reporteFiniquitos').DataTable();
@@ -549,6 +555,7 @@ function consultarFiniquitos(){
     t.clear().draw();
 
     $.getJSON(ruta, function(data) {
+        console.log(data);
         var cedula = data.cedula;
         var nombre = data.nombres + ' ' + data.apellidos;
         var componente = data.Componente.descripcion;
@@ -556,12 +563,14 @@ function consultarFiniquitos(){
         var tiempo_servicio = data.tiempo_servicio_aux;
         
         var arr = data.HistorialDetalleMovimiento;
-        //console.log(arr);
+       
         if(Array.isArray(arr) == false){
-            $.each(arr[9], function ( clv, valores ){
-                
-              
-
+            if (arr[9] == null){
+                guia = arr[14]; //GUIA DE ACCION    
+            }else{
+                guia = arr[9]; //CONTROL DE GUIA
+            }
+            $.each(guia, function ( clv, valores ){             
                 var fecha_creacion = valores.fecha_creacion;
                 var fecha_contable = valores.fecha_contable;
                 var monto = Number(valores.monto);

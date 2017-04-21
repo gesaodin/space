@@ -327,7 +327,6 @@ class MBeneficiario extends CI_Model{
 			apellidos = \'' . $this->apellidos .  '\',
 			tiempo_servicio = ' . $this->tiempo_servicio_db .  ',
 			fecha_ingreso = \'' . $this->fecha_ingreso .  '\',
-
 			n_hijos = ' . $this->numero_hijos .  ',
 			f_ult_ascenso = \'' . $this->fecha_ultimo_ascenso .  '\',
 			anio_reconocido = ' . $this->ano_reconocido .  ',
@@ -335,7 +334,6 @@ class MBeneficiario extends CI_Model{
 			dia_reconocido = ' . $this->dia_reconocido .  ',
 			f_ingreso_sistema = \'' . $this->fecha_ingreso .  '\',
 			st_no_ascenso = ' . $this->no_ascenso .  ',
-
 			st_profesion = ' . $this->profesionalizacion .  ',
 			sexo = \'' . $this->sexo .  '\',
 			f_creacion = \'' . $this->fecha_creacion .  '\',
@@ -344,7 +342,7 @@ class MBeneficiario extends CI_Model{
 			usr_modificacion = \'' . $this->usuario_modificacion .  '\',
 			observ_ult_modificacion=\'MODIFICACION DATOS BASICOS\'
 		WHERE cedula = \'' . $this->cedula .  '\'';
-		//echo $sActualizar;
+		echo $sActualizar;
 		return $this->Dbpace->consultar($sActualizar);
 
 	}
@@ -475,12 +473,9 @@ class MBeneficiario extends CI_Model{
 				' . $tbl . '.sexo,
 				' . $tbl . '.observ_ult_modificacion,
 				' . $tbl . '.motivo_paralizacion,
-				beneficiario_calc.numero_cuenta,
 				status.descripcion AS estatus_descripcion
 			FROM
-				' . $tbl . '
-				LEFT JOIN beneficiario_calc ON
-					' . $tbl . '.cedula=beneficiario_calc.cedula
+				' . $tbl . '				
 				JOIN status ON
 					' . $tbl . '.status_id=status.id
 			WHERE
