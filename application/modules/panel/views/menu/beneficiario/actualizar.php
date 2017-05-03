@@ -114,15 +114,15 @@
                   <div class="form-group">
                     <label class="col-md-2">Años Reconocidos</label>
                     <div class="col-md-2">                      
-                      <input type="text" placeholder="Ultimo Ascenso" id='arec'></input>
+                      <input type="text" placeholder="Ultimo Ascenso" id='arec' value=0></input>
                     </div> 
                     <label class="col-md-2">Mes Reconocidos</label>
                     <div class="col-md-2">                      
-                      <input type="text" placeholder="No. Ascenso" id='mrec'></input>
+                      <input type="text" placeholder="No. Ascenso" id='mrec' value=0></input>
                     </div> 
                     <label class="col-md-2">Días Reconocidos</label>
                     <div class="col-md-2">                      
-                      <input type="text" placeholder="Días Reconocidos" id='drec'></input>
+                      <input type="text" placeholder="Días Reconocidos" id='drec' value=0></input>
                     </div> 
                   </div> <!-- /Numero Cuenta -->
                    <div class="form-group">

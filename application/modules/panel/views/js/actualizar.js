@@ -168,13 +168,14 @@ function cargarBeneficiario(){
     Persona['componente'] = $("#componente").val();
     Persona['fingreso'] = cargarFechaSlash($("#fingreso").val());
     Persona['tservicio'] = $("#tservicio").val();
-    Persona['nhijos'] = $("#nhijos").val();
+    Persona['nhijos'] = parseInt($("#nhijos").val());
     Persona['fuascenso'] = cargarFechaSlash($("#fuascenso").val());
-    Persona['noascenso'] = $("#noascenso").val();
-    Persona['profesionalizacion'] = $("#profesionalizacion").val();
-    Persona['arec'] = $("#arec").val();
-    Persona['mrec'] = $("#mrec").val();
-    Persona['drec'] = $("#drec").val();
+    Persona['noascenso'] = parseInt($("#noascenso").val());
+    Persona['profesionalizacion'] = parseInt($("#profesionalizacion").val());
+
+    Persona['arec'] = $("#arec").val()!=""?parseInt($("#arec").val()):0;
+    Persona['mrec'] = $("#mrec").val()!=""?parseInt($("#mrec").val()):0;
+    Persona['drec'] = $("#drec").val()!=""?parseInt($("#drec").val()):0;
     Persona['fecha_retiro'] = $("#fecha_retiro").val();
     Persona['fano'] = $("#fano").val();
     Persona['vacaciones'] = $("#vacaciones").val();
@@ -201,7 +202,7 @@ function actualizar(){
 
     }else{
         cargarBeneficiario();
-
+        console.log(Persona);
         $.ajax({
               url: sUrlP + "actualizarBeneficiario",
               type: "POST",

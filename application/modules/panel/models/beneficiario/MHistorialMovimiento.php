@@ -67,7 +67,7 @@ class MHistorialMovimiento extends CI_Model{
 		$arr = array();
 		$sConsulta = 'select tipo_movimiento_id, sum(monto) AS monto, MAX(f_contable) AS f_contable from movimiento where cedula =\'' . $cedula . '\' GROUP BY tipo_movimiento_id';
 		$obj = $this->Dbpace->consultar($sConsulta);
-		
+		//echo $sConsulta;
 		$rs = $obj->rs;
 		foreach ($rs as $c => $v) {
 			$hm = new $this->MHistorialMovimiento();
