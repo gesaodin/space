@@ -296,30 +296,40 @@ class MCalculo extends CI_Model{
   * X = ((90 * SG)/30)/12
   * 
   * SG = Sueldo Global
-  *
+  * Se agrego las condiciones para evaluar cuando se debe calcular con 90/105/120 dias
   * @access public
   * @return double
   */
-  public function AlicuotaAguinaldo($sueldo_global = 0){
-    //Se agrego las condiciones para evaluar cuando se debe calcular con 90/105 dias
+  
+public function AlicuotaAguinaldo($sueldo_global = 0){
+    
     if(isset($this->Beneficiario) && ($this->Beneficiario->fecha_retiro == '')){
+        $sueldo_global = $this->Beneficiario->sueldo_global;
+        $cal =  round(((120 * $sueldo_global)/30)/12, 2);
+        $this->Beneficiario->aguinaldos = $cal;
+        $this->Beneficiario->aguinaldos_aux = number_format($cal, 2, ',','.');
+
+      }else{ if($this->Beneficiario->fecha_retiro >= '2016-10-29' && $this->Beneficiario->fecha_retiro < '2016-12-31'){
         $sueldo_global = $this->Beneficiario->sueldo_global;
         $cal =  round(((105 * $sueldo_global)/30)/12, 2);
         $this->Beneficiario->aguinaldos = $cal;
         $this->Beneficiario->aguinaldos_aux = number_format($cal, 2, ',','.');
-      }else{ if($this->Beneficiario->fecha_retiro < '2016-10-31'){
+
+      }else{ if($this->Beneficiario->fecha_retiro < '2016-10-29'){
         $sueldo_global = $this->Beneficiario->sueldo_global;
         $cal =  round(((90 * $sueldo_global)/30)/12, 2);
         $this->Beneficiario->aguinaldos = $cal;
-        $this->Beneficiario->aguinaldos_aux = number_format($cal, 2, ',','.');
+        $this->Beneficiario->aguinaldos_aux = number_format($cal, 2, ',','.'); 
+
       }else{
         $sueldo_global = $this->Beneficiario->sueldo_global;
-        $cal = ((105 * $sueldo_global)/30)/12;
+        $cal = ((120 * $sueldo_global)/30)/12;
         $this->Beneficiario->aguinaldos = $cal;
         $this->Beneficiario->aguinaldos_aux = number_format($cal, 2, ',','.');
       }
     }
   }
+}
 
   /**
   *	Alicuota Bono Vacaciones #00
@@ -327,37 +337,39 @@ class MCalculo extends CI_Model{
   *
   * NDV = Numero de Dias de Vaciones que goza el Millitar
   * SG = Sueldo Global
-  *
+  * Se agrego las condiciones para evaluar cuando se debe calcular con 40,45,50 a 50 dias
   * @access public
   * @return double
   */
-  public function AlicuotaVacaciones($sueldo_global = 0){   
+  
+public function AlicuotaVacaciones($sueldo_global = 0){   
     //Fecha auxiliar utiliza aux - Menor Robando Tiempo y Antigueddad
 
-    if(isset($this->Beneficiario)){
       $dia = 0;
-      $TM = $this->Beneficiario->tiempo_servicio;
-     if ($TM > 0 && $TM <= 14) {
-        $dia = 40;
-      }else if($TM > 14 && $TM <= 24){
-        $dia = 45;
-      }else if($TM > 24){
-        $dia = 50;
-      }
-      
-      
+      if(isset($this->Beneficiario) && ($this->Beneficiario->fecha_retiro == '')){
       $sueldo_global = $this->Beneficiario->sueldo_global;
-      $cal = round((($dia * $sueldo_global)/30)/12, 2);
+      $cal = round(((50 * $sueldo_global)/30)/12, 2);
       $this->Beneficiario->vacaciones = $cal; 
       $this->Beneficiario->vacaciones_aux = number_format($cal, 2, ',','.'); 
-    }else{
+
+      }else{ if($this->Beneficiario->fecha_retiro <= '2016-12-31'){   
+       $TM = $this->Beneficiario->tiempo_servicio;
+        }if ($TM > 0 && $TM <= 14) {
+          $dia = 40;
+        }else if($TM > 14 && $TM <= 24){
+          $dia = 45;
+        }else if($TM > 24){
+          $dia = 50;
+        }
+       
+        $sueldo_global = $this->Beneficiario->sueldo_global;
+        $cal = round((($dia * $sueldo_global)/30)/12, 2);
+        $this->Beneficiario->vacaciones = $cal; 
+        $this->Beneficiario->vacaciones_aux = number_format($cal, 2, ',','.'); 
+
+   }
       
-
-      $cal = ((50 * $sueldo_global)/30)/12;
-      return $cal;
-
-    }
-  }
+ }
 
   /**
   *	Sueldo Integral #007
@@ -389,6 +401,7 @@ class MCalculo extends CI_Model{
   * @access public
   * @return double
   */
+
   public function AsignacionAntiguedad(){
     //$this->Beneficiario->asignacion_antiguedad_fin = $this->Beneficiario->sueldo_integral * $this->Beneficiario->tiempo_servicio_aux;
     $this->Beneficiario->asignacion_antiguedad = $this->Beneficiario->sueldo_integral * $this->Beneficiario->tiempo_servicio;
