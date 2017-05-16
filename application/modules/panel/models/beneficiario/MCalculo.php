@@ -346,7 +346,14 @@ public function AlicuotaVacaciones($sueldo_global = 0){
     //Fecha auxiliar utiliza aux - Menor Robando Tiempo y Antigueddad
 
       $dia = 0;
-       if($this->Beneficiario->fecha_retiro <= '2016-12-31'){   
+      if(isset($this->Beneficiario) && ($this->Beneficiario->fecha_retiro == '' || $this->Beneficiario->fecha_retiro > '2016-12-31')){
+            $sueldo_global = $this->Beneficiario->sueldo_global;
+            $cal = round(((50 * $sueldo_global)/30)/12, 2);
+            $this->Beneficiario->vacaciones = $cal; 
+            $this->Beneficiario->vacaciones_aux = number_format($cal, 2, ',','.'); 
+
+
+       }else if($this->Beneficiario->fecha_retiro <= '2016-12-31'){   
         $TM = $this->Beneficiario->tiempo_servicio;
           if ($TM > 0 && $TM <= 14) {
             $dia = 40;
@@ -362,11 +369,6 @@ public function AlicuotaVacaciones($sueldo_global = 0){
         $this->Beneficiario->vacaciones_aux = number_format($cal, 2, ',','.'); 
 
 
-        }else {
-            $sueldo_global = $this->Beneficiario->sueldo_global;
-            $cal = round(((50 * $sueldo_global)/30)/12, 2);
-            $this->Beneficiario->vacaciones = $cal; 
-            $this->Beneficiario->vacaciones_aux = number_format($cal, 2, ',','.'); 
         }
  }
 
