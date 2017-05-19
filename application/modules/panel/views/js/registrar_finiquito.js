@@ -570,6 +570,7 @@ function consultarFiniquitos(){
             }else{
                 guia = arr[9]; //CONTROL DE GUIA
             }
+
             $.each(guia, function ( clv, valores ){    
                 console.log(valores.partida);
                 var fecha_creacion = valores.fecha_creacion;
@@ -600,7 +601,7 @@ function consultarFiniquitos(){
 
                     //sAcciones += '<li><a href="#!" target="_top" onclick="MedidaEjecutada(\'' + cedula + '\',\'' + codigo + '\')">Medida Ejecutada </a></li>'; 
                     switch (partida){
-                        case 1:
+                        case '1':
                             
                             sAcciones += '<li><a href="#!" target="_top" onclick="ConsultoriaJuridica(\'' + cedula + '\',\'' + codigo + '\')">Consultoria Juridica</a></li>';
                             sAcciones += '<li><a href="#!" target="_top" onclick="CartaBancoFallecido(\'' + cedula + '\',\'' + codigo + '\')">Carta Banco</a></li>';
@@ -608,19 +609,19 @@ function consultarFiniquitos(){
                             sAcciones += '<li><a href="#!" target="_top" onclick="CausaMuerte(\'' + cedula + '\',\'' + codigo + '\')">Causa Muerte</a></li>';
                             sAcciones += '<li><a href="#!" target="_top" onclick="DiferenciaAntiguedad(\'' + cedula + '\',\'' + codigo + '\')">Diferencia de Antiguedad</a></li>';
                             break;
-                        case 2:
+                        case '2':
                             sAcciones += '<li><a href="#!" target="_top" onclick="ConsultoriaJuridica(\'' + cedula + '\',\'' + codigo + '\')">Consultoria Juridica</a></li>';
                             sAcciones += '<li><a href="#!" target="_top" onclick="CartaBancoFallecido(\'' + cedula + '\',\'' + codigo + '\')">Carta Banco</a></li>';
                             sAcciones += '<li><a href="#!" target="_top" onclick="AFAS(\'' + cedula + '\',\'' + codigo + '\',\'' + motivo + '\')">Asignacion FS/AS</a></li>';
                             sAcciones += '<li><a href="#!" target="_top" onclick="CausaMuerte(\'' + cedula + '\',\'' + codigo + '\')">Causa Muerte</a></li>';
                             sAcciones += '<li><a href="#!" target="_top" onclick="DiferenciaAntiguedad(\'' + cedula + '\',\'' + codigo + '\')">Diferencia de Antiguedad</a></li>';
                             break;
-                        case 3:
+                        case '3':
                             break;
-                        case 4:
+                        case '4':
                             sAcciones += '<li><a href="#!" target="_top" onclick="CartaBanco(\'' + cedula + '\',\'' + codigo + '\')">Carta Banco </a></li>'; 
                             break;
-                        case 5:
+                        case '5':
                              sAcciones += '<li><a href="#!" target="_top" onclick="CartaBanco(\'' + cedula + '\',\'' + codigo + '\')">Carta Banco </a></li>';
                         default:
                             break;
