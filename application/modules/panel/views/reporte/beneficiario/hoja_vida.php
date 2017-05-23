@@ -531,14 +531,12 @@ th {
   $sPie = '
   </tbody>
   </table>';
-  $iCant = count($Beneficiario->HistorialOrdenPagos);
+  $iCant = count($Beneficiario->HistorialAnticipo);
   if($iCant > 0){
-    foreach ($Beneficiario->HistorialOrdenPagos as $k => $v) {
+    foreach ($Beneficiario->HistorialAnticipo as $k => $v) {
       $f =  explode('-',$v->fecha);    
-      if($v->estatus == 100){        
-        $sCuerpo .= '<tr><td>' . $f[2] . '-' . $f[1] . '-' . $f[0] . 
+      $sCuerpo .= '<tr><td>' . $f[2] . '-' . $f[1] . '-' . $f[0] . 
           '</td><td style="text-align: right;">' . number_format($v->monto, 2, ',','.') . '</td></tr>';
-      }
     
     }
 
