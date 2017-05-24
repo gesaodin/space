@@ -18,7 +18,7 @@ function consultar() {
             var numero_cuenta = $("#numero_cuenta").val(data.numero_cuenta);
             
             if (data.numero_cuenta == "0")     {
-              $("#numero_cuenta").val('0102');
+              $("#numero_cuenta").val('');
             }
                    
         }
