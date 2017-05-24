@@ -33,4 +33,4 @@ class MHistorialAnticipo extends CI_Model{
 	}
 
 
-}
+}MHistorialAnticipo
