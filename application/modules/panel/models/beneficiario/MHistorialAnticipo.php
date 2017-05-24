@@ -16,6 +16,7 @@ class MHistorialAnticipo extends CI_Model{
 		$arr = array();
 		$sConsulta = 'SELECT f_contable, monto FROM movimiento 
 		WHERE cedula=\'' . $cedula . '\' AND tipo_movimiento_id=5
+		AND codigo is null
 		ORDER BY f_contable ASC';
 		
 
