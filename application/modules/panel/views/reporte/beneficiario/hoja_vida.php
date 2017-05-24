@@ -179,14 +179,15 @@ th {
    </tr>
    <tr>
     <td>Fecha Retiro</td>
-    <td colspan="5">
+    <td colspan="3">
     <?php 
       if ($Beneficiario->fecha_retiro != ''){
         $f =  explode('-',$Beneficiario->fecha_retiro);          
         echo $f[2] . '-' . $f[1] . '-' . $f[0];
       }
     ?></td>
-
+    <td>Motivo de Paralizacion</td>
+      <td><?php echo $Beneficiario->motivo_paralizacion; ?></td>
   </tr>
 
 </table><br>
@@ -499,14 +500,15 @@ th {
    </tr>
    <tr>
     <td>Fecha Retiro</td>
-    <td colspan="5">
+    <td colspan="3">
     <?php 
       if ($Beneficiario->fecha_retiro != ''){
         $f =  explode('-',$Beneficiario->fecha_retiro);          
         echo $f[2] . '-' . $f[1] . '-' . $f[0];
       }
     ?></td>
-
+    <td>Motivo de Paralizacion</td>
+      <td><?php echo $Beneficiario->motivo_paralizacion; ?></td>
   </tr>
 
 </table><br>

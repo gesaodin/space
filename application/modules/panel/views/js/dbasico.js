@@ -27,6 +27,7 @@ function consultar() {
 
                 $("#tservicio").val(data.tiempo_servicio);
             }
+            $("#motivo_paralizado").val(data.motivo_paralizacion);
             $("#nhijos").val(data.numero_hijos);
             $("#fuascenso").val(cargarFecha(data.fecha_ultimo_ascenso));
             $("#noascenso").val(data.no_ascenso);

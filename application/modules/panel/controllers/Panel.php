@@ -392,21 +392,22 @@ class Panel extends MY_Controller {
 		//print_r($data);
 		
 		$this->load->model('kernel/KCargador');	
-		/**$data['id'] = 50;
-		$data['fe'] = "2016-01-31";
-		$data['estado_id'] = 203;
-		$data['sit'] = 203;
-		$data['com'] = 99;
-		$data['gra'] = 99;
-		$data['fde'] = "2016-01-01";
-		$data['fha'] = "2016-01-31";
-		**/
+		//$data['id'] = 50;
+		//$data['fe'] = "2016-01-31";
+		//$data['estado_id'] = 203;
+		//$data['sit'] = 203;
+		//$data['com'] = 99;
+		//$data['gra'] = 99;
+		//$data['fde'] = "2016-01-01";
+		//$data['fha'] = "2016-01-31";
+		
 
- 		$this->KCargador->IniciarLote($data, $firma, $_SESSION['usuario']);	
- 		//$this->KCargador->IniciarLote((object)$data, '2016-01-01', $firma, $_SESSION['usuario']);	
+ 		//$this->KCargador->IniciarLote($data, $firma, $_SESSION['usuario']);	
+ 		$this->KCargador->IniciarLote((object)$data, '2016-01-01', $firma, $_SESSION['usuario']);	
  		
  		$mnt = $this->KCargador->Resultado['l'] - 1;
 		$json = array(
+			'd' => $data,
 			'm' => "Fecha y Hora del Servidor: " . $fecha . 
 					"\nFirma del Archivo: " . 	$firma .  
 					"\nCantidad de Registros: " . $mnt  .
@@ -899,6 +900,7 @@ class Panel extends MY_Controller {
 
 		$this->MMedidaJudicial->porcentaje = $data->MedidaJudicial->porcentaje;
 		$this->MMedidaJudicial->salario = $data->MedidaJudicial->salario;
+		$this->MMedidaJudicial->mensualidades = $data->MedidaJudicial->mensualidades;
 		$this->MMedidaJudicial->unidad_tributaria = $data->MedidaJudicial->ut;
 		$this->MMedidaJudicial->monto = $data->MedidaJudicial->monto;
 

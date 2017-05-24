@@ -101,6 +101,11 @@ class MMedidaJudicial extends CI_Model{
 	/**
 	* @var string
 	*/
+	var $mensualidades = 0;
+
+	/**
+	* @var string
+	*/
 	var $unidad_tributaria = 0;
 
 	/**
@@ -272,12 +277,14 @@ class MMedidaJudicial extends CI_Model{
 			$mdj->cedula_beneficiario = $v->ci_beneficiario;
 			$mdj->cedula = $v->cedula;
 			$mdj->nombre_beneficiario = strtoupper($v->n_beneficiario);
+			$mdj->nombre_autorizado = strtoupper($v->n_autorizado);
 			$mdj->parentesco = $v->parentesco_id;
 			$mdj->estatus_nombre = $v->estatus_nombre;
 			$mdj->tipo_nombre = strtoupper($v->tipo_nombre);
 			$mdj->porcentaje = $v->porcentaje;
-			$mdj->salario = $v->cantidad_salario;
-			$mdj->monto = $v->total_monto;
+			$mdj->salario = number_format($v->cantidad_salario, 2, ',', '.');
+			$mdj->mensualidades = $v->mensualidades;
+			$mdj->monto = number_format($v->total_monto, 2, ',', '.');
 			$mdj->ciudad = $v->cid;
 			$mdj->tipo = $v->tipo_medida_id;
 			$mdj->estatus = $v->estatus;
@@ -327,7 +334,8 @@ class MMedidaJudicial extends CI_Model{
 			usr_creacion,
 			f_ult_modificacion,
 			usr_modificacion,
-			observ_ult_modificacion
+			observ_ult_modificacion,
+			mensualidades
 	    ) VALUES (';
 
 	    $sInsert .=
@@ -358,7 +366,8 @@ class MMedidaJudicial extends CI_Model{
 	      \'' . $this->usuario_creacion . '\',
 	      \'' . $this->fecha_modificacion . '\',
 	      \'' . $this->usuario_modificacion . '\',
-	      \'' . $this->ultima_observacion . '\')';
+	      \'' . $this->ultima_observacion . '\',
+	      \'' . $this->mensualidades . '\')';
 	    
 	    //echo $sInsert;
 	    $obj = $this->Dbpace->consultar($sInsert);
@@ -395,7 +404,8 @@ class MMedidaJudicial extends CI_Model{
 			usr_creacion = \'' . $this->usuario_creacion . '\',
 			f_ult_modificacion = \'' . $this->fecha_modificacion . '\',
 			usr_modificacion = \'' . $this->usuario_modificacion . '\',
-			observ_ult_modificacion = \'' . $this->ultima_observacion . '\'
+			observ_ult_modificacion = \'' . $this->ultima_observacion . '\',
+			mensualidades = \'' . $this->mensualidades . '\'
 	    WHERE id = ' . $this->id;
 
 	
@@ -446,6 +456,7 @@ class MMedidaJudicial extends CI_Model{
 			$mdj->cedula_beneficiario = $v->ci_beneficiario;
 			$mdj->cedula = $v->cedula;
 			$mdj->nombre_beneficiario = strtoupper($v->n_beneficiario);
+			$mdj->nombre_autorizado = strtoupper($v->n_autorizado);
 			$mdj->parentesco = $v->parentesco_id;
 			$mdj->parentesco_nombre = $v->parentesco_nombre;
 			$mdj->estatus_nombre = $v->estatus_nombre;
@@ -459,7 +470,7 @@ class MMedidaJudicial extends CI_Model{
 				$mdj->monto = $v->total_monto;
 			}
 			
-
+			$mdj->mensualidades = $v->mensualidades;
 			$mdj->tipo = $v->tipo_medida_id;
 			$mdj->estatus = $v->estatus;
 			$mdj->estado = strtoupper($v->estado_nombre);
