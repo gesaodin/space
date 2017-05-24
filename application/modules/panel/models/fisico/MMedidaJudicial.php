@@ -311,8 +311,8 @@ class MMedidaJudicial extends CI_Model{
 			usr_creacion,
 			f_ult_modificacion,
 			usr_modificacion,
-			observ_ult_modificacion
-	    ) VALUES (';
+			observ_ult_modificacion,
+		) VALUES (';
 
 	    $sInsert .=
 	      '\'' . $this->fecha . '\',
@@ -342,9 +342,9 @@ class MMedidaJudicial extends CI_Model{
 	      \'' . $this->usuario_creacion . '\',
 	      \'' . $this->fecha_modificacion . '\',
 	      \'' . $this->usuario_modificacion . '\',
-	      \'' . $this->ultima_observacion . '\')';
+	      \'' . $this->ultima_observacion . '\',)';
 	    
-	    //echo $sInsert;
+	    echo $sInsert;
 	    $obj = $this->DBSpace->consultar($sInsert);
 
 

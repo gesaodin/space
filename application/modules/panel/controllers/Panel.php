@@ -899,6 +899,7 @@ class Panel extends MY_Controller {
 
 		$this->MMedidaJudicial->porcentaje = $data->MedidaJudicial->porcentaje;
 		$this->MMedidaJudicial->salario = $data->MedidaJudicial->salario;
+		$this->MMedidaJudicial->mensualidades = $data->MedidaJudicial->mensualidades;
 		$this->MMedidaJudicial->unidad_tributaria = $data->MedidaJudicial->ut;
 		$this->MMedidaJudicial->monto = $data->MedidaJudicial->monto;
 
