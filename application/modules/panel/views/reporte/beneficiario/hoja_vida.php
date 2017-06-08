@@ -540,18 +540,19 @@ th {
   $sPie = '
   </tbody>
   </table>';
-  $iCant = count($Beneficiario->HistorialAnticipo);
+  $iCant = count($Beneficiario->HistorialOrdenPagos);
   if($iCant > 0){
-    foreach ($Beneficiario->HistorialAnticipo as $k => $v) {
+    foreach ($Beneficiario->HistorialOrdenPagos as $k => $v) {
       $f =  explode('-',$v->fecha);    
-      $sCuerpo .= '<tr><td>' . $f[2] . '-' . $f[1] . '-' . $f[0] . 
+      if($v->estatus == 100){        
+        $sCuerpo .= '<tr><td>' . $f[2] . '-' . $f[1] . '-' . $f[0] . 
           '</td><td style="text-align: right;">' . number_format($v->monto, 2, ',','.') . '</td></tr>';
+      }
     
     }
 
     echo $sCabecera . $sCuerpo . $sPie;
   }
-  
 
 ?>
 
