@@ -617,6 +617,11 @@ function consultarFiniquitos(){
                             sAcciones += '<li><a href="#!" target="_top" onclick="DiferenciaAntiguedad(\'' + cedula + '\',\'' + codigo + '\')">Diferencia de Antiguedad</a></li>';
                             break;
                         case '3':
+                            sAcciones += '<li><a href="#!" target="_top" onclick="ConsultoriaJuridica(\'' + cedula + '\',\'' + codigo + '\')">Consultoria Juridica</a></li>';
+                            sAcciones += '<li><a href="#!" target="_top" onclick="CartaBancoFallecido(\'' + cedula + '\',\'' + codigo + '\')">Carta Banco</a></li>';
+                            sAcciones += '<li><a href="#!" target="_top" onclick="AFAS(\'' + cedula + '\',\'' + codigo + '\',\'' + motivo + '\')">Asignacion FS/AS</a></li>';
+                            sAcciones += '<li><a href="#!" target="_top" onclick="CausaMuerte(\'' + cedula + '\',\'' + codigo + '\')">Causa Muerte</a></li>';
+                            sAcciones += '<li><a href="#!" target="_top" onclick="DiferenciaAntiguedad(\'' + cedula + '\',\'' + codigo + '\')">Diferencia de Antiguedad</a></li>'; 
                             break;
                         case '4':
                             sAcciones += '<li><a href="#!" target="_top" onclick="CartaBanco(\'' + cedula + '\',\'' + codigo + '\')">Carta Banco </a></li>'; 

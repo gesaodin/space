@@ -342,7 +342,7 @@ class MBeneficiario extends CI_Model{
 			usr_modificacion = \'' . $this->usuario_modificacion .  '\',
 			observ_ult_modificacion=\'MODIFICACION DATOS BASICOS\'
 		WHERE cedula = \'' . $this->cedula .  '\'';
-		echo $sActualizar;
+		//echo $sActualizar;
 		return $this->Dbpace->consultar($sActualizar);
 
 	}
@@ -718,7 +718,8 @@ class MBeneficiario extends CI_Model{
 			  usr_creacion,
 			  f_ult_modificacion,
 			  usr_modificacion,
-			  observ_ult_modificacion)
+			  observ_ult_modificacion,
+              n_hijos)
 			  VALUES ';
 
 		$sInsertar .= '(
@@ -737,7 +738,8 @@ class MBeneficiario extends CI_Model{
 			\'' . $_SESSION['usuario'] . '\',
 			\'' . date("Y-m-d H:i:s") . '\',
 			\'' . $_SESSION['usuario'] . '\',
-			\'INSERTADO DESDE SAMAN\'
+			\'INSERTADO DESDE SAMAN\',
+			0
 		)';
 		//echo $sInsertar;
 
