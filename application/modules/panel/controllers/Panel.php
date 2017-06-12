@@ -391,7 +391,7 @@ class Panel extends MY_Controller {
 		$data = json_decode($_POST['data']);
 		//print_r($data);
 		
-		//$this->load->model('kernel/KCargador');	
+		$this->load->model('kernel/KCargador');	
 		//$data['id'] = 49;
 		//$data['fe'] = "2016-01-31";
 		//$data['estado_id'] = 203;
