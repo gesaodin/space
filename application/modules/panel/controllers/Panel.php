@@ -402,8 +402,8 @@ class Panel extends MY_Controller {
 		//$data['fha'] = "2016-01-31";
 		
 
- 		//$this->KCargador->IniciarLote($data, $firma, $_SESSION['usuario']);	
- 		$this->KCargador->IniciarLote((object)$data, '2016-01-01', $firma, $_SESSION['usuario']);	
+ 		$this->KCargador->IniciarLote($data, $firma, $_SESSION['usuario']);	
+ 		//$this->KCargador->IniciarLote((object)$data, '2016-01-01', $firma, $_SESSION['usuario']);	
  		
  		$mnt = $this->KCargador->Resultado['l'] - 1;
 		$json = array(
