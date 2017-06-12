@@ -250,11 +250,18 @@
                               <div class="col-md-2">Salarios:</div>
                               <div class="col-md-4"><input type="text" class="form-control" placeholder="Salarios" id='salario' value=0 ></div>
                             </div>
-                            <div class="row">
+                             <div class="row">
+                              <div class="col-md-2">Mensualidades:</div>
+                              <div class="col-md-4"><input type="text" class="form-control" placeholder="Mensualidades" id='mensualidades' value=0></div>
                               <div class="col-md-2">U.T.:</div>
                               <div class="col-md-4"><input type="text" class="form-control" placeholder="Unidad Tributaria" id='ut' value=0></div>
+                            </div>
+                            <div class="row">
                               <div class="col-md-2">Monto Total:</div>
                               <div class="col-md-4"><input type="text" class="form-control" placeholder="Monto Total" id='monto_total' value=0></div>
+                              <div class="col-md-2"><button type="button" class="btn btn-success pull-left" onclick="calculomensual()">
+                            Calc.
+                            </button></div>
                             </div>
                             <div class="row">
                               <div class="col-md-2">Forma Pago:</div>

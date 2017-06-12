@@ -146,8 +146,12 @@
                     <div class="col-md-2">                      
                       <input type="text" placeholder="Fecha de Retiro" id='fecha_retiro' class="form-control" readonly="readonly" disabled="disabled"></input>
                     </div> 
+                 
+                    <label class="col-md-2">Motivo de Paralizacion</label>
+                    <div class="col-md-2">                      
+                      <input type="text" placeholder="Motivo de Paralizacion" id='motivo_paralizado' class="form-control" readonly="readonly" disabled="disabled"></input>
+                    </div> 
                   </div> <!-- /Numero Cuenta -->
-
 
                 </div>
               </form>

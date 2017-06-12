@@ -179,16 +179,18 @@ th {
    </tr>
    <tr>
     <td>Fecha Retiro</td>
-    <td colspan="5">
+    <td colspan="3">
     <?php 
       if ($Beneficiario->fecha_retiro != ''){
         $f =  explode('-',$Beneficiario->fecha_retiro);          
         echo $f[2] . '-' . $f[1] . '-' . $f[0];
       }
     ?></td>
+    <td>Motivo de Paralizacion</td>
+      <td><?php echo $Beneficiario->motivo_paralizacion; ?></td>
 
   </tr>
-
+ 
 </table><br>
     
 <table>
@@ -366,7 +368,12 @@ th {
       //se incluyo para que mostrara la comision de servicio en la hoja de vida
         $comision = isset($Beneficiario->Calculo['comision_servicios']) ? $Beneficiario->Calculo['comision_servicios'] : 0;
         echo $comision;
-
+      ?></td>
+      <td>Monto Recuperado Act.</td> 
+     <td><?php 
+      //se incluyo para que mostrara monto a recuperar activo en la hoja de vida
+        $monto_recuperar = isset($Beneficiario->Calculo['monto_recuperado']) ? $Beneficiario->Calculo['monto_recuperado'] : 0;
+        echo $monto_recuperar;
       ?></td>
      <td colspan="5">
      </td>
@@ -499,14 +506,16 @@ th {
    </tr>
    <tr>
     <td>Fecha Retiro</td>
-    <td colspan="5">
+    <td colspan="3">
     <?php 
       if ($Beneficiario->fecha_retiro != ''){
         $f =  explode('-',$Beneficiario->fecha_retiro);          
         echo $f[2] . '-' . $f[1] . '-' . $f[0];
       }
     ?></td>
-
+    <td>Motivo de Paralizacion</td>
+      <td><?php echo $Beneficiario->motivo_paralizacion; ?></td>
+      
   </tr>
 
 </table><br>
@@ -544,7 +553,6 @@ th {
 
     echo $sCabecera . $sCuerpo . $sPie;
   }
-  
 
 ?>
 

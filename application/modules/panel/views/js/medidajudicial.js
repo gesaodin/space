@@ -107,7 +107,8 @@ function listar(data){
             valor.numero_expediente,
             valor.cedula_beneficiario,
             valor.nombre_beneficiario,
-            valor.estado
+            valor.estado,
+            valor.mensualidades
         ] ).draw( false );
         
     });
@@ -172,6 +173,7 @@ function ConsultarMedidaEjecutada(id){
             $("#salario").val(q.salario);
             $("#ut").val(q.unidad_tributaria);
             $("#monto_total").val(q.monto);
+            $("#mensualidades").val(q.mensualidades);
             $("#forma_pago").val(q.forma_pago);
             $("#institucion").val(q.institucion);
             $("#autoridad").val(q.nombre_autoridad);
@@ -263,6 +265,7 @@ function cargar(){
 
     MedidaJudicial['porcentaje'] = $("#porcentaje").val();
     MedidaJudicial['salario'] = $("#salario").val();
+    MedidaJudicial['mensualidades'] = $("#mensualidades").val();
     MedidaJudicial['ut'] = $("#ut").val();
     MedidaJudicial['monto'] = $("#monto_total").val();
     if($("#forma_pago option:selected").val() == null || $("#forma_pago option:selected").val() == '0'){
@@ -356,6 +359,7 @@ function limpiarMedida(){
 
     $("#porcentaje").val("");
     $("#salario").val("");
+    $("#mensualidades").val("");
     $("#ut").val("");
     $("#monto_total").val("");
     $("#forma_pago").val("");
@@ -371,4 +375,13 @@ function limpiarMedida(){
     $("#parentesco").val("0");
     $("#cedula_autorizado").val("");
     $("#autorizado").val("");
+}
+
+function calculomensual(){
+    if($("#salario").val() != "0" && $("#mensualidades").val() != "0") 
+        $("#monto_total").val($("#salario").val() * $("#mensualidades").val());
+
+    else{
+        $("#monto_total").val(0);
+    }
 }

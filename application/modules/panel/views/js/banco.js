@@ -15,12 +15,10 @@ function consultar() {
             $("#componente").val(data.Componente.nombre);
             $("#grado").val(data.Componente.Grado.nombre);
             console.log(data);
-            var numero_cuenta = $("#numero_cuenta").val(data.numero_cuenta);
+
+            var numero_cuenta = $("#numero_cuenta").val(data.numero_cuenta.substring(4, data.numero_cuenta.length));
             
-            if (data.numero_cuenta == "0")     {
-              $("#numero_cuenta").val('0102');
-            }
-                   
+                              
         }
 
     ).done(function(msg) {}).fail(function(jqXHR, textStatus) {
@@ -63,7 +61,7 @@ function actualizar(){
         
     }else{
         Persona['cedula'] = $("#id").val();
-        Persona['numero_cuenta'] = $("#numero_cuenta").val();
+        Persona['numero_cuenta'] = $("#codigo_cuenta").val() + $("#numero_cuenta").val();
         
         $.ajax({
               url: sUrlP + "actualizarCuenta",
