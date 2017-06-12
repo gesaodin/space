@@ -391,8 +391,8 @@ class Panel extends MY_Controller {
 		$data = json_decode($_POST['data']);
 		//print_r($data);
 		
-		$this->load->model('kernel/KCargador');	
-		//$data['id'] = 50;
+		//$this->load->model('kernel/KCargador');	
+		//$data['id'] = 49;
 		//$data['fe'] = "2016-01-31";
 		//$data['estado_id'] = 203;
 		//$data['sit'] = 203;
@@ -402,8 +402,8 @@ class Panel extends MY_Controller {
 		//$data['fha'] = "2016-01-31";
 		
 
- 		//$this->KCargador->IniciarLote($data, $firma, $_SESSION['usuario']);	
- 		$this->KCargador->IniciarLote((object)$data, '2016-01-01', $firma, $_SESSION['usuario']);	
+ 		$this->KCargador->IniciarLote($data, $firma, $_SESSION['usuario']);	
+ 		//$this->KCargador->IniciarLote((object)$data, '2016-01-01', $firma, $_SESSION['usuario']);	
  		
  		$mnt = $this->KCargador->Resultado['l'] - 1;
 		$json = array(
