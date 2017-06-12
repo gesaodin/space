@@ -107,7 +107,8 @@ function listar(data){
             valor.numero_expediente,
             valor.cedula_beneficiario,
             valor.nombre_beneficiario,
-            valor.estado
+            valor.estado,
+            valor.mensualidades
         ] ).draw( false );
         
     });
