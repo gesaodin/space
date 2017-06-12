@@ -392,7 +392,7 @@ class Panel extends MY_Controller {
 		//print_r($data);
 		
 		$this->load->model('kernel/KCargador');	
-		//$data['id'] = 50;
+		//$data['id'] = 49;
 		//$data['fe'] = "2016-01-31";
 		//$data['estado_id'] = 203;
 		//$data['sit'] = 203;
