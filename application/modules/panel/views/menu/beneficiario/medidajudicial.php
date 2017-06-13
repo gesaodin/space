@@ -248,7 +248,10 @@
                               <div class="col-md-2">Porcentaje:</div>
                               <div class="col-md-4"><input type="text" class="form-control" placeholder="Porcentaje" id='porcentaje' value=0></div>
                               <div class="col-md-2">Salarios:</div>
-                              <div class="col-md-4"><input type="text" class="form-control" placeholder="Salarios" id='salario' value=0 ></div>
+                              <div class="col-md-4">
+                                <input type="text" class="form-control" placeholder="Salarios" id='salario' value=0 onblur="convertirSalario()">
+                                <input type="hidden" id='salarioaux' value=0 >
+                              </div>
                             </div>
                              <div class="row">
                               <div class="col-md-2">Mensualidades:</div>

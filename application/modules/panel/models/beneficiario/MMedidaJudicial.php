@@ -410,7 +410,7 @@ class MMedidaJudicial extends CI_Model{
 
 	
 	    
-	    //echo $sInsert;
+	    //echo $sInsert; Me permite mostrar el sql
 	    $obj = $this->Dbpace->consultar($sInsert);
 
 

@@ -934,7 +934,7 @@ class Panel extends MY_Controller {
 			$this->MMedidaJudicial->id = $id;
 			$this->MMedidaJudicial->actualizar();
 		}
-		
+		//print_r($this->MMedidaJudicial);
 		echo "Se registro nueva Medida Judicial en estatus de activo";
 	}
 
