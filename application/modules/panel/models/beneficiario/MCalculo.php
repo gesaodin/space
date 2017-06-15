@@ -61,7 +61,7 @@ class MCalculo extends CI_Model{
     if ($Beneficiario->fecha_retiro != ''){
         $total_embargos = $monto + ($this->Beneficiario->asignacion_antiguedad_fin * $porcentaje) / 100;
     }else{
-        $total_embargos = $monto + ($this->Beneficiario->asignacion_antiguedad * $porcentaje) / 100;      
+        $total_embargos = $monto + ($this->Beneficiario->asignacion_antiguedad * $porcentaje) / 100;    
     }
     $this->Beneficiario->Calculo = array(
       'asignacion_antiguedad' => number_format($this->Beneficiario->asignacion_antiguedad, 2, ',','.'),
