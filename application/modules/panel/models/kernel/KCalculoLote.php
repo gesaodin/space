@@ -274,31 +274,40 @@ class KCalculoLote extends CI_Model{
   */
   public function AlicuotaAguinaldo($sueldo_global = 0){
     //Se agrego las condiciones para evaluar cuando se debe calcular con 90/105 dias
-    if(isset($this->Beneficiario) && ($this->Beneficiario->fecha_retiro == '')){
+     $dia = 0;
+       if(isset($this->Beneficiario) && ($this->Beneficiario->fecha_retiro == '')){
+        $sueldo_global = $this->Beneficiario->sueldo_global;
+        $cal =  round(((120 * $sueldo_global)/30)/12, 2);
+        $this->Beneficiario->aguinaldos = $cal;
+        $this->Beneficiario->aguinaldos_aux = number_format($cal, 2, ',','.');
+
+      }else{ if($this->Beneficiario->fecha_retiro >= '2016-10-29' && $this->Beneficiario->fecha_retiro <= '2016-12-31'){
         $sueldo_global = $this->Beneficiario->sueldo_global;
         $cal =  round(((105 * $sueldo_global)/30)/12, 2);
         $this->Beneficiario->aguinaldos = $cal;
         $this->Beneficiario->aguinaldos_aux = number_format($cal, 2, ',','.');
-      }else{ 
-        if($this->Beneficiario->fecha_retiro < '2016-10-31'){
-          $sueldo_global = $this->Beneficiario->sueldo_global;
-          $cal =  round(((90 * $sueldo_global)/30)/12, 2);
-          $this->Beneficiario->aguinaldos = $cal;
-          $this->Beneficiario->aguinaldos_aux = number_format($cal, 2, ',','.');
-        }else{
-          $sueldo_global = $this->Beneficiario->sueldo_global;
-          $cal = ((105 * $sueldo_global)/30)/12;
-          $this->Beneficiario->aguinaldos = $cal;
-          $this->Beneficiario->aguinaldos_aux = number_format($cal, 2, ',','.');
-        }
+
+      }else{ if($this->Beneficiario->fecha_retiro < '2016-10-29'){
+        $sueldo_global = $this->Beneficiario->sueldo_global;
+        $cal =  round(((90 * $sueldo_global)/30)/12, 2);
+        $this->Beneficiario->aguinaldos = $cal;
+        $this->Beneficiario->aguinaldos_aux = number_format($cal, 2, ',','.'); 
+
+      }else{
+        $sueldo_global = $this->Beneficiario->sueldo_global;
+        $cal = ((120 * $sueldo_global)/30)/12;
+        $this->Beneficiario->aguinaldos = $cal;
+        $this->Beneficiario->aguinaldos_aux = number_format($cal, 2, ',','.');
+      }
     }
   }
+}
   /**
   * SE USA PARA LOS PROCESOS POR LOTES
   */
   public function GenerarAlicuotaAguinaldo(){
     $sm = $this->Beneficiario->sueldo_mensual;
-    $cal = $this->Beneficiario->fecha_retiro < '2016-10-31'? ((90 * $sm)/30)/12:((105 * $sm)/30)/12;
+    $cal = $this->Beneficiario->fecha_retiro < '2016-10-31'? ((90 * $sm)/30)/12:((120 * $sm)/30)/12;
     $this->Beneficiario->aguinaldos = round($cal,2);
   }
 
@@ -314,31 +323,42 @@ class KCalculoLote extends CI_Model{
   */
   public function AlicuotaVacaciones($sueldo_global = 0){   
     //Fecha auxiliar utiliza aux - Menor Robando Tiempo y Antigueddad
-      $dia = 0;
-      $TM = $this->Beneficiario->tiempo_servicio;
-     if ($TM > 0 && $TM <= 14) {
-        $dia = 40;
-      }else if($TM > 14 && $TM <= 24){
-        $dia = 45;
-      }else if($TM > 24){
-        $dia = 50;
-      }
-      
-      
-      $sueldo_global = $this->Beneficiario->sueldo_global;
-      $cal = round((($dia * $sueldo_global)/30)/12, 2);
-      $this->Beneficiario->vacaciones = $cal; 
-      $this->Beneficiario->vacaciones_aux = number_format($cal, 2, ',','.'); 
-   
-  }
+       $dia = 0;
+      if(isset($this->Beneficiario) && ($this->Beneficiario->fecha_retiro == '' || $this->Beneficiario->fecha_retiro > '2016-12-31')){
+            $sueldo_global = $this->Beneficiario->sueldo_global;
+            $cal = round(((50 * $sueldo_global)/30)/12, 2);
+            $this->Beneficiario->vacaciones = $cal; 
+            $this->Beneficiario->vacaciones_aux = number_format($cal, 2, ',','.'); 
 
+
+       }else if($this->Beneficiario->fecha_retiro <= '2016-12-31'){   
+        $TM = $this->Beneficiario->tiempo_servicio;
+          if ($TM > 0 && $TM <= 14) {
+            $dia = 40;
+          }else if($TM > 14 && $TM <= 24){
+           $dia = 45;
+          }else if($TM > 24){
+            $dia = 50;
+          }
+
+        $sueldo_global = $this->Beneficiario->sueldo_global;
+        $cal = round((($dia * $sueldo_global)/30)/12, 2);
+        $this->Beneficiario->vacaciones = $cal; 
+        $this->Beneficiario->vacaciones_aux = number_format($cal, 2, ',','.'); 
+
+
+        }
+ }
+
+
+//preparar para los retirados
   function GenerarAlicuotaVacaciones(){
     $dia = 0;
     $TM = $this->Beneficiario->tiempo_servicio;
     if ($TM > 0 && $TM <= 14) {
-      $dia = 40;
+      $dia = 50;
     }else if($TM > 14 && $TM <= 24){
-      $dia = 45;
+      $dia = 50;
     }else if($TM > 24){
       $dia = 50;
     }   

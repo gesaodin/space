@@ -480,9 +480,9 @@ class MBeneficiario extends CI_Model{
 					' . $tbl . '.status_id=status.id
 			WHERE
 				beneficiario.cedula=\'' . $cedula . '\'';
-
+		//echo $sConsulta;
 		$obj = $this->Dbpace->consultar($sConsulta);
-
+		
 		return $obj;
 
 	}

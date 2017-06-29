@@ -90,6 +90,7 @@ class KCargador extends CI_Model{
               anticipor numeric, -- REVERSO
               dep_adicional numeric, -- DEPOSITO ADICIONAL
               dep_garantia numeric -- DEPOSITO DE GARANTIA
+              
             );
             CREATE INDEX tablacruce_cedula ON space.tablacruce (cedula);");
     return $rs;
@@ -116,6 +117,7 @@ class KCargador extends CI_Model{
         $condicion .= ' AND beneficiario.fecha_ingreso BETWEEN \'' . $arr->fde . '\' AND \'' . $arr->fha . '\'';  
       }else{
         $condicion .= ' AND beneficiario.f_retiro_efectiva BETWEEN \'' . $arr->fde . '\' AND \'' . $arr->fha . '\'';
+        //$condicion .= ' AND beneficiario.f_ult_modificacion BETWEEN \'' . $arr->fde . '\' AND \'' . $arr->fha . '\'';
       }
     }
       
@@ -134,7 +136,7 @@ class KCargador extends CI_Model{
           grado ON beneficiario.grado_id=grado.id
         LEFT JOIN space.tablacruce ON beneficiario.cedula=space.tablacruce.cedula
         WHERE " . $condicion . "
-      ";
+        ";
     $con = $this->DBSpace->consultar($sConsulta);
     
     //echo $sConsulta;
@@ -152,13 +154,13 @@ class KCargador extends CI_Model{
     $file = fopen("tmp/" . $archivo . ".csv","a") or die("Problemas"); 
     //$file_log = fopen("tmp/" . $archivo . ".log","a") or die("Problemas"); 
     
-    $linea = 'CEDULA;CODGRA;GRADO;CODFZA;COMPONENTE;APELLIDOS Y NOMBRES;FECHA DE INGRESO;';
+    $linea  = 'CEDULA;CODGRA;GRADO;CODFZA;COMPONENTE;APELLIDOS Y NOMBRES;FECHA DE INGRESO;';
     $linea .= 'TIEMPO DE SERVICIO;NUMERO DE HIJOS;FECHA ULTIMO ASCENSO;TIEMPO DE SERVICIO EN EL GRADO;SUELDO BASICO;';
     $linea .= 'FACTOR PRIMA TRANSPORTE;PRIMA TRANSPORTE;PRIMA TIEMPO DE SERVICIO;';
     $linea .= 'FACTOR PRIMA DESCENDENCIA;PRIMA DESCENDENCIA;FACTOR PRIMA ESPECIAL;PRIMA ESPECIAL;ESTATUS NO ASCENSO;';
     $linea .= 'PRIMA NO ASCENSO;FACTOR PRIMA PROF.;PRIMA PROF.;';
     $linea .= 'SUELDO MENSUAL;ALI. BONO FIN AÑO;DIA BON. VAC.;ALICUOTA BONO VAC.;SUELDO INTEGRAL;ASIGNACION DE ANTIGUEDAD;';
-    $linea .= 'DEP. BANCO;ANTICIPOS;GARANTIAS ACUM.;DIAS ADI. ACUM.;DIF. NO DEP. BANCO;GARANTIAS;DIAS ADICIONALES;FINIQUITO CAPITAL; DIF. ASIG. ANTIGUEDAD';
+    $linea .= 'DEP. BANCO;ANTICIPOS;GARANTIAS ACUM.;DIAS ADI. ACUM.;DIF. NO DEP. BANCO;GARANTIAS;DIAS ADICIONALES;FINIQUITO CAPITAL;DIF. ASIG. ANTIGUEDAD';
     fputs($file,$linea);
     fputs($file,"\n");  
     foreach ($obj as $k => $v) {
@@ -221,6 +223,7 @@ class KCargador extends CI_Model{
       $Bnf->ano_reconocido = $v->anio_reconocido;
       $Bnf->mes_reconocido = $v->mes_reconocido;
       $Bnf->dia_reconocido = $v->dia_reconocido;
+      
 
       $patron = md5($v->fecha_ingreso.$v->n_hijos.$v->st_no_ascenso.$v->componente_id.
         $v->codigo.$v->f_ult_ascenso.$v->st_profesion.$v->anio_reconocido.$v->mes_reconocido.$v->dia_reconocido);      
@@ -264,7 +267,6 @@ class KCargador extends CI_Model{
   }
 
 
-
   private function generarLinea($Bnf){
 
     return 
@@ -275,7 +277,7 @@ class KCargador extends CI_Model{
         $Bnf->componente_nombre . ';' . // 5
         $Bnf->apellidos . ' ' . $Bnf->nombres . ';' .  // 6
         $Bnf->fecha_ingreso . ';' . // 7
-        $Bnf->tiempo_servicio . ';' . // 8
+        $Bnf->tiempo_servicio_aux . ';' . // 8
         $Bnf->numero_hijos . ';' . // 9
         $Bnf->fecha_ultimo_ascenso . ';' . // 10
         $Bnf->antiguedad_grado . ';' . // 11
@@ -306,7 +308,8 @@ class KCargador extends CI_Model{
         $Bnf->garantias . ';' .  // 35
         $Bnf->dias_adicionales . ';' .
         $Bnf->finiquito . ';' .
-        $Bnf->diferencia_asig_a; // 36
+        $Bnf->diferencia_asig_a;  // 36
+        
 
   }
 
@@ -331,7 +334,8 @@ class KCargador extends CI_Model{
         $Bnf->no_depositado_banco  . ';' . 
         $Recuerdo['SFINAL']  . ';' .
         $Bnf->finiquito . ';' .
-        $Bnf->diferencia_asig_a;
+        $Bnf->diferencia_asig_a; 
+        
   }
 
   private function evaluarLotesLinuxComando($archivo, $situacion){
@@ -703,7 +707,7 @@ class KCargador extends CI_Model{
       $Bnf->ano_reconocido = $v->anio_reconocido;
       $Bnf->mes_reconocido = $v->mes_reconocido;
       $Bnf->dia_reconocido = $v->dia_reconocido;
-
+      
       $patron = md5($v->fecha_ingreso.$v->n_hijos.$v->st_no_ascenso.$v->componente_id.
         $v->codigo.$v->f_ult_ascenso.$v->st_profesion.$v->anio_reconocido.$v->mes_reconocido.$v->dia_reconocido);      
 

@@ -222,10 +222,14 @@ class MCalculo extends CI_Model{
   * @return int
   */
   function AntiguedadGrado($fechaUltimoAscenso = ''){
+
     if(isset($this->Beneficiario)){
+      
       $anos = $this->__restarFecha($this->Beneficiario->fecha_ultimo_ascenso, $this->Beneficiario->fecha_retiro, TRUE);
+
       $this->Beneficiario->antiguedad_grado = $anos['e'];
     }else{
+
       $anos = $this->__restarFecha($fechaUltimoAscenso);
       return $anos['e'];
     }
@@ -253,8 +257,8 @@ class MCalculo extends CI_Model{
         $this->Beneficiario->tiempo_servicio = $anos['e'];
         $this->Beneficiario->tiempo_servicio_aux = $anos['n'];
       }
-
-            
+      
+              
     }else{
       $anos = $this->__restarFecha($fechaIngreso);
       return $anos['e'];

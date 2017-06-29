@@ -438,6 +438,7 @@ class MBeneficiario extends CI_Model{
 
 
 	public function obtenerID($id, $fecha = ''){
+
 		$obj = $this->_consultar($id);
 		if($obj->code == 0 ){
 			foreach ($obj->rs as $clv => $val) {
@@ -543,7 +544,6 @@ class MBeneficiario extends CI_Model{
 				beneficiario.cedula=\'' . $cedula . '\'';
 
 		$obj = $this->DBSpace->consultar($sConsulta);
-
 		return $obj;
 
 	}
