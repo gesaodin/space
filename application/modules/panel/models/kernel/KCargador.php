@@ -116,6 +116,7 @@ class KCargador extends CI_Model{
         $condicion .= ' AND beneficiario.fecha_ingreso BETWEEN \'' . $arr->fde . '\' AND \'' . $arr->fha . '\'';  
       }else{
         $condicion .= ' AND beneficiario.f_retiro_efectiva BETWEEN \'' . $arr->fde . '\' AND \'' . $arr->fha . '\'';
+        //$condicion .= ' AND beneficiario.f_ult_modificacion BETWEEN \'' . $arr->fde . '\' AND \'' . $arr->fha . '\'';
       }
     }
       
@@ -127,14 +128,14 @@ class KCargador extends CI_Model{
         tablacruce.cap_banco,tablacruce.dep_adicional,tablacruce.dep_garantia,
         tablacruce.fcap_banco, tablacruce.anticipo-tablacruce.anticipor AS anticipo,
         tablacruce.dif_asi_anti, 
-        st_profesion,anio_reconocido, mes_reconocido,dia_reconocido
+        st_profesion,anio_reconocido, mes_reconocido,dia_reconocido,beneficiario.status_id as status_id
         FROM 
           beneficiario  
         JOIN 
           grado ON beneficiario.grado_id=grado.id
         LEFT JOIN space.tablacruce ON beneficiario.cedula=space.tablacruce.cedula
         WHERE " . $condicion . "
-      ";
+       ";
     $con = $this->DBSpace->consultar($sConsulta);
     
     //echo $sConsulta;
@@ -221,6 +222,7 @@ class KCargador extends CI_Model{
       $Bnf->ano_reconocido = $v->anio_reconocido;
       $Bnf->mes_reconocido = $v->mes_reconocido;
       $Bnf->dia_reconocido = $v->dia_reconocido;
+      $Bnf->estatus_activo = $v->status_id;
 
       $patron = md5($v->fecha_ingreso.$v->n_hijos.$v->st_no_ascenso.$v->componente_id.
         $v->codigo.$v->f_ult_ascenso.$v->st_profesion.$v->anio_reconocido.$v->mes_reconocido.$v->dia_reconocido);      
@@ -627,7 +629,7 @@ class KCargador extends CI_Model{
         beneficiario.cedula, fecha_ingreso,f_ult_ascenso, grado.codigo,grado.nombre as gnombre,
         beneficiario.componente_id, n_hijos, st_no_ascenso,
         tablacruce.cap_banco,tablacruce.dep_adicional,tablacruce.dep_garantia,
-        st_profesion,anio_reconocido, mes_reconocido,dia_reconocido
+        st_profesion,anio_reconocido, mes_reconocido,dia_reconocido,beneficiario.status_id as status_id
         FROM 
           beneficiario  
         JOIN 
@@ -703,6 +705,7 @@ class KCargador extends CI_Model{
       $Bnf->ano_reconocido = $v->anio_reconocido;
       $Bnf->mes_reconocido = $v->mes_reconocido;
       $Bnf->dia_reconocido = $v->dia_reconocido;
+      $Bnf->estatus_activo = $v->status_id;
 
       $patron = md5($v->fecha_ingreso.$v->n_hijos.$v->st_no_ascenso.$v->componente_id.
         $v->codigo.$v->f_ult_ascenso.$v->st_profesion.$v->anio_reconocido.$v->mes_reconocido.$v->dia_reconocido);      
@@ -777,7 +780,7 @@ class KCargador extends CI_Model{
           grado ON beneficiario.grado_id=grado.id
          
         WHERE ' . $condicion . ' ;';
-
+        
     $obj = $this->DBSpace->consultar($sConsulta);
     
     //echo $sConsulta;

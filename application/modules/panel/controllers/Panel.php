@@ -392,7 +392,7 @@ class Panel extends MY_Controller {
 		//print_r($data);
 		
 		$this->load->model('kernel/KCargador');	
-		//$data['id'] = 50;
+		//$data['id'] = 49;
 		//$data['fe'] = "2016-01-31";
 		//$data['estado_id'] = 203;
 		//$data['sit'] = 203;
@@ -402,8 +402,8 @@ class Panel extends MY_Controller {
 		//$data['fha'] = "2016-01-31";
 		
 
- 		//$this->KCargador->IniciarLote($data, $firma, $_SESSION['usuario']);	
- 		$this->KCargador->IniciarLote((object)$data, '2016-01-01', $firma, $_SESSION['usuario']);	
+ 		$this->KCargador->IniciarLote($data, $firma, $_SESSION['usuario']);	
+ 		//$this->KCargador->IniciarLote((object)$data, '2016-01-01', $firma, $_SESSION['usuario']);	
  		
  		$mnt = $this->KCargador->Resultado['l'] - 1;
 		$json = array(
@@ -934,7 +934,7 @@ class Panel extends MY_Controller {
 			$this->MMedidaJudicial->id = $id;
 			$this->MMedidaJudicial->actualizar();
 		}
-		
+		//print_r($this->MMedidaJudicial);
 		echo "Se registro nueva Medida Judicial en estatus de activo";
 	}
 

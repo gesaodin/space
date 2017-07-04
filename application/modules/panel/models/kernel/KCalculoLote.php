@@ -89,6 +89,7 @@ class KCalculoLote extends CI_Model{
 
     foreach ($lst as $c => $v) {
       $monto_nominal = $v;
+      //print_r($this->Directiva['fnx']);
       $rs =  $this->Directiva['fnx'][$c]['rs']; // Como se llama la variable
       $rs_mt =  $this->Directiva['fnx'][$c]['rs'] . '_mt';
       $fnx =  $this->Directiva['fnx'][$c]['fn'];
@@ -105,7 +106,6 @@ class KCalculoLote extends CI_Model{
     }
 
   }
-
 
   function SueldoMensual(){
     $this->Beneficiario->sueldo_mensual = $this->Beneficiario->sueldo_base + $this->Beneficiario->monto_total_prima;
@@ -275,7 +275,7 @@ class KCalculoLote extends CI_Model{
     //Se agrego las condiciones para evaluar cuando se debe calcular con 90/105 dias
     if(isset($this->Beneficiario) && ($this->Beneficiario->fecha_retiro == '')){
         $sueldo_global = $this->Beneficiario->sueldo_global;
-        $cal =  round(((105 * $sueldo_global)/30)/12, 2);
+        $cal =  round(((120 * $sueldo_global)/30)/12, 2);
         $this->Beneficiario->aguinaldos = $cal;
         $this->Beneficiario->aguinaldos_aux = number_format($cal, 2, ',','.');
       }else{ 
@@ -292,17 +292,31 @@ class KCalculoLote extends CI_Model{
         }
     }
   }
-  /**
+ 
+
+/**
   * SE USA PARA LOS PROCESOS POR LOTES
-  */
-  public function GenerarAlicuotaAguinaldo(){
+  * SE ADECUO A LOS CAMBIOS DE LEY 120 DIAS A PARTIR 01012017
+ **/ 
+
+public function GenerarAlicuotaAguinaldo(){
     $sm = $this->Beneficiario->sueldo_mensual;
-    $cal = $this->Beneficiario->fecha_retiro < '2016-10-31'? ((90 * $sm)/30)/12:((105 * $sm)/30)/12;
-    $this->Beneficiario->aguinaldos = round($cal,2);
+    $fretiro = $this->Beneficiario->fecha_retiro;
+    $cal = 0;
+    if($this->Beneficiario->estatus_activo == 201){
+      $cal =  round(((120 * $sm)/30)/12,2);    
+    }elseif($fretiro < '2016-10-29'){ 
+      $cal =  round(((90 * $sm)/30)/12,2);    
+    }elseif($fretiro >= '2016-10-29' || $fretiro <= '2016-12-31'){
+      $cal =  round(((105 * $sm)/30)/12,2); 
+    }
+    
+    $this->Beneficiario->aguinaldos = $cal;
   }
 
+
   /**
-  * Alicuota Bono Vacaciones #00
+  *Alicuota Bono Vacaciones #00
   * X =  ((NDV * SG)/30)/12
   *
   * NDV = Numero de Dias de Vaciones que goza el Millitar
@@ -311,6 +325,7 @@ class KCalculoLote extends CI_Model{
   * @access public
   * @return double
   */
+
   public function AlicuotaVacaciones($sueldo_global = 0){   
     //Fecha auxiliar utiliza aux - Menor Robando Tiempo y Antigueddad
       $dia = 0;
@@ -331,21 +346,35 @@ class KCalculoLote extends CI_Model{
    
   }
 
-  function GenerarAlicuotaVacaciones(){
-    $dia = 0;
-    $TM = $this->Beneficiario->tiempo_servicio;
-    if ($TM > 0 && $TM <= 14) {
-      $dia = 40;
-    }else if($TM > 14 && $TM <= 24){
-      $dia = 45;
-    }else if($TM > 24){
-      $dia = 50;
-    }   
-    $this->Beneficiario->dia_vacaciones = $dia;
-    $this->Beneficiario->vacaciones = round((($dia * $this->Beneficiario->sueldo_mensual)/30)/12, 2);   
-   
+     function GenerarAlicuotaVacaciones(){
+     $dia=0;
+     $cal = 0;
+     $TM = $this->Beneficiario->tiempo_servicio;
+     $sm = $this->Beneficiario->sueldo_mensual;
+     $fretiro = $this->Beneficiario->fecha_retiro;
+     
+     if($fretiro > '2016-12-31'){
+        $cal = round(((50 * $sm)/30)/12, 2);
+        $dia = 50;
+        $this->Beneficiario->vacaciones = $cal;
+        $this->Beneficiario->dia_vacaciones = $dia;            
+     }elseif($fretiro <= '2016-12-31'){   
+        if ($TM > 0 &&  $TM <= 14) {
+            $dia = 40;
+        }elseif($TM > 14 &&  $TM <= 24){
+            $dia = 45;
+         }elseif($TM > 24){
+            $dia = 50;
+         }
+        $this->Beneficiario->dia_vacaciones = $dia;            
+        $cal = round((($dia * $sm)/30)/12,2);  
+        $this->Beneficiario->vacaciones = $cal;
+    }
+
+
   }
 
+    
   /**
   * Sueldo Integral #007
   * X = SUM(SG + AV + AA)
