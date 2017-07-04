@@ -14,6 +14,13 @@
       <div class="content-wrapper">
         <!-- Content Header (Page header) -->
        <section class="content-header">
+
+       <style type="text/css">
+.juntas{
+  padding-right: 0px;
+padding-left: 0px;
+}
+       </style>
       <h1>
         Cuenta Bancaria
         <small>.</small>
@@ -91,8 +98,13 @@
                         <span class="input-group-btn">
                             <button type="button" class="btn btn-success"><i class="fa fa-bank"></i></button>
                         </span> 
-                        <input type="text" class="form-control" placeholder="Número de Cuenta" id="numero_cuenta" maxlength="20"></input>                          
-                      </div>                
+                        <div class="juntas col-md-3">
+                        <input type="text" class="form-control" placeholder="0102" id="codigo_cuenta" maxlength="4" value="0102" disabled></input>
+                        </div> 
+                        <div class="juntas col-md-9"> 
+                        <input type="text" class="form-control" placeholder="Número de Cuenta" id="numero_cuenta" maxlength="16"></input>
+                        </div> 
+                        </div>             
                     </div>
                     <div class="col-md-6">
               

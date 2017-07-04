@@ -107,7 +107,8 @@ function listar(data){
             valor.numero_expediente,
             valor.cedula_beneficiario,
             valor.nombre_beneficiario,
-            valor.estado
+            valor.estado,
+            valor.mensualidades
         ] ).draw( false );
         
     });
@@ -170,6 +171,7 @@ function ConsultarMedidaEjecutada(id){
 
             $("#porcentaje").val(q.porcentaje);
             $("#salario").val(q.salario);
+            $("#salarioaux").val(q.salario);
             $("#ut").val(q.unidad_tributaria);
             $("#monto_total").val(q.monto);
             $("#mensualidades").val(q.mensualidades);
@@ -263,7 +265,8 @@ function cargar(){
     MedidaJudicial['observacion'] = $("#observacion").val();
 
     MedidaJudicial['porcentaje'] = $("#porcentaje").val();
-    MedidaJudicial['salario'] = $("#salario").val();
+    convertirSalario();
+    MedidaJudicial['salario'] = $("#salarioaux").val();
     MedidaJudicial['mensualidades'] = $("#mensualidades").val();
     MedidaJudicial['ut'] = $("#ut").val();
     MedidaJudicial['monto'] = $("#monto_total").val();
@@ -342,6 +345,15 @@ function cargarFechaSlash(fecha){
     }
 }
 
+function convertirSalario(){
+  var convertir = $("#salario").val();
+  valor = convertir.replace(",",".");
+
+  $("#salarioaux").val(valor);
+}
+
+
+
 function recargar(){
     URL = sUrlP + "medidajudicial";
     $(location).attr('href', URL);
@@ -377,8 +389,8 @@ function limpiarMedida(){
 }
 
 function calculomensual(){
-    if($("#salario").val() != "0" && $("#mensualidades").val() != "0") 
-        $("#monto_total").val($("#salario").val() * $("#mensualidades").val());
+    if($("#salarioaux").val() != "0" && $("#mensualidades").val() != "0") 
+        $("#monto_total").val($("#salarioaux").val() * $("#mensualidades").val());
 
     else{
         $("#monto_total").val(0);

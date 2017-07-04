@@ -226,6 +226,7 @@ class MMedidaJudicial extends CI_Model{
 		$obj = $this->Dbpace->consultar($sConsulta);
 		
 		$rs = $obj->rs;
+
 		foreach ($rs as $c => $v) {
 			$mdj = new $this->MMedidaJudicial();
 			//$mdj->fecha = $v->f_documento;
@@ -236,6 +237,7 @@ class MMedidaJudicial extends CI_Model{
 			$mdj->tipo = $v->tipo_medida_id;
 			
 			$arr[$v->tipo_medida_id] = $mdj;
+			$rs = $obj->rs;
 		}
 		return $arr;
 	}
@@ -410,7 +412,7 @@ class MMedidaJudicial extends CI_Model{
 
 	
 	    
-	    //echo $sInsert;
+	    //echo $sInsert; Me permite mostrar el sql
 	    $obj = $this->Dbpace->consultar($sInsert);
 
 
