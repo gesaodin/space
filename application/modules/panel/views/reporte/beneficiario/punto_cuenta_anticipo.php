@@ -136,7 +136,7 @@
    <tr><td style="width: 550px;">TITULO DEL ASUNTO</td><td>DECISIÓN</td><td>OBSERVACIÓN</td></tr>
    <tr>
       <td style="text-align: justify; font-size: 14px; line-height: 1.5" valign="top">
-        &emsp;Esta Gerencia somete a la consideración del ciudadano GB. Presidente de la Junta Administradora del IPSFA,
+        &emsp;Esta Gerencia somete a la consideración del ciudadano GD. Presidente de la Junta Administradora del IPSFA,
         la solicitud formulada por <b><?php 
           echo $Beneficiario->Componente->Grado->nombre . ' ' . $Beneficiario->nombres . ' ' . $Beneficiario->apellidos; ?>
          </b> titular de la cédula de identidad <b><?php echo $Beneficiario->cedula . ' (' . $Beneficiario->Componente->nombre . ')';?>
@@ -190,7 +190,7 @@
             <br><br><br><br><br><br>
             <b><center>
             JESÚS RAFAEL SALAZAR VELASQUEZ<BR>
-            GENERAL DE BRIGADA<BR>
+            GENERAL DE DIVISIÓN<BR>
             PRESIDENTE DEL I.P.S.F.A<BR>
             </center>
             </B>
@@ -206,7 +206,7 @@
 
       <td style="width: 225px;text-align: justify; font-size: 14px; line-height: 1.5" valign="top">
         Según Resolución N° DG-00044 del 08FEBB99, se delegó la firma Parcial de la Asignación de Antiguedad del personal militar,
-        al General de Brigada Presidente de la Junta Administradora del Instituto de Previsión Social de las Fuerzas Armadas.
+        al General de División Presidente de la Junta Administradora del Instituto de Previsión Social de las Fuerzas Armadas.
       </td>
     </tr>
  </table>
