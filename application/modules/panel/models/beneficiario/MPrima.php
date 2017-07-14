@@ -15,6 +15,7 @@ if (!defined('BASEPATH'))
  * @since version 1.0
  */
 
+
 class MPrima extends CI_Model{
 
 
@@ -153,7 +154,8 @@ class MPrima extends CI_Model{
     
     
     $this->Beneficiario->Prima[8] = array(
-      'P_PROFESIONALIZACION' => $this->Beneficiario->profesionalizacion == 1 ? $this->Profesionalizacion() : 0.00
+      //'P_PROFESIONALIZACION' => $this->Beneficiario->profesionalizacion == 1 ? $this->Profesionalizacion() : 0.00
+      'P_PROFESIONALIZACION' => $this->Beneficiario->profesionalizacion > 0 ? $this->Profesionalizacion() : 0.00
       );
     
 
@@ -187,16 +189,15 @@ class MPrima extends CI_Model{
       }
     }
     $this->Beneficiario->Prima[8] = array(
-      'P_PROFESIONALIZACION' => $this->Beneficiario->profesionalizacion == 1 ? $this->Profesionalizacion() : 0.00
+      //'P_PROFESIONALIZACION' => $this->Beneficiario->profesionalizacion == 1 ? $this->Profesionalizacion() : 0.00
+      'P_PROFESIONALIZACION' => $this->Beneficiario->profesionalizacion > 0 ? $this->Profesionalizacion() : 0.00
       );
     
   }
 
-
-
   /**
   * Profecionalizacion #005
-  * X = (SB * 12%) / 100
+  * X = (SB * 12,14,16,18,20) Se modificaron los porcentajes/100
   * SB = Sueldo Base
   *
   * @access public
@@ -204,21 +205,27 @@ class MPrima extends CI_Model{
   * @param int 
   * @return double
   */
-  public function Profesionalizacion($monto_nominal = 0,  $sueldo_base = 0.00){    
-    if(isset($this->Beneficiario)){
-      //$codigo = $this->Beneficiario->grado_codigo . $this->Beneficiario->antiguedad_grado;
-      $sueldo_base = $this->Beneficiario->sueldo_base;    
-      $sueldo = ($sueldo_base * 12) / 100;
-      $valor = round($sueldo, 2);
-      $this->Beneficiario->prima_profesionalizacion = $valor;
-      return $valor;
-    }else{
-      return round(($sueldo_base * 12) / 100, 2);
-    }
+
+
+  public function Profesionalizacion($monto_nominal = 0,  $sueldo_base = 0.00){   
+         $pprof = $this->Beneficiario->profesionalizacion;
+         $sueldo_base = $this->Beneficiario->sueldo_base;
+
+      if(isset($this->Beneficiario) && ($this->Beneficiario->fecha_retiro == '')){
+         $sueldo = (($sueldo_base * $pprof) / 100);
+      }else{ 
+        if($this->Beneficiario->fecha_retiro > '2015-12-31'){
+          $sueldo = (($sueldo_base * $pprof) / 100);
+      }else{ 
+        if($this->Beneficiario->fecha_retiro <= '2015-12-31'){
+          $sueldo = (($sueldo_base * 12) / 100);  
+          }
+        }
+       }
+       $valor = round($sueldo, 2);
+       $this->Beneficiario->prima_profesionalizacion = $valor;
+       return $valor; 
   }
-
-
-
 
 
 }

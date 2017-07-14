@@ -165,9 +165,22 @@ function listar(data){
 
                 sAcciones += '</ul>';
             }
-
+     //se agregaron los reportes con el anticipo pendiente
         }else if(valor.estatus == '101'){
-            if(valor.movimiento == 0 )sBoton += '<button id="btnRechazar" type="button" class="btn btn-danger" title="Recharzar" onclick="rechazar(\'' + valor.id + '\')"><i class="fa fa-remove" ></i></button>';
+            if(valor.movimiento == 0 ){
+                sBoton += '<button id="btnRechazar" type="button" class="btn btn-danger" title="Recharzar" onclick="rechazar(\'' + valor.id + '\')"><i class="fa fa-remove" ></i></button>';
+                 sBoton += '<button type="button" class="btn btn-info" title="Imprimir"><i class="fa fa-print" ></i></button>';
+                sBoton += '<button aria-expanded="false" type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown">';
+                sBoton += '<span class="caret"></span>';
+                sBoton += '<span class="sr-only">Toggle Dropdown</span>';
+                sBoton += '</button>';
+                sAcciones = '<ul class="dropdown-menu" role="menu">';
+                sAcciones += '<li><a href="#!" target="_top" onclick="HojaVida(\'' + $("#id").val() + '\')">Hoja de Vida (PRINT)</a></li>';
+                sAcciones += '<li><a href="#!" target="_top" onclick="PuntoCuenta(\'' + valor.id + '\')">Punto de Cuenta</a></li>';
+
+                sAcciones += '</ul>';
+            }
+
         }
         sBoton += sAcciones + '</div>';
 

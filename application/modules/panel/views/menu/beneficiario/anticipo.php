@@ -324,7 +324,7 @@
                     <table id="reporteAnticipo" class="table table-bordered table-hover">
                       <thead>
                       <tr>
-                          <th style="width: 40px;">Acciones</th>
+                          <th style="width: 80px;">Acciones</th>
                           <th style="width: 40px;">Estatus</th>
                           <th>Fecha</th>
                           <th >Motivo</th>
