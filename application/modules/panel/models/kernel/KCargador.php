@@ -135,12 +135,8 @@ class KCargador extends CI_Model{
         JOIN 
           grado ON beneficiario.grado_id=grado.id
         LEFT JOIN space.tablacruce ON beneficiario.cedula=space.tablacruce.cedula
-        WHERE " . $condicion . "
-<<<<<<< HEAD
-        ";
-=======
-       ";
->>>>>>> f107cab48c061326c59b3c54686883dee6fc1f00
+        WHERE " . $condicion . "";
+
     $con = $this->DBSpace->consultar($sConsulta);
     
     //echo $sConsulta;
@@ -227,11 +223,7 @@ class KCargador extends CI_Model{
       $Bnf->ano_reconocido = $v->anio_reconocido;
       $Bnf->mes_reconocido = $v->mes_reconocido;
       $Bnf->dia_reconocido = $v->dia_reconocido;
-<<<<<<< HEAD
-      
-=======
       $Bnf->estatus_activo = $v->status_id;
->>>>>>> f107cab48c061326c59b3c54686883dee6fc1f00
 
       $patron = md5($v->fecha_ingreso.$v->n_hijos.$v->st_no_ascenso.$v->componente_id.
         $v->codigo.$v->f_ult_ascenso.$v->st_profesion.$v->anio_reconocido.$v->mes_reconocido.$v->dia_reconocido);      
@@ -715,12 +707,7 @@ class KCargador extends CI_Model{
       $Bnf->ano_reconocido = $v->anio_reconocido;
       $Bnf->mes_reconocido = $v->mes_reconocido;
       $Bnf->dia_reconocido = $v->dia_reconocido;
-<<<<<<< HEAD
-      
-=======
       $Bnf->estatus_activo = $v->status_id;
-
->>>>>>> f107cab48c061326c59b3c54686883dee6fc1f00
       $patron = md5($v->fecha_ingreso.$v->n_hijos.$v->st_no_ascenso.$v->componente_id.
         $v->codigo.$v->f_ult_ascenso.$v->st_profesion.$v->anio_reconocido.$v->mes_reconocido.$v->dia_reconocido);      
 

@@ -76,6 +76,7 @@ class KCalculoLote extends CI_Model{
     $sueldo = ($sueldo_base * 12) / 100;
   }
 
+
   function SumarPrimas(){
     //Que grado tiene
     $lst =  $this->Directiva['sb'][$this->Beneficiario->grado_codigo.'M']['mt'];
@@ -272,7 +273,7 @@ class KCalculoLote extends CI_Model{
   * @return double
   */
   public function AlicuotaAguinaldo($sueldo_global = 0){
-    //Se agrego las condiciones para evaluar cuando se debe calcular con 90/105 dias
+    //Se agrego las condiciones para evaluar cuando se debe calcular con 90/105/120 dias
      $dia = 0;
        if(isset($this->Beneficiario) && ($this->Beneficiario->fecha_retiro == '')){
         $sueldo_global = $this->Beneficiario->sueldo_global;

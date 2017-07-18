@@ -11,7 +11,8 @@
       $usuario = $v->usuario_modificacion;
     }  
 
-    $anticipo =  $Beneficiario->Calculo['anticipos_aux'] - $monto;
+    //$anticipo =  $Beneficiario->Calculo['anticipos_aux'] - $monto;
+    $anticipo =  $Beneficiario->Calculo['anticipos_aux'];
     
   }
 
