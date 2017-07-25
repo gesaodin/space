@@ -99,14 +99,23 @@ class KCalculoLote extends CI_Model{
       $this->Beneficiario->$rs_mt = $monto_nominal;
       $this->Beneficiario->monto_total_prima += $this->Beneficiario->$rs;
     }
-    if ($this->Beneficiario->prima_profesionalizacion_mt > 0 ){
-      $prima = round(($sueldo_base * 12) / 100 ,2);
+
+     if($this->Beneficiario->prima_profesionalizacion_mt > 0){
+          $pprof = $this->Beneficiario->prima_profesionalizacion_mt;
+         
+         if($this->Beneficiario->fecha_retiro <= '2015-12-31'){ 
+           
+           $prima = round(($sueldo_base * 12)/100,2);
+
+         }else{
+          $prima = round(($sueldo_base * $pprof)/100,2);   
+         }
+
       $this->Beneficiario->monto_total_prima += $prima;
       $this->Beneficiario->prima_profesionalizacion = $prima;
-
-    }
-
-  }
+   } 
+   
+}
 
   function SueldoMensual(){
     $this->Beneficiario->sueldo_mensual = $this->Beneficiario->sueldo_base + $this->Beneficiario->monto_total_prima;
@@ -304,7 +313,106 @@ class KCalculoLote extends CI_Model{
 
   }
 
+  
+ /**
+  * SE USA PARA LOS PROCESOS POR LOTES
+*/  
+  
+public function GenerarAlicuotaAguinaldo(){
+     $sm = $this->Beneficiario->sueldo_mensual;
+
+     if($this->Beneficiario->fecha_retiro == ''){
+       $cal =  round(((120 * $sm)/30)/12, 2);
+
+     }else if($this->Beneficiario->fecha_retiro < '2016-10-29'){
+       $cal =  round(((90 * $sm)/30)/12, 2);        
     
+     }else if($this->Beneficiario->fecha_retiro >= '2016-10-29' && $this->Beneficiario->fecha_retiro <= '2016-12-31'){
+        $cal =  round(((105 * $sm)/30)/12, 2);
+     
+     }else{
+        $cal =  round(((120 * $sm)/30)/12, 2);
+     }
+
+     $this->Beneficiario->aguinaldos = $cal;
+    
+ }
+
+ 
+
+  /**
+  * Alicuota Bono Vacaciones #00
+  * X =  ((NDV * SG)/30)/12
+  *
+  * NDV = Numero de Dias de Vaciones que goza el Millitar
+  * SG = Sueldo Global
+  *
+  * @access public
+  * @return double
+  */
+  public function AlicuotaVacaciones($sueldo_global = 0){   
+    //Fecha auxiliar utiliza aux - Menor Robando Tiempo y Antigueddad
+      $dia = 0;
+      $TM = $this->Beneficiario->tiempo_servicio;
+     if ($TM > 0 && $TM <= 14) {
+        $dia = 50;
+      }else if($TM > 14 && $TM <= 24){
+        $dia = 50;
+      }else if($TM > 24){
+        $dia = 50;
+      }
+      
+      
+      $sueldo_global = $this->Beneficiario->sueldo_global;
+      $cal = round((($dia * $sueldo_global)/30)/12, 2);
+      $this->Beneficiario->vacaciones = $cal; 
+      $this->Beneficiario->vacaciones_aux = number_format($cal, 2, ',','.'); 
+   
+  }
+
+/*
+  function GenerarAlicuotaVacaciones(){
+    $dia = 0;
+    $TM = $this->Beneficiario->tiempo_servicio;
+    if ($TM > 0 && $TM <= 14) {
+      $dia = 50;
+    }else if($TM > 14 && $TM <= 24){
+      $dia = 50;
+    }else if($TM > 24){
+      $dia = 50;
+    }   
+    $this->Beneficiario->dia_vacaciones = $dia;
+    $this->Beneficiario->vacaciones = round((($dia * $this->Beneficiario->sueldo_mensual)/30)/12, 2);   
+    }
+
+*/
+
+function GenerarAlicuotaVacaciones(){
+ $dia = 0;
+ $sm = $this->Beneficiario->sueldo_mensual;
+
+      if($this->Beneficiario->fecha_retiro == '' || $this->Beneficiario->fecha_retiro > '2016-12-31'){
+            $dia = 50;
+            $cal = round((($dia * $sm)/30)/12, 2);
+            $this->Beneficiario->vacaciones = $cal; 
+            $this->Beneficiario->dia_vacaciones = $dia; 
+                                             
+       }else if($this->Beneficiario->fecha_retiro <= '2016-12-31'){   
+        $TM = $this->Beneficiario->tiempo_servicio;
+          if ($TM > 0 && $TM <= 14) {
+            $dia = 40;
+          }else if($TM > 14 && $TM <= 24){
+           $dia = 45;
+          }else if($TM > 24){
+            $dia = 50;
+          }
+          
+        $cal = round((($dia * $sm)/30)/12, 2);
+        $this->Beneficiario->dia_vacaciones = $dia; 
+        $this->Beneficiario->vacaciones = $cal;
+      }  
+ }
+
   /**
   * Sueldo Integral #007
   * X = SUM(SG + AV + AA)
