@@ -200,7 +200,6 @@ function seleccionarMotivo(){
             $("#asignacion_causa_aux").val('36.00');
         }
 
-        $("#divMontoAsignacion").show();
         var val = $("#id").val();
         ruta = sUrlP + "obtenerFamiliares/" + val;    
         $.getJSON(ruta, function(data) {    
@@ -434,6 +433,7 @@ function consultarBeneficiarioFecha(){
         fallecimiento_actoservicio = data.Calculo.fallecimiento_actoservicio_aux;
         fallecimiento_fueraservicio = data.Calculo.fallecimiento_fueraservicio_aux;
         CalcularDeuda();
+        $("#divMontoAsignacion").show();
     }
     ).done(function(msg) {}).fail(function(jqXHR, textStatus) {
         console.log(jqXHR);

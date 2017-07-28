@@ -3,15 +3,19 @@
   $partida = '';
   $monto = 0;
   $Detalle = $Beneficiario->HistorialDetalleMovimiento['Detalle'];
-  $finiquito = $Detalle[9];
-  //print_r($finiquito);
-  foreach ($finiquito as $k => $v) {
-    if($v->codigo == $codigo){
-      $monto = $v->monto;
-      $f = explode('-', substr($v->fecha_creacion, 0, 10));
-      $partida = $v->partida_des;
-      $partida_id = $v->partida;
+  
+  if (isset($Detalle[9])){
+    //print_r($finiquito);
+    $finiquito = $Detalle[9];
+    foreach ($finiquito as $k => $v) {
+      if($v->codigo == $codigo){
+        $monto = $v->monto;
+        $f = explode('-', substr($v->fecha_creacion, 0, 10));
+        $partida = $v->partida_des;
+        $partida_id = $v->partida;
+      }
     }
+    
   }
 
   function fecha($fecha = ''){
@@ -176,12 +180,12 @@ th {
         $sum = 0;
           foreach ($lst as $c => $v) {
             if ($v['monto'] > 0){
-              echo '<tr style="font-size:14px;"><td>' . $v['codigo'] . '</td><td>' . strtoupper($v['nombre']) . '</td><td>' . $v['cedula'] . '</td><td>' . 
+              echo '<tr style="font-size:14px;"><td>' . $v['codigo'] . '</td><td>' . strtoupper($v['nombre']) . '</td><td>' . $v['cedula'] . '</td><td  style="text-align: right">' . 
               number_format($v['monto'], 2, ',','.') . '</td></tr>';
               $sum += $v['monto'];
             }
           }
-          echo '<tr><td colspan="3" style="text-align: right">TOTAL&nbsp;&nbsp;</td><td>' . number_format($sum, 2, ',','.') . '</td></tr>'
+          echo '<tr><td colspan="3" style="text-align: right">TOTAL&nbsp;&nbsp;</td><td  style="text-align: right">' . number_format($sum, 2, ',','.') . '</td></tr>'
         ?>
        </tbody>
      </table>

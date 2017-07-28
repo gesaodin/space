@@ -327,7 +327,7 @@ public function AlicuotaAguinaldo($sueldo_global = 0){
 
       }else{
         $sueldo_global = $this->Beneficiario->sueldo_global;
-        $cal = ((120 * $sueldo_global)/30)/12;
+        $cal = round(((120 * $sueldo_global)/30)/12, 2);
         $this->Beneficiario->aguinaldos = $cal;
         $this->Beneficiario->aguinaldos_aux = number_format($cal, 2, ',','.');
       }

@@ -154,13 +154,13 @@ th {
           foreach ($lst as $c => $v) {
             
             if($v['cmue'] > 0){
-              echo '<tr><td>' . $v['codigo'] . '</td><td>' . strtoupper($v['nombre']) . '</td><td>' . $v['cedula'] . '</td><td>' . 
+              echo '<tr><td>' . $v['codigo'] . '</td><td>' . strtoupper($v['nombre']) . '</td><td>' . $v['cedula'] . '</td><td  style="text-align: right">' . 
               number_format($v['cmue'], 2, ',','.') . '</td></tr>';
               $sum += $v['cmue'];
             }
             
           }
-          echo '<tr><td colspan="3" style="text-align: right">TOTAL&nbsp;&nbsp;</td><td>' . number_format($sum, 2, ',','.') . '</td></tr>';
+          echo '<tr><td colspan="3" style="text-align: right">TOTAL&nbsp;&nbsp;</td><td  style="text-align: right">' . number_format($sum, 2, ',','.') . '</td></tr>';
         ?>
        </tbody>
      </table>

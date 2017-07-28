@@ -629,7 +629,7 @@ class Panel extends MY_Controller {
 
 		}
 
-		$this->MBeneficiario->InsertarHistorial(); //Creando la traza de la modificacion
+		//$this->MBeneficiario->InsertarHistorial(); //Creando la traza de la modificacion
 		$Bnf->guardar();
 		echo 'Proceso exitoso';
 
@@ -650,7 +650,7 @@ class Panel extends MY_Controller {
 		$Bnf->fecha_ultima_modificacion = date("Y-m-d H:i:s");
 		$Bnf->usuario_modificacion = $_SESSION['usuario'];
 
-		$this->MBeneficiario->InsertarHistorial(); //Creando la traza de la modificacion
+		//$this->MBeneficiario->InsertarHistorial(); //Creando la traza de la modificacion
 		$Bnf->actualizaCuenta();
 		echo 'Proceso exitoso';
 
@@ -663,7 +663,7 @@ class Panel extends MY_Controller {
 
 
 		$this->MBeneficiario->obtenerID($data->Paralizar->id);
-		$this->MBeneficiario->InsertarHistorial(); //Creando la traza de la modificacion
+		//$this->MBeneficiario->InsertarHistorial(); //Creando la traza de la modificacion
 
 		$Bnf->cedula = $data->Paralizar->id;
 		$Bnf->estatus_activo = $data->Paralizar->estatus;
@@ -800,7 +800,7 @@ class Panel extends MY_Controller {
 				//echo "<pre>";
 				$codigo = $this->MHistorialMovimiento->InsertarDetalle($json);
 				$this->Beneficiario->ActualizarPorMovimiento();
-				$this->MBeneficiario->InsertarHistorial();
+				//$this->MBeneficiario->InsertarHistorial();
 				$this->MBeneficiario->insertarDetalle($json, $codigo);
 				$this->MMedidaJudicial->ejecutarMedidas($json->i_d, 223, $codigo, $json->t_e);
 				//print_r($json);
@@ -837,7 +837,7 @@ class Panel extends MY_Controller {
 		$lst = $this->MFiniquito->listarCodigo($ced, $codigo);
 		$this->MHistorialMovimiento->isertarReverso($lst);
 		
-		$this->MBeneficiario->InsertarHistorial(); //Creando la traza de la modificacion
+		//$this->MBeneficiario->InsertarHistorial(); //Creando la traza de la modificacion
 
 		$this->MMedidaJudicial->ejecutarMedidas($ced, 220, $codigo);
 		$this->Beneficiario->ActualizarPorMovimiento();

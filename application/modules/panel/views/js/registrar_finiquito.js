@@ -207,7 +207,7 @@ function seleccionarMotivo(){
             $("#asignacion_causa_aux").val('36.00');
         }
 
-        $("#divMontoAsignacion").show();
+        
         var val = $("#id").val();
         ruta = sUrlP + "obtenerFamiliares/" + val;    
         $.getJSON(ruta, function(data) {    
@@ -230,6 +230,7 @@ function seleccionarMotivo(){
             sTable += '</TR></THEAD>';
             sCuerpo = '<TBODY>';
             $.each(data, function ( clv, valores ){
+
                 iFamiliares++;
                 sCuerpo += '<TR>';
                 sCuerpo += '<TH><label id="lblPosicion' + iFamiliares + '">' + iFamiliares + '</label></TH>';
@@ -446,7 +447,7 @@ function consultarBeneficiarioFecha(){
         $("#comision_servicios").val(data.Calculo.comision_servicios);
         $("#monto_recuperado").val(data.Calculo.monto_recuperado);
         
-     
+        $("#divMontoAsignacion").show();
         var total_banco = Number(data.Calculo.saldo_disponible_fini_aux); //+ Number(data.Calculo.monto_recuperado);
         $("#total_banco").val(data.Calculo.saldo_disponible_fini);
         $("#total_banco_calc").val(total_banco);
@@ -786,7 +787,6 @@ function GuargarFiniquito(){
         m_asaf: m_asaf,
         fami: lstFamiliares      
     });
-    console.log (data);
     if(p_p != 0){
 
         $.ajax({
@@ -796,7 +796,6 @@ function GuargarFiniquito(){
           data: {'data' :data},
           url: ruta,
           success: function (data) {  
-            console.log(data);    
             //alert(data);
             //$("#txtMensaje").html(data);
             $("#txtMensaje").html(data); 
@@ -867,7 +866,11 @@ function Leer(){
 
     for (var i = 1; i <= iFamiliares; i++) {
         var capital_banco = parseFloat($("#lblCapital" + i).text());
-        if (capital_banco > 0){
+        var diferenciaAA = parseFloat($("#lblMonto_aux" + i).text());
+        var montoAS = parseFloat($("#lblMAct_aux" + i).text());
+        var mc = parseFloat($("#lblMAct" + i).text());
+
+        if (capital_banco > 0 || diferenciaAA > 0 || montoAS  > 0){
             pcb = $("#txtAA" + i).val() == ''? 0: $("#txtAA" + i).val();
             pac = $("#txtM" + i).val() == ''?0:$("#txtM" + i).val();
             lstFamiliares[i] = {
