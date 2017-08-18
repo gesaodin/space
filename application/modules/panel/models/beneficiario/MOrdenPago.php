@@ -299,10 +299,12 @@ class MOrdenPago extends CI_Model{
           observ_ult_modificacion =\'' . $this->ultima_observacion . '\',
           emisor = \'' . $this->emisor . '\',
           revision = \'' . $this->revision . '\',
-          autoriza = \'' . $this->autoriza . '\'
+          autoriza = \'' . $this->autoriza . '\',
+          f_creacion = now()
         WHERE 
           id = \'' . $this->id . '\';';
     $obj = $this->Dbpace->consultar($sConsulta);
+    
 
   }
 

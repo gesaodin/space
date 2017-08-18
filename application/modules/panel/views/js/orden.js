@@ -70,7 +70,7 @@ function ejecutar(id){
 		if(id == valor.id){
 	        var monto = Number(valor.monto);
 	        $("#oid").val(valor.id);
-	        $("#fecha").val(valor.fecha);
+	        $("#fecha").val(valor.fecha);            
 	        $("#monto").val(valor.monto);
             $("#motivo").val(valor.motivo);
 	        $("#emisor").val(valor.emisor);
