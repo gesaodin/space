@@ -212,7 +212,7 @@
     </tr>
  </table>
 </center><br>
-&emsp;&emsp;&emsp;OCR/<?php echo $usuario;?>
+&emsp;&emsp;&emsp;EMG/<?php echo $usuario;?>
 
   <script language="Javascript">
     function imprimir(){

@@ -186,7 +186,7 @@ th {
      El monto a cancelar debe ser cargado al código de la partida presupuestaria 4.07.01.01.99.06 del proyecto 
      98555, unidad ejecutora 3206 PACE, acción especifica 98555-1
      <br><br>
-     OCR/<?php echo $Beneficiario->usuario_modificacion;?>
+     EMG/<?php echo $Beneficiario->usuario_modificacion;?>
    </td>
    
  </tr>

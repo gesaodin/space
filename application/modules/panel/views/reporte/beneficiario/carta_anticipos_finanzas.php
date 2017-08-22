@@ -147,7 +147,7 @@ th {
      <br>
     
      
-     OCR/<?php echo $_SESSION['usuario'];?>
+     EMG/<?php echo $_SESSION['usuario'];?>
    </td>
    
  </tr>

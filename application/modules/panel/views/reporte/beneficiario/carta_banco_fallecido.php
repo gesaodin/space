@@ -200,7 +200,7 @@ th {
       }
 
      ?><br>
-     OCR/<?php echo $Beneficiario->usuario_modificacion;?>
+     EMG/<?php echo $Beneficiario->usuario_modificacion;?>
    </td>
    
  </tr>

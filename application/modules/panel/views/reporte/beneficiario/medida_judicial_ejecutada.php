@@ -168,7 +168,7 @@ th {
       <textarea style="width: 100%; height: 60px"></textarea>
      <br>
 
-     OCR/<?php echo $Beneficiario->usuario_modificacion;?>
+     EMG/<?php echo $Beneficiario->usuario_modificacion;?>
    </td>
    
  </tr>
