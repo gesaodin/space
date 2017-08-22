@@ -564,7 +564,7 @@ th {
 <table>
   <tr>
     <td style="border:0px; width: 50%; text-align: center;"><b>
-      OMAR CASTRO RODRIGUEZ<BR>
+      EGLIS MEDINA GARCIA<BR>
       TCNEL.<BR>
       JEFE DEL DPTO. DE FIDEICOMISO<BR>
       </b>
