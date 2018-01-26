@@ -406,8 +406,7 @@ class MOrdenPago extends CI_Model{
       JOIN grado ON grado.id=beneficiario.grado_id
     where ' . $texto . '
       orden_pago.f_creacion BETWEEN \'' . $desde . ' 00:00:00\' AND  \'' . $hasta . ' 23:59:59\' AND
-      orden_pago.tipoan != 5 AND orden_pago.status_id = 100
-      order by cast(orden_pago.cedula_beneficiario, integer)';
+      orden_pago.tipoan != 5 AND orden_pago.status_id = 100';
 
     //echo $sConsulta;
 

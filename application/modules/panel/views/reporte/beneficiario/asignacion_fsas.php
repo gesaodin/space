@@ -200,7 +200,7 @@ th {
      <center>
         Atentamente 
         <br><br><br><br><br><b>
-        CNEL. JUAN GABRIEL PUERTAS TOVAR<BR></b>
+        CNEL. EDUARDO JOSE MARTINEZ SALAS<BR></b>
      </center>
      <br>
 

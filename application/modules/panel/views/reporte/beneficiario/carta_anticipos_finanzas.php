@@ -141,7 +141,7 @@ th {
 
         <br><br><b>
 
-        CNEL. JUAN GABRIEL PUERTAS TOVAR<BR>
+        CNEL. EDUARDO JOSE MARTINEZ SALAS<BR>
         GERENTE DE BIENESTAR Y SEGURIDAD SOCIAL<BR></b>
      </center>
      <br>

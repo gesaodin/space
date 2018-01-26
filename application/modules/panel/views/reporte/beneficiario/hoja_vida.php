@@ -570,7 +570,7 @@ th {
       </b>
     </td>
     <td style="border:0px; width: 50%; text-align: center;"><b>
-      JUAN GABRIEL PUERTAS TOVAR<BR>
+      EDUARDO JOSE MARTINEZ SALAS<BR>
       CNEL.<BR>
       GERENTE DE BIENESTAR Y SEGURIDAD SOCIAL
       </b>
