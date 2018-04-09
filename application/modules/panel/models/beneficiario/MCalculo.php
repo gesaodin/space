@@ -59,9 +59,11 @@ class MCalculo extends CI_Model{
     $monto = isset($this->Beneficiario->MedidaJudicial[1])? $this->Beneficiario->MedidaJudicial[1]->monto : 0;
     $porcentaje = isset($this->Beneficiario->MedidaJudicial[1])? $this->Beneficiario->MedidaJudicial[1]->porcentaje : 0;
     if ($Beneficiario->fecha_retiro != ''){
-        $total_embargos = $monto + ($this->Beneficiario->asignacion_antiguedad_fin * $porcentaje) / 100;
+        $por = ($this->Beneficiario->asignacion_antiguedad_fin * $porcentaje) / 100;
+        $total_embargos = $monto + $por;
     }else{
-        $total_embargos = $monto + ($this->Beneficiario->asignacion_antiguedad * $porcentaje) / 100;    
+        $por = ($this->Beneficiario->asignacion_antiguedad * $porcentaje) / 100;
+        $total_embargos = $monto + $por;    
     }
     $this->Beneficiario->Calculo = array(
       'asignacion_antiguedad' => number_format($this->Beneficiario->asignacion_antiguedad, 2, ',','.'),
@@ -110,8 +112,9 @@ class MCalculo extends CI_Model{
       'medida_judicial_activas' => number_format($this->MedidaJudicialActiva(), 2, ',','.'),
       'medida_judicial_activas_aux' => $this->MedidaJudicialActiva(),
       'total_embargos' => number_format($total_embargos, 2, ',','.'),
-      'total_embargos_aux' => $total_embargos
-       
+      'total_embargos_aux' => $total_embargos,
+      'porcentaje' => $por
+    
     );
     $this->Beneficiario->prima_transporte_aux = number_format($this->Beneficiario->prima_transporte, 2, ',','.');
     $this->Beneficiario->prima_descendencia_aux = number_format($this->Beneficiario->prima_descendencia, 2, ',','.');

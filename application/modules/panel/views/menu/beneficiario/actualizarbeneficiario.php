@@ -105,7 +105,7 @@
                           <div class="input-group-addon">
                               <i class="fa fa-calendar"></i>
                           </div>
-                          <input type="text" class="form-control" placeholder="Fecha de Ingreso" id='fingreso' data-provide="datepicker">
+                          <input type="text" class="form-control" placeholder="Fecha de Ingreso" id='fingreso' data-provide="datepicker" readonly="readonly">
                       </div>                      
                     </div> 
                     <label class="col-md-2">Tiempo Servicio</label>
@@ -126,7 +126,7 @@
                           <div class="input-group-addon">
                               <i class="fa fa-calendar"></i>
                           </div>
-                          <input type="text" placeholder="Ultimo Ascenso" id='fuascenso' class="form-control" data-provide="datepicker">
+                          <input type="text" placeholder="Ultimo Ascenso" id='fuascenso' class="form-control" data-provide="datepicker" readonly="readonly">
                       </div>                         
                       
                     </div> 
