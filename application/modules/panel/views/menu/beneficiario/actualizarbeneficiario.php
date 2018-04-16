@@ -190,7 +190,7 @@
                           <div class="input-group-addon">
                             <i class="fa fa-calendar"></i>
                           </div>
-                          <input type="text" class="form-control" placeholder="Fecha" id='fecha' data-provide="datepicker">
+                          <input type="text" class="form-control" placeholder="Fecha" id='fecha' data-provide="datepicker" readonly="readonly">
                         </div>                      
                       </div> 
                     </div> 
