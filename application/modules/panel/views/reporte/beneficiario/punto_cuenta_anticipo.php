@@ -190,9 +190,9 @@
             <br><br><br><br><br><br>
             <br><br><br><br><br><br>
             <b><center>
-            JESÚS RAFAEL SALAZAR VELASQUEZ<BR>
-            GENERAL DE DIVISIÓN<BR>
-            PRESIDENTE DEL I.P.S.F.A<BR>
+            ERIKA COROMOTO VIRGÜEZ OVIEDO<BR>
+            VICEALMIRANTE<BR>
+            PRESIDENTA DEL I.P.S.F.A<BR>
             </center>
             </B>
           </td>
@@ -207,7 +207,7 @@
 
       <td style="width: 225px;text-align: justify; font-size: 14px; line-height: 1.5" valign="top">
         Según Resolución N° DG-00044 del 08FEBB99, se delegó la firma Parcial de la Asignación de Antiguedad del personal militar,
-        al General de División Presidente de la Junta Administradora del Instituto de Previsión Social de las Fuerzas Armadas.
+        al Vicealmirante Presidenta de la Junta Administradora del Instituto de Previsión Social de las Fuerzas Armadas.
       </td>
     </tr>
  </table>
