@@ -155,7 +155,7 @@
 
          &emsp;Esta solicitud cumple con lo establecido en el Artículo 59 de la LOSSFANB (LEY NEGRO PRIMERO).<br><br>
 
-         &emsp;Por lo que me permito realizar esta tramitación con opinión favorable.<br>
+         &emsp;Por lo que me permito realizar esta tramitación con opinión favorable.<br><br>
 
          <center><b>CNEL. JUAN GABRIEL PUERTAS TOVAR<BR>
          GERENTE DE BIENESTAR Y SEGURIDAD SOCIAL<B><center>
@@ -189,7 +189,7 @@
         <tr style="height: 50%; width: 100%; text-align: justify; font-size: 14px; line-height: 1.5" valign="bottom">
           <td colspan="4">
             <br><br><br><br><br><br>
-            <br><br><br><br><br><br>
+            <br><br><br><br><br><br><br>
             <b><center>
             ERIKA COROMOTO VIRGÜEZ OVIEDO<BR>
             VICEALMIRANTE<BR>
@@ -214,7 +214,7 @@
       </td>
     </tr>
  </table>
-</center><br>
+</center>
 &emsp;&emsp;&emsp;EMG/<?php echo $usuario;?>
 
   <script language="Javascript">
