@@ -134,7 +134,7 @@
  </table>
 
  <table style="width: 1000px;" border="1">
-   <tr><td style="width: 550px;text-align: center"><b>ASUNTO</b></td><td style="text-align: center"><b>DECISIÓN</b></td><td style="width: 300px;text-align: center"><b>MARCO LEGAL</b></td></tr>
+   <tr><td style="width: 550px;text-align: center"><b>ASUNTO</b></td><td style="text-align: center"><b>DECISIÓN</b></td><td style="width: 250px;text-align: center"><b>MARCO LEGAL</b></td></tr>
    <tr>
       <td style="text-align: justify; font-size: 14px; line-height: 1.5" valign="top">
         &emsp;Esta Gerencia somete a la consideración de la ciudadana VA. Presidenta de la Junta Administradora del IPSFA,
@@ -155,7 +155,7 @@
 
          &emsp;Esta solicitud cumple con lo establecido en el Artículo 59 de la LOSSFANB (LEY NEGRO PRIMERO).<br><br>
 
-         &emsp;Por lo que me permito realizar esta tramitación con opinión favorable.<br><br>
+         &emsp;Por lo que me permito realizar esta tramitación con opinión favorable.<br>
 
          <center><b>CNEL. JUAN GABRIEL PUERTAS TOVAR<BR>
          GERENTE DE BIENESTAR Y SEGURIDAD SOCIAL<B><center>
@@ -190,11 +190,10 @@
           <td colspan="4">
             <br><br><br><br><br><br>
             <br><br><br><br><br><br>
-            <br><br><br>
             <b><center>
             ERIKA COROMOTO VIRGÜEZ OVIEDO<BR>
             VICEALMIRANTE<BR>
-            PRESIDENTA DEL I.P.S.F.A<BR>
+            PRESIDENTA DEL I.P.S.F.A
             </center>
             </B>
           </td>
