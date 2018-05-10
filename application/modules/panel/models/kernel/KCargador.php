@@ -99,8 +99,14 @@ class KCargador extends CI_Model{
   
 
   public function IniciarLote($arr, $archivo, $autor){
+<<<<<<< HEAD
     ini_set('memory_limit', '1024M'); //Aumentar el limite de PHP
    
+=======
+    //ini_set('memory_limit', '512M'); //Aumentar el limite de PHP
+    ini_set('memory_limit', '1024M');
+
+>>>>>>> master
     $this->load->model('comun/Dbpace');
     $this->load->model('kernel/KSensor');
     $this->load->model('fisico/MBeneficiario');
@@ -345,7 +351,7 @@ class KCargador extends CI_Model{
     exec($comando);
     $comando = "cd tmp/; md5sum " . $archivo . ".csv  | awk -F\  '{print $1}'";
     exec($comando, $firma);
-    $comando = "cd tmp/; awk -F\; '{SUMG += $35; SUMD += $36; SUMA += $37} END {printf \"%.2f\", SUMG; printf \";%.2f\", SUMD; printf \";%.2f\", SUMA}' " . $archivo . ".csv";
+    $comando = "cd tmp/; awk -F\; '{SUMG += $35; SUMD += $36; SUMA += $34} END {printf \"%.2f\", SUMG; printf \";%.2f\", SUMD; printf \";%.2f\", SUMA}' " . $archivo . ".csv";
     exec($comando, $monto);
     $g_d = explode(";", $monto[0]);
     $comando = "cd tmp; du -sh " . $archivo . ".csv | awk  '{print $1}'";
@@ -399,12 +405,12 @@ class KCargador extends CI_Model{
         $codigo = 30;  //Calculo de dias adicionales
         break;
       case 2: 
-        $columna = "38";
+        $columna = "34";
         $parametro = "A";
         $codigo = 8;  //Calculo de dias adicionales
         break;
       default:
-        $columna = "36";
+        $columna = "34";
         $parametro = "A";
         $codigo = 8;  //Calculo de dias adicionales
         break;
