@@ -226,7 +226,7 @@
                             <input type="text" placeholder="Descendencia" id ="P_DESCENDECIA" class="form-control" readonly="readonly"></input>                          
                           </div>
 
-                          <label class="col-md-2">Especial</label>  
+                          <label class="col-md-2">Productividad</label>  
                           <div class="col-md-2">
                             <input type="text" placeholder="Especial" class="form-control" id="P_ESPECIAL" readonly="readonly"> </input>                          
                           </div>

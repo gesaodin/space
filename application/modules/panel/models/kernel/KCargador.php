@@ -99,14 +99,10 @@ class KCargador extends CI_Model{
   
 
   public function IniciarLote($arr, $archivo, $autor){
-<<<<<<< HEAD
+
     ini_set('memory_limit', '1024M'); //Aumentar el limite de PHP
    
-=======
-    //ini_set('memory_limit', '512M'); //Aumentar el limite de PHP
-    ini_set('memory_limit', '1024M');
 
->>>>>>> master
     $this->load->model('comun/Dbpace');
     $this->load->model('kernel/KSensor');
     $this->load->model('fisico/MBeneficiario');

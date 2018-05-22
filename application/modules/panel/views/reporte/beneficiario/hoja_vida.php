@@ -217,7 +217,7 @@ th {
       <td>
         <?php echo number_format($Beneficiario->prima_descendencia, 2, ',','.'); ?>
       </td>
-      <td>Especial</td>
+      <td>Productividad</td>
       <td ><?php echo number_format($Beneficiario->prima_especial, 2, ',','.'); ?></td>
     </tr>
     <tr>
