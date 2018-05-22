@@ -1,5 +1,5 @@
 <?php
-  
+
   function fecha($fecha = ''){
     $mes = 'Enero';
     switch ($fecha) {
@@ -44,7 +44,7 @@
         break;
     }
     return $mes;
-    
+
   }
 
 ?>
@@ -70,7 +70,7 @@ td{
 th {
     border: 1px solid #dddddd;
     text-align: left;
-    background-color: #dddddd; 
+    background-color: #dddddd;
     padding: 8px;
 }
 
@@ -114,7 +114,7 @@ th {
       </td>
       <td>Número de cuenta:</td>
       <td colspan="3">
-      <?php 
+      <?php
         echo $Beneficiario->numero_cuenta;
       ?>
       </td>
@@ -138,17 +138,17 @@ th {
     </tr>
     <tr>
       <td>Fecha Ingreso</td>
-      <td><?php 
+      <td><?php
 
           $f = explode('-',$Beneficiario->fecha_ingreso);
-          
+
          echo $f[2] . '-' . $f[1] . '-' . $f[0];
       ?>
       </td>
       <td>Tiempo de Serv.</td>
-      <td><?php 
+      <td><?php
         if ($Beneficiario->fecha_retiro != ''){
-            echo $Beneficiario->tiempo_servicio_aux; 
+            echo $Beneficiario->tiempo_servicio_aux;
         }else{
             echo $Beneficiario->tiempo_servicio;
         }
@@ -158,8 +158,8 @@ th {
     </tr>
     <tr>
       <td>Últ. Ascenso</td>
-      <td><?php 
-         $f =  explode('-',$Beneficiario->fecha_ultimo_ascenso);          
+      <td><?php
+         $f =  explode('-',$Beneficiario->fecha_ultimo_ascenso);
          echo $f[2] . '-' . $f[1] . '-' . $f[0];
        ?>
       </td>
@@ -180,9 +180,9 @@ th {
    <tr>
     <td>Fecha Retiro</td>
     <td colspan="3">
-    <?php 
+    <?php
       if ($Beneficiario->fecha_retiro != ''){
-        $f =  explode('-',$Beneficiario->fecha_retiro);          
+        $f =  explode('-',$Beneficiario->fecha_retiro);
         echo $f[2] . '-' . $f[1] . '-' . $f[0];
       }
     ?></td>
@@ -190,9 +190,9 @@ th {
       <td><?php echo $Beneficiario->motivo_paralizacion; ?></td>
 
   </tr>
- 
+
 </table><br>
-    
+
 <table>
   <thead>
     <tr>
@@ -203,7 +203,7 @@ th {
     <tr>
       <td>Sueldo Básico</td>
       <td colspan="7"><?php echo number_format($Beneficiario->sueldo_base, 2, ',','.'); ?>
-      </td>     
+      </td>
     </tr>
 
     <tr>
@@ -217,7 +217,7 @@ th {
       <td>
         <?php echo number_format($Beneficiario->prima_descendencia, 2, ',','.'); ?>
       </td>
-      <td>Especial</td>
+      <td>Productividad</td>
       <td ><?php echo number_format($Beneficiario->prima_especial, 2, ',','.'); ?></td>
     </tr>
     <tr>
@@ -226,9 +226,17 @@ th {
       </td>
       <td>N° de Ascenso</td>
       <td><?php echo number_format($Beneficiario->prima_noascenso, 2, ',','.'); ?></td>
+
       <td>Profesionalización</td>
       <td><?php echo number_format($Beneficiario->prima_profesionalizacion, 2, ',','.');?></td>
     </tr>
+
+    <tr>
+    <td>Compensación Especial</td>
+    <td><?php echo number_format($Beneficiario->prima_compensacion_especial, 2, ',','.'); ?>
+    </td>
+    </tr>
+
     <tr>
       <td>Sueldo Mensual</td>
       <td><?php echo number_format($Beneficiario->sueldo_global, 2, ',','.');?>
@@ -243,10 +251,10 @@ th {
      <td colspan="5"><?php echo number_format($Beneficiario->sueldo_integral, 2, ',','.');?>
      </td>
    </tr>
-</table>    
+</table>
 
 <br>
-    
+
 <table>
   <thead>
     <tr>
@@ -256,7 +264,7 @@ th {
   <tbody>
     <tr>
       <td>A. de Antiguedad</td>
-      <td><?php 
+      <td><?php
         if ($Beneficiario->fecha_retiro != ''){
             echo number_format($Beneficiario->asignacion_antiguedad_fin, 2, ',','.');
         }else{
@@ -265,34 +273,34 @@ th {
       ?></td>
       <td>Capital En Banco.</td>
       <td>
-      <?php 
+      <?php
         $montoCapital = isset($Beneficiario->HistorialMovimiento[3]) ? $Beneficiario->HistorialMovimiento[3]->monto : 0;
         echo number_format( $montoCapital, 2, ',','.');
 
       ?></td>
       <td>Garantías</td>
       <td>
-        
-        <?php 
+
+        <?php
               $garantia = isset($Beneficiario->HistorialMovimiento[32]) ? $Beneficiario->HistorialMovimiento[32]->monto : 0;
-              
+
               echo number_format($garantia, 2, ',','.');
 
 
             ?>
       </td>
-      </td>     
+      </td>
     </tr>
     <tr>
      <td>Días Adicionales.</td>
-      <td><?php 
+      <td><?php
         $diasA = isset($Beneficiario->HistorialMovimiento[31]) ? $Beneficiario->HistorialMovimiento[31]->monto : 0;
         echo number_format($diasA, 2, ',','.');?>
       </td>
       <td>Depositado en Banco</td>
       <td>
-        
-        <?php 
+
+        <?php
               $totalA = isset($Beneficiario->HistorialMovimiento[3]) ? $Beneficiario->HistorialMovimiento[3]->monto : 0;
               $disponible = $totalA + $garantia;
               echo number_format($disponible, 2, ',','.');
@@ -301,36 +309,36 @@ th {
             ?></td>
       </td>
       <td>Saldo Disponible</td>
-      <td><?php 
+      <td><?php
 
               //$anticipo = isset($Beneficiario->Calculo['anticipos_aux']) ? $Beneficiario->Calculo['anticipos_aux'] : 0;
               //$disponible = ($montoCapital - $anticipo) + $garantia;
               echo $Beneficiario->Calculo['saldo_disponible'];
-              
+
 
 
             ?></td>
     </tr>
     <tr>
       <td>Diferencia A.A.</td>
-      <td><?php 
+      <td><?php
               if ($Beneficiario->fecha_retiro != ''){
                  $diferencia = $Beneficiario->Calculo['asignacion_diferencia'];
                  echo $diferencia;
               }else{
                  $diferencia = $Beneficiario->Calculo['diferencia_AA'];
-                 echo $diferencia;  
+                 echo $diferencia;
               }
           ?>
       </td>
       <td>Fecha Ultimo Dep.</td>
-      <td><?php 
+      <td><?php
           echo $Beneficiario->Calculo['fecha_ultimo_deposito'];
         ?></td>
       <td>% Aportado</td>
       <td >
-        
-          <?php 
+
+          <?php
               $cancelado = ($montoCapital + $garantia + $diasA)/ $Beneficiario->asignacion_antiguedad;
               echo number_format($cancelado * 100, 2, ',','.') ;
             ?>
@@ -340,37 +348,37 @@ th {
     <tr>
       <td>Embargo</td>
       <td>
-      <?php 
+      <?php
           $monto = 0;
-          $monto = isset($Beneficiario->Calculo['total_embargos_aux']) ? $Beneficiario->Calculo['total_embargos_aux'] : 0;      
+          $monto = isset($Beneficiario->Calculo['total_embargos_aux']) ? $Beneficiario->Calculo['total_embargos_aux'] : 0;
           echo number_format($monto, 2, ',','.');
         ?>
       </td>
       <td>Anticipos.</td>
-      <td><?php 
+      <td><?php
         $anticipo = isset($Beneficiario->Calculo['anticipos_aux']) ? $Beneficiario->Calculo['anticipos_aux'] : 0;
         echo number_format($anticipo, 2, ',','.');
 
       ?></td>
       <td>Fecha U. Anticipo</td>
       <td>
-      <?php 
+      <?php
         $fecha = isset($Beneficiario->HistorialMovimiento[5]) ? $Beneficiario->HistorialMovimiento[5]->fecha : '';
         if ($fecha != ''){
-          $f = explode('-', $fecha); 
+          $f = explode('-', $fecha);
           echo $f[2] . '-' . $f[1] . '-' . $f[0];
         }
       ?></td>
     </tr>
     <tr>
-     <td>Comisión S.</td> 
-     <td><?php 
+     <td>Comisión S.</td>
+     <td><?php
       //se incluyo para que mostrara la comision de servicio en la hoja de vida
         $comision = isset($Beneficiario->Calculo['comision_servicios']) ? $Beneficiario->Calculo['comision_servicios'] : 0;
         echo $comision;
       ?></td>
-      <td>Monto Recuperado Act.</td> 
-     <td><?php 
+      <td>Monto Recuperado Act.</td>
+     <td><?php
       //se incluyo para que mostrara monto a recuperar activo en la hoja de vida
         $monto_recuperar = isset($Beneficiario->Calculo['monto_recuperado']) ? $Beneficiario->Calculo['monto_recuperado'] : 0;
         echo $monto_recuperar;
@@ -389,17 +397,17 @@ th {
     </tr>
     <tr>
      <td>Fecha Ultimo Deposito</td>
-     <td><?php 
+     <td><?php
        //$fecha = isset($Beneficiario->HistorialMovimiento[3]) ? $Beneficiario->HistorialMovimiento[3]->fecha : '';
         //echo $fecha;
      ?>
      </td>
       <td>Embargo</td>
       <td colspan="3">
-        
+
       </td>
    </tr>
-</table> 
+</table>
 
 
 
@@ -447,7 +455,7 @@ th {
       </td>
       <td>Número de cuenta:</td>
       <td colspan="3">
-      <?php 
+      <?php
         echo $Beneficiario->numero_cuenta;
       ?>
       </td>
@@ -471,10 +479,10 @@ th {
     </tr>
     <tr>
       <td>Fecha Ingreso</td>
-      <td><?php 
+      <td><?php
 
           $f = explode('-',$Beneficiario->fecha_ingreso);
-          
+
          echo $f[2] . '-' . $f[1] . '-' . $f[0];
       ?>
       </td>
@@ -485,8 +493,8 @@ th {
     </tr>
     <tr>
       <td>Últ. Ascenso</td>
-      <td><?php 
-         $f =  explode('-',$Beneficiario->fecha_ultimo_ascenso);          
+      <td><?php
+         $f =  explode('-',$Beneficiario->fecha_ultimo_ascenso);
          echo $f[2] . '-' . $f[1] . '-' . $f[0];
        ?>
       </td>
@@ -507,22 +515,22 @@ th {
    <tr>
     <td>Fecha Retiro</td>
     <td colspan="3">
-    <?php 
+    <?php
       if ($Beneficiario->fecha_retiro != ''){
-        $f =  explode('-',$Beneficiario->fecha_retiro);          
+        $f =  explode('-',$Beneficiario->fecha_retiro);
         echo $f[2] . '-' . $f[1] . '-' . $f[0];
       }
     ?></td>
     <td>Motivo de Paralizacion</td>
       <td><?php echo $Beneficiario->motivo_paralizacion; ?></td>
-      
+
   </tr>
 
 </table><br>
-    
+
 
 <?php
-  
+
   $sCabecera = '<table style="width:50%">
   <thead>
     <tr>
@@ -543,12 +551,12 @@ th {
   $iCant = count($Beneficiario->HistorialOrdenPagos);
   if($iCant > 0){
     foreach ($Beneficiario->HistorialOrdenPagos as $k => $v) {
-      $f =  explode('-',$v->fecha);    
-      if($v->estatus == 100){        
-        $sCuerpo .= '<tr><td>' . $f[2] . '-' . $f[1] . '-' . $f[0] . 
+      $f =  explode('-',$v->fecha);
+      if($v->estatus == 100){
+        $sCuerpo .= '<tr><td>' . $f[2] . '-' . $f[1] . '-' . $f[0] .
           '</td><td style="text-align: right;">' . number_format($v->monto, 2, ',','.') . '</td></tr>';
       }
-    
+
     }
 
     echo $sCabecera . $sCuerpo . $sPie;
