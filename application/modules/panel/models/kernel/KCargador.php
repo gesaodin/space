@@ -239,8 +239,8 @@ class KCargador extends CI_Model{
                           $Bnf->prima_descendencia . ';' . $Bnf->prima_especial_mt . ';' .
                           $Bnf->prima_especial . ';' . $Bnf->no_ascenso . ';' .
                           $Bnf->prima_noascenso . ';' . $Bnf->prima_profesionalizacion_mt . ';' .
-                          $Bnf->prima_profesionalizacion . ';' . $Bnf->prima_compensacion_mt . ';' .
-                          $Bnf->prima_compensacion . ';' . $Bnf->sueldo_mensual . ';' .
+                          $Bnf->prima_profesionalizacion . ';' . $Bnf->prima_compensacion_especial_mt . ';' .
+                          $Bnf->prima_compensacion_especial . ';' . $Bnf->sueldo_mensual . ';' .
                           $Bnf->aguinaldos . ';' . $Bnf->dia_vacaciones . ';' . $Bnf->vacaciones . ';' .
                           $Bnf->sueldo_integral . ';' . $Bnf->asignacion_antiguedad . ';';
         $segmentofinal =  $Bnf->garantias . ';' . $Bnf->dias_adicionales ;
