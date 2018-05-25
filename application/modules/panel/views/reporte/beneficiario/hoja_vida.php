@@ -210,7 +210,7 @@ th {
       <th colspan="7" style="text-align: center;">Primas</th>
     </tr>
     <tr>
-      <td>Transporte</td>
+      <td>Compensación Esp. de Protección y Movilidad</td>
       <td><?php echo number_format($Beneficiario->prima_transporte, 2, ',','.'); ?>
       </td>
       <td>Descendencia</td>
@@ -232,7 +232,7 @@ th {
     </tr>
 
     <tr>
-    <td>Compensación Especial</td>
+    <td>Estabilidad</td>
     <td><?php echo number_format($Beneficiario->prima_compensacion_especial, 2, ',','.'); ?>
     </td>
     </tr>

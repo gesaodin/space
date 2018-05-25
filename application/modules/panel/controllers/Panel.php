@@ -413,6 +413,7 @@ class Panel extends MY_Controller {
 					"\nCantidad de Registros: " . $mnt  .
 					"\nMonto Total de las Garantias: " . $this->KCargador->Resultado['g'] .
 					"\nMonto Total de Dias Adicionales: " . $this->KCargador->Resultado['d'] .
+					"\nMonto Total de Dif. Asignacion: " . $this->KCargador->Resultado['a'] .
 					"\nPeso del Archivo: " . $this->KCargador->Resultado['p'] . " " . $this->KCargador->Resultado['f'] . "\n" .
 					$this->KSensor->Duracion() . "... ",
 			'z' => $firma .".zip",

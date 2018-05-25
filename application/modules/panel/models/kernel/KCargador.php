@@ -286,33 +286,32 @@ class KCargador extends CI_Model{
         $Bnf->sueldo_base . ';' . // 12
         $Bnf->prima_transporte_mt . ';' . // 13
         $Bnf->prima_transporte . ';' . // 14
-        //$Bnf->prima_tiemposervicio_mt . ';' . // 15
-        $Bnf->prima_tiemposervicio . ';' .  // 16
-        $Bnf->prima_descendencia_mt . ';' . // 17
-        $Bnf->prima_descendencia . ';' .  // 18
-        $Bnf->prima_especial_mt . ';' . // 19
-        $Bnf->prima_especial . ';' . // 20
-        $Bnf->no_ascenso . ';' . // 21
-        $Bnf->prima_noascenso . ';' . // 22
-        $Bnf->prima_profesionalizacion_mt . ';' . // 23
-        $Bnf->prima_profesionalizacion . ';' .  // 24
-        $Bnf->prima_compensacion_mt . ';' . // 25
-        $Bnf->prima_compensacion . ';' .  // 26
-        $Bnf->sueldo_mensual . ';' . // 27
-        $Bnf->aguinaldos . ';' . // 28
-        $Bnf->dia_vacaciones . ';' . //29
-        $Bnf->vacaciones . ';' . // 30
-        $Bnf->sueldo_integral . ';' . // 31
-        $Bnf->asignacion_antiguedad . ';' . // 32
-        $Bnf->deposito_banco . ';' . // 33
-        $Bnf->anticipo . ';' . // 34
-        $Bnf->garantias_acumuladas  . ';' . // 35
-        $Bnf->dias_adicionales_acumulados . ';' . // 36
-        $Bnf->no_depositado_banco  . ';' .  // 37
-        $Bnf->garantias . ';' .  // 38
-        $Bnf->dias_adicionales . ';' . // 39
-        $Bnf->finiquito . ';' . // 40
-        $Bnf->diferencia_asig_a;  // 41
+        $Bnf->prima_tiemposervicio . ';' .  // 15
+        $Bnf->prima_descendencia_mt . ';' . // 16
+        $Bnf->prima_descendencia . ';' .  // 17
+        $Bnf->prima_especial_mt . ';' . // 18
+        $Bnf->prima_especial . ';' . // 19
+        $Bnf->no_ascenso . ';' . // 20
+        $Bnf->prima_noascenso . ';' . // 21
+        $Bnf->prima_profesionalizacion_mt . ';' . // 22
+        $Bnf->prima_profesionalizacion . ';' .  // 23
+        $Bnf->prima_compensacion_especial_mt . ';' . // 24
+        $Bnf->prima_compensacion_especial . ';' .  // 25
+        $Bnf->sueldo_mensual . ';' . // 26
+        $Bnf->aguinaldos . ';' . // 27
+        $Bnf->dia_vacaciones . ';' . //28
+        $Bnf->vacaciones . ';' . // 29
+        $Bnf->sueldo_integral . ';' . // 30
+        $Bnf->asignacion_antiguedad . ';' . // 31
+        $Bnf->deposito_banco . ';' . // 32
+        $Bnf->anticipo . ';' . // 33
+        $Bnf->garantias_acumuladas  . ';' . // 34
+        $Bnf->dias_adicionales_acumulados . ';' . // 35
+        $Bnf->no_depositado_banco  . ';' .  // 36
+        $Bnf->garantias . ';' .  // 37
+        $Bnf->dias_adicionales . ';' . // 38
+        $Bnf->finiquito . ';' . // 39
+        $Bnf->diferencia_asig_a;  // 40
 
 
   }
@@ -349,7 +348,7 @@ class KCargador extends CI_Model{
     exec($comando);
     $comando = "cd tmp/; md5sum " . $archivo . ".csv  | awk -F\  '{print $1}'";
     exec($comando, $firma);
-    $comando = "cd tmp/; awk -F\; '{SUMG += $36; SUMD += $37; SUMA += $35} END {printf \"%.2f\", SUMG; printf \";%.2f\", SUMD; printf \";%.2f\", SUMA}' " . $archivo . ".csv";
+    $comando = "cd tmp/; awk -F\; '{SUMG += $37; SUMD += $38; SUMA += $36} END {printf \"%.2f\", SUMG; printf \";%.2f\", SUMD; printf \";%.2f\", SUMA}' " . $archivo . ".csv";
     exec($comando, $monto);
     $g_d = explode(";", $monto[0]);
     $comando = "cd tmp; du -sh " . $archivo . ".csv | awk  '{print $1}'";
@@ -393,24 +392,24 @@ class KCargador extends CI_Model{
 
     switch ($tipo) {
       case 0:
-        $columna = "38";
+        $columna = "37";
         $parametro = "G";
         $codigo = 33; //tipo de movimientos para calculos Garantias
         break;
       case 1:
-        $columna = "39";
+        $columna = "38";
         $parametro = "D";
         $codigo = 30;  //Calculo de dias adicionales
         break;
       case 2:
-        $columna = "33";
+        $columna = "36";
         $parametro = "A";
-        $codigo = 3;  //Aporte de Asignacion
+        $codigo = 8;  //Aporte de Asignacion
         break;
       default:
-        $columna = "33";
+        $columna = "38";
         $parametro = "A";
-        $codigo = 3;  //Aporte de Asignacion
+        $codigo = 8;  //Aporte de Asignacion
         break;
     }
 
@@ -439,7 +438,7 @@ class KCargador extends CI_Model{
       $columna . $porcen . ' "\n" } \' ' . $archivo . '.csv >> ' . $file . '/' . $file . '.csv';
       exec($comando, $firma);
     }else{
-      $comando = 'cd tmp/; awk -F\';\' \'{ for (x=1; x<=28; x++) {  printf "%s;", $x } printf $' .
+      $comando = 'cd tmp/; awk -F\';\' \'{ for (x=1; x<=30; x++) {  printf "%s;", $x } printf $' .
       $columna . $porcen . ' "\n" } \' ' . $archivo . '.csv >> ' . $file . '/' . $file . '.csv';
       exec($comando, $firma);
     }

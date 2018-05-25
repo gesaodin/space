@@ -216,7 +216,7 @@
                     <div class="row">
                       <div class="col-md-12">
                         <div class="form-group">
-                          <label class="col-md-2">Transporte</label>
+                          <label class="col-md-2">Compensación Esp. de Protección y Movilidad</label>
                           <div class="col-md-2">
                             <input type="text" placeholder="Transporte" id ="P_TRANSPORTE" class="form-control" readonly="readonly"></input>
                           </div>
@@ -260,7 +260,7 @@
                           <br>
                           <br>
                           <br>
-                          <label class="col-md-2">Compensación Especial</label>
+                          <label class="col-md-2">Estabilidad</label>
                           <div class="col-md-2">
                             <input type="text" placeholder="Compensación Especial" class="form-control" id="P_COMPENSACION_ESPECIAL" readonly="readonly"></input>
                           </div>
