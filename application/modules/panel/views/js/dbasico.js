@@ -50,6 +50,7 @@ function consultar() {
             $("#P_TIEMPOSERVICIO").val(data.prima_tiemposervicio_aux);
             $("#P_NOASCENSO").val(data.prima_noascenso_aux);
             $("#P_PROFESIONALIZACION").val(data.prima_profesionalizacion_aux);
+            $("#P_COMPENSACION_ESPECIAL").val(data.prima_compensacion_especial_aux);
 
             //$("#asignacion_antiguedad").val(data.Calculo.asignacion_antiguedad);
             // Se cambio para desplegar la asignacion_antiguedad correcta segun situacion del beneficiario
@@ -82,7 +83,7 @@ function consultar() {
                 $("#lblMedida").text('Beneficiario con Medidas Judiciales');
 
             });
-            
+
             _MOVIMIENTO = data.HistorialDetalleMovimiento;
 
             $("#porcentaje_cancelado").val(data.Calculo.porcentaje_cancelado);
@@ -163,17 +164,17 @@ function listarHistorialSueldo(_Data){
             'print'
         ],
 
-        "language": { 
-            "lengthMenu": "Mostrar _MENU_ registros por pagina", 
-            "zeroRecords": "No se encontraron registros", 
+        "language": {
+            "lengthMenu": "Mostrar _MENU_ registros por pagina",
+            "zeroRecords": "No se encontraron registros",
             "info": "P&aacutegina _PAGE_ of _PAGES_",
-            "sPrint": "Imprimir", 
+            "sPrint": "Imprimir",
             "infoEmpty": "No hay registros"
- 
+
         }
-    });    
+    });
     t.clear().draw();
-        
+
     var i = 0;
     $.each(_Data, function (p,q){
         i++;
@@ -205,7 +206,7 @@ function listarHistorialMovimiento(tipo){
                           </table>')
 
     var tab = $('#reporteMovimientos').DataTable({
-        "paging":  true,        
+        "paging":  true,
         "ordering": false,
         "info":     true,
         "searching": false,
@@ -213,10 +214,10 @@ function listarHistorialMovimiento(tipo){
         "buttons": [
             'print'
         ]
-    });    
-    
+    });
+
     tab.clear().draw();
-        
+
     var i = 0;
     $.each(_MOVIMIENTO.Detalle, function (x,y){
         $.each(y, function(p, q){
@@ -227,29 +228,29 @@ function listarHistorialMovimiento(tipo){
             fecha = cargarFecha(q.fecha);
             observacion = q.observacion;
             if (tipo != null){
-                if(tipo == q.tipo){                    
+                if(tipo == q.tipo){
                      tab.row.add( [
                         i,
                         fecha,
                         detalle,
                         monto.formatMoney(2, ',', '.'),
                         observacion,
-                    ] ).draw( false );        
+                    ] ).draw( false );
                 }
             }else{
-                
+
                  tab.row.add( [
                     i,
                     fecha,
                     detalle,
                     monto.formatMoney(2, ',', '.'),
                     observacion,
-                ] ).draw( false );    
+                ] ).draw( false );
             }
-            
+
         });
-                
-       
+
+
     });
 
 
