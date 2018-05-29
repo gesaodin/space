@@ -67,9 +67,9 @@ class KGenerador extends CI_Model{
   function AperturaTXT($path, $archivo, $tipo){
     $this->load->model('kernel/KSensor');
 
-    $m = 34;
-    if($tipo == 1)$m = 35;
-    if($tipo == 2)$m = 33;
+    $m = 36;
+    if($tipo == 1)$m = 37;
+    if($tipo == 2)$m = 35;
     
 
     $sub = substr($path, 1, 33);
@@ -83,7 +83,7 @@ class KGenerador extends CI_Model{
            if($sum > 0){ 
               $l = explode(";", $buffer);
               
-              if($l[29] == 0 && $l[31] == 0 && $l[32] == 0){
+              if($l[31] == 0 && $l[32] == 0 && $l[34] == 0){
                 //echo $l[0] . " -> " . $l[29] . " -> " . $l[31] . " -> " . $l[32] . "<br>";
                 $nombre = '';
                 $cedula = $this->completarCero(9, $l[0], '0');
@@ -135,9 +135,9 @@ class KGenerador extends CI_Model{
   function AporteTXT($path, $archivo, $tipo){
     $this->load->model('kernel/KSensor');
 
-    $m = 34;
-    if($tipo == 1)$m = 35;
-    if($tipo == 2)$m = 33;
+    $m = 36;
+    if($tipo == 1)$m = 37;
+    if($tipo == 2)$m = 35;
     
  
     $sub = substr($path, 1, 33);
@@ -151,7 +151,7 @@ class KGenerador extends CI_Model{
         while (($buffer = fgets($handle, 4096)) !== false) {
           if($sum > 0){ 
               $l = explode(";", $buffer);
-              if($l[29] > 0 ||  $l[31] > 0 || $l[32] > 0){  
+              if($l[31] > 0 ||  $l[32] > 0 || $l[34] > 0){  
                
                 $nac = 'V';
                 $cedula = $this->completarCero(9, $l[0], '0');
