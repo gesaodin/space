@@ -63,7 +63,9 @@ class KGenerador extends CI_Model{
     ';
   }
 
-
+  /**
+  * Archivo de banco nuevos
+  */
   function AperturaTXT($path, $archivo, $tipo){
     $this->load->model('kernel/KSensor');
 
@@ -131,7 +133,9 @@ class KGenerador extends CI_Model{
 
 
 
-
+  /**
+  * Archivo de banco viejos
+  */
   function AporteTXT($path, $archivo, $tipo){
     $this->load->model('kernel/KSensor');
 
