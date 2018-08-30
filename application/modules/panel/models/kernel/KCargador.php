@@ -71,14 +71,15 @@ class KCargador extends CI_Model{
   public function PrepararIndices($estatus = 201){
     $this->load->model('kernel/KSensor');
     $this->load->model('comun/DBSpace');
+    
     $rs = $this->DBSpace->consultar(
             "DROP TABLE IF EXISTS space.tablacruce;
             CREATE TABLE space.tablacruce AS SELECT * FROM space.crosstab(
-              'SELECT C.cedula, C.id, COALESCE(SUM(monto),0) AS monto  FROM (
+              'SELECT C.cedula, C.id, COALESCE(round((sum(monto)/100000),2),0)AS monto FROM (
               SELECT A.cedula, A.status_id, B.id FROM (select cedula,status_id
               from beneficiario WHERE status_id=" . $estatus . ") AS A, (SELECT id from tipo_movimiento t WHERE
                 t.id IN (3,5,9,14,25,31,32) ) AS B) AS C
-              LEFT JOIN movimiento m ON m.cedula=C.cedula AND C.id=m.tipo_movimiento_id
+              LEFT JOIN movimiento m ON m.cedula=C.cedula AND C.id=m.tipo_movimiento_id AND m.f_contable<''2018-08-20''
               WHERE C.status_id=" . $estatus . "
               GROUP BY C.cedula, C.id
               ORDER BY C.cedula, C.id' ) AS rs
@@ -280,7 +281,7 @@ class KCargador extends CI_Model{
         $Bnf->componente_nombre . ';' . // 5
         $Bnf->apellidos . ' ' . $Bnf->nombres . ';' .  // 6
         $Bnf->fecha_ingreso . ';' . // 7
-        $Bnf->tiempo_servicio_aux . ';' . // 8
+        $Bnf->tiempo_servicio . ';' . // 8
         $Bnf->numero_hijos . ';' . // 9
         $Bnf->fecha_ultimo_ascenso . ';' . // 10
         $Bnf->antiguedad_grado . ';' . // 11
@@ -439,7 +440,9 @@ class KCargador extends CI_Model{
       $columna . $porcen . ' "\n" } \' ' . $archivo . '.csv >> ' . $file . '/' . $file . '.csv';
       exec($comando, $firma);
     }else{
-      $comando = 'cd tmp/; awk -F\';\' \'{ for (x=1; x<=30; x++) {  printf "%s;", $x } printf $' .
+       
+      //**SE MODIFICO INCLUYENDO CONDICION PARA QUE MONTO DA<0 NO SALGA EN EL REPORTE FINAL                   
+      $comando = 'cd tmp/; awk -F\';\' \' $31 > 0 { for (x=1; x<=30; x++) {  printf "%s;", $x } printf $' .
       $columna . $porcen . ' "\n" } \' ' . $archivo . '.csv >> ' . $file . '/' . $file . '.csv';
       exec($comando, $firma);
     }

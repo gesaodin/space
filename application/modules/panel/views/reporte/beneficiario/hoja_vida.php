@@ -266,7 +266,10 @@ th {
       <td>A. de Antiguedad</td>
       <td><?php
         if ($Beneficiario->fecha_retiro != ''){
-            echo number_format($Beneficiario->asignacion_antiguedad_fin, 2, ',','.');
+          if ($Beneficiario->fecha_retiro < '2018-08-20'){
+                echo number_format($Beneficiario->asignacion_antiguedad_rec, 2, ',','.');
+           }else{ echo number_format($Beneficiario->asignacion_antiguedad_fin, 2, ',','.');
+          }
         }else{
             echo number_format($Beneficiario->asignacion_antiguedad, 2, ',','.');
         }
@@ -323,12 +326,16 @@ th {
       <td>Diferencia A.A.</td>
       <td><?php
               if ($Beneficiario->fecha_retiro != ''){
-                 $diferencia = $Beneficiario->Calculo['asignacion_diferencia'];
+                if ($Beneficiario->fecha_retiro < '2018-08-20'){
+                 $diferencia = $Beneficiario->Calculo['asignacion_diferencia_rec'];
                  echo $diferencia;
               }else{
-                 $diferencia = $Beneficiario->Calculo['diferencia_AA'];
+                 $diferencia = $Beneficiario->Calculo['asignacion_diferencia'];
+                 echo $diferencia;}
+              }else{$diferencia = $Beneficiario->Calculo['diferencia_AA'];
                  echo $diferencia;
               }
+            
           ?>
       </td>
       <td>Fecha Ultimo Dep.</td>

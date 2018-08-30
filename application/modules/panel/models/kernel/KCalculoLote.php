@@ -597,9 +597,13 @@ function GenerarAlicuotaVacaciones(){
   */
   public function GenerarDiasAdicionales(){
     $ts = $this->Beneficiario->tiempo_servicio;
-    $factor = 15;
-    if ( $ts > 0 && $ts < 16 )$factor = $ts;
-    $this->Beneficiario->dias_adicionales = round(($this->Beneficiario->sueldo_mensual / 30 * 2) * $factor,2);
+    if ( $ts > 0) { 
+      $factor = 15;
+      if ( $ts > 0 && $ts < 16 )$factor = $ts;
+      $this->Beneficiario->dias_adicionales = round(($this->Beneficiario->sueldo_mensual / 30 * 2) * $factor,2);
+    /*/}else{
+      $this->Beneficiario->dias_adicionales = 0;*/
+    }
   }
 
   /**

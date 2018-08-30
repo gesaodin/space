@@ -153,7 +153,7 @@ th {
       echo $Beneficiario->nombres . ' ' . $Beneficiario->apellidos; ?>
      </b>, 
      titular de la cédula de identidad <b><?php echo $Beneficiario->cedula;?></b> para realizar trámites ante el Banco 
-     Venezuela, a fin de obtener el finiquito del monto total de Bs.<b>
+     Venezuela, a fin de obtener el finiquito del monto total de Bs.S<b>
 
      <?php 
         /**

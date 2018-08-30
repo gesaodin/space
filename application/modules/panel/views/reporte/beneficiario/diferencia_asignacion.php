@@ -156,7 +156,7 @@ th {
             <th>COD</th>
             <th>APELLIDOS Y NOMBRES DE LOS BENEFICIARIOS</th>
             <th>CEDULA</th>
-            <th>MONTO BS.</th>
+            <th>MONTO BS.S</th>
           </tr>
        </thead>
        <tbody>        

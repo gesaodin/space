@@ -451,9 +451,9 @@ class KCalculo extends CI_Model{
         $this->Beneficiario->vacaciones = $cal;
         $this->Beneficiario->vacaciones_aux = number_format($cal, 2, ',','.');
 
-
         }
- }
+
+     }
 
   /**
   * Sueldo Integral #007

@@ -104,9 +104,11 @@ class KGenerador extends CI_Model{
                 $monto_s = $this->completarCero(13, $monto, '0');
                 $ganancia = '0';
                 $numeroyubicacion = $this->completarCero(15, " ", " ");
-                $linea = $plan . $nac . $cedula .  $nombre . $edocivil . $campo . $monto_s;
-                fputs($file,$linea);
-                fputs($file,"\n");
+                if($monto > 0){ //**SE REALIZO ESTA MODIFICACION PARA QUE TS<0 NO SALGAN EN EL ARCHIVO TXT
+                  $linea = $plan . $nac . $cedula .  $nombre . $edocivil . $campo . $monto_s;
+                  fputs($file,$linea);
+                  fputs($file,"\n");
+                }
                 $cantidad++;
 
               }
@@ -174,7 +176,7 @@ class KGenerador extends CI_Model{
                 $cuoanu = '000';
                 $linea = $plan . $nac . $cedula . $tiptrn . $tippre . $frmpgo . $monto_s . $tippta . $tipcue . $numcue . $tasaint . $cbrintatp . $cuomen . $mtoanu . $cuoanu;
                 fputs($file,$linea);
-                fputs($file,"\n");   
+                fputs($file,"\n"); 
                 $cantidad++;             
               }
           }

@@ -292,9 +292,7 @@
                         <div class="form-group">
                           <label class="col-md-2">A. de Antiguedad</label>
                           <div class="col-md-2">
-                            <input type="text" placeholder="Asignación de Antiguedad" id='asignacion_antiguedad' class="form-control" readonly="readonly">
-
-                            </input>
+                            <input type="text" placeholder="Asignación de Antiguedad" id='asignacion_antiguedad' class="form-control" readonly="readonly"></input>
                           </div>
                           <label class="col-md-2">Capital En Banco.</label>
                           <div class="col-md-2">

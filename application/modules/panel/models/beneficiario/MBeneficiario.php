@@ -418,7 +418,7 @@ class MBeneficiario extends CI_Model{
 
 			}
 			$this->HistorialSueldo = $this->MHistorialSueldo->listar($id);
-			$this->HistorialMovimiento = $this->MHistorialMovimiento->listar($id);
+			$this->HistorialMovimiento = $this->MHistorialMovimiento->listar($id, $this->fecha_retiro, $this->fecha_ultima_modificacion);
 			$this->MedidaJudicial = $this->MMedidaJudicial->listar($id, $this->fecha_retiro);
 			$this->MedidaJudicialActiva = $this->MMedidaJudicial->listar($id, $this->fecha_retiro, true);
 			$this->HistorialAnticipo = $this->MHistorialAnticipo->listar($id);
