@@ -383,7 +383,6 @@ public function AlicuotaVacaciones($sueldo_global = 0){
         //$this->Beneficiario->vacaciones_aux = number_format($cal, 2, ',','.');
         }
 
-      $cal=floor($cal);
       $this->Beneficiario->vacaciones = $cal;
       $this->Beneficiario->vacaciones_aux = number_format($cal, 2, ',','.'); 
  }
