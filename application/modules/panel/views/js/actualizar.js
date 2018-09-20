@@ -195,11 +195,12 @@ function actualizar(){
         boton += '<i class="glyphicon glyphicon-ok"></i>&nbsp;&nbsp;Continuar</button>';
     $("#divContinuar").html(boton);
 
-
-    if($("#id").val() == '' ){
-        $("#txtMensaje").html('Debe ingresar una cédula de identidad');
+    /* se agrego la validacion de fecha retiro para que no se pueda actualizar datos al beneficiario finiquitado*/
+    if($("#id").val() == '' || $("#fecha_retiro").val() != '' ){ 
+        $("#txtMensaje").html('Debe ingresar una cédula de identidad o Beneficiario se encuentra retirado');
         $("#logMensaje").modal('show');
-
+        $("#id").val('');
+        limpiar();
     }else{
         cargarBeneficiario();
         console.log(Persona);

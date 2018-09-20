@@ -125,7 +125,7 @@ th {
     <td>DE:</td><td><b>CNEL. GERENTE DE BIENESTAR Y SEGURIDAD SOCIAL</b></td>
   </tr> 
   <tr>
-    <td>PARA:</td><td><b>CNEL. GERENTE DE DE FINANZAS </b></td>    
+    <td>PARA:</td><td><b>CN. GERENTE DE DE FINANZAS </b></td>    
   </tr> 
   <tr>
     <td>ASUNTO:</td><td><b>SOLICITUD DE ELABORACIÓN DE CHEQUE</b></td>
@@ -171,7 +171,7 @@ th {
      <center><br>
         Atentamente 
         <br><br><b>
-        CNEL. JUAN GABRIEL PUERTAS TOVAR<BR>
+        CNEL. JUAN MIGUEL QUINTERO MORALES<BR>
         </b>
      </center>
 

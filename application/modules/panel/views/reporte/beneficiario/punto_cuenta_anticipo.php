@@ -157,7 +157,7 @@
 
          &emsp;Por lo que me permito realizar esta tramitación con opinión favorable.<br><br><br>
 
-         <center><b>CNEL. JUAN GABRIEL PUERTAS TOVAR<BR>
+         <center><b>CNEL. JUAN MIGUEL QUINTERO MORALES<BR>
          GERENTE DE BIENESTAR Y SEGURIDAD SOCIAL<B><center>
 
 

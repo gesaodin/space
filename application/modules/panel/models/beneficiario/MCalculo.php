@@ -39,7 +39,9 @@ class MCalculo extends CI_Model{
   function iniciarCalculosBeneficiario(MBeneficiario & $Beneficiario){
     $this->load->model('beneficiario/MDirectiva');
     $this->load->model('beneficiario/MPrima');
+    $this->load->model('beneficiario/MOrdenPago');
     $this->Beneficiario = $Beneficiario;
+    $this->MBeneficiario->HistorialOrdenPagos = $this->MOrdenPago->listarPorCedula($this->Beneficiario->cedula);
     $this->AntiguedadGrado();
     $this->TiempoServicios();
     $codigo_grado = $this->Beneficiario->Componente->Grado->codigo;
@@ -582,14 +584,38 @@ public function AlicuotaVacaciones($sueldo_global = 0){
   * @access public
   * @return double
   */
-  public function Anticipos(){
+  /*public function Anticipos(){
 
     $anticipos = isset($this->Beneficiario->HistorialMovimiento[5]) ? $this->Beneficiario->HistorialMovimiento[5]->monto : 0;
     $anticipos_reversado = isset($this->Beneficiario->HistorialMovimiento[25]) ? $this->Beneficiario->HistorialMovimiento[25]->monto : 0;
     
     return $anticipos - $anticipos_reversado;
+  }*/
+
+  public function Anticipos(){
+
+    $tMonto = 0;
+    $tMontoFin = 0;
+        $iCant = count($this->Beneficiario->HistorialOrdenPagos);
+        if($iCant > 0){
+        foreach ($this->Beneficiario->HistorialOrdenPagos as $k => $v) {
+          if($v->estatus == 100){
+            if($v->fecha<'2018-08-20'){ 
+                 $tMonto +=round($v->monto/100000,2);
+                 $tMontoFin += $v->monto;
+            }else{$tMonto += $v->monto;
+           }
+          }
+         }
+        }
+    if($this->Beneficiario->fecha_retiro != ''){    
+      if($this->Beneficiario->fecha_retiro < '2018-08-20' && $this->Beneficiario->fecha_ultima_modificacion >= '2018-08-20' ){$anticipos = $tMonto;
+      }else if($this->Beneficiario->fecha_retiro < '2018-08-20' && $this->Beneficiario->fecha_ultima_modificacion < '2018-08-20'){$anticipos = $tMontoFin;}
+    }else{$anticipos = $tMonto;} 
+    return $anticipos;
   }
 
+ 
   /**
   * Fecha del Ultimo deposito es tomada de la ultima garantia
   * CODIGO MOVIMIENTO: 32
@@ -695,7 +721,7 @@ public function AlicuotaVacaciones($sueldo_global = 0){
   */
   public function Monto_Recuperar(){
     //$resta = $this->AsignacionAntiguedad() - ($this->Asignacion_Depositada() + $this->Dias_Adicionales());
-    $resta = $this->AsignacionFiniquito() - ($this->Asignacion_Depositada() + $this->Dias_Adicionales());
+    $resta = $this->AsignacionFiniquitoReconversion() - ($this->Asignacion_Depositada() + $this->Dias_Adicionales());
     $valor = 0.00;
     if($resta < 0) $valor = $resta * -1;
 

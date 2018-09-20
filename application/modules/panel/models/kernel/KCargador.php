@@ -75,7 +75,7 @@ class KCargador extends CI_Model{
     $rs = $this->DBSpace->consultar(
             "DROP TABLE IF EXISTS space.tablacruce;
             CREATE TABLE space.tablacruce AS SELECT * FROM space.crosstab(
-              'SELECT C.cedula, C.id, COALESCE(round((sum(monto)/100000),2),0)AS monto FROM (
+              'SELECT C.cedula, C.id, COALESCE(sum(monto),0)AS monto FROM (
               SELECT A.cedula, A.status_id, B.id FROM (select cedula,status_id
               from beneficiario WHERE status_id=" . $estatus . ") AS A, (SELECT id from tipo_movimiento t WHERE
                 t.id IN (3,5,9,14,25,31,32) ) AS B) AS C

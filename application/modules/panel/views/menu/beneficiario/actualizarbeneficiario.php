@@ -206,8 +206,9 @@
 
 
             <div class="box-footer">
-              <a href="#!" onclick="actualizar()" 
+            <a href="#!" onclick="actualizar()" 
               class="btn btn-primary pull-right" target="_top" id='btnActualizar'><i class="fa fa-refresh"></i>&nbsp;&nbsp;Actualizar</a>
+            
             </div><!-- /.box-footer-->
           </div><!-- /.box -->
 

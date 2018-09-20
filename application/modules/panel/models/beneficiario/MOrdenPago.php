@@ -352,9 +352,9 @@ class MOrdenPago extends CI_Model{
         $Orden->revision = $val->revision;
         $Orden->autoriza = $val->autoriza;
         $Orden->motivo = $val->motivo;
-        $Orden->porcentaje = $val->porcentaje;
         $Orden->estatus = $val->status_id;
         $Orden->movimiento = $val->movimiento_id;
+        $Orden->porcentaje = $val->porcentaje;
         $Orden->monto = $val->monto;
         $Orden->fecha = $val->fecha;
         $Orden->observacion = $val->observacion;
