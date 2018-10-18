@@ -71,7 +71,11 @@ class KCargador extends CI_Model{
   public function PrepararIndices($estatus = 201){
     $this->load->model('kernel/KSensor');
     $this->load->model('comun/DBSpace');
-    
+
+    $rs = $this->DBSpace->consultar(
+            "select a.cedula,tipo_movimiento_id,case when f_contable<\'2018-08-20\' then round(monto/100000,2) else monto end as monto 
+              into temp mov from movimiento a,beneficiario b where a.cedula=b.cedula;");
+    /*LEFT JOIN movimiento m ON m.cedula=C.cedula AND C.id=m.tipo_movimiento_id AND m.f_contable<''2018-08-20''*/
     $rs = $this->DBSpace->consultar(
             "DROP TABLE IF EXISTS space.tablacruce;
             CREATE TABLE space.tablacruce AS SELECT * FROM space.crosstab(
@@ -79,7 +83,7 @@ class KCargador extends CI_Model{
               SELECT A.cedula, A.status_id, B.id FROM (select cedula,status_id
               from beneficiario WHERE status_id=" . $estatus . ") AS A, (SELECT id from tipo_movimiento t WHERE
                 t.id IN (3,5,9,14,25,31,32) ) AS B) AS C
-              LEFT JOIN movimiento m ON m.cedula=C.cedula AND C.id=m.tipo_movimiento_id AND m.f_contable<''2018-08-20''
+              LEFT JOIN mov m ON m.cedula=C.cedula AND C.id=m.tipo_movimiento_id
               WHERE C.status_id=" . $estatus . "
               GROUP BY C.cedula, C.id
               ORDER BY C.cedula, C.id' ) AS rs
@@ -94,6 +98,7 @@ class KCargador extends CI_Model{
 
             );
             CREATE INDEX tablacruce_cedula ON space.tablacruce (cedula);");
+
     return $rs;
   }
 

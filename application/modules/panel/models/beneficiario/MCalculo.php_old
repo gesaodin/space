@@ -584,19 +584,19 @@ public function AlicuotaVacaciones($sueldo_global = 0){
   * @access public
   * @return double
   */
-  public function Anticipos(){
+  /*public function Anticipos(){
 
     $anticipos = isset($this->Beneficiario->HistorialMovimiento[5]) ? $this->Beneficiario->HistorialMovimiento[5]->monto : 0;
     $anticipos_reversado = isset($this->Beneficiario->HistorialMovimiento[25]) ? $this->Beneficiario->HistorialMovimiento[25]->monto : 0;
     
     return $anticipos - $anticipos_reversado;
-  }
+  }*/
 
-  /*public function Anticipos(){
+  public function Anticipos(){
 
     $tMonto = 0;
     $tMontoFin = 0;
-    $anticipos =0;
+    $anticipos = 0;	
         $iCant = count($this->Beneficiario->HistorialOrdenPagos);
         if($iCant > 0){
         foreach ($this->Beneficiario->HistorialOrdenPagos as $k => $v) {
@@ -614,7 +614,7 @@ public function AlicuotaVacaciones($sueldo_global = 0){
       }else if($this->Beneficiario->fecha_retiro < '2018-08-20' && $this->Beneficiario->fecha_ultima_modificacion < '2018-08-20'){$anticipos = $tMontoFin;}
     }else{$anticipos = $tMonto;} 
     return $anticipos;
-  }*/
+  }
 
  
   /**
@@ -721,11 +721,8 @@ public function AlicuotaVacaciones($sueldo_global = 0){
   * @return double
   */
   public function Monto_Recuperar(){
-    if($this->Beneficiario->fecha_retiro < '2018-08-20'){
-      $resta = $this->AsignacionFiniquitoReconversion() - ($this->Asignacion_Depositada() + $this->Dias_Adicionales());
-    }else{  
-      $resta = $this->AsignacionAntiguedad() - ($this->Asignacion_Depositada() + $this->Dias_Adicionales());
-    }
+    //$resta = $this->AsignacionAntiguedad() - ($this->Asignacion_Depositada() + $this->Dias_Adicionales());
+    $resta = $this->AsignacionFiniquitoReconversion() - ($this->Asignacion_Depositada() + $this->Dias_Adicionales());
     $valor = 0.00;
     if($resta < 0) $valor = $resta * -1;
 
