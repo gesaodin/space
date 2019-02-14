@@ -73,8 +73,8 @@ class KCargador extends CI_Model{
     $this->load->model('comun/DBSpace');
 
     $rs = $this->DBSpace->consultar(
-            "select a.cedula,tipo_movimiento_id,case when f_contable<\'2018-08-20\' then round(monto/100000,2) else monto end as monto 
-              into temp mov from movimiento a,beneficiario b where a.cedula=b.cedula;");
+           "select a.cedula,tipo_movimiento_id,case when f_contable<\'2018-08-20\' then round(monto/100000,2) else monto end as monto
+            into temp mov from movimiento a,beneficiario b where a.cedula=b.cedula;");
     /*LEFT JOIN movimiento m ON m.cedula=C.cedula AND C.id=m.tipo_movimiento_id AND m.f_contable<''2018-08-20''*/
     $rs = $this->DBSpace->consultar(
             "DROP TABLE IF EXISTS space.tablacruce;
@@ -107,7 +107,7 @@ class KCargador extends CI_Model{
   public function IniciarLote($arr, $archivo, $autor){
 
     ini_set('memory_limit', '1024M'); //Aumentar el limite de PHP
-   
+
 
     $this->load->model('comun/Dbpace');
     $this->load->model('kernel/KSensor');
@@ -414,7 +414,7 @@ class KCargador extends CI_Model{
         $codigo = 8;  //Aporte de Asignacion
         break;
       default:
-        $columna = "38";
+        $columna = "36";
         $parametro = "A";
         $codigo = 8;  //Aporte de Asignacion
         break;
@@ -445,8 +445,8 @@ class KCargador extends CI_Model{
       $columna . $porcen . ' "\n" } \' ' . $archivo . '.csv >> ' . $file . '/' . $file . '.csv';
       exec($comando, $firma);
     }else{
-       
-      //**SE MODIFICO INCLUYENDO CONDICION PARA QUE MONTO DA<0 NO SALGA EN EL REPORTE FINAL                   
+
+      //**SE MODIFICO INCLUYENDO CONDICION PARA QUE MONTO DA<0 NO SALGA EN EL REPORTE FINAL
       $comando = 'cd tmp/; awk -F\';\' \' $31 > 0 { for (x=1; x<=30; x++) {  printf "%s;", $x } printf $' .
       $columna . $porcen . ' "\n" } \' ' . $archivo . '.csv >> ' . $file . '/' . $file . '.csv';
       exec($comando, $firma);
