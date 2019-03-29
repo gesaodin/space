@@ -34,7 +34,7 @@ class Panel extends MY_Controller {
 	
 
 	public function fideicomitente(){
-		$this->load->view("fideicomitente");
+		$this->load->view("menu/beneficiario/fideicomitente");
 	}
 
 	public function beneficiario(){

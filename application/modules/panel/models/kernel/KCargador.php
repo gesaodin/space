@@ -444,13 +444,18 @@ class KCargador extends CI_Model{
       $comando = 'cd tmp/; awk -F\';\' \'{ for (x=1; x<=34; x++) {  printf "%s;", $x } printf $' .
       $columna . $porcen . ' "\n" } \' ' . $archivo . '.csv >> ' . $file . '/' . $file . '.csv';
       exec($comando, $firma);
-    }else{
-
+    }else if($tipo == 1){
       //**SE MODIFICO INCLUYENDO CONDICION PARA QUE MONTO DA<0 NO SALGA EN EL REPORTE FINAL
       $comando = 'cd tmp/; awk -F\';\' \' $31 > 0 { for (x=1; x<=30; x++) {  printf "%s;", $x } printf $' .
       $columna . $porcen . ' "\n" } \' ' . $archivo . '.csv >> ' . $file . '/' . $file . '.csv';
       exec($comando, $firma);
-    }
+     }else if($tipo == 0){
+      $comando = 'cd tmp/; awk -F\';\' \' { for (x=1; x<=30; x++) {  printf "%s;", $x } printf $' .
+      $columna . $porcen . ' "\n" } \' ' . $archivo . '.csv >> ' . $file . '/' . $file . '.csv';
+      exec($comando, $firma);
+     }
+     
+    
 
 
     $comando = 'cd tmp/' . $file . '/; awk -F\';\' \'{SUM+=$NF} END {printf "%.2f", SUM }\' ' . $file . '.csv';

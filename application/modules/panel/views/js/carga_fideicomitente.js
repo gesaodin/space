@@ -20,7 +20,7 @@ $('#fuascenso').datepicker({
 function consultar() {
     limpiar();
     //id = '7131627';
-    var val = $("7131627").val();
+    var val = '13587538';
     ruta = sUrlP + "consultarBeneficiario/" + val;
     $.getJSON(ruta, function(data) {
         $("#nombres").val(data.nombres);
@@ -54,7 +54,8 @@ function consultar() {
         $("#saldo_disponible").val(data.Calculo.saldo_disponible);
         vBtn();
 
-    }).done(function(msg) {}).fail(function(jqXHR, textStatus) {
+    }
+    ).done(function(msg) {}).fail(function(jqXHR, textStatus) {
         $("#txtMensaje").html('No se encontro cédula de beneficiario');
         $("#logMensaje").modal('show');
         limpiar();
@@ -184,8 +185,8 @@ function cargarBeneficiario(){
 }
 
 function cargar(){
-      
- $.ajax({    
+   
+  $.ajax({    
         url: sUrlP + "fideicomitente",
         type: "POST",
         data: {'data' : 'hola'},
