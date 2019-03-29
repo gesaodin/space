@@ -85,6 +85,7 @@ function ProcesarIndices(id){
 	$('#cargando').show();
 	sit = $("#situacion option:selected").val();
 	$.get(sUrlP + "PrepararIndices/" + id+ "/" + sit).done(function (data){
+		console.log(data);
 		$('#obse').val(data.m);
 		$('#detalle').show();
 		$('#cargando').hide();
