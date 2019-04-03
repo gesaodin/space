@@ -240,7 +240,7 @@ function CGTxt(id){
 	if(m != "-"){
 		var dato = {
 			tipo: m,
-			porc: $("#porc").val()
+			porc: parseFloat($("#porc").val())
 		}
 		url = sUrlP + "LoteGarantiaDiasAdicionales/" + id;
 		$.post(url, {data: JSON.stringify(dato)}, function (data){
