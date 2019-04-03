@@ -432,7 +432,7 @@ class KCargador extends CI_Model{
     $r .= 'tmp/';
     $porcen = '';
     if($porce < 100){
-      $porcen = '* ' . $porce . '/100';
+      $porcen = '( $' . $columna . '* ' . $porce . ')/100';
     }
 
     $sub = substr($archivo, 24, 32);
@@ -443,8 +443,7 @@ class KCargador extends CI_Model{
 
     if($tipo == 2){
       //$comando = "cd tmp/; awk -F';' '{ for (x=1; x<=34; x++) {  printf \"%s;\", $x } printf \"\n\" }' " . $archivo . ".csv >>  " . $file . "/" . $file . ".csv";
-      $comando = 'cd tmp/; awk -F\';\' \'{ for (x=1; x<=34; x++) {  printf "%s;", $f } printf $' .
-      $columna . $porcen . ' "\n" } \' ' . $archivo . '.csv >> ' . $file . '/' . $file . '.csv';
+      $comando = 'cd tmp/; awk -F\';\' \'{ for (x=1; x<=34; x++) {  printf "%s;", $x } SUM=' . $porcen . '; printf "%.2f", SUM "\n" } \' ' . $archivo . '.csv >> ' . $file . '/' . $file . '.csv';
       exec($comando, $firma);
     }else if($tipo == 1){
       //**SE MODIFICO INCLUYENDO CONDICION PARA QUE MONTO DA<0 NO SALGA EN EL REPORTE FINAL
