@@ -430,7 +430,7 @@ class KCargador extends CI_Model{
     }
 
     $r .= 'tmp/';
-    $porcen = '100';
+    $porcen =  '$' . $columna;
     if($porce < 100){
       $porcen = '( $' . $columna . '* ' . $porce . ')/100';
     }
