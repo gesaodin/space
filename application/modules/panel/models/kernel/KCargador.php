@@ -443,7 +443,7 @@ class KCargador extends CI_Model{
 
     if($tipo == 2){
       //$comando = "cd tmp/; awk -F';' '{ for (x=1; x<=34; x++) {  printf \"%s;\", $x } printf \"\n\" }' " . $archivo . ".csv >>  " . $file . "/" . $file . ".csv";
-      $comando = 'cd tmp/; awk -F\';\' \'{ for (x=1; x<=34; x++) {  printf "%s;", $d } printf $' .
+      $comando = 'cd tmp/; awk -F\';\' \'{ for (x=1; x<=34; x++) {  printf "%s;", $x } printf $' .
       $columna . $porcen . ' "\n" } \' ' . $archivo . '.csv >> ' . $file . '/' . $file . '.csv';
       exec($comando, $firma);
     }else if($tipo == 1){
