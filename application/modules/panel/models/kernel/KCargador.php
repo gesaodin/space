@@ -432,7 +432,7 @@ class KCargador extends CI_Model{
     $r .= 'tmp/';
     $porcen = $columna;
     if($porce < 100){
-      $porcen = '('.$columna .'* ' . $porce . ')/100';
+      $porcen = $columna .'* ' . $porce . '/100';
     }
 
     $sub = substr($archivo, 24, 32);
