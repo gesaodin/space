@@ -135,6 +135,13 @@ class Panel extends MY_Controller {
 		$this->load->view("menu/calculos/pagoaportes", $data);
 	}
 
+	public function resumenaporte($llave,$tipo,$fecha){
+		$this->load->model("kernel/KCargador");
+		$data = $this->KCargador->listarResumen($llave,$tipo,$fecha);
+		echo $data;
+
+	}
+
 
 	public function interesescaidos(){
 		$this->load->view("menu/calculos/interesescaidos");

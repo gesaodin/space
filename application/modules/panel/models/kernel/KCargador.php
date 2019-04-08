@@ -74,12 +74,11 @@ class KCargador extends CI_Model{
 
     /*$rs = $this->DBSpace->consultar(
            "select a.cedula,tipo_movimiento_id,case when f_contable<'2018-08-20' then round(monto/100000,2) else monto end as monto 
-           into temp mov from movimiento a,beneficiario b where a.cedula=b.cedula;");
-    LEFT JOIN movimiento m ON m.cedula=C.cedula AND C.id=m.tipo_movimiento_id AND m.f_contable<''2018-08-20''*/
+           into temp mov from movimiento a,beneficiario b where a.cedula=b.cedula;");*/
+    /*LEFT JOIN movimiento m ON m.cedula=C.cedula AND C.id=m.tipo_movimiento_id AND m.f_contable<''2018-08-20''*/
     $rs = $this->DBSpace->consultar(
-            "select a.cedula,tipo_movimiento_id,case when f_contable<'2018-08-20' then round(monto/100000,2) else monto end as monto 
-           into temp mov from movimiento a,beneficiario b where a.cedula=b.cedula;
-           DROP TABLE IF EXISTS space.tablacruce;
+            "select a.cedula,tipo_movimiento_id,case when f_contable<'2018-08-20' then round(monto/100000,2) else monto end as monto into temp mov from movimiento a,beneficiario b where a.cedula=b.cedula;
+            DROP TABLE IF EXISTS space.tablacruce;
             CREATE TABLE space.tablacruce AS SELECT * FROM space.crosstab(
               'SELECT C.cedula, C.id, COALESCE(sum(monto),0)AS monto FROM (
               SELECT A.cedula, A.status_id, B.id FROM (select cedula,status_id
@@ -443,11 +442,11 @@ class KCargador extends CI_Model{
 
     if($tipo == 2){
       //$comando = "cd tmp/; awk -F';' '{ for (x=1; x<=34; x++) {  printf \"%s;\", $x } printf \"\n\" }' " . $archivo . ".csv >>  " . $file . "/" . $file . ".csv";
-      $comando = 'cd tmp/; awk -F\';\' \'{ for (x=1; x<=34; x++) {  printf "%s;", $x } SUM=' . $porcen . '; printf "%.2f\n", SUM } \' ' . $archivo . '.csv >> ' . $file . '/' . $file . '.csv';
+      $comando = 'cd tmp/; awk -F\';\' \' $36 > 0 { for (x=1; x<=34; x++) {  printf "%s;", $x } SUM=' . $porcen . '; printf "%.2f\n", SUM } \' ' . $archivo . '.csv >> ' . $file . '/' . $file . '.csv';
       exec($comando, $firma);
     }else if($tipo == 1){
       //**SE MODIFICO INCLUYENDO CONDICION PARA QUE MONTO DA<0 NO SALGA EN EL REPORTE FINAL
-      $comando = 'cd tmp/; awk -F\';\' \' $31 > 0 { for (x=1; x<=30; x++) {  printf "%s;", $x } SUM=' . $porcen . '; printf "%.2f\n", SUM } \' ' . $archivo . '.csv >> ' . $file . '/' . $file . '.csv';
+      $comando = 'cd tmp/; awk -F\';\' \' $38 > 0 { for (x=1; x<=30; x++) {  printf "%s;", $x } SUM=' . $porcen . '; printf "%.2f\n", SUM } \' ' . $archivo . '.csv >> ' . $file . '/' . $file . '.csv';
       exec($comando, $firma);
      }else if($tipo == 0){
       $comando = 'cd tmp/; awk -F\';\' \' { for (x=1; x<=30; x++) {  printf "%s;", $x } SUM=' . $porcen . '; printf "%.2f\n", SUM } \' ' . $archivo . '.csv >> ' . $file . '/' . $file . '.csv';
@@ -519,7 +518,7 @@ class KCargador extends CI_Model{
     return $arr;
   }
 
-  function tipoMovimiento($id) {
+function tipoMovimiento($id) {
     $tipo = '';
     switch ($id) {
       case 0:
@@ -540,10 +539,67 @@ class KCargador extends CI_Model{
         break;
     }
     return $tipo;
+}
+
+
+function listarResumen($llave, $tipo, $fecha){
+
+  $sConsulta = '
+  SELECT tb.cod, cmp.nombre, monto, cantidad  FROM (
+  SELECT b.componente_id as cod, 
+  COUNT(*) As cantidad, SUM(monto) As monto  FROM  movimiento a, beneficiario b
+  WHERE a.cedula=b.cedula AND codigo=\'' . $llave . '\' 
+  GROUP BY cod
+  ORDER BY cod ) AS tb
+  JOIN componente cmp ON cmp.id = tb.cod
+  ORDER BY cmp.id
+  ';
+
+  //print_r($sConsulta);
+  $obj = $this->DBSpace->consultar($sConsulta);
+  $suma = 0;
+  $cantidad = 0;
+  $fila = '';
+  $total = '';
+  $descripcion = '';
+  $fecha = substr($fecha, 0, 10); 
+  $f =  explode('-',$fecha);
+
+  switch ($tipo) {
+      case 0:
+        $descripcion = 'RESUMEN DE GARANTIAS ';
+        break;
+      case 1:
+        $descripcion = 'RESUMEN DE DIAS ADICIONALES ';
+        break;
+      case 2:
+        $descripcion = 'RESUMEN ASIGNACION DE ANTIGUEDAD ';
+        break;
   }
 
+  $table = "<CENTER><tr style='height:50px; background-color: #dddddd'><br><br><br><td  style='text-align: center;'><b>" .   $descripcion . $f[2] . "-" . $f[1] . "-" . $f[0] . "</b></td></br></br></br></tr><TABLE style=width:40%  cellspacing='0' border=1 celladding='0' ><tr style='height:50px; background-color: #dddddd'><td  style='text-align: center;'><b>CODIGO</b></td><td style='text-align: center;'><b>COMPONENTE</b></td><td style='text-align: center;'><b>CANTIDAD</b></td><td style='text-align: center;'><b>MONTO</b></td></tr>";
 
+  if($obj->code == 0 ){
+      foreach ($obj->rs as $clv => $val) {
 
+        $fila .= '<tr style="height:50px"><td style="text-align: center;">' . $val->cod . '</td><td>' . $val->nombre . '</td><td style="text-align: right;">' . number_format($val->cantidad, 0, ',','.') . '</td><td style="text-align: right;">' . 
+        number_format($val->monto, 2, ',','.') . '</td></tr>';
+        $suma += $val->monto;
+        $cantidad += $val->cantidad;
+      }
+      $total = '<tr style="background-color: #dddddd;"><td></td><td style="height:50px;"><b>TOTAL</b></td><td style="text-align: right;"><b>' . number_format($cantidad, 0, ',','.') . '</b></td><td style="text-align: right;"><b>' . number_format($suma, 2, ',','.') . '</b></td></tr></table></CENTER>';
+      
+      $imprimir = '<br><br><center><button onclick="imprimir()" id="btnPrint">Imprimir Resumen</button></center>
+          <script language="Javascript">
+              function imprimir(){
+                  document.getElementById("btnPrint").style.display = "none";
+                  window.print();
+                  window.close();
+              }</script>';
+  }
+
+  return $table . $fila . $total . $imprimir;
+}
 
   /*
   *
@@ -621,6 +677,67 @@ class KCargador extends CI_Model{
     );
     return $this->Resultado;
   }
+
+
+  function actualizarMovimiento($llave, $tipo, $fecha){
+
+  $sConsulta = '
+  SELECT tb.cod, cmp.nombre, monto, cantidad  FROM (
+  SELECT b.componente_id as cod, 
+  COUNT(*) As cantidad, SUM(monto) As monto  FROM  movimiento a, beneficiario b
+  WHERE a.cedula=b.cedula AND codigo=\'' . $llave . '\' 
+  GROUP BY cod
+  ORDER BY cod ) AS tb
+  JOIN componente cmp ON cmp.id = tb.cod
+  ORDER BY cmp.id
+  ';
+
+  //print_r($sConsulta);
+  $obj = $this->DBSpace->consultar($sConsulta);
+  $suma = 0;
+  $cantidad = 0;
+  $fila = '';
+  $total = '';
+  $descripcion = '';
+  $fecha = substr($fecha, 0, 10); 
+  $f =  explode('-',$fecha);
+
+  switch ($tipo) {
+      case 0:
+        $descripcion = 'RESUMEN DE GARANTIAS ';
+        break;
+      case 1:
+        $descripcion = 'RESUMEN DE DIAS ADICIONALES ';
+        break;
+      case 2:
+        $descripcion = 'RESUMEN ASIGNACION DE ANTIGUEDAD ';
+        break;
+  }
+
+  $table = "<CENTER><tr style='height:50px; background-color: #dddddd'><br><br><br><td  style='text-align: center;'><b>" .   $descripcion . $f[2] . "-" . $f[1] . "-" . $f[0] . "</b></td></br></br></br></tr><TABLE style=width:40%  cellspacing='0' border=1 celladding='0' ><tr style='height:50px; background-color: #dddddd'><td  style='text-align: center;'><b>CODIGO</b></td><td style='text-align: center;'><b>COMPONENTE</b></td><td style='text-align: center;'><b>CANTIDAD</b></td><td style='text-align: center;'><b>MONTO</b></td></tr>";
+
+  if($obj->code == 0 ){
+      foreach ($obj->rs as $clv => $val) {
+
+        $fila .= '<tr style="height:50px"><td style="text-align: center;">' . $val->cod . '</td><td>' . $val->nombre . '</td><td style="text-align: right;">' . number_format($val->cantidad, 0, ',','.') . '</td><td style="text-align: right;">' . 
+        number_format($val->monto, 2, ',','.') . '</td></tr>';
+        $suma += $val->monto;
+        $cantidad += $val->cantidad;
+      }
+      $total = '<tr style="background-color: #dddddd;"><td></td><td style="height:50px;"><b>TOTAL</b></td><td style="text-align: right;"><b>' . number_format($cantidad, 0, ',','.') . '</b></td><td style="text-align: right;"><b>' . number_format($suma, 2, ',','.') . '</b></td></tr></table></CENTER>';
+      
+      $imprimir = '<br><br><center><button onclick="imprimir()" id="btnPrint">Imprimir Resumen</button></center>
+          <script language="Javascript">
+              function imprimir(){
+                  document.getElementById("btnPrint").style.display = "none";
+                  window.print();
+                  window.close();
+              }</script>';
+  }
+
+  return $table . $fila . $total . $imprimir;
+}
+
 
 
   /**
