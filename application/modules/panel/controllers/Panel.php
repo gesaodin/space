@@ -550,12 +550,13 @@ class Panel extends MY_Controller {
 		$this->load->model('beneficiario/MHistorialMovimiento');
 		$this->load->model('beneficiario/MOrdenPago');
 
-		$this->MBeneficiario->obtenerID($cedula, $fecha);
-		$this->MBeneficiario->HistorialOrdenPagos = $this->MOrdenPago->listarPorCedula($cedula);
-		$this->MBeneficiario->HistorialDetalleMovimiento = $this->MHistorialMovimiento->listarDetalle($cedula);
+		$this->MBeneficiario->obtenerID($id, $fecha);
+		$this->MBeneficiario->HistorialOrdenPagos = $this->MOrdenPago->listarPorCedula($id);
+		$this->MBeneficiario->HistorialDetalleMovimiento = $this->MHistorialMovimiento->listarDetalle($id);
 
 		$lst = $this->MBeneficiario->consultarHistorial($id);
 		echo json_encode($lst);
+		
 	}
 
 	public function consultarBeneficiarios($cedula = '', $fecha = ''){
