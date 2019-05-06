@@ -48,6 +48,11 @@ class MDirectiva extends CI_Model{
   var $unidad_tributaria = 0;
 
   /**
+  * @var double
+  */
+  var $salario = 0;
+
+  /**
   * @var MDirectivaDetalle
   */
   var $Detalle = array();
@@ -76,7 +81,7 @@ class MDirectiva extends CI_Model{
     $sConsulta = 'SELECT 
         A.id, A.nombre, A.numero, A.f_vigencia, 
         A.f_inicio, udad_tributaria, detalle_directiva.grado_id, 
-        detalle_directiva.anio, detalle_directiva.sueldo_base 
+        detalle_directiva.anio, detalle_directiva.sueldo_base, A.salario_minimo as salario
         FROM (SELECT * FROM directiva_sueldo 
           WHERE f_inicio < \'' . $fecha . '\'  AND f_vigencia > \'' . $fecha . '\' ORDER BY f_inicio desc LIMIT 1) AS A 
       JOIN 
@@ -96,10 +101,14 @@ class MDirectiva extends CI_Model{
       $this->numero = $obj->rs[0]->numero;      
       $this->fecha_inicio = $obj->rs[0]->f_inicio;
       $this->fecha_vigencia = $obj->rs[0]->f_vigencia;
+      $this->salario = $obj->rs[0]->salario;
       $this->unidad_tributaria = $obj->rs[0]->udad_tributaria;
       $grado = $obj->rs[0]->grado_id;
-      $list = array('ut' => $obj->rs[0]->udad_tributaria,
-        'fnx' => array()
+      $list = array(
+        'ut' => $obj->rs[0]->udad_tributaria,
+        'fnx' => array(),
+        'salario' => $obj->rs[0]->salario
+
         ); 
 
       $lst = array();
