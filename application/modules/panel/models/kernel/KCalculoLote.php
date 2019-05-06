@@ -85,6 +85,7 @@ class KCalculoLote extends CI_Model{
     $tiempo_servicio = $this->Beneficiario->tiempo_servicio;
     $unidad_tributaria =  $this->Directiva['ut'];
     $sueldo_base = $this->Beneficiario->sueldo_base;
+    $sueldo_minimo = $this->Directiva['salario'];
     $no_ascenso = $this->Beneficiario->no_ascenso;
     $numero_hijos = $this->Beneficiario->numero_hijos;
 
