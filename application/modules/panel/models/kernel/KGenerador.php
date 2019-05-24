@@ -107,7 +107,7 @@ class KGenerador extends CI_Model{
                 if($monto > 0){ //**SE REALIZO ESTA MODIFICACION PARA QUE TS<0 NO SALGAN EN EL ARCHIVO TXT
                   $linea = $plan . $nac . $cedula .  $nombre . $edocivil . $campo . $monto_s;
                   fputs($file,$linea);
-                  fputs($file,"\n");
+                  fputs($file,"\r\n");
                 }
                 $cantidad++;
 
@@ -138,15 +138,15 @@ class KGenerador extends CI_Model{
   /**
   * Archivo de banco viejos
   */
-    function AporteTXT($path, $archivo, $tipo){
+    
+  function AporteTXT($path, $archivo, $tipo){
     $this->load->model('kernel/KSensor');
 
     $m = 36;
     if($tipo == 1)$m = 37;
     if($tipo == 2)$m = 35;
 
-
-    $sub = substr($path, 1, 33);
+      $sub = substr($path, 1, 33);
     $this->load->model('kernel/KSensor');
     $handle = fopen("tmp/" . $sub . ".csv", "r");
     $file = fopen("tmp/" . $path . '/APORT' . $archivo . ".txt","a") or die("Problemas");
@@ -176,7 +176,7 @@ class KGenerador extends CI_Model{
                 $cuoanu = '000';
                 $linea = $plan . $nac . $cedula . $tiptrn . $tippre . $frmpgo . $monto_s . $tippta . $tipcue . $numcue . $tasaint . $cbrintatp . $cuomen . $mtoanu . $cuoanu;
                 fputs($file,$linea);
-                fputs($file,"\n");
+                fputs($file,"\r\n");
                 $cantidad++;
               }
           }

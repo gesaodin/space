@@ -546,6 +546,9 @@ function GenerarAlicuotaVacaciones(){
 
   public function GenerarNoDepositadoBanco(){
     $this->Beneficiario->no_depositado_banco = $this->Beneficiario->asignacion_antiguedad - $this->Beneficiario->deposito_banco - $this->Beneficiario->garantias_acumuladas  - $this->Beneficiario->dias_adicionales_acumulados;
+    
+    if($this->Beneficiario->no_depositado_banco < 0) $this->Beneficiario->no_depositado_banco = 0.00;
+
   }
 
 
