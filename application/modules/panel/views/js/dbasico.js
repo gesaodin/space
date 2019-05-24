@@ -62,6 +62,8 @@ function consultar() {
                 }else if(data.fecha_retiro < '2018-08-20' && data.fecha_ultima_modificacion < '2018-08-20'){
                     $("#asignacion_antiguedad").val(data.Calculo.asignacion_antiguedad_fin);
                     $("#asignacion_antiguedad_aux").val(data.Calculo.asignacion_antiguedad_fin_aux);
+                }else if(data.fecha_retiro >= '2018-08-20' && data.fecha_ultima_modificacion >= '2018-08-20'){
+                    $("#asignacion_antiguedad").val(data.Calculo.asignacion_antiguedad_fin);
                 }
             }else{
                 $("#asignacion_antiguedad").val(data.Calculo.asignacion_antiguedad);
