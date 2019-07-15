@@ -34,7 +34,9 @@ class Panel extends MY_Controller {
 	
 
 	public function fideicomitente(){
-		$this->load->view("menu/beneficiario/fideicomitente");
+		$this->load->model('beneficiario/Pruebatxt');
+		/*$this->load->view("menu/beneficiario/fideicomitente");*/
+		$this->Pruebatxt->leerarchivo();
 	}
 
 	public function beneficiario(){

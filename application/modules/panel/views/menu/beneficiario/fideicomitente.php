@@ -87,7 +87,7 @@
               </div>
 
                      
-          <center></center><a href="#!" onclick="consultar()" 
+          <center></center><a href="#!" onclick="cargar()" 
           class="btn btn-primary" target="_top" id='btnActualizar'><i class="fa fa-refresh"></i>&nbsp;&nbsp;Cargar Archivos</a> 
 
                 

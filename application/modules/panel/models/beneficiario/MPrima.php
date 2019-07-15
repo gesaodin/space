@@ -116,7 +116,7 @@ class MPrima extends CI_Model{
   public function obtener($id_grado = 0, $directiva_id = 0, MBeneficiario &$Beneficiario){
     $this->Beneficiario = $Beneficiario;
     $this->unidad_tributaria =  $this->Beneficiario->Componente->Grado->Directiva->unidad_tributaria;
-    $this->salario =  $this->Beneficiario->Componente->Grado->Directiva->salario;
+    //$this->salario =  $this->Beneficiario->Componente->Grado->Directiva->salario;
 
     $sConsulta = 'SELECT prima.id, prima_id,nombre,descripcion,monto_nominal,monto_ut,fnx,rs FROM 
     (
@@ -179,7 +179,7 @@ class MPrima extends CI_Model{
     $sueldo_base = $this->Beneficiario->sueldo_base;
     $no_ascenso = $this->Beneficiario->no_ascenso;
     $numero_hijos = $this->Beneficiario->numero_hijos;
-    $sueldo_minimo = $this->salario;
+    //$sueldo_minimo = $this->salario;
     eval('$valor = ' . $fnx);
     return round($valor,2);
   }

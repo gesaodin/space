@@ -190,7 +190,7 @@
       <br><br><br><br><br><br>
       <br><br><br><br>
       <center><b>ERIKA COROMOTO VIRGÜEZ OVIEDO<BR>
-                VICEALMIRANTE<BR>
+                 ALMIRANTE<BR>
                 PRESIDENTA DEL I.P.S.F.A<B><center>
       </td>
 

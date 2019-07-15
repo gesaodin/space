@@ -146,7 +146,8 @@ class KGenerador extends CI_Model{
     if($tipo == 1)$m = 37;
     if($tipo == 2)$m = 35;
 
-      $sub = substr($path, 1, 33);
+   
+    $sub = substr($path, 1, 33);
     $this->load->model('kernel/KSensor');
     $handle = fopen("tmp/" . $sub . ".csv", "r");
     $file = fopen("tmp/" . $path . '/APORT' . $archivo . ".txt","a") or die("Problemas");
