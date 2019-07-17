@@ -126,6 +126,7 @@ class KCargador extends CI_Model{
       }
     }
 
+
     $sConsulta = "
       SELECT
         beneficiario.nombres, beneficiario.apellidos,
@@ -139,7 +140,7 @@ class KCargador extends CI_Model{
           beneficiario
         JOIN
           grado ON beneficiario.grado_id=grado.id
-        LEFT JOIN space.tablacruce ON beneficiario.cedula=space.tablacruce.cedula
+        LEFT JOIN space.tablacruce ON beneficiario.cedula=space.tablacruce.cedula 
         WHERE " . $condicion . "";
 
     $con = $this->DBSpace->consultar($sConsulta);
@@ -319,7 +320,6 @@ class KCargador extends CI_Model{
 
 
   }
-
 
   private function generarLineaMemoria($Bnf, $Recuerdo){
     return
