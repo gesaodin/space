@@ -138,7 +138,7 @@ class KGenerador extends CI_Model{
   /**
   * Archivo de banco viejos
   */
-    
+
   function AporteTXT($path, $archivo, $tipo){
     $this->load->model('kernel/KSensor');
 
@@ -146,7 +146,7 @@ class KGenerador extends CI_Model{
     if($tipo == 1)$m = 37;
     if($tipo == 2)$m = 35;
 
-   
+
     $sub = substr($path, 1, 33);
     $this->load->model('kernel/KSensor');
     $handle = fopen("tmp/" . $sub . ".csv", "r");
@@ -196,6 +196,62 @@ class KGenerador extends CI_Model{
       'c' => $cantidad
     );
   }
+
+  function RetiroTXT($path, $archivo, $tipo){
+    $this->load->model('kernel/KSensor');
+
+    $m = 37;
+    
+    $sub = substr($path, 1, 33);
+    $this->load->model('kernel/KSensor');
+    $handle = fopen("tmp/" . $sub . ".csv", "r");
+    $file = fopen("tmp/" . $path . '/APORT' . $archivo . ".txt","a") or die("Problemas");
+    $cantidad = 0;
+    $sum = 0;
+    $plan = '03487';
+    if ($handle) {
+        while (($buffer = fgets($handle, 4096)) !== false) {
+          if($sum > 0){
+              $l = explode(";", $buffer);
+              if($l[31] > 0 ||  $l[33] > 0 || $l[34] > 0){
+
+                $nac = 'V';
+                $cedula = $this->completarCero(9, $l[0], '0');
+                $tiptrn = '1';
+                $tippre = '00';
+                $frmpgo = '0';
+                $monto = $l[$m] * 100;
+                $monto_s = $this->completarCero(13, $monto, '0');
+                $tippta = 'N';
+                $tipcue = '0';
+                $numcue = '0000000000';
+                $tasaint = '000000';
+                $cbrintatp = ' ';
+                $cuomen = '000';
+                $mtoanu = '0000000000000';
+                $cuoanu = '000';
+                $linea = $plan . $nac . $cedula . $tiptrn . $tippre . $frmpgo . $monto_s . $tippta . $tipcue . $numcue . $tasaint . $cbrintatp . $cuomen . $mtoanu . $cuoanu;
+                fputs($file,$linea);
+                fputs($file,"\r\n");
+                $cantidad++;
+              }
+          }
+          $sum++;
+
+        }
+        if (!feof($handle)) {
+            return "Error: unexpected fgets() fail\n";
+        }
+        fclose($handle);
+        fclose($file);
+    }
+
+    return array(
+      'd' => "Duración: " . $this->KSensor->Duracion(),
+      'c' => $cantidad
+    );
+  }
+
 
 
   function completarCero($cant, $cadena, $caracter = " ", $sentido = 0){

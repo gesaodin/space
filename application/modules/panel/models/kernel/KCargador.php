@@ -448,8 +448,8 @@ class KCargador extends CI_Model{
       $comando = 'cd tmp/; awk -F\';\' \' { for (x=1; x<=30; x++) {  printf "%s;", $x } SUM=' . $porcen . '; printf "%.2f\n", SUM } \' ' . $archivo . '.csv >> ' . $file . '/' . $file . '.csv';
       exec($comando, $firma);
      }
-     
-    
+
+
 
 
     $comando = 'cd tmp/' . $file . '/; awk -F\';\' \'{SUM+=$NF} END {printf "%.2f", SUM }\' ' . $file . '.csv';
@@ -542,9 +542,9 @@ function listarResumen($llave, $tipo, $fecha){
 
   $sConsulta = '
   SELECT tb.cod, cmp.nombre, monto, cantidad  FROM (
-  SELECT b.componente_id as cod, 
+  SELECT b.componente_id as cod,
   COUNT(*) As cantidad, SUM(monto) As monto  FROM  movimiento a, beneficiario b
-  WHERE a.cedula=b.cedula AND codigo=\'' . $llave . '\' 
+  WHERE a.cedula=b.cedula AND codigo=\'' . $llave . '\'
   GROUP BY cod
   ORDER BY cod ) AS tb
   JOIN componente cmp ON cmp.id = tb.cod
@@ -558,7 +558,7 @@ function listarResumen($llave, $tipo, $fecha){
   $fila = '';
   $total = '';
   $descripcion = '';
-  $fecha = substr($fecha, 0, 10); 
+  $fecha = substr($fecha, 0, 10);
   $f =  explode('-',$fecha);
 
   switch ($tipo) {
@@ -578,13 +578,13 @@ function listarResumen($llave, $tipo, $fecha){
   if($obj->code == 0 ){
       foreach ($obj->rs as $clv => $val) {
 
-        $fila .= '<tr style="height:50px"><td style="text-align: center;">' . $val->cod . '</td><td>' . $val->nombre . '</td><td style="text-align: right;">' . number_format($val->cantidad, 0, ',','.') . '</td><td style="text-align: right;">' . 
+        $fila .= '<tr style="height:50px"><td style="text-align: center;">' . $val->cod . '</td><td>' . $val->nombre . '</td><td style="text-align: right;">' . number_format($val->cantidad, 0, ',','.') . '</td><td style="text-align: right;">' .
         number_format($val->monto, 2, ',','.') . '</td></tr>';
         $suma += $val->monto;
         $cantidad += $val->cantidad;
       }
       $total = '<tr style="background-color: #dddddd;"><td></td><td style="height:50px;"><b>TOTAL</b></td><td style="text-align: right;"><b>' . number_format($cantidad, 0, ',','.') . '</b></td><td style="text-align: right;"><b>' . number_format($suma, 2, ',','.') . '</b></td></tr></table></CENTER>';
-      
+
       $imprimir = '<br><br><center><button onclick="imprimir()" id="btnPrint">Imprimir Resumen</button></center>
           <script language="Javascript">
               function imprimir(){
@@ -641,9 +641,10 @@ function listarResumen($llave, $tipo, $fecha){
 
     $r .= 'tmp/' . $archivo . '/';
     $sub = substr($archivo, 25, 33);
-   
+
     $file = $this->KGenerador->AperturaTXT($archivo, $sub, $tipo);
     $fils = $this->KGenerador->AporteTXT($archivo, $sub, $tipo);
+    $fils = $this->KGenerador->RetiroTXT($archivo, $sub, $tipo);
 
 
     $comando = 'cd tmp/' . $archivo . '/; zip APERT' . $sub . '.zip APERT' . $sub . '.txt';
@@ -665,6 +666,7 @@ function listarResumen($llave, $tipo, $fecha){
       'a' => $archivo,
       'aper' =>  'APERT' . $sub . '.zip',
       'apor' =>  'APORT' . $sub . '.zip',
+      'apor' =>  'RETIR' . $sub . '.zip',
       'rs' => $bash,
       'd' => $file['d'],
       'caper' => $file['c'], //,
@@ -678,9 +680,9 @@ function listarResumen($llave, $tipo, $fecha){
 
   $sConsulta = '
   SELECT tb.cod, cmp.nombre, monto, cantidad  FROM (
-  SELECT b.componente_id as cod, 
+  SELECT b.componente_id as cod,
   COUNT(*) As cantidad, SUM(monto) As monto  FROM  movimiento a, beneficiario b
-  WHERE a.cedula=b.cedula AND codigo=\'' . $llave . '\' 
+  WHERE a.cedula=b.cedula AND codigo=\'' . $llave . '\'
   GROUP BY cod
   ORDER BY cod ) AS tb
   JOIN componente cmp ON cmp.id = tb.cod
@@ -694,7 +696,7 @@ function listarResumen($llave, $tipo, $fecha){
   $fila = '';
   $total = '';
   $descripcion = '';
-  $fecha = substr($fecha, 0, 10); 
+  $fecha = substr($fecha, 0, 10);
   $f =  explode('-',$fecha);
 
   switch ($tipo) {
@@ -714,13 +716,13 @@ function listarResumen($llave, $tipo, $fecha){
   if($obj->code == 0 ){
       foreach ($obj->rs as $clv => $val) {
 
-        $fila .= '<tr style="height:50px"><td style="text-align: center;">' . $val->cod . '</td><td>' . $val->nombre . '</td><td style="text-align: right;">' . number_format($val->cantidad, 0, ',','.') . '</td><td style="text-align: right;">' . 
+        $fila .= '<tr style="height:50px"><td style="text-align: center;">' . $val->cod . '</td><td>' . $val->nombre . '</td><td style="text-align: right;">' . number_format($val->cantidad, 0, ',','.') . '</td><td style="text-align: right;">' .
         number_format($val->monto, 2, ',','.') . '</td></tr>';
         $suma += $val->monto;
         $cantidad += $val->cantidad;
       }
       $total = '<tr style="background-color: #dddddd;"><td></td><td style="height:50px;"><b>TOTAL</b></td><td style="text-align: right;"><b>' . number_format($cantidad, 0, ',','.') . '</b></td><td style="text-align: right;"><b>' . number_format($suma, 2, ',','.') . '</b></td></tr></table></CENTER>';
-      
+
       $imprimir = '<br><br><center><button onclick="imprimir()" id="btnPrint">Imprimir Resumen</button></center>
           <script language="Javascript">
               function imprimir(){
