@@ -140,7 +140,7 @@ class KCargador extends CI_Model{
           beneficiario
         JOIN
           grado ON beneficiario.grado_id=grado.id
-        LEFT JOIN space.tablacruce ON beneficiario.cedula=space.tablacruce.cedula 
+        LEFT JOIN space.tablacruce ON beneficiario.cedula=space.tablacruce.cedula
         WHERE " . $condicion . "";
 
     $con = $this->DBSpace->consultar($sConsulta);
@@ -386,7 +386,7 @@ class KCargador extends CI_Model{
   /**
   *
   * @param string
-  * @param int | 0 Garantias | 1 Dias Adicionales
+  * @param int | 0 Garantias | 1 Dias Adicionales | Aporte de Asignacion
   * @param int Porcentaje de distribucíón de pago
   *
   * @retun bool
@@ -507,6 +507,7 @@ class KCargador extends CI_Model{
           'registro' => $val->regi,
           'aporte' => $val->apor,
           'apertura' => $val->aper,
+          'retiro' => $val->reti,
           'sub' => $sub = substr($val->arch, 24, 33)
         );
       }
@@ -615,6 +616,7 @@ function listarResumen($llave, $tipo, $fecha){
       esta integer,
       aper numeric,
       apor numeric,
+      reti numeric,
       CONSTRAINT archivos_pkey PRIMARY KEY (oid)
     );
 
@@ -644,7 +646,9 @@ function listarResumen($llave, $tipo, $fecha){
 
     $file = $this->KGenerador->AperturaTXT($archivo, $sub, $tipo);
     $fils = $this->KGenerador->AporteTXT($archivo, $sub, $tipo);
-    $fils = $this->KGenerador->RetiroTXT($archivo, $sub, $tipo);
+    //if($tipo == 1) {
+      $files = $this->KGenerador->RetiroTXT($archivo, $sub, $tipo);
+    //};//
 
 
     $comando = 'cd tmp/' . $archivo . '/; zip APERT' . $sub . '.zip APERT' . $sub . '.txt';
@@ -653,11 +657,13 @@ function listarResumen($llave, $tipo, $fecha){
     $comando = 'cd tmp/' . $archivo . '/; zip APORT' . $sub . '.zip APORT' . $sub . '.txt';
     exec($comando, $bash);
 
+    $comando = 'cd tmp/' . $archivo . '/; zip RETIR' . $sub . '.zip RETIR' . $sub . '.txt';
+    exec($comando, $bash);
+
     $comando = 'cd tmp/;time ./script.sh ' . $r . $sub . ' 2>&1';
     exec($comando, $bash);
 
-    $sUpdate = 'UPDATE  space.archivos SET esta=2, aper=' . $file['c'] . ', apor=' . $fils['c'] . ' WHERE arch=\'' . substr($archivo, 1, 38) . '\';';
-
+    $sUpdate = 'UPDATE  space.archivos SET esta=2, aper=' . $file['c'] . ', apor=' . $fils['c'] . ', reti=' . $files['c'] .  ' WHERE arch=\'' . substr($archivo, 1, 38) . '\';';
 
     $rs = $this->DBSpace->consultar($sUpdate);
 
@@ -666,11 +672,12 @@ function listarResumen($llave, $tipo, $fecha){
       'a' => $archivo,
       'aper' =>  'APERT' . $sub . '.zip',
       'apor' =>  'APORT' . $sub . '.zip',
-      'apor' =>  'RETIR' . $sub . '.zip',
+      'reti' =>  'RETIR' . $sub . '.zip',
       'rs' => $bash,
       'd' => $file['d'],
       'caper' => $file['c'], //,
-      'capro' => $fils['c']
+      'capor' => $fils['c'], //,
+      'creti' => $files['c']
     );
     return $this->Resultado;
   }

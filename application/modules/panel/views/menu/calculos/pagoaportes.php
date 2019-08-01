@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <?php $this->load->view('inc/cabecera.php');?>
-  
+
     <!-- Site wrapper -->
     <div class="wrapper">
 
@@ -38,18 +38,18 @@
                   </div>
                 </div>
                 <div class="box-body">
-                 
+
 
                 <div class="form-group">
                   <div class="col-md-12">
-                  
+
                     <table id="reportearchivos" class="table table-bordered table-hover">
                         <thead>
                         <tr>
                             <th style="width:350px;">Archivos Bancarios</th>
-                            <th >Llave del Archivo</th>                            
-                            <th style="width: 50px;">Registros</th>   
-                            <th>Descripcion</th>                       
+                            <th >Llave del Archivo</th>
+                            <th style="width: 50px;">Registros</th>
+                            <th>Descripcion</th>
                             <th>Peso</th>
                         </tr>
                         </thead>
@@ -58,19 +58,24 @@
                           foreach ($Archivos as $k => $v) {
                           $url = '/space/tmp/' . tipoMovimiento($v['tipo']) .  $v['id'] . '/APERT' . $v['sub'] . '.txt';
                           $urlApert = '/space/tmp/' . tipoMovimiento($v['tipo']) .  $v['id'] . '/APORT' . $v['sub'] . '.txt';
+                          $urlRetir = '/space/tmp/' . tipoMovimiento($v['tipo']) .  $v['id'] . '/RETIR' . $v['sub'] . '.txt';
                               $urlResumen = 'resumenaporte/' . substr($v['id'], -8) . '/' . $v['tipo'] . '/' . $v['fecha'];
                               echo '<tr>
                                       <td>
                                         <a href="' .  $url . '" target="top" class="btn btn-app">
                                           <span class="badge bg-green">' . $v['apertura'] . '</span>
-                                          <i class="fa fa-edit"></i> Apertura 
+                                          <i class="fa fa-edit"></i> Apertura
                                         </a>
                                         <a href="' . $urlApert . '"  target="top" class="btn btn-app">
                                           <span class="badge bg-green">' . $v['aporte'] . '</span>
-                                          <i class="fa fa-barcode"></i> Aporte 
+                                          <i class="fa fa-barcode"></i> Aporte
+                                        </a>
+                                        <a href="' . $urlRetir . '"  target="top" class="btn btn-app">
+                                          <span class="badge bg-green">' . $v['retiro'] . '</span>
+                                          <i class="fa fa-barcode"></i> Retiro
                                         </a>
                                         <a href="' .  $urlResumen . '" target="top" class="btn btn-app">
-                                          <i class="fa fa-print"></i> Resumen 
+                                          <i class="fa fa-print"></i> Resumen
                                         </a>
                                       </td>
                                       <td>' . $v['id'] . '<br>' . $v['fecha'] .'<br>' . $v['usuario'] . '</td>
@@ -84,7 +89,7 @@
                               $tipo = '';
                               switch ($id) {
                                 case 0:
-                                  $tipo = 'G'; 
+                                  $tipo = 'G';
                                   break;
                                 case 1:
                                   $tipo = 'D';
@@ -108,11 +113,11 @@
 
 
               </div>
-              <!-- /.box-body 
+              <!-- /.box-body
               <div class="box-footer">
-              
-               
-  
+
+
+
             </div>
             /.box-footer-->
           </div>
