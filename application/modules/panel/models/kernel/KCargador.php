@@ -646,9 +646,10 @@ function listarResumen($llave, $tipo, $fecha){
 
     $file = $this->KGenerador->AperturaTXT($archivo, $sub, $tipo);
     $fils = $this->KGenerador->AporteTXT($archivo, $sub, $tipo);
-    //if($tipo == 1) {
+    //para que se ejecute solo para dias adicionales
+    if($tipo == 1) {
       $files = $this->KGenerador->RetiroTXT($archivo, $sub, $tipo);
-    //};//
+    };
 
 
     $comando = 'cd tmp/' . $archivo . '/; zip APERT' . $sub . '.zip APERT' . $sub . '.txt';
