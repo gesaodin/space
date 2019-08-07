@@ -137,7 +137,7 @@
    <tr><td style="width: 550px; height: 100%;text-align: center"><b>ASUNTO</b></td><td style="text-align: center"><b>DECISIÓN</b></td><td style="width: 250px;text-align: center"><b>MARCO LEGAL</b></td></tr>
    <tr>
       <td style="text-align: justify; font-size: 14px; line-height: 1.5" valign="top">
-        &emsp;Esta Gerencia somete a la consideración de la ciudadana VA. Presidenta de la Junta Administradora del IPSFA,
+        &emsp;Esta Gerencia somete a la consideración del ciudadano GD. Presidente de la Junta Administradora del IPSFA,
         la solicitud formulada por <b><?php
           echo $Beneficiario->Componente->Grado->nombre . ' ' . $Beneficiario->nombres . ' ' . $Beneficiario->apellidos; ?>
          </b> titular de la cédula de identidad <b><?php echo $Beneficiario->cedula . ' (' . $Beneficiario->Componente->nombre . ')';?>
@@ -185,13 +185,13 @@
           <td></td>
         </tr>
       </table>
-      
+
       <br><br><br><br><br><br>
       <br><br><br><br><br><br>
       <br><br><br><br>
-      <center><b>ERIKA COROMOTO VIRGÜEZ OVIEDO<BR>
-                 ALMIRANTE<BR>
-                PRESIDENTA DEL I.P.S.F.A<B><center>
+      <center><b>RENIER ENRIQUE URBAEZ FERMIN<BR>
+                 GENERAL DE DIVISION<BR>
+                PRESIDENTE DEL I.P.S.F.A<B><center>
       </td>
 
 
@@ -209,7 +209,7 @@
             </td>
           </tr-->
 
-          
+
 
 
 
