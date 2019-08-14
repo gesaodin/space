@@ -213,8 +213,7 @@ class KGenerador extends CI_Model{
         while (($buffer = fgets($handle, 4096)) !== false) {
           if($sum > 0){
               $l = explode(";", $buffer);
-              //Para que se genere solo para dias adicionales
-              if($tipo == 1) {
+          if($tipo == 1) {
               //if($l[31] > 0 ||  $l[33] > 0 || $l[34] > 0){
 
                 $nac = 'V';
