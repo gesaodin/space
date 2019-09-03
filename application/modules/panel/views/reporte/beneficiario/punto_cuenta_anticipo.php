@@ -118,7 +118,7 @@
  <table style="width: 1000px;  text-align: justify;  font-size: 14px" >
 
   <tr>
-    <td>PARA:</td><td><b>PRESIDENTA DEL IPSFA</b></td>
+    <td>PARA:</td><td><b>PRESIDENTE DEL IPSFA</b></td>
     <td><center><b>
       Nro. 320.600-<?php echo substr(md5($Beneficiario->cedula . $Beneficiario->fecha_ultima_modificacion), 0,6);?>r
       </b></center>
