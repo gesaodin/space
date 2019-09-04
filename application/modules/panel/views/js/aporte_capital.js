@@ -257,7 +257,8 @@ function CGTxt(id){
 function RegistarTxt(id, tipo){
 
 	$("#divContinuar").html('');
-    $("#txtMensaje").html('Por favor espere mientras procesamos los archivos...');
+    $("#txtMensaje").html('Por favor espere mientras procesamos...');
+      //$("#txtMensaje").html('Por favor espere mientras procesamos los archivos...');
 
 	var dato = {
 		id: id,
