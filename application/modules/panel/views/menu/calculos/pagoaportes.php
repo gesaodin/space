@@ -56,9 +56,9 @@
                         <tbody>
                           <?php
                           foreach ($Archivos as $k => $v) {
-                          $url = '/space/tmp/' . tipoMovimiento($v['tipo']) .  $v['id'] . '/APERT' . $v['sub'] . '.txt';
-                          $urlApert = '/space/tmp/' . tipoMovimiento($v['tipo']) .  $v['id'] . '/APORT' . $v['sub'] . '.txt';
-                          $urlRetir = '/space/tmp/' . tipoMovimiento($v['tipo']) .  $v['id'] . '/RETIR' . $v['sub'] . '.txt';
+                          $url = '/system/space/tmp/' . tipoMovimiento($v['tipo']) .  $v['id'] . '/APERT' . $v['sub'] . '.txt';
+                          $urlApert = '/system/space/tmp/' . tipoMovimiento($v['tipo']) .  $v['id'] . '/APORT' . $v['sub'] . '.txt';
+                          $urlRetir = '/system/space/tmp/' . tipoMovimiento($v['tipo']) .  $v['id'] . '/RETIR' . $v['sub'] . '.txt';
                               $urlResumen = 'resumenaporte/' . substr($v['id'], -8) . '/' . $v['tipo'] . '/' . $v['fecha'];
                               echo '<tr>
                                       <td>
