@@ -213,7 +213,11 @@ class KGenerador extends CI_Model{
         while (($buffer = fgets($handle, 4096)) !== false) {
           if($sum > 0){
               $l = explode(";", $buffer);
+<<<<<<< HEAD
           if($tipo == 1) {
+=======
+              if($tipo == 1) {
+>>>>>>> 6578f70b5184a6568955dbed0c348eb6321ec9ba
               //if($l[31] > 0 ||  $l[33] > 0 || $l[34] > 0){
 
                 $nac = 'V';
