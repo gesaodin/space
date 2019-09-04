@@ -270,13 +270,13 @@ function RegistarTxt(id, tipo){
 		console.log(data);
 		urlf = sUrl + 'tmp/' + data.a + '/' + data.aper;
 		urlt = sUrl + 'tmp/' + data.a + '/' + data.apor;
-    	urle = sUrl + 'tmp/' + data.a + '/' + data.reti;
+    urle = sUrl + 'tmp/' + data.a + '/' + data.reti;
 		var boton = '<button type="button" class="btn btn-success pull-right" onclick="continuar()">';
         boton += '<i class="fa fa-cloud-download"></i>&nbsp;&nbsp;Continuar&nbsp;&nbsp;</button>';
 	    $("#divContinuar").html(boton);
 	    texto = '<a href="' + urlf + '" target="top" class="btn btn-app"><span class="badge bg-green">' + data.caper + '</span><i class="fa fa-edit"></i> Apertura </a>';
 	    texto += '<a href="' + urlt + '"  target="top" class="btn btn-app"><span class="badge bg-green">' + data.capor + '</span><i class="fa fa-barcode"></i> Aporte </a>';
-      	texto += '<a href="' + urle + '"  target="top" class="btn btn-app"><span class="badge bg-green">' + data.creti + '</span><i class="fa fa-barcode"></i> Retiro </a>';
+      texto += '<a href="' + urle + '"  target="top" class="btn btn-app"><span class="badge bg-green">' + data.creti + '</span><i class="fa fa-barcode"></i> Retiro </a>';
 	    $("#txtMensaje").html(texto);
 
 	}).fail(function (err){
