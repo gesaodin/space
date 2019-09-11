@@ -1,9 +1,9 @@
-<?php  
+<?php
   $partida_id = 0;
   $partida = '';
   $monto = 0;
   $Detalle = $Beneficiario->HistorialDetalleMovimiento['Detalle'];
-  
+
   if (isset($Detalle[9])){
     //print_r($finiquito);
     $finiquito = $Detalle[9];
@@ -15,7 +15,7 @@
         $partida_id = $v->partida;
       }
     }
-    
+
   }
 
   function fecha($fecha = ''){
@@ -62,7 +62,7 @@
         break;
     }
     return $mes;
-    
+
   }
 
 
@@ -89,7 +89,7 @@ td{
 th {
     border: 1px solid #dddddd;
     text-align: left;
-    background-color: #dddddd; 
+    background-color: #dddddd;
     padding: 8px;
 }
 .ctd td{
@@ -108,7 +108,7 @@ th {
 .ctd th {
     border: 1px solid #000000;
     text-align: left;
-    background-color: #dddddd; 
+    background-color: #dddddd;
     padding: 8px;
 }
 
@@ -122,7 +122,7 @@ th {
  <center>
  <table style="width: 700px">
  <tr>
-   <td style="width: 100%;  border: 0px solid #dddddd; text-align: center; font-size: 10px">    
+   <td style="width: 100%;  border: 0px solid #dddddd; text-align: center; font-size: 10px">
      REPÚBLICA BOLIVARIANA DE VENEZUELA<BR>
      MINISTERIO DEL PODER POPULAR PARA LA DEFENSA<BR>
      VICEMINISTERIO DE SERVICIOS, PERSONAL Y LOGISTICA<BR>
@@ -130,39 +130,39 @@ th {
      INSTITUTO DE PREVISIÓN SOCIAL<BR>
      DE LAS FUERZAS ARMADAS<BR>
    </td>
-   
+
  </tr>
  </table><BR>
 
  <table style="width: 700px;  text-align: justify;  font-size: 15px">
   <tr>
     <td>Nro.</td><td>320.600-<?php echo substr(md5($Beneficiario->cedula . $Beneficiario->fecha_ultima_modificacion), 0,6);?>/01</td>
-  </tr> 
+  </tr>
   <tr>
     <td >DE:</td><td><b>CNEL. GERENTE DE BIENESTAR Y SEGURIDAD SOCIAL</b></td>
-  </tr> 
+  </tr>
   <tr>
-    <td>PARA:</td><td><b>CN. GERENTE DE DE FINANZAS</b></td>    
-  </tr> 
+    <td>PARA:</td><td><b>CNEL. GERENTE DE FINANZAS</b></td>
+  </tr>
   <tr>
     <td>ASUNTO:</td><td><b>SOLICITUD DE FINIQUITO</b></td>
-  </tr> 
-  
+  </tr>
+
   <tr>
-    <td valign="TOP">AFILIADO:</td><td><b><?php 
-      echo $Beneficiario->Componente->Grado->nombre . ' ' . $Beneficiario->Componente->descripcion . ' ' . 
+    <td valign="TOP">AFILIADO:</td><td><b><?php
+      echo $Beneficiario->Componente->Grado->nombre . ' ' . $Beneficiario->Componente->descripcion . ' ' .
       $Beneficiario->nombres . ' ' . $Beneficiario->apellidos . '<br> CEDULA DE IDENTIDAD: ' . $Beneficiario->cedula; ?></b></td>
   </tr>
   <tr>
-    <td valign="TOP">FALLECIMIENTO:</td><td><b><?php 
+    <td valign="TOP">FALLECIMIENTO:</td><td><b><?php
       echo $Beneficiario->fecha_retiro; ?></b></td>
   </tr>
  </table>
  <table style="width: 700px">
   <tr>
    <td style="border: 0px solid #dddddd; text-align: justify; font-size: 16px; line-height: 1.5">
-     &emsp;&emsp;Tengo el honor de dirijirme a Ud., en la oportunidad de solicitar su valiosa colaboración a objeto 
-     gire sus instruciones con la finalidad sea realizado el pago de la Asignación de Antiguedad generada por el fallecimiento del afiliado 
+     &emsp;&emsp;Tengo el honor de dirijirme a Ud., en la oportunidad de solicitar su valiosa colaboración a objeto
+     gire sus instruciones con la finalidad sea realizado el pago de la Asignación de Antiguedad generada por el fallecimiento del afiliado
      en referencia quien de acuerdo a lo previsto en el artículo 57 de la LOSSFANB y los artículos 822 al 832 del Código Civil Venezolano
      <br><br>
 
@@ -180,7 +180,7 @@ th {
         $sum = 0;
           foreach ($lst as $c => $v) {
             if ($v['monto'] > 0){
-              echo '<tr style="font-size:14px;"><td>' . $v['codigo'] . '</td><td>' . strtoupper($v['nombre']) . '</td><td>' . $v['cedula'] . '</td><td  style="text-align: right">' . 
+              echo '<tr style="font-size:14px;"><td>' . $v['codigo'] . '</td><td>' . strtoupper($v['nombre']) . '</td><td>' . $v['cedula'] . '</td><td  style="text-align: right">' .
               number_format($v['monto'], 2, ',','.') . '</td></tr>';
               $sum += $v['monto'];
             }
@@ -193,7 +193,7 @@ th {
      &emsp;&emsp;Solicitud que le hago llegar, para su conocimiento y demas fines consiguientes.<br>
 
       <p align="right">
-     
+
      <?php $fecha=substr(($Beneficiario->fecha_ultima_modificacion), 0,10);
           $fecha=explode('-', $fecha)
      ?>
@@ -210,23 +210,23 @@ th {
 
      Notas:<br>
      <FONT SIZE=2>
-     <?php 
+     <?php
 
      $o = explode('*MA', $Beneficiario->observacion);
      $o[0] = str_replace("\n", '<br>', $o[0]);
      echo $o[0];
       ?></font>
      <br>
-     <?php 
+     <?php
       if ( $Beneficiario->Calculo['monto_recuperar_aux'] > 0){
         echo 'Moto a recuperar a favor del Fondo de Fideicomiso por la cantidad de: ' . $Beneficiario->Calculo['monto_recuperar'] . '<br>';
         echo 'Partida Recuperación: ' . $partida;
       }
 
      ?><br>
-     EMG/<?php echo $Beneficiario->usuario_modificacion;?>
+     SHR/<?php echo $Beneficiario->usuario_modificacion;?>
    </td>
-   
+
  </tr>
  </table>
 

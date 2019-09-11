@@ -1,4 +1,4 @@
-<?php  
+<?php
 
   function fecha($fecha = ''){
     $mes = 'Enero';
@@ -44,7 +44,7 @@
         break;
     }
     return $mes;
-    
+
   }
 
 
@@ -71,7 +71,7 @@ td{
 th {
     border: 1px solid #dddddd;
     text-align: left;
-    background-color: #dddddd; 
+    background-color: #dddddd;
     padding: 8px;
 }
 .ctd td{
@@ -90,7 +90,7 @@ th {
 .ctd th {
     border: 1px solid #000000;
     text-align: left;
-    background-color: #dddddd; 
+    background-color: #dddddd;
     padding: 8px;
 }
 
@@ -103,7 +103,7 @@ th {
  <center>
  <table style="width: 700px">
  <tr>
-   <td style="width: 100%;  border: 0px solid #dddddd; text-align: center; font-size: 10px">    
+   <td style="width: 100%;  border: 0px solid #dddddd; text-align: center; font-size: 10px">
      REPÚBLICA BOLIVARIANA DE VENEZUELA<BR>
      MINISTERIO DEL PODER POPULAR PARA LA DEFENSA<BR>
      VICEMINISTERIO DE SERVICIOS, PERSONAL Y LOGISTICA<BR>
@@ -111,7 +111,7 @@ th {
      INSTITUTO DE PREVISIÓN SOCIAL<BR>
      DE LAS FUERZAS ARMADAS<BR>
    </td>
-   
+
  </tr>
  </table><BR>
  <br>
@@ -120,21 +120,21 @@ th {
 
  <table style="width: 700px;  text-align: justify;  font-size: 15px">
 
-  
+
   <tr>
-    <td valign="TOP">AFILIADO:</td><td><b><?php 
-      echo $Beneficiario->Componente->Grado->nombre . ' ' . $Beneficiario->Componente->descripcion . ' ' . 
+    <td valign="TOP">AFILIADO:</td><td><b><?php
+      echo $Beneficiario->Componente->Grado->nombre . ' ' . $Beneficiario->Componente->descripcion . ' ' .
       $Beneficiario->nombres . ' ' . $Beneficiario->apellidos . '<br> CEDULA DE IDENTIDAD: ' . $Beneficiario->cedula; ?></b></td>
   </tr>
   <tr>
-    <td valign="TOP">FALLECIMIENTO:</td><td><b><?php 
+    <td valign="TOP">FALLECIMIENTO:</td><td><b><?php
       echo $Beneficiario->fecha_retiro; ?></b></td>
   </tr>
  </table>
  <table style="width: 700px">
   <tr>
    <td style="border: 0px solid #dddddd; text-align: justify; font-size: 16px; line-height: 1.5">
-     &emsp;&emsp;Cancelar a los familiares a través de la nomina de pensiones la Asignación Causa Muerte generada por el 
+     &emsp;&emsp;Cancelar a los familiares a través de la nomina de pensiones la Asignación Causa Muerte generada por el
      fallecimiento del militar en referencia.
      familiares:
      <br><br>
@@ -152,13 +152,13 @@ th {
         <?php
           $sum = 0;
           foreach ($lst as $c => $v) {
-            
+
             if($v['cmue'] > 0){
-              echo '<tr><td>' . $v['codigo'] . '</td><td>' . strtoupper($v['nombre']) . '</td><td>' . $v['cedula'] . '</td><td  style="text-align: right">' . 
+              echo '<tr><td>' . $v['codigo'] . '</td><td>' . strtoupper($v['nombre']) . '</td><td>' . $v['cedula'] . '</td><td  style="text-align: right">' .
               number_format($v['cmue'], 2, ',','.') . '</td></tr>';
               $sum += $v['cmue'];
             }
-            
+
           }
           echo '<tr><td colspan="3" style="text-align: right">TOTAL&nbsp;&nbsp;</td><td  style="text-align: right">' . number_format($sum, 2, ',','.') . '</td></tr>';
         ?>
@@ -179,16 +179,16 @@ th {
          <td>TRANSCRITO</td>
        </tr>
      </table>
-     
+
      <br>
 
      Notas:<br>
-     El monto a cancelar debe ser cargado al código de la partida presupuestaria 4.07.01.01.99.06 del proyecto 
+     El monto a cancelar debe ser cargado al código de la partida presupuestaria 4.07.01.01.99.06 del proyecto
      98555, unidad ejecutora 3206 PACE, acción especifica 98555-1
      <br><br>
-     EMG/<?php echo $Beneficiario->usuario_modificacion;?>
+     SHR/<?php echo $Beneficiario->usuario_modificacion;?>
    </td>
-   
+
  </tr>
  </table>
 

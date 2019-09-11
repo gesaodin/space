@@ -1,4 +1,4 @@
-<?php  
+<?php
 
   function fecha($fecha = ''){
     $mes = 'Enero';
@@ -44,7 +44,7 @@
         break;
     }
     return $mes;
-    
+
   }
 
 
@@ -71,7 +71,7 @@ td{
 th {
     border: 1px solid #dddddd;
     text-align: left;
-    background-color: #dddddd; 
+    background-color: #dddddd;
     padding: 8px;
 }
 .ctd td{
@@ -90,7 +90,7 @@ th {
 .ctd th {
     border: 1px solid #000000;
     text-align: left;
-    background-color: #dddddd; 
+    background-color: #dddddd;
     padding: 8px;
 }
 
@@ -104,7 +104,7 @@ th {
  <center>
  <table style="width: 700px">
  <tr>
-   <td style="width: 100%;  border: 0px solid #dddddd; text-align: center; font-size: 10px">    
+   <td style="width: 100%;  border: 0px solid #dddddd; text-align: center; font-size: 10px">
      REPÚBLICA BOLIVARIANA DE VENEZUELA<BR>
      MINISTERIO DEL PODER POPULAR PARA LA DEFENSA<BR>
      VICEMINISTERIO DE SERVICIOS, PERSONAL Y LOGISTICA<BR>
@@ -112,7 +112,7 @@ th {
      INSTITUTO DE PREVISIÓN SOCIAL<BR>
      DE LAS FUERZAS ARMADAS<BR>
    </td>
-   
+
  </tr>
  </table><BR>
  <br>
@@ -120,24 +120,24 @@ th {
  <table style="width: 700px;  text-align: justify;  font-size: 15px">
   <tr>
     <td>DE:</td><td><b>CNEL. GERENTE DE BIENESTAR Y SEGURIDAD SOCIAL</b></td>
-  </tr> 
+  </tr>
   <tr>
-    <td>PARA:</td><td><b>MAY. CONSULTOR JURIDICO</b></td>    
-  </tr> 
+    <td>PARA:</td><td><b>MAY. CONSULTOR JURIDICO</b></td>
+  </tr>
   <tr>
     <td>ASUNTO:</td><td><b>REMISION DE EXPEDIENTE Y SOLICITUD DE VISADO.</b></td>
-  </tr> 
+  </tr>
 
  </table>
  <BR><BR>
  <table style="width: 700px">
   <tr>
    <td style="border: 0px solid #dddddd; text-align: justify; font-size: 16px; line-height: 1.5">
-     
-     &emsp;&emsp;Tengo el agrado de dirigirme a Ud., en la oportunidad de remitirle anexo a la presente 
-     anexo a la presente comunicación un (01) expediente del afiliado fallecido que se relaciona a continuación 
+
+     &emsp;&emsp;Tengo el agrado de dirigirme a Ud., en la oportunidad de remitirle anexo a la presente
+     anexo a la presente comunicación un (01) expediente del afiliado fallecido que se relaciona a continuación
      para dar cumplimiento a lo establecido por la Contraloría Interna, según Memo del 14JUL95.
-     
+
      <br><br>
      <table class="ctd">
        <thead>
@@ -146,7 +146,7 @@ th {
            <th>COMPONENTE</th>
            <th>CEDULA</th>
            <th>APELLIDOS Y NOMBRES</th>
-           <?php if ($Beneficiario->fecha_retiro>'2015-12-29')//Condición para validar campo M. Acto de Servicios        
+           <?php if ($Beneficiario->fecha_retiro>'2015-12-29')//Condición para validar campo M. Acto de Servicios
            {?>
            <th>M.ACTO DE SERVICIOS</th>
             <?php }?>
@@ -161,7 +161,7 @@ th {
            <td><?php echo $Beneficiario->cedula;?></td>
            <td><?php echo $Beneficiario->nombres . ' ' . $Beneficiario->apellidos;?></td>
            <td><?php echo substr(md5($Beneficiario->cedula . $Beneficiario->fecha_ultima_modificacion), 0,6) . '/01';?></td>
-           <?php if ($Beneficiario->fecha_retiro>'2015-12-29')          
+           <?php if ($Beneficiario->fecha_retiro>'2015-12-29')
            {?>
            <td><?php echo substr(md5($Beneficiario->cedula . $Beneficiario->fecha_ultima_modificacion), 0,6) . '/02';?></td>
            <?php }?>
@@ -169,11 +169,11 @@ th {
          </tr>
        </body>
      </table>
-     
+
      <br> &emsp;&emsp;Solicitud que le hago llegar, para su conocimiento y demas fines consiguientes.
 
      <p align="right">
-     
+
      <?php $fecha=substr(($Beneficiario->fecha_ultima_modificacion), 0,10);
           $fecha=explode('-', $fecha)
      ?>
@@ -183,16 +183,16 @@ th {
        Caracas,&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
      </p>-->
      <center>
-        
+
         <br><br><br><b><br><b>
         CNEL. JUAN GABRIEL PUERTAS TOVAR<BR></b>
      </center><br> <br>
 
-    
+
      <br><br>
-     EMG/<?php echo $Beneficiario->usuario_modificacion;?>
+     SHR/<?php echo $Beneficiario->usuario_modificacion;?>
    </td>
-   
+
  </tr>
  </table>
 

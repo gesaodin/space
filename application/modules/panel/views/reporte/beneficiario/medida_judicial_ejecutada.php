@@ -1,5 +1,5 @@
-<?php  
-  
+<?php
+
   //print_r($Beneficiario->MedidaJudicial);
   $monto =0;
   $porcentaje =0;
@@ -17,7 +17,7 @@
         $n_oficio = $v->numero_oficio;
         $fecha = $v->fecha;
       }
-      
+
     }
   }
 
@@ -65,7 +65,7 @@
         break;
     }
     return $mes;
-    
+
   }
 
 
@@ -92,7 +92,7 @@ td{
 th {
     border: 1px solid #dddddd;
     text-align: left;
-    background-color: #dddddd; 
+    background-color: #dddddd;
     padding: 8px;
 }
 
@@ -105,7 +105,7 @@ th {
  <center>
  <table style="width: 700px">
  <tr>
-   <td style="width: 100%;  border: 0px solid #dddddd; text-align: center; font-size: 10px">    
+   <td style="width: 100%;  border: 0px solid #dddddd; text-align: center; font-size: 10px">
      REPÚBLICA BOLIVARIANA DE VENEZUELA<BR>
      MINISTERIO DEL PODER POPULAR PARA LA DEFENSA<BR>
      VICEMINISTERIO DE SERVICIOS, PERSONAL Y LOGISTICA<BR>
@@ -113,63 +113,63 @@ th {
      INSTITUTO DE PREVISIÓN SOCIAL<BR>
      DE LAS FUERZAS ARMADAS<BR>
    </td>
-   
+
  </tr>
  </table>
 
  <table style="width: 700px;  text-align: justify;  font-size: 15px">
   <tr>
     <td>Nro.</td><td>320.600-<?php echo substr(md5($Beneficiario->cedula . $Beneficiario->fecha_ultima_modificacion), 0,6);?>/02</td>
-  </tr> 
+  </tr>
   <tr>
     <td>DE:</td><td><b>CNEL. GERENTE DE BIENESTAR Y SEGURIDAD SOCIAL</b></td>
-  </tr> 
+  </tr>
   <tr>
-    <td>PARA:</td><td><b>CN. GERENTE DE DE FINANZAS </b></td>    
-  </tr> 
+    <td>PARA:</td><td><b>CNEL. GERENTE DE FINANZAS </b></td>
+  </tr>
   <tr>
     <td>ASUNTO:</td><td><b>SOLICITUD DE ELABORACIÓN DE CHEQUE</b></td>
-  </tr> 
+  </tr>
   <tr>
     <!--<td>REF:</td><td>P.A.V<b></b></td>-->
     <td>REF.:</td><td><b>LOSSFAN (LEY NEGRO PRIMERO)</b></td>
-  </tr> 
-  
+  </tr>
+
   <tr>
-    <td valign="TOP">AFILIADO:</td><td><b><?php 
-      echo $Beneficiario->Componente->Grado->nombre . ' ' . $Beneficiario->Componente->descripcion . ' ' . 
+    <td valign="TOP">AFILIADO:</td><td><b><?php
+      echo $Beneficiario->Componente->Grado->nombre . ' ' . $Beneficiario->Componente->descripcion . ' ' .
       $Beneficiario->nombres . ' ' . $Beneficiario->apellidos . '<br> CEDULA DE IDENTIDAD: ' . $Beneficiario->cedula; ?></b></td>
   </tr>
- 
+
  </table><br>
  <table style="width: 700px">
   <tr>
    <td style="border: 0px solid #dddddd; text-align: justify; font-size: 16px; line-height: 1.5">
-   
+
      <!--&emsp;&emsp;Mediante la presente comunicación me dirijo a Ud., en la oportunidad de solicitar de su valiosa colaboración -->
      &emsp;&emsp;Tengo el honor de dirigirme a usted, en la oportunidad se estudie la posibilidad de solicitar de su valiosa colaboración
      <!--en sentido de elaborar un cheque por la cantidad de Bs. <?php /*echo number_format($por, 2, ',','.')*/;?>.-->
 
-     en sentido de elaborar un cheque por la cantidad de Bs. 
+     en sentido de elaborar un cheque por la cantidad de Bs.
      <?php
           if($porcentaje != 0){
             echo number_format($Beneficiario->Calculo['porcentaje'], 2, ',','.');
-                 
+
           }elseif ($monto > 0){
             echo number_format($monto, 2, ',','.');
-           } 
+           }
       ?>
      <br><br>
      <textarea style="width: 100%; height: 60px"></textarea>
-     
+
      <br>
-     &emsp;&emsp;Dicha solicitud se realiza con el fin de dar cumplimiento a la medida de embargo correspondiente al Expediente N° 
+     &emsp;&emsp;Dicha solicitud se realiza con el fin de dar cumplimiento a la medida de embargo correspondiente al Expediente N°
      <?php echo $n_expediente;?>, y notificada a través del oficio N° <?php echo $n_oficio;?>, de fecha <?php echo $fecha;?>.
      <br><br>
      &emsp;&emsp;Solicitud que le hago llegar, para su conocimiento y demas fines consiguientes.<br>
-    
+
      <center><br>
-        Atentamente 
+        Atentamente
         <br><br><b>
         CNEL. JUAN MIGUEL QUINTERO MORALES<BR>
         </b>
@@ -179,9 +179,9 @@ th {
       <textarea style="width: 100%; height: 60px"></textarea>
      <br>
 
-     EMG/<?php echo $Beneficiario->usuario_modificacion;?>
+     SHR/<?php echo $Beneficiario->usuario_modificacion;?>
    </td>
-   
+
  </tr>
  </table>
 

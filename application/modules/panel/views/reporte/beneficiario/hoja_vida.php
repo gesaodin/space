@@ -335,7 +335,7 @@ th {
               }else{$diferencia = $Beneficiario->Calculo['diferencia_AA'];
                  echo $diferencia;
               }
-            
+
           ?>
       </td>
       <td>Fecha Ultimo Dep.</td>
@@ -372,7 +372,7 @@ th {
         if($iCant > 0){
         foreach ($Beneficiario->HistorialOrdenPagos as $k => $v) {
           if($v->estatus == 100){
-            if($v->fecha<'2018-08-20'){ 
+            if($v->fecha<'2018-08-20'){
                  $tMonto +=round($v->monto/100000,2);
                  $tMontoFin += $v->monto;
 
@@ -600,9 +600,9 @@ th {
 <table>
   <tr>
     <td style="border:0px; width: 50%; text-align: center;"><b>
-      EGLIS MEDINA GARCIA<BR>
-      CNEL.<BR>
-      JEFE DEL DPTO. DE FIDEICOMISO<BR>
+      SUSAN SUSMIRA HARB RAMIREZ<BR>
+      CAP.<BR>
+      JEFA DEL DPTO. DE FIDEICOMISO<BR>
       </b>
     </td>
     <td style="border:0px; width: 50%; text-align: center;"><b>
