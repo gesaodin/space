@@ -177,10 +177,10 @@ function DescargarAportes(){
 	location.href = sUrl + 'tmp/' + _ZIP;
 }
 
-function DescargarTxt(file, tipo){
+function DescargarTxt(file, tipo, porc){
 	location.href = sUrl + 'tmp/' + file + '/' + file + '.zip';
 
-	var boton = '<button type="button" class="btn btn-warning pull-right" onclick="RegistarTxt(\'' + file + '\',' + tipo + ')">';
+	var boton = '<button type="button" class="btn btn-warning pull-right" onclick="RegistarTxt(\'' + file + '\',\'' + tipo + '\',\'' + porc + '\')">';
         boton += '<i class="fa fa-superscript"></i>&nbsp;&nbsp;Ejecutar&nbsp;&nbsp;</button>';
         boton += '<button type="button" class="btn btn-danger" onclick="continuar()">';
         boton += '<i class="glyphicon glyphicon-remove"></i>&nbsp;&nbsp;Cancelar&nbsp;&nbsp;</button>';
@@ -217,8 +217,8 @@ function cargarGrado(){
 
 
 
-function ventana(id, tipo){
-    var boton = '<button type="button" class="btn btn-success" onclick="DescargarTxt(\'' + id + '\',' + tipo + ')">';
+function ventana(id, tipo, porc){
+    var boton = '<button type="button" class="btn btn-success" onclick="DescargarTxt(\'' + id + '\',\'' + tipo + '\',\'' + porc + '\')">';
         boton += '<i class="fa fa-cloud-download"></i>&nbsp;&nbsp;Continuar&nbsp;&nbsp;</button>';
     $("#divContinuar").html(boton);
     texto = 'Descargar Archivo de Aporte';
@@ -245,7 +245,7 @@ function CGTxt(id){
 		url = sUrlP + "LoteGarantiaDiasAdicionales/" + id;
 		$.post(url, {data: JSON.stringify(dato)}, function (data){
 			console.log(data);
-			ventana(data.a, m);
+			ventana(data.a, m, parseFloat($("#porc").val()));
 		}).fail(function (err){
 			console.log(err);
 		});
@@ -254,7 +254,7 @@ function CGTxt(id){
 	}
 }
 
-function RegistarTxt(id, tipo){
+function RegistarTxt(id, tipo, porc){
 
 	$("#divContinuar").html('');
     $("#txtMensaje").html('Por favor espere mientras procesamos...');
@@ -262,7 +262,8 @@ function RegistarTxt(id, tipo){
 
 	var dato = {
 		id: id,
-		tipo: tipo
+		tipo: tipo,
+		porc: porc
 	}
 	console.log(tipo);
 

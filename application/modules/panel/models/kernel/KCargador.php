@@ -391,7 +391,7 @@ class KCargador extends CI_Model{
   *
   * @retun bool
   */
-  function GarantiasDiasAdicionales($archivo =  '',  $tipo = 0, $porce = 100){
+  function GarantiasDiasAdicionales($archivo =  '',  $tipo = 0, $porce ){
     $fecha = Date("Y-m-d");
 
     switch ($tipo) {
@@ -630,7 +630,7 @@ function listarResumen($llave, $tipo, $fecha){
   * @param int
   * @return array
   */
-  function CrearTxtMovimientos( $archivo =  '', $tipo = 0){
+  function CrearTxtMovimientos( $archivo = '', $tipo = 0, $porce){
     $fecha = Date("Y-m-d");
 
 
@@ -643,12 +643,12 @@ function listarResumen($llave, $tipo, $fecha){
 
     $r .= 'tmp/' . $archivo . '/';
     $sub = substr($archivo, 25, 33);
-
-    $file = $this->KGenerador->AperturaTXT($archivo, $sub, $tipo);
-    $fils = $this->KGenerador->AporteTXT($archivo, $sub, $tipo);
+   
+    $file = $this->KGenerador->AperturaTXT($archivo, $sub, $tipo, $porce);
+    $fils = $this->KGenerador->AporteTXT($archivo, $sub, $tipo, $porce);
     //para que se ejecute solo para dias adicionales
     //if($tipo == 1) {
-      $files = $this->KGenerador->RetiroTXT($archivo, $sub, $tipo);
+      $files = $this->KGenerador->RetiroTXT($archivo, $sub, $tipo, $porce);
     //};
 
 

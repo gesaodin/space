@@ -66,7 +66,7 @@ class KGenerador extends CI_Model{
   /**
   * Archivo de banco nuevos
   */
-  function AperturaTXT($path, $archivo, $tipo){
+  function AperturaTXT($path, $archivo, $tipo, $porce){
     $this->load->model('kernel/KSensor');
 
     $m = 36;
@@ -87,6 +87,9 @@ class KGenerador extends CI_Model{
 
               if($l[31] == 0 && $l[33] == 0 && $l[34] == 0){
                 //echo $l[0] . " -> " . $l[29] . " -> " . $l[31] . " -> " . $l[32] . "<br>";
+                if($porce < 100){
+                    $porcen = round(($l[$m] * $porce)/100,2);
+                }else{$porcen = $l[$m];}
                 $nombre = '';
                 $cedula = $this->completarCero(9, $l[0], '0');
                 $nac = 'V';
@@ -100,7 +103,7 @@ class KGenerador extends CI_Model{
                   }
                 }
                 $campo = $this->completarCero(26, "0", "0");
-                $monto = $l[$m] * 100;
+                $monto = $porcen * 100;
                 $monto_s = $this->completarCero(13, $monto, '0');
                 $ganancia = '0';
                 $numeroyubicacion = $this->completarCero(15, " ", " ");
@@ -139,7 +142,7 @@ class KGenerador extends CI_Model{
   * Archivo de banco viejos
   */
 
-  function AporteTXT($path, $archivo, $tipo){
+  function AporteTXT($path, $archivo, $tipo, $porce){
     $this->load->model('kernel/KSensor');
 
     $m = 36;
@@ -159,13 +162,15 @@ class KGenerador extends CI_Model{
           if($sum > 0){
               $l = explode(";", $buffer);
               if($l[31] > 0 ||  $l[33] > 0 || $l[34] > 0){
-
+                if($porce < 100){
+                    $porcen = round(($l[$m] * $porce)/100,2);
+                }else{$porcen = $l[$m];}
                 $nac = 'V';
                 $cedula = $this->completarCero(9, $l[0], '0');
                 $tiptrn = '1';
                 $tippre = '00';
                 $frmpgo = '0';
-                $monto = $l[$m] * 100;
+                $monto = $porcen * 100;
                 $monto_s = $this->completarCero(13, $monto, '0');
                 $tippta = 'N';
                 $tipcue = '0';
@@ -197,7 +202,7 @@ class KGenerador extends CI_Model{
     );
   }
 
-  function RetiroTXT($path, $archivo, $tipo){
+  function RetiroTXT($path, $archivo, $tipo, $porce){
     $this->load->model('kernel/KSensor');
 
     $m = 37;

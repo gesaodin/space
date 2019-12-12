@@ -493,7 +493,7 @@ class Panel extends MY_Controller {
 			echo json_encode('Está intentando acceder en un área restringida.');
 		}else{
 			$this->load->model("kernel/KCargador");
-			$respuesta = $this->KCargador->CrearTxtMovimientos($data->id, $data->tipo);	
+			$respuesta = $this->KCargador->CrearTxtMovimientos($data->id, $data->tipo, $data->porc);	
 			echo json_encode($this->KCargador->Resultado);
 		}
 		
@@ -506,10 +506,11 @@ class Panel extends MY_Controller {
 	function Apert(){
 		//header('Content-Type: application/json');
 		$this->load->model("kernel/KCargador");
-		$respuesta = $this->KCargador->CrearTxtMovimientos('Ga9e84a49c765405bcdc6696f8f400a2b', 1);	
+		$respuesta = $this->KCargador->CrearTxtMovimientos('A93d2cd0a2174f080551cf75ba2fb8cf2', 2, 50);	
 		//$this->load->model("kernel/KGenerador");
-		//$respuesta = $this->KGenerador->AperturaTXT('G920d88b208a3b4380a31aa42c2f988d8', 'c2f988d8', 0);
-		echo json_encode($respuesta);
+		//$respuesta = $this->KGenerador->AporteTXT('A93d2cd0a2174f080551cf75ba2fb8cf2', 'a2fb8cf2', 2, 50);
+		echo json_encode($this->KCargador->Resultado);
+		//echo json_encode($respuesta);
 	}
 
 
