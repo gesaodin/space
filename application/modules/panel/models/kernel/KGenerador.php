@@ -86,7 +86,6 @@ class KGenerador extends CI_Model{
               $l = explode(";", $buffer);
 
               if($l[31] == 0 && $l[33] == 0 && $l[34] == 0){
-                //echo $l[0] . " -> " . $l[29] . " -> " . $l[31] . " -> " . $l[32] . "<br>";
                 if($porce < 100){
                     $porcen = round(($l[$m] * $porce)/100,2);
                 }else{$porcen = $l[$m];}
@@ -161,6 +160,7 @@ class KGenerador extends CI_Model{
         while (($buffer = fgets($handle, 4096)) !== false) {
           if($sum > 0){
               $l = explode(";", $buffer);
+              if(($tipo == 2 && $l[7] > 0) || ($tipo == 1 && $l[7] > 0) || $tipo == 0){
               if($l[31] > 0 ||  $l[33] > 0 || $l[34] > 0){
                 if($porce < 100){
                     $porcen = round(($l[$m] * $porce)/100,2);
@@ -185,6 +185,7 @@ class KGenerador extends CI_Model{
                 fputs($file,"\r\n");
                 $cantidad++;
               }
+            }
           }
           $sum++;
 
@@ -219,15 +220,16 @@ class KGenerador extends CI_Model{
           if($sum > 0){
               $l = explode(";", $buffer);
 
-            if($tipo == 1) {
-          //if($l[31] > 0 ||  $l[33] > 0 || $l[34] > 0){
-
+            if($tipo == 1 && $l[7] > 0){
+                if($porce < 100){
+                    $porcen = round(($l[$m] * $porce)/100,2);
+                }else{$porcen = $l[$m];}
                 $nac = 'V';
                 $cedula = $this->completarCero(9, $l[0], '0');
                 $tiptrn = '3';
                 $tippre = '00';
                 $frmpgo = 'A';
-                $monto = $l[$m] * 100;
+                $monto = $porcen * 100;
                 $monto_s = $this->completarCero(13, $monto, '0');
                 $tippta = ' ';
                 $tipcue = '0';
