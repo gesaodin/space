@@ -142,6 +142,37 @@ class Panel extends MY_Controller {
 
 	}
 
+	public function ConsultarArchivoAporte(){
+		print("pasando");
+		$this->load->model("kernel/KCargador");
+		$data['Archivos'] = $this->KCargador->ConsultarArchivoAporte();
+		
+
+	}
+
+    public function actualizaraporte(){
+    	$this->load->model("kernel/KCargador");
+		$data['Archivos'] = $this->KCargador->ConsultarArchivoAporte();
+    	$this->load->view("menu/beneficiario/actualizaraporte",$data);
+	}
+
+    public function actualizarMovimiento($llave,$tipo,$fecha){
+		$this->load->model("kernel/KCargador");
+		$this->KCargador->actualizarMovimiento($llave,$tipo,$fecha);
+	}
+
+    public function actualizarRechazos($cedula,$llave){
+    	$this->load->model("kernel/KCargador");
+		$this->KCargador->actualizarRechazos($cedula,$llave);
+		echo json_encode($this->KCargador->Resultado);
+	}
+
+	public function actualizarFecha($fecha, $llave){
+		$this->load->model("kernel/KCargador");
+		$this->KCargador->actualizarFecha($fecha, $llave);
+	    echo json_encode($this->KCargador->Resultado);
+	}
+
 
 	public function interesescaidos(){
 		$this->load->view("menu/calculos/interesescaidos");
@@ -395,11 +426,12 @@ class Panel extends MY_Controller {
 
 	public function GenerarCalculoAporteCapital(){
 		//ini_set('memory_limit', '1024M');
+
 		header('Content-Type: application/json');
-		$this->load->model('kernel/KSensor');
+		/*$this->load->model('kernel/KSensor');
 		$fecha = date('d/m/Y H:i:s');
 		$firma = md5($fecha);
-		$data = json_decode($_POST['data']);
+		$data = json_decode($_POST['data']);*/
 		//print_r($data);
 		
 		$this->load->model('kernel/KCargador');	
@@ -1002,7 +1034,7 @@ class Panel extends MY_Controller {
 	public function rechazarAnticipo(){
 		$this->load->model('beneficiario/MOrdenPago');
 		$json = json_decode($_POST['data']);
-		//print_r($json);
+		print_r($json);
 		$this->MOrdenPago->estatus = 102;
 		$this->MOrdenPago->id = $json->id;
 		$this->MOrdenPago->rechazar();
