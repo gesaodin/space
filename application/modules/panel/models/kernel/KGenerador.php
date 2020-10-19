@@ -161,7 +161,7 @@ class KGenerador extends CI_Model{
           if($sum > 0){
               $l = explode(";", $buffer);
               if(($tipo == 2 && $l[7] > 0) || ($tipo == 1 && $l[7] > 0) || $tipo == 0){
-              if($l[31] > 0 ||  $l[33] > 0 || $l[34] > 0){
+              if($l[$m] > 0 ||  $l[$m] > 0 || $l[$m] > 0){
                 if($porce < 100){
                     $porcen = round(($l[$m] * $porce)/100,2);
                 }else{$porcen = $l[$m];}
