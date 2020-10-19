@@ -48,6 +48,7 @@ function limpiar(){
     
 }
 
+<<<<<<< HEAD
 /*function actualizar(id){
     var boton = '<button type="button" class="btn btn-danger pull-right" onclick="continuar()">';
             boton += '<i class="glyphicon glyphicon-ok"></i>&nbsp;&nbsp;No</button>';
@@ -59,6 +60,8 @@ function limpiar(){
     $("#logMensaje").modal('show');
     $("#controles").hide();
   }*/
+=======
+>>>>>>> dbafbb890182489424b2af32fa1a5761e2e9f870
 
 function actualizar(){
 
