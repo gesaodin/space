@@ -516,34 +516,7 @@ class KCargador extends CI_Model{
     return $arr;
   }
 
-  function ConsultarArchivoAporte(){
-    $s = 'SELECT *  FROM  space.archivos WHERE esta=2 and oid=(select max(oid) from space.archivos WHERE esta=2)';
-
-    $obj = $this->DBSpace->consultar($s);
-    $arr = array();
-    if($obj->code == 0 ){
-      foreach ($obj->rs as $clv => $val) {
-
-
-        $arr[] = array(
-          'id' => $val->arch,
-          'tipo' => $val->tipo,
-          'tipotexto' => $this->tipoMovimiento($val->tipo),
-          'fecha' => $val->fech,
-          'peso' => $val->peso,
-          'usuario' => $val->usua,
-          'registro' => $val->regi,
-          'aporte' => $val->apor,
-          'apertura' => $val->aper,
-          'retiro' => $val->reti,
-          'sub' => $sub = substr($val->arch, 24, 33)
-        );
-      }
-    }
-   
-    return $arr;
-  }
-
+  
   function ConsultarArchivoAporte(){
     $s = 'SELECT *  FROM  space.archivos WHERE esta=2 and oid=(select max(oid) from space.archivos WHERE esta=2)';
 
@@ -655,7 +628,7 @@ function listarResumen($llave, $tipo, $fecha){
   return $table . $fila . $total . $imprimir;
 }
 
-<<<<<<< HEAD
+
  function totalActualizados($llave, $tipo, $fecha){
 
   $sConsulta = '
@@ -714,9 +687,7 @@ function listarResumen($llave, $tipo, $fecha){
 
   return $table . $fila . $total;
 }
-=======
-  
->>>>>>> dbafbb890182489424b2af32fa1a5761e2e9f870
+
 
   /**
   * Crear Txt Para los bancos e insertar movimientos
@@ -763,10 +734,7 @@ function listarResumen($llave, $tipo, $fecha){
 
     $rs = $this->DBSpace->consultar($sUpdate);
 
-<<<<<<< HEAD
-    
-=======
->>>>>>> dbafbb890182489424b2af32fa1a5761e2e9f870
+
     $this->Resultado = array(
       'a' => $archivo,
       'aper' =>  'APERT' . $sub . '.zip',
@@ -780,11 +748,10 @@ function listarResumen($llave, $tipo, $fecha){
     );
     return $this->Resultado;
 
-<<<<<<< HEAD
+
  }
 
-=======
->>>>>>> dbafbb890182489424b2af32fa1a5761e2e9f870
+
 public function actualizarFecha($fecha, $llave){
   $this->load->model('comun/DBSpace');
 
@@ -792,7 +759,7 @@ public function actualizarFecha($fecha, $llave){
   set f_contable =\'' . $fecha . '\'
   WHERE codigo=\'' . $llave . '\';';
  
-<<<<<<< HEAD
+
   echo $sConsulta;
   
   $rs = $this->DBSpace->consultar($sConsulta);
@@ -801,50 +768,27 @@ public function actualizarFecha($fecha, $llave){
       'fecha' => $f_contable
     );
   return $this->Res;
-=======
-  //echo $sConsulta;
-  
-  $rs = $this->DBSpace->consultar($sConsulta);
-  $this->Resultado = array(
-      'llave'  => $llave,
-      'fecha' => $f_contable
-    );
-  return $this->Resultado;
->>>>>>> dbafbb890182489424b2af32fa1a5761e2e9f870
 
 }
 
 public function actualizarRechazos($cedula,$llave){
   $this->load->model('comun/DBSpace');
-<<<<<<< HEAD
-  
 
-  $sConsulta = 'UPDATE public.movimiento
-  set tipo_movimiento_id =99
-=======
   $descripcion = 'MOVIMIENTO DE RECHAZO EN BANCO';  
 
   $sConsulta = 'UPDATE public.movimiento
   set tipo_movimiento_id =99,
       observ_ult_modificacion=\'' . $descripcion . '\'
->>>>>>> dbafbb890182489424b2af32fa1a5761e2e9f870
   WHERE cedula=\'' . $cedula . '\'  AND  codigo=\'' . $llave . '\';';
   
 
   $rs = $this->DBSpace->consultar($sConsulta);
-<<<<<<< HEAD
+
   $this->Res2 = array(
       'cedula' => $cedula,
       'llave'  => $codigo
       );
     return $this->Res2;
-=======
-  $this->Resultado = array(
-      'cedula' => $cedula,
-      'llave'  => $codigo
-      );
-    return $this->Resultado;
->>>>>>> dbafbb890182489424b2af32fa1a5761e2e9f870
 
 }
 
@@ -866,18 +810,14 @@ public function actualizarRechazos($cedula,$llave){
         break;
   }
   
-<<<<<<< HEAD
- $sConsulta = 'UPDATE public.movimiento
-=======
+
   $sConsulta = 'UPDATE public.movimiento
->>>>>>> dbafbb890182489424b2af32fa1a5761e2e9f870
   set tipo_movimiento_id = ' . $movimiento . ',
       observaciones =\'' . $descripcion . '\',
       f_contable =\'' . substr($fecha, 0, 10) . '\'
   WHERE codigo=\'' . $llave . '\'';
 
-<<<<<<< HEAD
-  //*echo $sConsulta;
+
   $rs = $this->DBSpace->consultar($sConsulta);
   
   $sConsulta2 = 'UPDATE space.archivos
@@ -887,20 +827,6 @@ public function actualizarRechazos($cedula,$llave){
   //echo $sConsulta2;
   $rs2 = $this->DBSpace->consultar($sConsulta2);
  
-=======
-  //echo $sConsulta;
-  $rs = $this->DBSpace->consultar($sConsulta);
-  
-  /*
-  $this->Resultado = array(
-      'tipo_movimiento_id' => $movimiento,
-      'observaciones' => $descripcion,
-      'f_contable' => $fecha
-    );
-
-  return $this->Resultado;*/
->>>>>>> dbafbb890182489424b2af32fa1a5761e2e9f870
-  
   }
 
 

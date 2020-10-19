@@ -159,11 +159,7 @@ class Panel extends MY_Controller {
     public function actualizarMovimiento($llave,$tipo,$fecha){
 		$this->load->model("kernel/KCargador");
 		$this->KCargador->actualizarMovimiento($llave,$tipo,$fecha);
-<<<<<<< HEAD
-		$data = $this->KCargador->totalActualizados($llave,$tipo,$fecha);
-		echo $data;
-=======
->>>>>>> dbafbb890182489424b2af32fa1a5761e2e9f870
+
 	}
 
     public function actualizarRechazos($cedula,$llave){
