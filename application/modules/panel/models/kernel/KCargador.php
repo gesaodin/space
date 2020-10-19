@@ -159,7 +159,7 @@ class KCargador extends CI_Model{
     $this->load->model('kernel/KPerceptron'); //Red Perceptron Aprendizaje de patrones
     $file = fopen("tmp/" . $archivo . ".csv","a") or die("Problemas");
     //$file_log = fopen("tmp/" . $archivo . ".log","a") or die("Problemas");
-    
+
     $linea  = 'CEDULA;CODGRA;GRADO;CODFZA;COMPONENTE;APELLIDOS Y NOMBRES;FECHA DE INGRESO;';
     $linea .= 'TIEMPO DE SERVICIO;NUMERO DE HIJOS;FECHA ULTIMO ASCENSO;TIEMPO DE SERVICIO EN EL GRADO;SUELDO BASICO;';
     $linea .= 'FACTOR PRIMA TRANSPORTE;PRIMA TRANSPORTE;PRIMA TIEMPO DE SERVICIO;';
@@ -490,35 +490,7 @@ class KCargador extends CI_Model{
 
 
   function ConsultarArchivos(){
-    $s = 'SELECT * FROM  space.archivos WHERE esta in (2,3)';
-    $obj = $this->DBSpace->consultar($s);
-    $arr = array();
-    
-    if($obj->code == 0 ){
-      foreach ($obj->rs as $clv => $val) {
-
-
-        $arr[] = array(
-          'id' => $val->arch,
-          'tipo' => $val->tipo,
-          'tipotexto' => $this->tipoMovimiento($val->tipo),
-          'fecha' => $val->fech,
-          'peso' => $val->peso,
-          'usuario' => $val->usua,
-          'registro' => $val->regi,
-          'aporte' => $val->apor,
-          'apertura' => $val->aper,
-          'retiro' => $val->reti,
-          'sub' => $sub = substr($val->arch, 24, 33)
-        );
-      }
-    }
-    return $arr;
-  }
-
-  function ConsultarArchivoAporte(){
-    $s = 'SELECT *  FROM  space.archivos WHERE esta=2 and oid=(select max(oid) from space.archivos WHERE esta=2)';
-
+    $s = 'SELECT * FROM  space.archivos WHERE esta=2';
     $obj = $this->DBSpace->consultar($s);
     $arr = array();
     if($obj->code == 0 ){
@@ -540,7 +512,6 @@ class KCargador extends CI_Model{
         );
       }
     }
-   
     return $arr;
   }
 
@@ -627,64 +598,30 @@ function listarResumen($llave, $tipo, $fecha){
   return $table . $fila . $total . $imprimir;
 }
 
- function totalActualizados($llave, $tipo, $fecha){
+  /*
+  *
+    DROP TABLE space.archivos;
+    CREATE TABLE space.archivos(
+      oid serial NOT NULL,
+      arch character varying(128) NOT NULL,
+      tipo integer,
+      peso character varying(16) NOT NULL,
+      cert character varying(128) NOT NULL,
+      regi integer,
+      usua character varying(64) NOT NULL,
+      fech timestamp without time zone,
+      gara numeric,
+      diaa numeric,
+      asig numeric,
+      esta integer,
+      aper numeric,
+      apor numeric,
+      reti numeric,
+      CONSTRAINT archivos_pkey PRIMARY KEY (oid)
+    );
 
-  $sConsulta = '
-  SELECT tb.cod, cmp.nombre, monto, cantidad  FROM (
-  SELECT b.componente_id as cod,
-  COUNT(*) As cantidad, SUM(monto) As monto  FROM  movimiento a, beneficiario b
-  WHERE a.cedula=b.cedula AND codigo=\'' . $llave . '\'
-  GROUP BY cod
-  ORDER BY cod ) AS tb
-  JOIN componente cmp ON cmp.id = tb.cod
-  ORDER BY cmp.id
-  ';
+  */
 
-  //print_r($sConsulta);
-  $obj = $this->DBSpace->consultar($sConsulta);
-  $suma = 0;
-  $cantidad = 0;
-  $fila = '';
-  $total = '';
-  $descripcion = '';
-  $fecha = substr($fecha, 0, 10);
-  $f =  explode('-',$fecha);
-
-  switch ($tipo) {
-      case 0:
-        $descripcion = 'TOTAL REGISTROS ACTUALIZADOS GARANTIAS ';
-        break;
-      case 1:
-        $descripcion = 'TOTAL REGISTROS ACTUALIZADOS DIAS ADICIONALES ';
-        break;
-      case 2:
-        $descripcion = 'TOTAL REGISTROS ACTUALIZADOS ASIGNACION DE ANTIGUEDAD ';
-        break;
-  }
-
-  $table = "<CENTER><tr style='height:50px; background-color: #dddddd'><br><br><br><td  style='text-align: center;'><b>" .   $descripcion . $f[2] . "-" . $f[1] . "-" . $f[0] . "</b></td></br></br></br></tr><TABLE style=width:40%  cellspacing='0' border=1 celladding='0' ><tr style='height:50px; background-color: #dddddd'><td  style='text-align: center;'><b>CODIGO</b></td><td style='text-align: center;'><b>COMPONENTE</b></td><td style='text-align: center;'><b>CANTIDAD</b></td><td style='text-align: center;'><b>MONTO</b></td></tr>";
-
-  if($obj->code == 0 ){
-      foreach ($obj->rs as $clv => $val) {
-
-        $fila .= '<tr style="height:50px"><td style="text-align: center;">' . $val->cod . '</td><td>' . $val->nombre . '</td><td style="text-align: right;">' . number_format($val->cantidad, 0, ',','.') . '</td><td style="text-align: right;">' .
-        number_format($val->monto, 2, ',','.') . '</td></tr>';
-        $suma += $val->monto;
-        $cantidad += $val->cantidad;
-      }
-      $total = '<tr style="background-color: #dddddd;"><td></td><td style="height:50px;"><b>TOTAL</b></td><td style="text-align: right;"><b>' . number_format($cantidad, 0, ',','.') . '</b></td><td style="text-align: right;"><b>' . number_format($suma, 2, ',','.') . '</b></td></tr></table></CENTER>';
-
-      $imprimir = '<br><br><center><button onclick="imprimir()" id="btnPrint">Imprimir Resumen</button></center>
-          <script language="Javascript">
-              function imprimir(){
-                  document.getElementById("btnPrint").style.display = "none";
-                  window.print();
-                  window.close();
-              }</script>';
-  }
-
-  return $table . $fila . $total;
-}
 
   /**
   * Crear Txt Para los bancos e insertar movimientos
@@ -731,7 +668,7 @@ function listarResumen($llave, $tipo, $fecha){
 
     $rs = $this->DBSpace->consultar($sUpdate);
 
-    
+
     $this->Resultado = array(
       'a' => $archivo,
       'aper' =>  'APERT' . $sub . '.zip',
@@ -744,81 +681,67 @@ function listarResumen($llave, $tipo, $fecha){
       'creti' => $files['c']
     );
     return $this->Resultado;
+  }
 
- }
 
-public function actualizarFecha($fecha, $llave){
-  $this->load->model('comun/DBSpace');
+  function actualizarMovimiento($llave, $tipo, $fecha){
 
-  $sConsulta = 'UPDATE public.movimiento
-  set f_contable =\'' . $fecha . '\'
-  WHERE codigo=\'' . $llave . '\';';
- 
-  echo $sConsulta;
-  
-  $rs = $this->DBSpace->consultar($sConsulta);
-  $this->Res = array(
-      'llave'  => $llave,
-      'fecha' => $f_contable
-    );
-  return $this->Res;
+  $sConsulta = '
+  SELECT tb.cod, cmp.nombre, monto, cantidad  FROM (
+  SELECT b.componente_id as cod,
+  COUNT(*) As cantidad, SUM(monto) As monto  FROM  movimiento a, beneficiario b
+  WHERE a.cedula=b.cedula AND codigo=\'' . $llave . '\'
+  GROUP BY cod
+  ORDER BY cod ) AS tb
+  JOIN componente cmp ON cmp.id = tb.cod
+  ORDER BY cmp.id
+  ';
 
-}
-
-public function actualizarRechazos($cedula,$llave){
-  $this->load->model('comun/DBSpace');
-  
-
-  $sConsulta = 'UPDATE public.movimiento
-  set tipo_movimiento_id =99
-  WHERE cedula=\'' . $cedula . '\'  AND  codigo=\'' . $llave . '\';';
-  
-
-  $rs = $this->DBSpace->consultar($sConsulta);
-  $this->Res2 = array(
-      'cedula' => $cedula,
-      'llave'  => $codigo
-      );
-    return $this->Res2;
-
-}
-
-  function actualizarMovimiento($llave,$tipo,$fecha){
-  $this->load->model('comun/DBSpace');
+  //print_r($sConsulta);
+  $obj = $this->DBSpace->consultar($sConsulta);
+  $suma = 0;
+  $cantidad = 0;
+  $fila = '';
+  $total = '';
+  $descripcion = '';
+  $fecha = substr($fecha, 0, 10);
+  $f =  explode('-',$fecha);
 
   switch ($tipo) {
-      case 0: 
-        $movimiento = 32;
-        $descripcion = 'DEPOSITO DE GARANTIAS ';
+      case 0:
+        $descripcion = 'RESUMEN DE GARANTIAS ';
         break;
       case 1:
-        $movimiento = 31;
-        $descripcion = 'DEPOSITO DE DIAS ADICIONALES ';
+        $descripcion = 'RESUMEN DE DIAS ADICIONALES ';
         break;
       case 2:
-        $movimiento = 3;
-        $descripcion = 'DEPOSITO ASIGNACION DE ANTIGUEDAD ';
+        $descripcion = 'RESUMEN ASIGNACION DE ANTIGUEDAD ';
         break;
   }
-  
- $sConsulta = 'UPDATE public.movimiento
-  set tipo_movimiento_id = ' . $movimiento . ',
-      observaciones =\'' . $descripcion . '\',
-      f_contable =\'' . substr($fecha, 0, 10) . '\'
-  WHERE codigo=\'' . $llave . '\'';
 
-  //*echo $sConsulta;
-  $rs = $this->DBSpace->consultar($sConsulta);
-  
-  $sConsulta2 = 'UPDATE space.archivos
-                set esta=3 
-  WHERE esta=2';
+  $table = "<CENTER><tr style='height:50px; background-color: #dddddd'><br><br><br><td  style='text-align: center;'><b>" .   $descripcion . $f[2] . "-" . $f[1] . "-" . $f[0] . "</b></td></br></br></br></tr><TABLE style=width:40%  cellspacing='0' border=1 celladding='0' ><tr style='height:50px; background-color: #dddddd'><td  style='text-align: center;'><b>CODIGO</b></td><td style='text-align: center;'><b>COMPONENTE</b></td><td style='text-align: center;'><b>CANTIDAD</b></td><td style='text-align: center;'><b>MONTO</b></td></tr>";
 
-  //echo $sConsulta2;
-  $rs2 = $this->DBSpace->consultar($sConsulta2);
- 
-  
+  if($obj->code == 0 ){
+      foreach ($obj->rs as $clv => $val) {
+
+        $fila .= '<tr style="height:50px"><td style="text-align: center;">' . $val->cod . '</td><td>' . $val->nombre . '</td><td style="text-align: right;">' . number_format($val->cantidad, 0, ',','.') . '</td><td style="text-align: right;">' .
+        number_format($val->monto, 2, ',','.') . '</td></tr>';
+        $suma += $val->monto;
+        $cantidad += $val->cantidad;
+      }
+      $total = '<tr style="background-color: #dddddd;"><td></td><td style="height:50px;"><b>TOTAL</b></td><td style="text-align: right;"><b>' . number_format($cantidad, 0, ',','.') . '</b></td><td style="text-align: right;"><b>' . number_format($suma, 2, ',','.') . '</b></td></tr></table></CENTER>';
+
+      $imprimir = '<br><br><center><button onclick="imprimir()" id="btnPrint">Imprimir Resumen</button></center>
+          <script language="Javascript">
+              function imprimir(){
+                  document.getElementById("btnPrint").style.display = "none";
+                  window.print();
+                  window.close();
+              }</script>';
   }
+
+  return $table . $fila . $total . $imprimir;
+}
 
 
 
