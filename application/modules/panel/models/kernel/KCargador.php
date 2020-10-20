@@ -145,14 +145,13 @@ class KCargador extends CI_Model{
 
     $con = $this->DBSpace->consultar($sConsulta);
 
-    echo $sConsulta;
+    //echo $sConsulta;
     $this->asignarBeneficiario($con->rs, $arr->id, $fecha, $archivo, $autor);
 
     $this->evaluarLotesLinuxComando($archivo,  $arr->sit);
   }
 
-
-  private function asignarBeneficiario($obj, $id, $fecha, $archivo, $autor){
+private function asignarBeneficiario($obj, $id, $fecha, $archivo, $autor){
     $this->load->model('kernel/KCalculoLote');
     $this->load->model('kernel/KDirectiva');
     $Directivas = $this->KDirectiva->Cargar($id); //Directivas
@@ -193,8 +192,7 @@ class KCargador extends CI_Model{
     return true;
   }
 
-
-
+   
   /**
   * Generar Codigos por Patrones en la Red de Inteligencia
   *
