@@ -73,7 +73,7 @@ class KCargador extends CI_Model{
     $this->load->model('comun/DBSpace');
 
     $rs = $this->DBSpace->consultar(
-            "select a.cedula,tipo_movimiento_id,case when f_contable<'2018-08-20' then round(monto/100000,2) else monto end as monto into temp mov from movimiento a,beneficiario b where a.cedula=b.cedula;
+            "select a.cedula,tipo_movimiento_id,case when f_contable<'2018-08-20' then round(monto/100000,2) else monto end as monto into temp mov from movimiento a,beneficiario b where a.cedula=b.cedula and b.status_id=201;
             DROP TABLE IF EXISTS space.tablacruce;
             CREATE TABLE space.tablacruce AS SELECT * FROM space.crosstab(
               'SELECT C.cedula, C.id, COALESCE(sum(monto),0)AS monto FROM (
