@@ -189,7 +189,7 @@
       <br><br><br><br><br><br>
       <br><br><br><br><br><br>
       <br><br><br><br>
-      <center><b>RENIER ENRIQUE URBAEZ FERMIN<BR>
+      <center><b>ENRIQUE JOSÉ AROCHA RIVAS<BR>
                  GENERAL DE DIVISION<BR>
                 PRESIDENTE DEL I.P.S.F.A<B><center>
       </td>
