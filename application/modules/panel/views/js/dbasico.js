@@ -57,17 +57,31 @@ function consultar() {
             20-08-2018 O CON ASIGNACION SIN RECONVERTIR PARA FINIQUITOS CON FECHA MENOR 20-08-2018*/
             if(data.fecha_retiro != null && data.fecha_retiro != '') {
                 if(data.fecha_retiro < '2018-08-20' && data.fecha_ultima_modificacion >= '2018-08-20') {
+                    
+                    /*se retiro despues de 082018 pero con resuelto menor a la fecha*/
                     $("#asignacion_antiguedad").val(data.Calculo.asignacion_antiguedad_rec);
                     $("#asignacion_antiguedad_aux").val(data.Calculo.asignacion_antiguedad_rec_aux);
+
                 }else if(data.fecha_retiro < '2018-08-20' && data.fecha_ultima_modificacion < '2018-08-20'){
+                   /*se retiro antes de 082018 con resuelto antes a la fecha NO SE RECONVIERTE PORQUE SUELDO ESTA RECONVERTIDO*/
+
                     $("#asignacion_antiguedad").val(data.Calculo.asignacion_antiguedad_fin);
                     $("#asignacion_antiguedad_aux").val(data.Calculo.asignacion_antiguedad_fin_aux);
-                }else if(data.fecha_retiro >= '2018-08-20' && data.fecha_ultima_modificacion >= '2018-08-20'){
-                    $("#asignacion_antiguedad").val(data.Calculo.asignacion_antiguedad_fin);
-                }
+               
+                }else if(data.fecha_retiro < '2021-10-01' && data.fecha_ultima_modificacion >= '2021-10-01'){
+                  /*se retiro despues de 102021 con resuelto mnonor a la fecha SE RECONVIERTE */
+                    $("#asignacion_antiguedad").val(data.Calculo.asignacion_antiguedad_rec2);
+                    $("#asignacion_antiguedad_aux").val(data.Calculo.asignacion_antiguedad_rec2_aux);
+             
+             
+                }else if(data.fecha_retiro >= '2021-10-01' && data.fecha_ultima_modificacion >= '2021-10-01'){
+                  /*se retiro despues de 082018 con resuelto despues a la fecha  NO SE RECONVIERTE PORQUE SUELDO ESTA RECONVERTIDO*/
+
+                    $("#asignacion_antiguedad").val(data.Calculo.asignacion_antiguedad_fin);}
+                
             }else{
-                $("#asignacion_antiguedad").val(data.Calculo.asignacion_antiguedad);
-            }
+                $("#asignacion_antiguedad").val(data.Calculo.asignacion_antiguedad);}
+
             $("#capital_banco").val(data.Calculo.capital_banco);
             $("#garantias").val(data.Calculo.garantias);
             $("#dias_adicionales").val(data.Calculo.dias_adicionales);
@@ -82,11 +96,31 @@ function consultar() {
                 if(data.fecha_retiro < '2018-08-20' && data.fecha_ultima_modificacion >= '2018-08-20') {
                     $("#diferencia_AA").val(data.Calculo.asignacion_diferencia_rec);
                     $("#saldo_disponible").val('0');
-                }else{
+                }
+
+                else if(data.fecha_retiro < '2018-08-20' && data.fecha_ultima_modificacion < '2018-08-20'){
+                   /*se retiro antes de 082018 con resuelto antes a la fecha NO SE RECONVIERTE PORQUE SUELDO ESTA RECONVERTIDO*/
+
                     $("#diferencia_AA").val(data.Calculo.asignacion_diferencia);
                     $("#saldo_disponible").val('0');
                 }
-            }else{ $("#diferencia_AA").val(data.Calculo.diferencia_AA);}
+
+                else if(data.fecha_retiro < '2021-10-01' && data.fecha_ultima_modificacion >= '2021-10-01'){
+                    /*se retiro despues de 102021 con resuelto mnonor a la fecha SE RECONVIERTE */
+
+                    $("#diferencia_AA").val(data.Calculo.asignacion_diferencia_rec2);
+                    $("#saldo_disponible").val('0');
+                }   
+
+                else if(data.fecha_retiro >= '2021-10-01' && data.fecha_ultima_modificacion >= '2021-10-01'){
+                    /*se retiro despues de 082018 con resuelto despues a la fecha  NO SE RECONVIERTE PORQUE SUELDO ESTA RECONVERTIDO*/
+
+                    $("#diferencia_AA").val(data.Calculo.diferencia_AA);
+                    $("#saldo_disponible").val('0');
+                }
+
+            }else{
+                $("#diferencia_AA").val(data.Calculo.diferencia_AA);}
 
             $("#fecha_ultimo_deposito").val(data.Calculo.fecha_ultimo_deposito);
             $("#fecha_ultimo_anticipo").val(data.Calculo.fecha_ultimo_anticipo);

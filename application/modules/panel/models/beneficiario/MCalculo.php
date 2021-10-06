@@ -58,6 +58,7 @@ class MCalculo extends CI_Model{
     $this->AsignacionAntiguedad();
     $this->AsignacionFiniquito(); //se agrego rutina para calcular AA para finiquito
     $this->AsignacionFiniquitoReconversion(); //se agrego rutina para calcular AA para finiquito reconvertida
+    $this->AsignacionFiniquitoReconversion2(); //se agrego rutina para calcular AA para finiquito reconvertida
 
     $monto = isset($this->Beneficiario->MedidaJudicial[1])? $this->Beneficiario->MedidaJudicial[1]->monto : 0;
     $porcentaje = isset($this->Beneficiario->MedidaJudicial[1])? $this->Beneficiario->MedidaJudicial[1]->porcentaje : 0;
@@ -75,6 +76,8 @@ class MCalculo extends CI_Model{
       'asignacion_antiguedad_aux' => $this->Beneficiario->asignacion_antiguedad,
       'asignacion_antiguedad_rec' => number_format($this->Beneficiario->asignacion_antiguedad_rec, 2, ',','.'),
       'asignacion_antiguedad_rec_aux' => $this->Beneficiario->asignacion_antiguedad_rec,
+      'asignacion_antiguedad_rec2' => number_format($this->Beneficiario->asignacion_antiguedad_rec2, 2, ',','.'),
+      'asignacion_antiguedad_rec2_aux' => $this->Beneficiario->asignacion_antiguedad_rec2,
       'capital_banco' => number_format($this->DepositoBanco(), 2, ',','.'),
       'capital_banco_aux' => $this->DepositoBanco(),
       'asignacion_depositada' => number_format($this->Asignacion_Depositada(), 2, ',','.'),
@@ -105,6 +108,8 @@ class MCalculo extends CI_Model{
       // Se agregaron estas variables para mostrar la diferencia de asignacion reconvertida
       'asignacion_diferencia_rec' => number_format($this->Asignacion_Diferencia_rec(), 2, ',','.'),
       'asignacion_diferencia_rec_aux' => $this->Asignacion_Diferencia_rec(),
+      'asignacion_diferencia_rec2' => number_format($this->Asignacion_Diferencia_rec2(), 2, ',','.'),
+      'asignacion_diferencia_rec2_aux' => $this->Asignacion_Diferencia_rec2(),
       // se cambion para que mostrara el monto de comision de servicio
       'comision_servicios' => number_format($this->ComisionServicio(), 2, ',','.'),
       'comision_servicios_aux' => $this->ComisionServicio(),
@@ -464,7 +469,15 @@ public function AlicuotaVacaciones($sueldo_global = 0){
     $this->Beneficiario->asignacion_antiguedad_rec_aux = number_format($this->Beneficiario->asignacion_antiguedad_rec, 2, ',','.');
     return $this->Beneficiario->asignacion_antiguedad_rec;
   }
-   /**
+
+  public function AsignacionFiniquitoReconversion2(){
+    $this->Beneficiario->asignacion_antiguedad_fin = $this->Beneficiario->sueldo_integral * $this->Beneficiario->tiempo_servicio_aux;
+    $this->Beneficiario->asignacion_antiguedad_rec2 = round(($this->Beneficiario->asignacion_antiguedad_fin/1000000),2);
+    $this->Beneficiario->asignacion_antiguedad_rec2_aux = number_format($this->Beneficiario->asignacion_antiguedad_rec2, 2, ',','.');
+    return $this->Beneficiario->asignacion_antiguedad_rec2;
+   }
+
+    /**
   * Comision de Servicio
   * CODIGO MOVIMIENTO: 28
   *
@@ -766,6 +779,25 @@ public function AlicuotaVacaciones($sueldo_global = 0){
 
     return $valor;
   }
+
+  /**
+  * Diferencia Asignacion reconvertida
+  * para Finiquito con directivas anteriores
+  * al 01-10-2021 en adelante
+  *
+  * @access public
+  * @return double
+  */
+
+ public function Asignacion_Diferencia_rec2(){
+    //$resta = $this->AsignacionAntiguedad() - $this->Total_Aportados(); NO
+    $resta = $this->AsignacionFiniquitoReconversion2() - $this->Total_Aportados();
+    $valor = $resta;
+    //if($resta < 0) $valor = 0.00; NO
+    
+    return $valor;
+  }
+
 
   /**
   * Fallecimiento en Actos de Servicio

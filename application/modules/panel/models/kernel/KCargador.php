@@ -73,14 +73,21 @@ class KCargador extends CI_Model{
     $this->load->model('comun/DBSpace');
 
     $rs = $this->DBSpace->consultar(
-            "select a.cedula,tipo_movimiento_id,case when f_contable<'2018-08-20' then round(monto/100000,2) else monto end as monto into temp mov from movimiento a,beneficiario b where a.cedula=b.cedula and b.status_id=201;
+            "select a.cedula, tipo_movimiento_id, round((sum(monto)/100000),2) AS monto into temp mov1 from movimiento a, beneficiario b  where a.cedula=b.cedula and f_contable<'2018-08-20' and b.status_id=201 GROUP BY a.cedula,tipo_movimiento_id  union select a.cedula, tipo_movimiento_id, sum(monto) AS monto from movimiento a, beneficiario b  where a.cedula=b.cedula and f_contable between '2018-08-20' and '2021-09-30' and b.status_id=201 GROUP BY a.cedula,tipo_movimiento_id;
+
+            select cedula,tipo_movimiento_id, round((sum(monto)/1000000),2) AS monto into temp mov2 from mov1 GROUP BY cedula,tipo_movimiento_id;
+
+            select a.cedula, tipo_movimiento_id, sum(monto) AS monto into temp mov3 from movimiento a, beneficiario b  where a.cedula=b.cedula  and f_contable>='2021-10-01' and b.status_id=201 GROUP BY a.cedula,tipo_movimiento_id union select cedula, tipo_movimiento_id, monto from mov2;
+   
+            select cedula,tipo_movimiento_id, sum(monto) AS monto into temp mov4 from mov3 GROUP BY cedula,tipo_movimiento_id;
+
             DROP TABLE IF EXISTS space.tablacruce;
             CREATE TABLE space.tablacruce AS SELECT * FROM space.crosstab(
               'SELECT C.cedula, C.id, COALESCE(sum(monto),0)AS monto FROM (
               SELECT A.cedula, A.status_id, B.id FROM (select cedula,status_id
               from beneficiario WHERE status_id=" . $estatus . ") AS A, (SELECT id from tipo_movimiento t WHERE
                 t.id IN (3,5,9,14,25,31,32) ) AS B) AS C
-              LEFT JOIN mov m ON m.cedula=C.cedula AND C.id=m.tipo_movimiento_id
+              LEFT JOIN mov4 m ON m.cedula=C.cedula AND C.id=m.tipo_movimiento_id
               WHERE C.status_id=" . $estatus . "
               GROUP BY C.cedula, C.id
               ORDER BY C.cedula, C.id' ) AS rs

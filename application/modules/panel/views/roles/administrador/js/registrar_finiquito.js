@@ -20,9 +20,6 @@ $('#reporteFiniquitos').DataTable({
     }
 );
 
-
-
-
 function consultar() {
     var val = $("#id").val();
     $("#lblMedida").text('');
@@ -345,13 +342,6 @@ function CalcularM(id){
     }
         
 }
-
-
-
-
-
-
-
 
 
 function registrarFamiliar(){
