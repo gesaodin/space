@@ -52,33 +52,29 @@ function consultar() {
             $("#P_PROFESIONALIZACION").val(data.prima_profesionalizacion_aux);
             $("#P_COMPENSACION_ESPECIAL").val(data.prima_compensacion_especial_aux);
 
-            /*SE REALIZO ESTE CAMBIO PARA EVALUAR POR fecha_retiro Y fecha_ultima_modificacion CON EL
-            FIN DE MOSTRAR LA ASIGNACION RECONVERTIDA PARA ACTIVOS Y FINIQUITOS CON FECHA MAYOR E IGUAL AL
-            20-08-2018 O CON ASIGNACION SIN RECONVERTIR PARA FINIQUITOS CON FECHA MENOR 20-08-2018*/
-            if(data.fecha_retiro != null && data.fecha_retiro != '') {
-                if(data.fecha_retiro < '2018-08-20' && data.fecha_ultima_modificacion >= '2018-08-20') {
-                    
-                    /*se retiro despues de 082018 pero con resuelto menor a la fecha*/
+            /*Se Realizó este cambio para con el fin de evaluar la Asignación Antiguedad Reconvertida para Activos y Finiquitos
+               por fecha de retiro y fecha_ultima_modificacion por las reconversiones monetarias del 2018 y 2021:             
+              -se retiro antes de 082018 pero lo finiquitaron despues del 20082018 
+              -se retiro antes de 082018 y lo finiquitaron antes del 20082018  NO SE RECONVIERTE PORQUE SUELDO ESTA RECONVERTIDO
+              -se retiro antes de 102021 pero lo finiquitaron despues del 01102021 SE RECONVIERTE 
+              -se retiro antes de 102021 y lo finiquitaron antes del 01102021 SE RECONVIERTE 
+              -se retiro despues del 01102021 con resuelto despues del 01102021 NO SE RECONVIERTE PORQUE SUELDO ESTA RECONVERTIDO*/
+            if(data.fecha_retiro != null && data.fecha_retiro != ''){                  
+                if(data.fecha_retiro < '2018-08-20' && data.fecha_ultima_modificacion >= '2018-08-20'){                    
                     $("#asignacion_antiguedad").val(data.Calculo.asignacion_antiguedad_rec);
-                    $("#asignacion_antiguedad_aux").val(data.Calculo.asignacion_antiguedad_rec_aux);
-
+                    $("#asignacion_antiguedad_aux").val(data.Calculo.asignacion_antiguedad_rec_aux);                  
                 }else if(data.fecha_retiro < '2018-08-20' && data.fecha_ultima_modificacion < '2018-08-20'){
-                   /*se retiro antes de 082018 con resuelto antes a la fecha NO SE RECONVIERTE PORQUE SUELDO ESTA RECONVERTIDO*/
-
                     $("#asignacion_antiguedad").val(data.Calculo.asignacion_antiguedad_fin);
-                    $("#asignacion_antiguedad_aux").val(data.Calculo.asignacion_antiguedad_fin_aux);
-               
+                    $("#asignacion_antiguedad_aux").val(data.Calculo.asignacion_antiguedad_fin_aux);                
                 }else if(data.fecha_retiro < '2021-10-01' && data.fecha_ultima_modificacion >= '2021-10-01'){
-                  /*se retiro despues de 102021 con resuelto mnonor a la fecha SE RECONVIERTE */
                     $("#asignacion_antiguedad").val(data.Calculo.asignacion_antiguedad_rec2);
                     $("#asignacion_antiguedad_aux").val(data.Calculo.asignacion_antiguedad_rec2_aux);
-             
-             
+                }else if(data.fecha_retiro < '2021-10-01' && data.fecha_ultima_modificacion < '2021-10-01'){
+                    $("#asignacion_antiguedad").val(data.Calculo.asignacion_antiguedad_fin);
+                    $("#asignacion_antiguedad_aux").val(data.Calculo.asignacion_antiguedad_fin_aux);
                 }else if(data.fecha_retiro >= '2021-10-01' && data.fecha_ultima_modificacion >= '2021-10-01'){
-                  /*se retiro despues de 082018 con resuelto despues a la fecha  NO SE RECONVIERTE PORQUE SUELDO ESTA RECONVERTIDO*/
-
-                    $("#asignacion_antiguedad").val(data.Calculo.asignacion_antiguedad_fin);}
-                
+                    $("#asignacion_antiguedad").val(data.Calculo.asignacion_antiguedad_fin);}                                          
+                    
             }else{
                 $("#asignacion_antiguedad").val(data.Calculo.asignacion_antiguedad);}
 
@@ -88,40 +84,35 @@ function consultar() {
             $("#total_aportados").val(data.Calculo.total_aportados);
             $("#asignacion_depositada").val(data.Calculo.asignacion_depositada);
             $("#saldo_disponible").val(data.Calculo.saldo_disponible);
-
-             /*SE REALIZO ESTE CAMBIO PARA EVALUAR POR fecha_retiro Y fecha_ultima_modificacion CON EL
-            FIN DE MOSTRAR LA DIFERENCIA_AA RECONVERTIDA PARA ACTIVOS Y FINIQUITOS CON FECHA MAYOR E IGUAL AL
-            20-08-2018 O CON DIFERENCIA_AA SIN RECONVERTIR PARA FINIQUITOS CON FECHA MENOR 20-08-2018*/
+             
+            /*Se Realizó este cambio para con el fin de evaluar la Diferencia de Asignación Antiguedad Reconvertida para 
+              Activos y Finiquitos por fecha de retiro y fecha_ultima_modificacion por las reconversiones monetarias del 2018 y 2021:             
+              -se retiro antes de 082018 pero lo finiquitaron despues del 20082018 
+              -se retiro antes de 082018 y lo finiquitaron antes del 20082018  NO SE RECONVIERTE PORQUE SUELDO ESTA RECONVERTIDO
+              -se retiro antes de 102021 pero lo finiquitaron despues del 01102021 SE RECONVIERTE 
+              -se retiro antes de 102021 y lo finiquitaron antes del 01102021 SE RECONVIERTE 
+              -se retiro despues del 01102021 con resuelto despues del 01102021 NO SE RECONVIERTE PORQUE SUELDO ESTA RECONVERTIDO*/
             if(data.fecha_retiro != null && data.fecha_retiro != '') {
-                if(data.fecha_retiro < '2018-08-20' && data.fecha_ultima_modificacion >= '2018-08-20') {
+                if(data.fecha_retiro < '2018-08-20' && data.fecha_ultima_modificacion >= '2018-08-20'){
                     $("#diferencia_AA").val(data.Calculo.asignacion_diferencia_rec);
-                    $("#saldo_disponible").val('0');
-                }
-
-                else if(data.fecha_retiro < '2018-08-20' && data.fecha_ultima_modificacion < '2018-08-20'){
-                   /*se retiro antes de 082018 con resuelto antes a la fecha NO SE RECONVIERTE PORQUE SUELDO ESTA RECONVERTIDO*/
-
+                    $("#saldo_disponible").val('0');            
+                }else if(data.fecha_retiro < '2018-08-20' && data.fecha_ultima_modificacion < '2018-08-20'){   
                     $("#diferencia_AA").val(data.Calculo.asignacion_diferencia);
                     $("#saldo_disponible").val('0');
-                }
-
-                else if(data.fecha_retiro < '2021-10-01' && data.fecha_ultima_modificacion >= '2021-10-01'){
-                    /*se retiro despues de 102021 con resuelto mnonor a la fecha SE RECONVIERTE */
-
+                }else if(data.fecha_retiro < '2021-10-01' && data.fecha_ultima_modificacion >= '2021-10-01'){                    
                     $("#diferencia_AA").val(data.Calculo.asignacion_diferencia_rec2);
                     $("#saldo_disponible").val('0');
-                }   
-
-                else if(data.fecha_retiro >= '2021-10-01' && data.fecha_ultima_modificacion >= '2021-10-01'){
-                    /*se retiro despues de 082018 con resuelto despues a la fecha  NO SE RECONVIERTE PORQUE SUELDO ESTA RECONVERTIDO*/
-
+                }else if(data.fecha_retiro < '2021-10-01' && data.fecha_ultima_modificacion < '2021-10-01'){                    
+                    $("#diferencia_AA").val(data.Calculo.asignacion_diferencia);
+                    $("#saldo_disponible").val('0');                
+                }else if(data.fecha_retiro >= '2021-10-01' && data.fecha_ultima_modificacion >= '2021-10-01'){                
                     $("#diferencia_AA").val(data.Calculo.diferencia_AA);
-                    $("#saldo_disponible").val('0');
-                }
+                    $("#saldo_disponible").val('0');}            
 
             }else{
                 $("#diferencia_AA").val(data.Calculo.diferencia_AA);}
 
+            
             $("#fecha_ultimo_deposito").val(data.Calculo.fecha_ultimo_deposito);
             $("#fecha_ultimo_anticipo").val(data.Calculo.fecha_ultimo_anticipo);
             $("#anticipos").val(data.Calculo.anticipos);

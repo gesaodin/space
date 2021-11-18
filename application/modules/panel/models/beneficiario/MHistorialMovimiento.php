@@ -68,7 +68,10 @@ class MHistorialMovimiento extends CI_Model{
 		LOS MOVIMIENTOS GENERADOS DESPUES DEL 20-08-2018 QUE YA SE HAN GUARDADO RECONVERTIDOS y se unen los movimientos entre 20-08-2018 y el 30-09-2021 para ejecutar la segunda reconversion 01-10-2021*/ 
 		$sConsulta = 'select tipo_movimiento_id, round((sum(monto)/100000),2) AS monto, MAX(f_contable) AS f_contable into temp reconversion from movimiento where cedula = \'' . $cedula . '\' and f_contable<\'2018-08-20\'
                       GROUP BY tipo_movimiento_id union select tipo_movimiento_id, sum(monto) AS monto, MAX(f_contable) AS f_contable from movimiento where cedula = \'' . $cedula . '\' and f_contable between \'2018-08-20\' and \'2021-09-30\'
-                      GROUP BY tipo_movimiento_id';
+                      GROUP BY tipo_movimiento_id;
+
+		select tipo_movimiento_id, sum(monto) AS monto, MAX(f_contable) AS f_contable from reconversion GROUP BY tipo_movimiento_id';
+
         /* SE CREO EL SELECT $sConsulta1 PARA PODER SUMAR LOS MOVIMIENTOS ANTES DEL 20-08-2018 CON LOS MOVIMIENTOS GENERADOS DESPUES DEL 20-08-2018  y se unen los movimientos despues de la segunda reconversion 01-10-2021*/
         $sConsulta1 = 'select tipo_movimiento_id, round((sum(monto)/1000000),2) AS monto, MAX(f_contable) AS f_contable into temp reconversion2 from reconversion GROUP BY tipo_movimiento_id union select tipo_movimiento_id, sum(monto) AS monto, MAX(f_contable) AS f_contable from movimiento where cedula = \'' . $cedula . '\' and f_contable>=\'2021-10-01\' GROUP BY tipo_movimiento_id; 
 
@@ -77,19 +80,37 @@ class MHistorialMovimiento extends CI_Model{
 		
 		/* SE CREO EL SELECT $sConsulta2 PARA PODER SUMAR SOLO LOS MOVIMIENTOS DEL PERSONAL CON FECHA DE RETIRO ANTES DEL 20-08-2018 */
 		$sConsulta2 = 'select tipo_movimiento_id, sum(monto) AS monto, MAX(f_contable) AS f_contable from movimiento where cedula =\'' . $cedula . '\' GROUP BY tipo_movimiento_id';
-		
-		if ($retiro != ''){ 
-			if($fModificacion >= '2018-08-20'){
+			
+
+	if ($retiro != '' && $retiro != null){ 
+			if($retiro < '2018-08-20' && $fModificacion >= '2018-08-20'){
+				
 				$obj = $this->Dbpace->consultar($sConsulta);
-				$obj = $this->Dbpace->consultar($sConsulta1);
-			}else if ($retiro < '2018-08-20'){ 
-				$obj = $this->Dbpace->consultar($sConsulta2);
-			}
+				
+			}else if($retiro < '2018-08-20' && $fModificacion < '2018-08-20'){
+
+			    $obj = $this->Dbpace->consultar($sConsulta2);  
+
+			}else if($retiro < '2021-10-01' && $fModificacion >= '2021-10-01'){
+
+			   	$obj = $this->Dbpace->consultar($sConsulta); 
+          		$obj = $this->Dbpace->consultar($sConsulta1); 
+
+			}else if($retiro < '2021-10-01' && $fModificacion < '2021-10-01'){
+
+				$obj = $this->Dbpace->consultar($sConsulta); 
+
+			}else if($retiro >= '2021-10-01' && $fModificacion >= '2021-10-01'){
+
+				$obj = $this->Dbpace->consultar($sConsulta); 
+          		$obj = $this->Dbpace->consultar($sConsulta1); 
+          	}
 		}else{ 
             $obj = $this->Dbpace->consultar($sConsulta); 
-            $obj = $this->Dbpace->consultar($sConsulta1);
-            /*$obj = $this->Dbpace->consultar($sConsulta2); */
+            $obj = $this->Dbpace->consultar($sConsulta1);            
         }
+    
+
 		//echo $sConsulta;
 		$rs = $obj->rs;
 		foreach ($rs as $c => $v) {
