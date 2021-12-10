@@ -265,24 +265,31 @@ th {
     <tr>
       <td>A. de Antiguedad</td>
       <td><?php
+
         if ($Beneficiario->fecha_retiro != ''){
           if ($Beneficiario->fecha_retiro < '2018-08-20' && $Beneficiario->fecha_ultima_modificacion >= '2018-08-20'){
                 echo number_format($Beneficiario->asignacion_antiguedad_rec, 2, ',','.');
 
-          }else if(data.fecha_retiro < '2018-08-20' && data.fecha_ultima_modificacion < '2018-08-20'){
+          }else if($Beneficiario->fecha_retiro < '2018-08-20' && $Beneficiario->fecha_ultima_modificacion < '2018-08-20'){
                    /*se retiro antes de 082018 con resuelto antes a la fecha NO SE RECONVIERTE PORQUE SUELDO ESTA RECONVERTIDO*/
                     echo number_format($Beneficiario->asignacion_antiguedad_fin, 2, ',','.');
 
-          }else if(data.fecha_retiro < '2021-10-01' && data.fecha_ultima_modificacion >= '2021-10-01'){
+          }else if($Beneficiario->fecha_retiro < '2021-10-01' && $Beneficiario->fecha_ultima_modificacion >= '2021-10-01'){
                   /*se retiro despues de 102021 con resuelto mnonor a la fecha SE RECONVIERTE */
                     echo number_format($Beneficiario->asignacion_antiguedad_rec2, 2, ',','.');
 
+          }else if($Beneficiario->fecha_retiro < '2021-10-01' && $Beneficiario->fecha_ultima_modificacion < '2021-10-01'){
+                  /*se retiro antes de 102021 con resuelto mnenor a la fecha NO SE RECONVIERTE */
+                    echo number_format($Beneficiario->asignacion_antiguedad_fin, 2, ',','.');
 
-          }else if(data.fecha_retiro >= '2021-10-01' && data.fecha_ultima_modificacion >= '2021-10-01'){
+
+          }else if($Beneficiario->fecha_retiro >= '2021-10-01' && $Beneficiario->fecha_ultima_modificacion >= '2021-10-01'){
                   /*se retiro despues de 082021 con resuelto despues a la fecha  NO SE RECONVIERTE PORQUE SUELDO ESTA RECONVERTIDO*/
 
                   echo number_format($Beneficiario->asignacion_antiguedad_fin, 2, ',','.');
            }
+          }else{
+                   echo number_format($Beneficiario->asignacion_antiguedad_fin, 2, ',','.');
           }
         
       ?></td>
@@ -342,27 +349,36 @@ th {
                 $diferencia = $Beneficiario->Calculo['asignacion_diferencia_rec'];
                 echo $diferencia;
 
-          }else if(data.fecha_retiro < '2018-08-20' && data.fecha_ultima_modificacion < '2018-08-20'){
+          }else if($Beneficiario->fecha_retiro < '2018-08-20' && $Beneficiario->fecha_ultima_modificacion < '2018-08-20'){
                    /*se retiro antes de 082018 con resuelto antes a la fecha NO SE RECONVIERTE PORQUE SUELDO ESTA RECONVERTIDO*/
                     $diferencia = $Beneficiario->Calculo['asignacion_diferencia'];
                 echo $diferencia;
 
 
-          }else if(data.fecha_retiro < '2021-10-01' && data.fecha_ultima_modificacion >= '2021-10-01'){
+          }else if($Beneficiario->fecha_retiro < '2021-10-01' && $Beneficiario->fecha_ultima_modificacion >= '2021-10-01'){
                   /*se retiro despues de 102021 con resuelto mnonor a la fecha SE RECONVIERTE */
                     $diferencia = $Beneficiario->Calculo['asignacion_diferencia_rec2'];
                     echo $diferencia;
 
-          }else if(data.fecha_retiro >= '2021-10-01' && data.fecha_ultima_modificacion >= '2021-10-01'){
+          }else if($Beneficiario->fecha_retiro < '2021-10-01' && $Beneficiario->fecha_ultima_modificacion < '2021-10-01'){
+                  /*se retiro antes de 102021 con resuelto mnenor a la fecha NO SE RECONVIERTE */
+                    $diferencia = $Beneficiario->Calculo['asignacion_diferencia'];
+                    echo $diferencia;
+
+          }else if($Beneficiario->fecha_retiro >= '2021-10-01' && $Beneficiario->fecha_ultima_modificacion >= '2021-10-01'){
                   /*se retiro despues de 082021 con resuelto despues a la fecha  NO SE RECONVIERTE PORQUE SUELDO ESTA RECONVERTIDO*/
 
                   $diferencia = $Beneficiario->Calculo['asignacion_diferencia'];
                   echo $diferencia;
 
            }
-          }
 
-          ?>
+          }else{$diferencia = $Beneficiario->Calculo['diferencia_AA'];
+                 echo $diferencia;
+              }
+        
+
+        ?>
       </td>
       <td>Fecha Ultimo Dep.</td>
       <td><?php
@@ -372,8 +388,9 @@ th {
       <td >
 
           <?php
-              $cancelado = ($montoCapital + $garantia + $diasA)/ $Beneficiario->asignacion_antiguedad;
-              echo number_format($cancelado * 100, 2, ',','.') ;
+              $cancelado = 0;
+              $cancelado = ($montoCapital + $garantia + $diasA)/ $Beneficiario->asignacion_antiguedad_fin;
+              echo number_format($cancelado * 100, 2, ',','.') ;              
             ?>
 
       </td>

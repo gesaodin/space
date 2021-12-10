@@ -668,11 +668,12 @@ public function AlicuotaVacaciones($sueldo_global = 0){
   public function Saldo_DisponibleFiniquito(){
     /** se agrego el monto de comision de servicio al total en banco  **/
     $total = (($this->DepositoBanco() - $this->Anticipos()) + $this->Garantias() + $this->ComisionServicio()) - ($this->Embargos() + $this->Monto_Recuperar());
-    return $total;
+      return $total;
+    
+    
+
   }
-
-
-
+ 
   public function Diferencia_Asignacion(){
     $monto = (($this->Beneficiario->asignacion_antiguedad - $this->DepositoBanco()) -  $this->Dias_Adicionales()) - $this->Garantias();
     //if ($monto < 0) $monto = 0;
@@ -734,11 +735,10 @@ public function AlicuotaVacaciones($sueldo_global = 0){
   * @return double
   */
   public function Monto_Recuperar(){
-    if($this->Beneficiario->fecha_retiro < '2018-08-20'){
-      $resta = $this->AsignacionFiniquitoReconversion() - ($this->DepositoBanco() + $this->Garantias()+ $this->Dias_Adicionales()-$this->MontoRecuperadoActivo());
-    }else if($this->Beneficiario->fecha_retiro >= '2018-08-20'){
-      $resta = $this->AsignacionFiniquito() - ($this->DepositoBanco() + $this->Garantias()+ $this->Dias_Adicionales()-$this->MontoRecuperadoActivo());
-
+    if($this->Beneficiario->fecha_retiro < '2021-10-01'){
+      $resta = ($this->AsignacionFiniquitoReconversion2()) - ($this->DepositoBanco() + $this->Garantias() + $this->Dias_Adicionales()-$this->MontoRecuperadoActivo());
+    }else if($this->Beneficiario->fecha_retiro >= '2021-10-01'){
+      $resta = $this->AsignacionFiniquito() - ($this->DepositoBanco() + $this->Garantias() + $this->Dias_Adicionales()-$this->MontoRecuperadoActivo());
     }
     $valor = 0.00;
     if($resta < 0) $valor = $resta * -1;
