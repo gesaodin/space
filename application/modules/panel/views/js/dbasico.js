@@ -61,8 +61,13 @@ function consultar() {
               -se retiro despues del 01102021 con resuelto despues del 01102021 NO SE RECONVIERTE PORQUE SUELDO ESTA RECONVERTIDO*/
             if(data.fecha_retiro != null && data.fecha_retiro != ''){                  
                 if(data.fecha_retiro < '2018-08-20' && data.fecha_ultima_modificacion >= '2018-08-20'){                    
+<<<<<<< HEAD
                     $("#asignacion_antiguedad").val(data.Calculo.asignacion_antiguedad_fin);
                     $("#asignacion_antiguedad_aux").val(data.Calculo.asignacion_antiguedad_fin_aux);                  
+=======
+                    $("#asignacion_antiguedad").val(data.Calculo.asignacion_antiguedad_rec);
+                    $("#asignacion_antiguedad_aux").val(data.Calculo.asignacion_antiguedad_rec_aux);                  
+>>>>>>> 49c72fb2a4d5cb0a2ff4180734b99af98f7f2cb6
                 }else if(data.fecha_retiro < '2018-08-20' && data.fecha_ultima_modificacion < '2018-08-20'){
                     $("#asignacion_antiguedad").val(data.Calculo.asignacion_antiguedad_fin);
                     $("#asignacion_antiguedad_aux").val(data.Calculo.asignacion_antiguedad_fin_aux);                
