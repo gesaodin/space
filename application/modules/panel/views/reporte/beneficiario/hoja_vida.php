@@ -644,7 +644,7 @@ th {
   <tr>
     <td style="border:0px; width: 50%; text-align: center;"><b>
       SUSAN SUSMIRA HARB RAMIREZ<BR>
-      CAP.<BR>
+      MAYOR.<BR>
       JEFA DEL DPTO. DE FIDEICOMISO<BR>
       </b>
     </td>
